@@ -35,10 +35,11 @@ def add_ordered_layers_lists(themes_list):
         theme_dict['layers'] = layers
     
 def add_learn_links(themes):
-    context = []
+    theme_dict = []
     for theme in themes:
-        context.append({'theme': theme, 'learn_link': theme.learn_link})
-    return context
+        num_layers = len([layer.name for layer in theme.layer_set.all() if not layer.is_parent and not layer.layer_type == 'placeholder'])
+        theme_dict.append({'theme': theme, 'num_layers': num_layers, 'learn_link': theme.learn_link})
+    return theme_dict
     
 def tiles_page(request, slug=None, template='tiles_page.html'):
     layer = get_object_or_404(Layer, slug_name=slug)

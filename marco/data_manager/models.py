@@ -71,7 +71,7 @@ class Layer(models.Model):
     
     #data description (updated fact sheet) (now the Learn pages)
     data_overview = models.TextField(blank=True, null=True)
-    data_status = models.CharField(max_length=255, blank=True, null=True)
+    #data_status = models.CharField(max_length=255, blank=True, null=True)
     data_source = models.CharField(max_length=255, blank=True, null=True)
     data_notes = models.TextField(blank=True, null=True)
     
@@ -80,11 +80,11 @@ class Layer(models.Model):
     map_tiles = models.CharField(max_length=255, blank=True, null=True)
     kml = models.CharField(max_length=255, blank=True, null=True)
     data_download = models.CharField(max_length=255, blank=True, null=True)
-    learn_more = models.CharField(max_length=255, blank=True, null=True)
+    #learn_more = models.CharField(max_length=255, blank=True, null=True)
     metadata = models.CharField(max_length=255, blank=True, null=True)
-    fact_sheet = models.CharField(max_length=255, blank=True, null=True)
+    #fact_sheet = models.CharField(max_length=255, blank=True, null=True)
     source = models.CharField(max_length=255, blank=True, null=True)
-    thumbnail = models.URLField(max_length=255, blank=True, null=True)
+    #thumbnail = models.URLField(max_length=255, blank=True, null=True)
     
     #geojson javascript attribution
     EVENT_CHOICES = (
@@ -114,6 +114,13 @@ class Layer(models.Model):
         if self.is_sublayer:
             return self.sublayers.all()[0]
         return self
+    
+    @property 
+    def sublayer_list(self):
+        if self.is_parent:
+            return self.sublayers.all().order_by('name')
+        else:
+            return None
     
     @property
     def slug(self):
@@ -173,14 +180,6 @@ class Layer(models.Model):
             return self.parent.source
         else:
             return self.source
-        
-    @property
-    def learn_link(self):
-        if self.learn_more:
-            return self.learn_more
-        else:
-            theme = self.themes.all()[0]  
-            return "%s#%s" %(theme.learn_link, self.slug)
         
     @property
     def description_link(self):
@@ -247,7 +246,6 @@ class Layer(models.Model):
                 'metadata': layer.metadata_link,
                 'source': layer.source_link,
                 'tiles': layer.tiles_link,
-                'learn_link': layer.learn_link,
                 'attributes': layer.serialize_attributes,
                 'lookups': layer.serialize_lookups,
                 'color': layer.vector_color,
@@ -277,7 +275,6 @@ class Layer(models.Model):
             'metadata': self.metadata_link,
             'source': self.source_link,
             'tiles': self.tiles_link,
-            'learn_link': self.learn_link,
             'attributes': self.serialize_attributes,
             'lookups': self.serialize_lookups,
             'color': self.vector_color,

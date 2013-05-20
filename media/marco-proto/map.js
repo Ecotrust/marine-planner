@@ -206,38 +206,22 @@ app.init = function () {
                                 var display = obj.display + ': ' + info.data[obj.field];
                                 attribute_objs.push({'display': display, 'data': ''});
                             } else {
-                                /*** SPECIAL CASE FOR ENDANGERED WHALE DATA ***/
                                 var value = info.data[obj.field];
-                                if (value === 999999) {
-                                    attribute_objs.push({'display': obj.display, 'data': 'No Survey Effort'});
-                                } else {
-                                    try {
-                                        //set the precision and add any necessary commas
-                                        value = value.toFixed(obj.precision).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                    }
-                                    catch (e) {
-                                        //keep on keeping on
-                                    }
-                                    attribute_objs.push({'display': obj.display, 'data': value});
+                                try {
+                                    //set the precision and add any necessary commas
+                                    value = value.toFixed(obj.precision).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                 }
+                                catch (e) {
+                                    //keep on keeping on
+                                }
+                                attribute_objs.push({'display': obj.display, 'data': value});
                             }
                         });
                         var title = potential_layer.name,
                             text = attribute_objs;
-                        if ( title === 'OCS Lease Blocks' ) {
-                            //title = 'OCS Lease Blocks -- DRAFT REPORT';
-                            text = app.viewModel.getOCSAttributes(title, info.data);
-                        } else if ( title === 'Sea Turtles' ) {
-                            text = app.viewModel.getSeaTurtleAttributes(title, info.data);
-                        } else if ( title === 'Toothed Mammals (All Seasons)' ) {
-                            text = app.viewModel.getToothedMammalAttributes(title, info.data);
-                        } else if ( title === 'Wind Speed' ) {
+                        if ( title === 'Wind Speed' ) {
                             text = app.viewModel.getWindSpeedAttributes(title, info.data);
-                        } else if ( title === 'BOEM Wind Planning Areas' ) {
-                            text = app.viewModel.getWindPlanningAreaAttributes(title, info.data);
-                        } else if ( title === 'Party & Charter Boat' ) {
-                            text = app.viewModel.adjustPartyCharterAttributes(attribute_objs);
-                        }
+                        } 
                         clickAttributes[title] = text;
                         //app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
                     } 
@@ -247,20 +231,10 @@ app.init = function () {
             $.extend(app.map.clickOutput.attributes, clickAttributes);
             app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
         }
-        /*app.viewModel.updateMarker();
-        setTimeout( function() {
-            if (app.marker) {
-                console.log(lonlat);
-                console.log(xy);
-                app.marker.display(true);   
-            }
-        }, 100);*/
+        
         app.viewModel.updateMarker(lonlat);
         app.marker.display(true); 
-        /*app.markers.clearMarkers();
-        app.marker = new OpenLayers.Marker(lonlat, app.markers.icon);
-        app.marker.map = app.map;
-        app.marker.display(true); */
+        
     }; //end utfGridClickHandling
       
     app.map.events.register("featureclick", null, function(e, test) {
@@ -284,9 +258,7 @@ app.init = function () {
                         text.push({'display': attrs[i].display, 'data': e.feature.data[attrs[i].field]});
                     }
                 }
-            } else if ( app.viewModel.isSelectedLeaseBlock(layer.name) ) {
-                text = app.viewModel.getOCSAttributes(title, e.feature.attributes);
-            }
+            } 
             
             if (newTime - app.map.clickOutput.time > 300) {
                 app.map.clickOutput.attributes = {};
@@ -297,7 +269,6 @@ app.init = function () {
             
         }
         
-        //app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.xy));
         //the following delay is so that the "click" handler below gets activated (and the marker is created) before the marker is updated here
         setTimeout( function() {
             if (app.marker) {
@@ -317,17 +288,12 @@ app.init = function () {
     app.markers = new OpenLayers.Layer.Markers( "Markers" );
     var size = new OpenLayers.Size(16,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    //var icon = new OpenLayers.Icon('/media/marco-proto/assets/img/red-pin.png', size, offset);
     app.markers.icon = new OpenLayers.Icon('/media/marco-proto/assets/img/red-pin.png', size, offset);
     app.map.addLayer(app.markers);
       
     
     //place the marker on click events
     app.map.events.register("click", app.map , function(e){
-        /*app.marker = new OpenLayers.Marker(app.map.getLonLatFromViewPortPx(e.xy), app.markers.icon);
-        app.marker.map = app.map;
-        app.marker.display(false);
-        app.viewModel.updateMarker();*/
         app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.xy));
         //the following is in place to prevent flash of marker appearing on what is essentially no feature click
         //display is set to true in the featureclick and utfgridclick handlers (when there is actually a hit)
@@ -346,16 +312,7 @@ app.init = function () {
 };
 
 app.addLayerToMap = function(layer) {
-    if (!layer.layer) {
-        /***BEGIN TEMPORARY FIX FOR CORALS LAYER IN IE8***/
-        if ( $.browser.msie && $.browser.version < 9.0 && layer.name === "Coldwater Corals" ) {
-        //if ( layer.name === "Coldwater Corals" ) {    
-            layer.type = 'XYZ';
-            layer.url = 'https://s3.amazonaws.com/marco-public-2d/Conservation/CoralTiles/${z}/${x}/${y}.png';
-            layer.utfurl = '/media/data_manager/utfgrid/coldwater_corals/${z}/${x}/${y}.json';
-        }
-        /***END TEMPORARY FIX FOR CORALS LAYER IN IE8***/
-        
+    if (!layer.layer) {        
         if (layer.utfurl || (layer.parent && layer.parent.utfurl)) {
             app.addUtfLayerToMap(layer);
         } else if (layer.type === 'Vector') {
@@ -379,7 +336,6 @@ app.addXyzLayerToMap = function(layer) {
         
     // adding layer to the map for the first time		
     layer.layer = new OpenLayers.Layer.XYZ(layer.name, 
-        //layer.type === 'XYZ' ? layer.url : layer.url + '.png', 
         layer.url,
         $.extend({}, opts, 
             {
@@ -436,14 +392,7 @@ app.addVectorLayerToMap = function(layer) {
         var mylookup = {};
         $.each(layer.lookupDetails, function(index, details) {    
             var fillOp = 0.5;
-            //the following are special cases for Shipping Lanes that ensure suitable attribution with proper display 
-            if (details.value === 'Precautionary Area') {
-                fillOp = 0.0; 
-            } else if (details.value === 'Shipping Safety Fairway') {
-                fillOp = 0.0;
-            } else if (details.value === 'Traffic Lane') {
-                fillOp = 0.0;
-            }
+            
             mylookup[details.value] = { 
                 strokeColor: details.color, 
                 strokeDashstyle: details.dashstyle, 
@@ -452,17 +401,8 @@ app.addVectorLayerToMap = function(layer) {
                 fillOpacity: fillOp,
                 externalGraphic: details.graphic 
             }; 
-            /*special case for Discharge Flow
-            if (layer.lookupField === "Flow") {
-                mylookup[details.value] = { 
-                    strokeColor: layer.color,
-                    pointRadius: details.value * 5
-                }; 
-                console.log(mylookup);
-            }*/
         });
         styleMap.addUniqueValueRules("default", layer.lookupField, mylookup);
-        //styleMap.addUniqueValueRules("select", layer.lookupField, mylookup);
     }
     layer.layer = new OpenLayers.Layer.Vector(
         layer.name,
@@ -500,18 +440,6 @@ app.addUtfLayerToMap = function(layer) {
     } else if (layer.type === 'XYZ') {
         //maybe just call app.addXyzLayerToMap(layer)
         app.addXyzLayerToMap(layer);
-        /*
-        layer.layer = new OpenLayers.Layer.XYZ(
-            layer.name, 
-            layer.url,
-            $.extend({}, opts, 
-                {
-                    sphericalMercator: true,
-                    isBaseLayer: false //previously set automatically when allOverlays was set to true, must now be set manually
-                }
-            )
-        );  
-        */
     } else {
         //debugger;
     }

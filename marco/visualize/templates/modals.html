@@ -1,9 +1,9 @@
 
 
 <!-- FEEDBACK MODAL -->
-<div id="feedback-tab" class="rounded" data-toggle="modal" data-target="#feedback-modal">
+<!--<div id="feedback-tab" class="rounded" data-toggle="modal" data-target="#feedback-modal">
     <a href="#">feedback</a>
-</div>
+</div>-->
 <div id="feedback-modal" class="modal hide fade">
     <form class="form-horizontal" id="feedback-form">
         <div class="modal-header">
@@ -46,8 +46,8 @@
     </div>
     <div class="modal-body" style="text-align: center">  
       <div class="row-fluid">
-        <div class="span7" data-bind="style: {display: hideTours() ? 'none': 'block'}, css: {span7: !hideTours()}">
-            <h4>Tour the MARCO Marine Planner</h4>
+        <div class="span12" data-bind="style: {display: hideTours() ? 'none': 'block'}, css: {span12: !hideTours()}">
+            <h4>Tour the Marine Planner</h4>
             <div style="text-align: center">
             <ul class="unstyled" style="margin-left: 1px">
                 <li><a href="#" data-dismiss="modal" data-bind="click: startDefaultTour">Tour the Basics</a></li>
@@ -55,13 +55,6 @@
                 <li><a href="#" data-dismiss="modal" data-bind="click: startActiveTour">Tour the Active Tab</a></li>
             </ul>
             </div>
-        </div>
-        <div class="span5" data-bind="css: {span5: !hideTours(), span12: hideTours()}">
-            <h4>Contact Us</h4>
-            <ul class="unstyled" style="margin-left: 1px">
-                <li>Email: <a href="#" data-toggle="modal" data-target="#feedback-modal" data-dismiss="modal">portal@midatlanticocean.org</a></li>
-                <li>Phone: 732 263-5392</li>
-            </ul>
         </div>
       </div>
     </div>

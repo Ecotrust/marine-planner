@@ -51,7 +51,7 @@
                         <![endif]-->        
                         
                         <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/bootstrap.css">
-                        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/bootstrap-responsive.css">
+                        <link rel="stylesheet" href="{{MEDIA_URL}}marco-proto/assets/css/bootstrap-responsive.css">
 
                         <!-- marco stylesheet -->
                         <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/marco_style.css">
@@ -83,35 +83,10 @@
                                     <div class="row-fluid">
                                         <div class="span4">
                                             <a href="/portal">
-                                                <img src="/portal/wp-content/themes/marco/img/marco-logo.gif"/>
+                                                <img src="{{MEDIA_URL}}marco/img/marco-logo.gif"/>
                                             </a>
                                         </div>
                                         <div class="span8">
-                                             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                                                 <span class="icon-bar"></span>
-                                                 <span class="icon-bar"></span>
-                                                 <span class="icon-bar"></span>
-                                             </a>
-                                              
-                                            <div class="pull-right nav-collapse">
-                                                <ul class="nav">
-                                                    <li>
-                                                        <a a href="/portal/news">News</a>
-                                                    </li>
-                                                    <li class="">
-                                                        <a href="/portal/about">About the&nbsp;Portal</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="http://www.midatlanticocean.org/">Visit MARCO</a>
-                                                    </li>
-                                                </ul>
-                                                <form class="form-search pull-right" action="/portal/" method="get">
-                                                    <input type="text" class="search-box" name="s" id="search" placeholder="search">
-                                                    <a class="btn">
-                                                        <i class="icon-remove"></i> 
-                                                    </a>
-                                                </form>
-                                            </div>
                                         </div>
                                         <!--/.nav-collapse -->
                                     </div>
@@ -119,6 +94,7 @@
                                 </div>
                             </div>
                         </header>
+                        <!--
                         <div id="feedback-tab" class="rounded hidden-phone" data-toggle="modal" data-target="#feedback-modal">
                             feedback
                         </div>
@@ -155,6 +131,7 @@
                             </div>
                           </form>
                         </div>
+                        -->
                         <!-- end header -->
                         <div class="container">
                             <div id="content" class="row-fluid">
@@ -163,56 +140,6 @@
                                 </div>
                                     <div class="sidebar span2" role="complementary">
                                         <div id="sidebar-nav">
-                                            <div>
-                                                <h3>
-                                                    <a href="{{domain8010}}/portal/learn">Learn</a>
-                                                </h3>
-                                                <ul>
-                                                    <li {% if theme.name == 'administrative' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/administrative">Administrative</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'fishing' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/fishing">Fishing</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'conservation' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/conservation">Marine Life</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'maritime-industries' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/maritime-industries">Maritime</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'recreation' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/recreation">Recreation</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'energy' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/energy">Renewable Energy</a>
-                                                    </li>
-                                                    <li {% if theme.name == 'security' %}class="active"{% endif %}>
-                                                        <a href="{{domain}}/learn/security">Security</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3>
-                                                    <a href="{{domain8010}}/portal/explore">Explore</a>
-                                                </h3>
-
-                                                <ul>
-                                                    {% load flatblock_tags %}
-                                                    <li {% if request.path == '/explore/catalog' %}class="active"{% endif %}><a href="{{domain}}/explore/catalog">{% flatblock "data_catalog_title" %}</a></li>
-                                                    <li {% if request.path == '/explore/needs' %}class="active"{% endif %}><a href="{{domain}}/explore/needs">{% flatblock "data_needs_title" %}</a></li>
-                                                </ul>
-                                            </div>
-                                            <div id="recent-posts-3" class="widget widget_recent_entries">
-                                                <h3 class="widgettitle">
-                                                    <a href="{{domain8010}}/portal/visualize">Visualize</a>
-                                                </h3>
-                                                <ul>
-                                                    <li><a href="/visualize" target="_blank">Marine Planner</a></li>
-                                                    <li><a href="{{domain8010}}/portal/visualize#cartography">Cartography</a></li>
-                                                    <li><a href="{{domain8010}}/portal/visualize#collaboration">Collaboration</a></li>
-                                                    <li><a href="{{domain8010}}/portal/visualize#interactivity">Interactivity</a></li>
-                                                </ul>
-                                            </div>
                                             {% block sidebar %}
                                             {% endblock sidebar %}
                                         </div>
@@ -222,6 +149,7 @@
                                 <hr>
                                 
                                 <footer>
+                                <!--
                                   <div class="row">
                                     <div class="span7 social">
                                       <h5>Contact Us</h5>
@@ -236,13 +164,12 @@
                                                 <a href="/portal/feed/"><i class="icon-rss icon-large"></i></a>
                                                 <a href="https://twitter.com/PortalMARCO"><i class="icon-twitter icon-large"></i></a>
                                             </p>
-                                            <!-- <a href=""><i class="icon-linkedin icon-large"></i></a>
-                                            <a href=""><i class="icon-google-plus icon-large"></i></a> -->
                                         </div>
                                     </div>
                                     <div class="span2">
                                     </div>
                                   </div>
+                                -->
                                 </footer>
                                 
                             </div>
