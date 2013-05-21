@@ -673,7 +673,7 @@
             var app = {
                 socketUrl: "{{ SOCKET_URL }}"
             };
-            {% if user.is_authenticated %} app.is_authenticated = true; {% endif %}
+            {% if user.is_authenticated %} /*app.is_authenticated = true;*/ {% endif %}
         </script>
 
         <script src="{{MEDIA_URL}}/marco/js/marco/fixtures.js"></script>
@@ -682,9 +682,6 @@
         <script src="{{MEDIA_URL}}/marco/js/marco/models.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/marco/bookmarks.js"></script>
         {% if user.is_authenticated and user|in_group:"Designers" %}
-            <script src="{{MEDIA_URL}}/marco/js/marco/scenarios.js"></script>
-            <script src="{{MEDIA_URL}}/marco/js/marco/reports.js"></script>
-            <script src="{{MEDIA_URL}}/marco/js/marco/drawing.js"></script>
         {% endif %}
         <script src="{{MEDIA_URL}}/marco/js/marco/server.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/marco/printing.js"></script>

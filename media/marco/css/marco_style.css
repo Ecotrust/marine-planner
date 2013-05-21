@@ -38,6 +38,7 @@ li a {
 
 #fullscreen {
 	display: none;
+	background-color: white;
 }
 
 #loading {
@@ -348,10 +349,6 @@ input + i.icon-remove-sign {
 	color: #2d8998;
 }
 
-#fullscreen {
-	background-color: white;
-}
-
 #data .form-search {
 	padding: 0px 0px 20px 10px;
 	margin-left: 20px;
@@ -463,90 +460,11 @@ input + i.icon-remove-sign {
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#bb2d8998, endColorstr=#bb2d8998)";	
 }
 
-.bugs {
-	margin-top: 10px;
-	text-align: center;
-
-}
-.bugs h3 {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	text-transform: uppercase;
-	font-size: 16px;
-	letter-spacing: 2px;
-	color: #2d8998;
-}
-.bugs p {
-	margin-left: auto;
-	margin-right: auto;
-	font-size: 12px;
-	line-height: 1.25;
-	width: 80%;
-}
-.bugs .wrapper {
-	padding: 40px 0px;
-	border: 1px solid #ccc;
-	margin: -1px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-
-}
-.bugs .wrapper:hover,
-.bugs .wrapper:hover h3 {
-	background-color: #2d8998;
-	color: white;
-}
-
-.bugs a:link, .bugs a:visited, .bugs a:hover  {
-	color: #333;
-	text-decoration: none;
-}
-
-
-.wrapper .icon {
-    background-repeat: no-repeat;
-    width: 90px;
-    height: 90px;
-    min-width: 90px;
-    min-height: 90px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.wrapper #learn-img {
-    background-image: url('../img/learn.png');
-}
-.wrapper #explore-img {
-    background-image: url('../img/explore.png');
-}
-.wrapper #visualize-img {
-    background-image: url('../img/visualize.png');
-}
-
-.wrapper:hover #learn-img {
-    background-image: url('../img/learn_rollover.png');
-
-}
-
-.wrapper:hover #explore-img {
-    background-image: url('../img/explore_rollover.png');
-
-}
-.wrapper:hover #visualize-img {
-    background-image: url('../img/visualize_rollover.png');
-
-}
-
 .social h5 {
 	font-weight: normal;
 	text-transform: uppercase;
 }
 
-/*.sidebar {
-	margin-top: 15px;
-}
-*/
 .sidebar ul {
 	list-style: none;
 	margin-left: 0;
@@ -664,24 +582,6 @@ img + h3 {
 	padding: 10px 10px 10px 10px;
 }
 
-#designs ul.list {
-	padding: 10px 0px 10px 0px;
-}
-
-#design-list .btn-layer > div {
-	display: inline-block;
-	line-height: 1;
-	padding-left: 3px;
-	margin-top: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-    width: auto;
-	max-width: 72%;
-	/*height: inherit;*/
-    height: 16px;
-    vertical-align: middle;
-}
-
 #active ul li {
 	margin-bottom: 10px;
 }
@@ -713,10 +613,6 @@ img + h3 {
 	/*height: inherit;*/
     height: 16px;
     vertical-align: middle;
-}
-
-#data-accordion li.layer {
-	margin-bottom: 10px;
 }
 
 .theme .theme-context {
@@ -785,10 +681,8 @@ img + h3 {
     filter: alpha(opacity=100);
 }
 
-/*.layer-popover .layer-tooltip {
-  width: 380px;
-}
-*/
+/*** LEGEND STYLES ***/
+
 #legend-wrapper {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -810,24 +704,22 @@ img + h3 {
   height: 94%;
 }
 
-/* Rules for the layer switcher */
-
-#map-wrapper {
-	border-radius: 10px;
-	overflow: hidden;
-	border: 1px solid #ccc;
-}
-#map {
-	border-radius: 10px;
-	overflow: hidden;
+#legend-accordion .accordion-toggle {
+    font-size: 12px;
 }
 
-#map.zoomBox { 
-	cursor: url(../ico/magnify.cur), pointer;
-	cursor: -moz-zoom-in, pointer; 
+#legend-header {
+  margin-bottom:10px; 
+  padding-top: 8px; 
+  border-bottom: 2px solid #2D8998; 
+  padding-bottom: 6px; 
+  line-height: 20px;
+  font-size: 16px;
 }
 
-#basemaps, #right-btns {
+/*** Rules for the layer switcher ***/
+
+#basemaps {
   position: absolute;
   z-index: 1020;
   border-radius: 4px;
@@ -840,12 +732,7 @@ img + h3 {
 	right: 8px;
 }
 
-#right-btns {
-	top: 60px;
-  	left: 4px;
-}
-
-#basemaps a, #right-btns a {
+#basemaps a {
     padding: 1px;
     color: white;
     text-decoration: none;
@@ -861,7 +748,6 @@ img + h3 {
     -moz-transition: width .3s ease-in-out;
     -o-transition: width .3s ease-in-out;
     transition: width .3s ease-in-out;
-
 }
 
 #basemaps a {
@@ -869,12 +755,8 @@ img + h3 {
     padding-left: 10px;
  	
 }
-#right-btns a {
-	text-align: right;
-	padding-right: 10px;
-}
 
-#basemaps span, #right-btns span {
+#basemaps span {
 	opacity: 0;
 	filter: alpha(opacity=0);
 	font-size: 12px;
@@ -882,43 +764,15 @@ img + h3 {
     -moz-transition: opacity .3s ease-in-in-out;
     -o-transition: opacity .3s ease-in-in-out;
     transition: opacity .3s ease-in-out;
-   
 }
 
 #basemaps span {
 		visibility: hidden;
 		width: 100%;
-
-
-}
-
-#right-btns span {
-	visibility: hidden;
-	/*width: 0px;*/
-}
-/*
-#right-btns i.icon-zoom-in {
-	margin-left: -50px;
-}*/
-#right-btns i.icon-zoom-in {
-	margin-left: -63px;
-}
-
-#right-btns i.icon-layers {
-	margin-left: -57px;
-}
-
-#right-btns i.icon-zoom-out {
-	margin-left: -75px;
 }
 
 #basemaps:hover a,
 #basemaps.open a {
-    width: 120px;
-	
-}
-#right-btns:hover a,
-#right-btns.open {
     width: 120px;
 	
 }
@@ -929,28 +783,21 @@ img + h3 {
 	filter: alpha(opacity=100);
 }
 
-#right-btns:hover span,
-#right-btns.open span  {
-	visibility: visible;
-	opacity: 1;
-	filter: alpha(opacity=100);
-}
-
-#right-btns:hover i,
-#right-btns.open i {
-	margin-left: 0px;
-}
-#basemaps a:hover,
-#right-btns a:hover,
-#right-btns a.active {
+#basemaps a:hover {
     background: #130085; /* fallback for IE */
     background: rgba(0, 60, 136, 0.7);
     filter: alpha(opacity=100);
 }
 
+#map.zoomBox { 
+	cursor: url(../ico/magnify.cur), pointer;
+	cursor: -moz-zoom-in, pointer; 
+}
+
 #map.zoomBox .olHandlerBoxZoomBox {
 	border: 2px solid #2d8998;
 }
+
 .SimpleLayerSwitcher {
   position:absolute;
   top:12px;
@@ -989,15 +836,9 @@ img + h3 {
   
 }
 
-.SimpleLayerSwitcher a {
-  /*border-top:1px solid #eee;*/
-}
-
 .SimpleLayerSwitcher a:hover {
 	opacity: 1;
-/*  color:#000;
-  background-color:#eeeeee;
-*/}
+}
 
 .SimpleLayerSwitcher a.basey-off {
   display:block;
@@ -1010,6 +851,8 @@ img + h3 {
 .disabled {
 	color: #777 !important;
 }
+
+/*** PRINTING STYLES ***/
 
 #printing-popover .radio input {
 	width: 20%;
@@ -1070,14 +913,6 @@ body.print .olControlZoom
 	display: none;
 }
 
-/*body.print .navbar {
-	border-bottom: 0px;
-}
-*/
-/*body.print #legend-wrapper {
-	max-width: 250px;
-}
-*/
 body.print #legend-wrapper, body.print #map-wrapper, body.print #map {
 	border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -1108,8 +943,10 @@ body.borderless .timestamp  {
 body.borderless #map-wrapper {
 	border: 0px;
 }
+/*** END PRINTING ***/
 
 
+/*** RESPONSIVE DESIGN ***/
 
 @media (max-width: 767px) {
 	.navbar .nav > li > a {

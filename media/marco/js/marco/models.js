@@ -672,13 +672,10 @@ function mapLinksModel() {
     self.getIFrameHTML = function(bookmarkState) {
         var urlOrigin = window.location.origin,
             urlHash = window.location.hash;
-        //console.log(urlOrigin);
-        //console.log(urlHash);
-        //console.log(app.viewModel.currentURL());
-        //app.updateURL();
-        //urlHash = app.viewModel.currentURL().replace('visualize/', '')
+        
         if ( bookmarkState ) {
-            urlHash = '#'+$.param(bookmarkState);
+            //urlHash = '#'+$.param(bookmarkState);
+            urlHash = '#' + bookmarkState;
         }
         if ( !urlOrigin ) {
             urlOrigin = 'http://' + window.location.host;
