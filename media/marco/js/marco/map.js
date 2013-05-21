@@ -288,7 +288,7 @@ app.init = function () {
     app.markers = new OpenLayers.Layer.Markers( "Markers" );
     var size = new OpenLayers.Size(16,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    app.markers.icon = new OpenLayers.Icon('/media/marco-proto/assets/img/red-pin.png', size, offset);
+    app.markers.icon = new OpenLayers.Icon('/media/marco/img/red-pin.png', size, offset);
     app.map.addLayer(app.markers);
       
     
