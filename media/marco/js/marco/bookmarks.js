@@ -37,7 +37,7 @@ function bookmarkModel(options) {
     // load state from bookmark
     self.loadBookmark = function() {
         app.saveStateMode = false;
-        app.loadState(self.state);
+        app.loadState($.deparam(self.state));
 
         app.viewModel.bookmarks.activeBookmark(self.name);
 

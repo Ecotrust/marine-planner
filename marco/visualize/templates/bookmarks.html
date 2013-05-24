@@ -13,7 +13,7 @@
                         <tr style="border-bottom: 1px solid #dddddd;">
                             <td>
                                 <span data-bind="click: loadBookmark">
-                                    <a data-bind="text: name, attr: {href: getBookmarkUrl}">name</a>
+                                    <a data-bind="text: name, attr: {href: getBookmarkUrl()}">name</a>
                                 </span>
                                 {% if user.is_authenticated %}
                                 <!--<a rel="tooltip" data-bind="attr: {title: sharedBy}, visible: shared()" style="text-decoration: none; cursor: default;">

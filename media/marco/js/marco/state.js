@@ -143,8 +143,9 @@ app.loadCompressedState = function(state) {
     }
 
     if (state.layers && state.layers === 'false') {
-        app.viewModel.showLayers(false);
-        app.map.render('map');
+        app.viewModel.showLayers(true);
+        //app.viewModel.showLayers(false);
+        //app.map.render('map');
     } else {
         app.viewModel.showLayers(true);
     }
