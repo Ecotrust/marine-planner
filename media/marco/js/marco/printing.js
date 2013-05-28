@@ -49,6 +49,7 @@
 
 		// print server is enabled, don't show button without it
 		self.enabled = ko.observable(false);
+		self.enabled(false);
 
 		self.jobStatus = ko.observable();
 		self.showSpinner = ko.observable();
@@ -243,7 +244,7 @@
 			socket = io.connect(socketUrl);	
 			self.enabled(true);
 		} else {
-			self.enabled(false);				
+		self.enabled(false);				
 		}
 
 	}

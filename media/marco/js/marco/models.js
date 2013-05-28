@@ -265,6 +265,14 @@ function layerModel(options, parent) {
                 self.activateUtfGridLayer();
             }
 
+            //log layer use with server
+            $.ajax({
+                type: "POST",
+                contentType:"application/json",
+                dataType:"json",              
+                url: "/api/v1/layeruse/",
+                data: JSON.stringify({username: "twelch", api_key: "generic-read-key", layer: "/api/v1/layer/"+layer.id+"/"})
+            });
         }
     };
     

@@ -39,6 +39,8 @@ INSTALLED_APPS += ( #'clipping',
                     #'feedback',
                     'django.contrib.humanize',
                     'flatblocks',
+                    'tastypie',
+                    'map_analytics',
                     #'marco_profile' 
                   )
 
