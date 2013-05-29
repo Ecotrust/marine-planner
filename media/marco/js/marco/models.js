@@ -271,7 +271,7 @@ function layerModel(options, parent) {
                 contentType:"application/json",
                 dataType:"json",              
                 url: "/api/v1/layeruse/",
-                data: JSON.stringify({username: "twelch", api_key: "generic-read-key", layer: "/api/v1/layer/"+layer.id+"/"})
+                data: JSON.stringify({layer: "/api/v1/layer/"+layer.id+"/"})
             });
         }
     };

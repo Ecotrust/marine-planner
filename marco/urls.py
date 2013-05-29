@@ -4,12 +4,11 @@ from django.views.generic.simple import redirect_to
 from django.conf import settings
 from tastypie.api import Api
 from data_manager.api import LayerResource
-from map_analytics.api import EntryResource, UserResource, LayerUseResource
+from map_analytics.api import UserResource, LayerUseResource
 admin.autodiscover()
 
 v1_api = Api(api_name='v1')
 v1_api.register(LayerResource())
-v1_api.register(EntryResource())
 v1_api.register(UserResource())
 v1_api.register(LayerUseResource())
 

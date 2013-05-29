@@ -3,8 +3,8 @@ from tastypie import fields
 from tastypie.resources import ModelResource
 from data_manager.api import LayerResource
 from data_manager.models import Layer
-from models import Entry, LayerUse
-from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication
+from models import LayerUse
+from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 
 
@@ -14,14 +14,6 @@ class UserResource(ModelResource):
         resource_name = 'user'
         fields = ['username', 'first_name', 'last_name', 'last_login']
         allowed_methods = []
-
-
-class EntryResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-
-    class Meta:
-        queryset = Entry.objects.all()
-        resource_name = 'entry'
 
 class LayerUseResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', null=True)
