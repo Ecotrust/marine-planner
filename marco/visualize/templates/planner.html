@@ -124,11 +124,11 @@
                                     {% if project_logo %}
                                     <img src="{{project_logo}}"/>
                                     {% else %}
-                                    {% if project_name %}
-                                    <h1 id="project-name-header">{{project_name}}</h1>
-                                    {% else %}
-                                    <h1 id="project-name-header"></h1>
-                                    {% endif %}
+                                        {% if project_name %}
+                                        <h1 id="project-name-header">{{project_name}}</h1>
+                                        {% else %}
+                                        <h1 id="project-name-header">Marine Planner</h1>
+                                        {% endif %}
                                     {% endif %}
                                 </a>
                                 <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>

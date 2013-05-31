@@ -90,17 +90,17 @@ app.initializeMapLocation = function() {
     var latitude = 38.93,
         longitude = -73.24,
         zoom = 7;
-    
+        
     if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
         latitude = app.MPSettings['latitude'];
-        longitutude = app.MPSettings['longitude'];
+        longitude = app.MPSettings['longitude'];
     } 
     if (app.MPSettings && app.MPSettings['zoom']) {
         zoom = app.MPSettings['zoom'];
-    } else {
-        app.map.setCenter(new OpenLayers.LonLat(longitutude, latitude).transform(
-            new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), zoom);
     }
+    
+    app.map.setCenter(new OpenLayers.LonLat(longitude, latitude).transform(
+        new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), zoom);
 
 };
 app.initializeMapLocation();

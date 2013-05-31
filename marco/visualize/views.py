@@ -10,7 +10,7 @@ from madrona.features import get_feature_by_uid
 import settings
 from models import *
 from data_manager.models import *
-from general.models import *
+from mp_settings.models import *
 
 def show_planner(request, template='planner.html'):
     try:
@@ -32,7 +32,7 @@ def show_planner(request, template='planner.html'):
         bitly_username = mp_settings.bitly_username
         bitly_api_key = mp_settings.bitly_api_key
     except:
-        project_name = latitude = longitudue = zoom = project_logo = project_icon = project_home_page = bitly_registered_domain = None
+        project_name = latitude = longitude = zoom = min_zoom = max_zoom = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = None
     context = {
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 
