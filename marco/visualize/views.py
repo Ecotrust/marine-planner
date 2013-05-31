@@ -10,13 +10,36 @@ from madrona.features import get_feature_by_uid
 import settings
 from models import *
 from data_manager.models import *
+from general.models import *
 
 def show_planner(request, template='planner.html'):
     try:
         socket_url = settings.SOCKET_URL
     except AttributeError:
         socket_url = ''
-    context = {'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true'}
+    try:
+        mp_settings = MarinePlannerSettings.objects.get(active=True)
+        project_name = mp_settings.project_name
+        latitude = mp_settings.latitude
+        longitude = mp_settings.longitude
+        zoom = mp_settings.zoom
+        min_zoom = mp_settings.min_zoom
+        max_zoom = mp_settings.max_zoom
+        project_logo = mp_settings.project_logo
+        project_icon = mp_settings.project_icon
+        project_home_page = mp_settings.project_home_page
+        bitly_registered_domain = mp_settings.bitly_registered_domain
+        bitly_username = mp_settings.bitly_username
+        bitly_api_key = mp_settings.bitly_api_key
+    except:
+        project_name = latitude = longitudue = zoom = project_logo = project_icon = project_home_page = bitly_registered_domain = None
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
+        'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 
+        'min_zoom': min_zoom, 'max_zoom': max_zoom,
+        'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page, 
+        'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
+    }
     if settings.UNDER_MAINTENANCE_TEMPLATE:
         return render_to_response('under_maintenance.html', RequestContext(request, context))
     return render_to_response(template, RequestContext(request, context)) 

@@ -116,8 +116,20 @@
                     <div class="container-fluid">
                         <div class="row-fluid">
                             <div class="span5">
-                                <a href="/portal">
-                                    <img src="{{MEDIA_URL}}marco/img/marco-logo_planner.jpg"/>
+                                {% if project_home_page %}
+                                <a href="{{project_home_page}}" style="text-decoration: none">
+                                {% else %}
+                                <a href="#" style="text-decoration: none">
+                                {% endif %}
+                                    {% if project_logo %}
+                                    <img src="{{project_logo}}"/>
+                                    {% else %}
+                                    {% if project_name %}
+                                    <h1 id="project-name-header">{{project_name}}</h1>
+                                    {% else %}
+                                    <h1 id="project-name-header"></h1>
+                                    {% endif %}
+                                    {% endif %}
                                 </a>
                                 <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
                             </div>
@@ -675,6 +687,25 @@
             };
             {% if user.is_authenticated %} /*app.is_authenticated = true;*/ {% endif %}
         </script>
+        
+        <!-- Check for Marine Planner Settings -->
+        <script type="text/javascript">
+            app.MPSettings = {
+                project_name: "{{project_name}}",
+                latitude: parseFloat("{{latitude}}"),
+                longitude: parseFloat("{{longitude}}"),
+                zoom: parseFloat("{{zoom}}"),
+                min_zoom: parseFloat("{{min_zoom}}"),
+                max_zoom: parseFloat("{{max_zoom}}"),
+                project_logo: "{{project_logo}}",
+                project_icon: "{{project_icon}}",
+                project_home_page: "{{project_home_page}}",
+                bitly_registered_domain: "{{bitly_registered_domain}}",
+                bitly_username: "{{bitly_username}}",
+                bitly_api_key: "{{bitly_api_key}}"
+            }
+        </script>
+        
 
         <script src="{{MEDIA_URL}}/marco/js/marco/fixtures.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/marco/map.js"></script>

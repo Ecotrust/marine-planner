@@ -86,13 +86,30 @@ app.viewModel.loadLayersFromServer().done(function() {
 app.init();
 // Google.v3 uses EPSG:900913 as projection, so we have to
 // transform our coordinates
-app.map.setCenter(new OpenLayers.LonLat(-73.24, 38.93).transform(
-new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), 7);
+app.initializeMapLocation = function() {
+    var latitude = 38.93,
+        longitude = -73.24,
+        zoom = 7;
+    
+    if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
+        latitude = app.MPSettings['latitude'];
+        longitutude = app.MPSettings['longitude'];
+    } 
+    if (app.MPSettings && app.MPSettings['zoom']) {
+        zoom = app.MPSettings['zoom'];
+    } else {
+        app.map.setCenter(new OpenLayers.LonLat(longitutude, latitude).transform(
+            new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), zoom);
+    }
+
+};
+app.initializeMapLocation();
+
 
 $(document).ready(function() {
   app.onResize();
   $(window).resize(app.onResize);
-  
+    
   //Do not display any warning for missing tiles
   OpenLayers.Util.onImageLoadError = function(){
     this.src = 'http://www.openlayers.org/api/img/blank.gif';

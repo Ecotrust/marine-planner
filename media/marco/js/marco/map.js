@@ -8,34 +8,40 @@ app.init = function () {
         projection: "EPSG:3857"
     });
     
+    if (app.MPSettings && app.MPSettings['max_zoom']) {
+        var max_zoom = app.MPSettings['max_zoom'] + 1;
+    } else {
+        var max_zoom = 13;
+    }
+    
     esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean", "http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: 13,
+        numZoomLevels: max_zoom,
         attribution: "Sources: Esri, GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, Geonames.org, and others"
     });
     
     openStreetMap = new OpenLayers.Layer.OSM("Open Street Map", "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png", {
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: 13
+        numZoomLevels: max_zoom
     });
     googleStreet = new OpenLayers.Layer.Google("Google Streets", {
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: 13
+        numZoomLevels: max_zoom
     });
     googleTerrain = new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: 13
+        numZoomLevels: max_zoom
     });
     googleSatellite = new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE,
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: 13
+        numZoomLevels: max_zoom
     });
     
     /*var bingHybrid = new OpenLayers.Layer.Bing( {
@@ -60,7 +66,7 @@ app.init = function () {
         },
         {
             isBaseLayer: true,
-            numZoomLevels: 13,
+            numZoomLevels: max_zoom,
             projection: "EPSG:3857"
         }
     );
@@ -91,13 +97,17 @@ app.init = function () {
 
     // only allow onetime zooming with box
     map.events.register("zoomend", null, function () {
+        if (app.MPSettings && app.MPSettings['min_zoom']) {
+            var min_zoom = app.MPSettings['min_zoom'];
+        } else {
+            var min_zoom = 5;
+        }
         if (map.zoomBox.active) {
             app.viewModel.deactivateZoomBox();
         }   
-        if( map.getZoom() < 5)
-        {
-            map.zoomTo(5);
-        }        
+        if( map.getZoom() < min_zoom) {
+            map.zoomTo(min_zoom);
+        }   
     });
 
     // map.addControl(new OpenLayers.Control.MousePosition({
