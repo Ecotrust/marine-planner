@@ -45,7 +45,20 @@ def show_planner(request, template='planner.html'):
     return render_to_response(template, RequestContext(request, context)) 
     
 def show_embedded_map(request, template='map.html'):
-    context = {'MEDIA_URL': settings.MEDIA_URL}
+    try:
+        mp_settings = MarinePlannerSettings.objects.get(active=True)
+        project_name = mp_settings.project_name
+        project_logo = mp_settings.project_logo
+        project_home_page = mp_settings.project_home_page
+    except:
+        project_name = project_logo = project_home_page = None
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL, 
+        'project_name': project_name,
+        'project_logo': project_logo, 
+        'project_home_page': project_home_page 
+    }
+    #context = {'MEDIA_URL': settings.MEDIA_URL}
     return render_to_response(template, RequestContext(request, context)) 
     
 def show_mobile_map(request, template='mobile-map.html'):

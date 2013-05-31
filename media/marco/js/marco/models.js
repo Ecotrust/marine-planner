@@ -623,8 +623,22 @@ function mapLinksModel() {
     
     self.getURL = function() {
         //return window.location.href;
-        return 'http://portal.midatlanticocean.org' + app.viewModel.currentURL();
+        if (self.bitlyRegisteredDomain) {
+            return self.bitlyRegisteredDomain + app.viewModel.currentURL();
+        } else {
+            return window.location.href;
+        }
     };
+    
+    self.showShrinkOption = ko.observable();
+    if (app.MPSettings && app.MPSettings['bitly_registered_domain'] && app.MPSettings['bitly_username'] && app.MPSettings['bitly_api_key']) {
+        self.bitlyRegisteredDomain = app.MPSettings['bitly_registered_domain'];
+        self.bitlyUsername = app.MPSettings['bitly_username'];
+        self.bitlyAPIKey = app.MPSettings['bitly_api_key'];
+        self.showShrinkOption(true);
+    } else {
+        self.showShrinkOption(false);
+    }
     
     self.shrinkURL = ko.observable();
     self.shrinkURL.subscribe( function() {
@@ -640,8 +654,8 @@ function mapLinksModel() {
     };
         
     self.useShortURL = function() {
-        var bitly_login = "ecofletch",
-            bitly_api_key = 'R_d02e03290041107b75e3720d7e3c4b95',
+        var bitly_login = self.bitlyUsername,
+            bitly_api_key = self.bitlyAPIKey,
             long_url = self.getURL();
             
         $.getJSON( 

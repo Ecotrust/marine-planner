@@ -23,7 +23,11 @@
         <!--<link href="{{MEDIA_URL}}/marco-proto/assets/css/jScrollPane.css" rel="stylesheet">-->
         <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/base/jquery-ui.css"
         type="text/css" media="all" />-->
+        {% if project_icon %}
+        <link rel="shortcut icon" href="{{project_icon}}">
+        {% else %}
         <link rel="shortcut icon" href="{{MEDIA_URL}}marco/ico/favicon.ico">
+        {% endif %}
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -119,7 +123,7 @@
                                 {% if project_home_page %}
                                 <a href="{{project_home_page}}" style="text-decoration: none">
                                 {% else %}
-                                <a href="#" style="text-decoration: none">
+                                <a style="text-decoration: none; cursor: default;">
                                 {% endif %}
                                     {% if project_logo %}
                                     <img src="{{project_logo}}"/>
