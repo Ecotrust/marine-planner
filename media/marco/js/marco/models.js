@@ -631,7 +631,7 @@ function mapLinksModel() {
     };
     
     self.showShrinkOption = ko.observable();
-    if (app.MPSettings && app.MPSettings['bitly_registered_domain'] && app.MPSettings['bitly_username'] && app.MPSettings['bitly_api_key']) {
+    if (app.MPSettings && app.MPSettings['bitly_registered_domain'] && app.MPSettings['bitly_username'] && app.MPSettings['bitly_api_key'] ) {
         self.bitlyRegisteredDomain = app.MPSettings['bitly_registered_domain'];
         self.bitlyUsername = app.MPSettings['bitly_username'];
         self.bitlyAPIKey = app.MPSettings['bitly_api_key'];
@@ -704,7 +704,7 @@ function mapLinksModel() {
     
     self.openIFrameExample = function(info) {
         var windowName = "newMapWindow",
-            windowSize = "width=650, height=550";
+            windowSize = "width=625, height=475";
             mapWindow = window.open('', windowName, windowSize);
         var urlOrigin = window.location.origin;
         if ( !urlOrigin ) {
@@ -718,7 +718,7 @@ function mapLinksModel() {
             iframeID = '#iframe-html';
         }
         mapWindow.document.write('<html><body>' + $(iframeID)[0].value + '</body></html>');
-        mapWindow.document.title = "Your MARCO Map!";
+        mapWindow.document.title = "Your " + app.MPSettings['project_name'] + " Marine Planner Map!";
         mapWindow.document.close();
         
     };
@@ -920,6 +920,11 @@ function viewModel() {
     self.error = ko.observable();
     self.clearError = function() {
         self.error(null);
+    };
+    
+    self.showLogo = ko.observable(true);
+    self.hideLogo = function() {
+        self.showLogo(false);
     };
     
     self.isFullScreen = ko.observable(false);

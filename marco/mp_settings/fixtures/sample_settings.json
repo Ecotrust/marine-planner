@@ -1,0 +1,40 @@
+[
+    {
+        "pk": 1,
+        "model": "mp_settings.marineplannersettings",
+        "fields": {
+            "bitly_username": "ecofletch",
+            "project_name": "MARCO",
+            "bitly_api_key": "R_d02e03290041107b75e3720d7e3c4b95",
+            "project_icon": "http://portal.midatlanticocean.org/media/marco/ico/favicon.ico",
+            "bitly_registered_domain": "http://portal.midatlanticocean.org/planner/",
+            "max_zoom": 12,
+            "zoom": 7,
+            "longitude": -73.24,
+            "latitude": 38.93,
+            "min_zoom": 5,
+            "project_logo": "http://portal.midatlanticocean.org/media/marco/img/marco-logo_planner.jpg",
+            "active": false,
+            "project_home_page": "http://portal.midatlanticocean.org/"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "mp_settings.marineplannersettings",
+        "fields": {
+            "bitly_username": "",
+            "project_name": "South Florida",
+            "bitly_api_key": "",
+            "project_icon": "",
+            "bitly_registered_domain": "",
+            "max_zoom": 15,
+            "zoom": 8,
+            "longitude": -81.04,
+            "latitude": 25.32,
+            "min_zoom": 5,
+            "project_logo": "",
+            "active": true,
+            "project_home_page": ""
+        }
+    }
+]

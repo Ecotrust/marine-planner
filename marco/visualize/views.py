@@ -19,20 +19,21 @@ def show_planner(request, template='planner.html'):
         socket_url = ''
     try:
         mp_settings = MarinePlannerSettings.objects.get(active=True)
-        project_name = mp_settings.project_name
-        latitude = mp_settings.latitude
+        project_name = mp_settings.project_name 
+        latitude = mp_settings.latitude 
         longitude = mp_settings.longitude
         zoom = mp_settings.zoom
         min_zoom = mp_settings.min_zoom
         max_zoom = mp_settings.max_zoom
-        project_logo = mp_settings.project_logo
-        project_icon = mp_settings.project_icon
-        project_home_page = mp_settings.project_home_page
-        bitly_registered_domain = mp_settings.bitly_registered_domain
-        bitly_username = mp_settings.bitly_username
-        bitly_api_key = mp_settings.bitly_api_key
+        project_logo = mp_settings.project_logo 
+        project_icon = mp_settings.project_icon 
+        project_home_page = mp_settings.project_home_page 
+        bitly_registered_domain = mp_settings.bitly_registered_domain 
+        bitly_username = mp_settings.bitly_username 
+        bitly_api_key = mp_settings.bitly_api_key 
     except:
-        project_name = latitude = longitude = zoom = min_zoom = max_zoom = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = None
+        project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
+        latitude = longitude = zoom = min_zoom = max_zoom = None
     context = {
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 

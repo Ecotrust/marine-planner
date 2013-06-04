@@ -87,9 +87,9 @@ app.init();
 // Google.v3 uses EPSG:900913 as projection, so we have to
 // transform our coordinates
 app.initializeMapLocation = function() {
-    var latitude = 38.93,
-        longitude = -73.24,
-        zoom = 7;
+    var latitude = 46.31,
+        longitude = -123.64,
+        zoom = 6;
         
     if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
         latitude = app.MPSettings['latitude'];

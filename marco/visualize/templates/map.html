@@ -116,7 +116,11 @@
             .olControlScaleBarWrapper {
                 display: none;
             }
-            #embedded-marco-logo {
+            #home-page-link #project-name-header {
+                border: 1px solid #bbbbbb; 
+                padding: 5px;
+            }
+            #embedded-logo {
                 position: absolute;
                 top: 12px;
                 left: 53px;
@@ -128,7 +132,6 @@
                 top: 0px;
                 left: 50px;
                 z-index: 800;
-                width: 30%;
             }
         </style>
         
@@ -153,12 +156,12 @@
                                     <!-- commenting out the following until a transparent background is generated for the marco logo -->
                                     
                                     {% if project_home_page %}
-                                    <a href="{{project_home_page}}" style="text-decoration: none">
+                                    <a id="home-page-link" class="btn" href="{{project_home_page}}" data-bind="visible: showLogo" style="text-decoration: none" target="_blank">
                                     {% else %}
-                                    <a style="text-decoration: none; cursor: default;">
+                                    <a class="btn" data-bind="visible: showLogo" style="text-decoration: none; cursor: default;">
                                     {% endif %}
                                         {% if project_logo %}
-                                        <img id="embedded-marco-logo" src="{{project_logo}}"/>
+                                        <img id="embedded-logo" src="{{project_logo}}"/>
                                         {% else %}
                                             {% if project_name %}
                                             <h2 id="project-name-header">{{project_name}}</h2>
@@ -168,6 +171,9 @@
                                         {% endif %}
                                     </a>
                                     <!--
+                                    <a data-bind="visible: showLogo, attr: { href: mapLinks.getPortalURL() }" target="_blank">
+                                        <img class="btn" id="embedded-marco-logo" rel="tooltip" title="View these layers in the MARCO Marine Planner" src="{{MEDIA_URL}}marco/img/marco-logo-transparent.png"/>
+                                    </a>
                                     <a data-bind="attr: { href: mapLinks.getPortalURL() }" target="_blank">
                                         <img id="embedded-marco-logo" src="{{MEDIA_URL}}marco/img/marco-logo-transparent.png"/>
                                     </a>-->
@@ -302,6 +308,21 @@
                     }
                 }, 500);
             });
+        
+            $(document).ready( function() {
+                app.map.getLayersByName('ESRI Ocean')[0]['attribution'] = "Basemap Attribution";
+                $('.olControlAttribution').text("Basemap Attribution");
+                $('.olControlAttribution').width("112px");
+                $('.olControlAttribution').attr('rel',"tooltip");
+                //$('.olControlAttribution').attr('title',"The Ocean Basemap was created with data from the General Bathymetric Chart of the Oceans (GEBCO), IHO-IOC GEBCO Gazetteer of Undersea Feature Names, NOAA, Seafloor Mapping Lab of the California State University Monterey Bay, National Geographic, DeLorme, and Esri.");
+                $('.olControlAttribution').attr('title',"The ESRI Ocean Basemap was was built using data provided by ESRI, GEBCO, NOAA, Canadian Hydrographic Service (CHS), California State University at Monterey Bay (CSUMB), National Geographic, DeLorme, and NAVTEQ.");
+            });
+            
+            $(function () { 
+                //$("#test-popover").popover({trigger: 'hover'});  
+                $(".olControlAttribution").tooltip({trigger: 'hover'}); 
+                //$("#home-page-link").tooltip({trigger: 'hover'});
+            });  
         
         </script>
         
