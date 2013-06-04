@@ -399,6 +399,10 @@
         
         $('.layer-search').find('input').typeahead( {
             source: layers.sort(),
+            updater: function (item) {
+                search(item);
+                return item;
+            },
             matcher: function(item) {
                 if (layer_index[item].fullSearch.toLowerCase().indexOf(this.query.toLowerCase()) !== -1) { 
                     return true;
