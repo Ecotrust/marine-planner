@@ -1,8 +1,11 @@
 # Create your views here.
 from django.contrib.auth.models import Group
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+import os
 from querystring_parser import parser
 import simplejson
 from simplejson import dumps
@@ -26,7 +29,17 @@ def show_planner(request, template='planner.html'):
         min_zoom = mp_settings.min_zoom
         max_zoom = mp_settings.max_zoom
         project_logo = mp_settings.project_logo 
+        try:
+            url_validator = URLValidator(verify_exists=False)
+            url_validator(project_logo)
+        except ValidationError, e:
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo)            
         project_icon = mp_settings.project_icon 
+        try:
+            url_validator = URLValidator(verify_exists=False)
+            url_validator(project_icon)
+        except ValidationError, e:
+            project_icon = os.path.join(settings.MEDIA_URL, project_icon)    
         project_home_page = mp_settings.project_home_page 
         bitly_registered_domain = mp_settings.bitly_registered_domain 
         bitly_username = mp_settings.bitly_username 
@@ -50,6 +63,11 @@ def show_embedded_map(request, template='map.html'):
         mp_settings = MarinePlannerSettings.objects.get(active=True)
         project_name = mp_settings.project_name
         project_logo = mp_settings.project_logo
+        try:
+            url_validator = URLValidator(verify_exists=False)
+            url_validator(project_logo)
+        except ValidationError, e:
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo)        
         project_home_page = mp_settings.project_home_page
     except:
         project_name = project_logo = project_home_page = None

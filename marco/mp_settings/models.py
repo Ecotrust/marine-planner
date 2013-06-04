@@ -11,10 +11,10 @@ class MarinePlannerSettings(models.Model):
     zoom = models.IntegerField(blank=True, null=True)
     min_zoom = models.IntegerField(blank=True, null=True, default=5, help_text='Minimum Zoom Level (5 is default).')
     max_zoom = models.IntegerField(blank=True, null=True, default=12, help_text='Maximum Zoom Level (12 is default).')
-    project_logo = models.URLField(max_length=255, blank=True, null=True, help_text='Your logo will be displayed at the top-left of the screen.')
-    project_icon = models.URLField(max_length=255, blank=True, null=True, help_text='This will be the favicon displayed in the browser tab.')
+    project_logo = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
+    project_icon = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
     project_home_page = models.URLField(max_length=255, blank=True, null=True, help_text='The Project Name or Project Logo will link to this page.')
-    bitly_registered_domain = models.URLField(max_length=255, blank=True, null=True, help_text='This is required ')
+    bitly_registered_domain = models.URLField(max_length=255, blank=True, null=True)
     bitly_username = models.CharField(max_length=75, blank=True, null=True)
     bitly_api_key = models.CharField(max_length=75, blank=True, null=True)
     
