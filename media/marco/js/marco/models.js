@@ -40,6 +40,7 @@ function layerModel(options, parent) {
     if ( !self.legend && self.url && (self.arcgislayers !== -1) ) {
         $.ajax({
             dataType: "jsonp",
+            //http://ocean.floridamarine.org/arcgis/rest/services/SAFMC/SAFMC_Regulations/MapServer/legend/?f=pjson
             url: self.url.replace('/export', '/legend/?f=pjson'),
             type: 'GET',
             success: function(data) {
@@ -47,6 +48,7 @@ function layerModel(options, parent) {
                     if (parseInt(layerobj['layerId'], 10) === parseInt(self.arcgislayers, 10)) {
                         self.legend = {'elements': []};
                         $.each(layerobj['legend'], function(j, legendobj) {
+                            //http://ocean.floridamarine.org/arcgis/rest/services/SAFMC/SAFMC_Regulations/MapServer/13/images/94ed037ab533027972ba3fc4a7c9d05c
                             var swatchURL = self.url.replace('/export', '/'+self.arcgislayers+'/images/'+legendobj['url']),
                                 label = legendobj['label'];
                             if (label === "") {
