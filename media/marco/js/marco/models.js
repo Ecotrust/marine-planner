@@ -7,7 +7,7 @@ function layerModel(options, parent) {
     self.name = options.name || null;
     self.featureAttributionName = self.name;
     self.url = options.url || null;
-    self.arcgislayers = options.arcgis_layers || 0;
+    self.arcgislayers = options.arcgis_layers || -1;
     self.type = options.type || null;
     self.utfurl = options.utfurl || false;
     self.legend = options.legend || false;
@@ -62,6 +62,17 @@ function layerModel(options, parent) {
         self.overview = null;
     }
     
+    if ( !self.overview && self.url && (self.arcgislayers !== -1) ) {
+        $.ajax({
+            dataType: "jsonp",
+            url: self.url.replace('/export', '/'+self.arcgislayers) + '?f=pjson',
+            type: 'GET',
+            success: function(data) {
+                self.overview = data['description'];
+            }
+        });
+    }
+    
     // set data source and data notes text 
     self.data_source = options.data_source || null;
     if (! self.data_source && parent && parent.data_source) {
@@ -78,6 +89,12 @@ function layerModel(options, parent) {
     self.metadata = options.metadata || null;
     self.source = options.source || null;
     self.tiles = options.tiles || null;
+    
+    if ( ! self.metadata ) {
+        if ( self.url && (self.arcgislayers !== -1) ) {
+            self.metadata = self.url.replace('/export', '/'+self.arcgislayers);
+        }
+    }
 
     // opacity
     self.opacity.subscribe(function(newOpacity) {
@@ -173,6 +190,11 @@ function layerModel(options, parent) {
             self.deactivateSublayer();
         } 
         
+        //de-activate arcIdentifyControl (if applicable)
+        if (layer.arcIdentifyControl) {
+            layer.arcIdentifyControl.deactivate();
+        }
+        
         layer.layer = null;
 
     };
@@ -263,6 +285,11 @@ function layerModel(options, parent) {
             //add utfgrid if applicable
             if (layer.utfgrid) {
                 self.activateUtfGridLayer();
+            }
+            
+            //activate arcIdentifyControl (if applicable)
+            if (layer.arcIdentifyControl) {
+                layer.arcIdentifyControl.activate();
             }
 
         }
@@ -844,6 +871,10 @@ function viewModel() {
     self.activeInfoLayer = ko.observable(false);
     self.activeInfoSublayer = ko.observable(false);
 
+    // new attribute data
+    //self.attributeTitle = ko.observable(false);
+    //self.attributeData = ko.observable(false);
+    
     // attribute data
     self.aggregatedAttributes = ko.observable(false);
     self.aggregatedAttributesWidth = ko.observable('280px');
@@ -884,13 +915,16 @@ function viewModel() {
     };
     
     self.updateMarker = function(lonlat) {
-        app.markers.clearMarkers();
-        app.marker = new OpenLayers.Marker(lonlat, app.markers.icon);
-        app.marker.map = app.map;
-        //app.marker.display(true);
-        if (app.marker && !$.isEmptyObject(self.aggregatedAttributes()) && self.featureAttribution()) {
-            app.markers.addMarker(app.marker);
-            app.map.setLayerIndex(app.markers, 99);
+        //at some point this function is being called without an appropriate lonlat object...
+        if (lonlat.lon && lonlat.lat) {
+            app.markers.clearMarkers();
+            app.marker = new OpenLayers.Marker(lonlat, app.markers.icon);
+            app.marker.map = app.map;
+            //app.marker.display(true);
+            if (app.marker && !$.isEmptyObject(self.aggregatedAttributes()) && self.featureAttribution()) {
+                app.markers.addMarker(app.marker);
+                app.map.setLayerIndex(app.markers, 99);
+            }
         }
     };
     

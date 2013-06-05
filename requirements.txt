@@ -4,4 +4,6 @@ madrona
 simplejson
 django-redis
 querystring-parser
+httplib2
+requests
 

@@ -30,8 +30,9 @@ def show_planner(request, template='planner.html'):
         max_zoom = mp_settings.max_zoom
         project_logo = mp_settings.project_logo 
         try:
-            url_validator = URLValidator(verify_exists=False)
-            url_validator(project_logo)
+            if project_logo:
+                url_validator = URLValidator(verify_exists=False)
+                url_validator(project_logo)
         except ValidationError, e:
             project_logo = os.path.join(settings.MEDIA_URL, project_logo)            
         project_icon = mp_settings.project_icon 
@@ -64,8 +65,9 @@ def show_embedded_map(request, template='map.html'):
         project_name = mp_settings.project_name
         project_logo = mp_settings.project_logo
         try:
-            url_validator = URLValidator(verify_exists=False)
-            url_validator(project_logo)
+            if project_logo:
+                url_validator = URLValidator(verify_exists=False)
+                url_validator(project_logo)
         except ValidationError, e:
             project_logo = os.path.join(settings.MEDIA_URL, project_logo)        
         project_home_page = mp_settings.project_home_page

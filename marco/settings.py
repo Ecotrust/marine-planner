@@ -39,7 +39,8 @@ INSTALLED_APPS += ( #'clipping',
                     #'feedback',
                     'django.contrib.humanize',
                     'flatblocks',
-                    'mp_settings'
+                    'mp_settings',
+                    'proxy'
                     #'marco_profile' 
                   )
 

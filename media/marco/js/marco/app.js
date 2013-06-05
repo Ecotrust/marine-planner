@@ -322,6 +322,12 @@ $(document).ready(function() {
     app.viewModel.scenarios.initSharingModal();
   });
   
+  $(document).on('click', '#map', function() {
+    app.viewModel.attributeTitle(false);
+    app.viewModel.attributeData(false);
+    app.map.clickOutput.attributes = {};
+  });
+  
     //$(document).on('click', '#share-option', function(a,b,c) {
     //    debugger;
     //});

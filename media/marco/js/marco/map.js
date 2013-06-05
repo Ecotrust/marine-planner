@@ -241,9 +241,8 @@ app.init = function () {
             $.extend(app.map.clickOutput.attributes, clickAttributes);
             app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
         }
-        
         app.viewModel.updateMarker(lonlat);
-        app.marker.display(true); 
+        //app.marker.display(true); 
         
     }; //end utfGridClickHandling
       
@@ -304,10 +303,10 @@ app.init = function () {
     
     //place the marker on click events
     app.map.events.register("click", app.map , function(e){
-        app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.xy));
+        //app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.xy));
         //the following is in place to prevent flash of marker appearing on what is essentially no feature click
         //display is set to true in the featureclick and utfgridclick handlers (when there is actually a hit)
-        app.marker.display(false);
+        //app.marker.display(false);
     });
     
     app.map.removeLayerByName = function(layerName) {
@@ -367,6 +366,94 @@ app.addWmsLayerToMap = function(layer) {
 };
 
 app.addArcRestLayerToMap = function(layer) {
+    var identifyUrl = layer.url.replace('export', layer.arcgislayers + '/query');
+    var esriQueryFields = [];
+    for(var i = 0; i < layer.attributes.length; i++)
+    {
+      esriQueryFields.push(layer.attributes[i].display);
+    }
+    layer.arcIdentifyControl = new OpenLayers.Control.ArcGisRestIdentify(
+    {
+        eventListeners: {
+            //arcfeaturequery : function() {            
+            //},
+            //the handler for the return click data
+            resultarrived : function(responseText, xy) {
+                var clickAttributes = [];
+                //app.viewModel.featureRequested(false);
+                var jsonFormat = new OpenLayers.Format.JSON();
+                var returnJSON = jsonFormat.read(responseText.text);
+                //Activate the Identify tab.
+                //$('#identifyTab').tab('show');          
+                if(returnJSON['features'] && returnJSON['features'].length) { 
+                    //app.viewModel.attributeTitle(layer.name);
+                    var attributeObjs = [];
+                    $.each(returnJSON['features'], function(index, feature) {
+                        if(index == 0) {
+                            var attributeList = feature['attributes'];
+                            if('fields' in returnJSON) {
+                                if (layer.attributes.length) {
+                                    for (var i=0; i<layer.attributes.length; i+=1) {
+                                        if (attributeList[layer.attributes[i].field]) {
+                                            attributeObjs.push({
+                                                'display' : layer.attributes[i].display, 
+                                                'data' : attributeList[layer.attributes[i].field]
+                                            });
+                                        }
+                                    }
+                                } else {
+                                    $.each(returnJSON['fields'], function(fieldNdx, field) {
+                                        attributeObjs.push({'display' : field.name,
+                                              'data' : attributeList[field.name]});
+                                    });
+                                }
+                            }
+                            return;
+                        }
+                    });
+                }
+                //we can remove attributeData and attributeTitle 
+                //app.viewModel.attributeData(attributeObjs);
+                if (attributeObjs && attributeObjs.length) {
+                    clickAttributes[layer.name] = attributeObjs;
+                    $.extend(app.map.clickOutput.attributes, clickAttributes);
+                    app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
+                    //console.log('displaying marker');
+                    app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(responseText.xy));
+                    //app.marker.display(true);
+                }
+            }
+        },
+        url : identifyUrl,
+        layerid : layer.arcgislayers,
+        sr : 3857,
+        clickTolerance: 1,
+        outFields : esriQueryFields.length ? esriQueryFields.join(',') : '*'
+    });
+    /*
+    layer.layer = new OpenLayers.Layer.ArcGIS93Rest(
+        layer.name, 
+        layer.url,
+        {
+            layers: "show:"+layer.arcgislayers,
+            srs: 'EPSG:102113',
+            transparent: true
+        },
+        {
+            isBaseLayer: false
+        }
+    );*/
+    //2013-02-20 DWR
+    //layer.layer.setVisibility(isVisible);
+    //app.map.addLayer(layer.layer);
+    //2013-02-20 DWR
+    //ADd the identify control.
+    //layer.identifyControl.activate();
+    app.map.addControl(layer.arcIdentifyControl);
+
+
+
+
     layer.layer = new OpenLayers.Layer.ArcGIS93Rest(
         layer.name, 
         layer.url,

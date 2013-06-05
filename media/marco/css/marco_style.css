@@ -582,6 +582,10 @@ img + h3 {
 	padding: 10px 10px 10px 10px;
 }
 
+#active {
+    outline: 0;
+}
+
 #active ul li {
 	margin-bottom: 10px;
 }

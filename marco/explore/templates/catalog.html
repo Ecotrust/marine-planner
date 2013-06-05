@@ -62,35 +62,35 @@
                                                             <ul class="unstyled data-layer-links">
                                                                 <li>
                                                                     {% if sublayer.bookmark_link %}
-                                                                    <a href="{{sublayer.bookmark_link}}" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                                    <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">VIEW</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
                                                                     {% if sublayer.kml %}
-                                                                    <a href="{{sublayer.kml}}" class="data-layer-link color-up" target="_download">KML</a>
+                                                                    <a href="{{sublayer.kml}}" rel="tooltip" title="Download to View in Google Earth" class="data-layer-link color-up" target="_download">KML</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">KML</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
                                                                     {% if sublayer.data_download_link %}
-                                                                    <a href="{{sublayer.data_download_link}}" class="data-layer-link color-up" target="_download">DATA</a>
+                                                                    <a href="{{sublayer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">DATA</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
                                                                    {% if sublayer.metadata_link %}
-                                                                    <a href="{{sublayer.metadata_link}}" class="data-layer-link color-up" target="_blank">METADATA</a>
+                                                                    <a href="{{sublayer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">METADATA</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
                                                                     {% if sublayer.source_link %}
-                                                                    <a href="{{sublayer.source_link}}" class="data-layer-link color-up" target="_blank">SOURCE</a>
+                                                                    <a href="{{sublayer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">SOURCE</span>
                                                                     {% endif %}
@@ -117,35 +117,35 @@
                                         <ul class="unstyled data-layer-links">
                                             <li>
                                                 {% if layer.bookmark_link %}
-                                                <a href="{{layer.bookmark_link}}" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
                                                 {% else %}
                                                 <span class="link-not-available">VIEW</span>
                                                 {% endif %}
                                             </li>
                                             <li>
                                                 {% if layer.kml %}
-                                                <a href="{{layer.kml}}" class="data-layer-link color-up" target="_download">KML</a>
+                                                <a href="{{layer.kml}}" rel="tooltip" title="Download to View in Google Earth" class="data-layer-link color-up" target="_download">KML</a>
                                                 {% else %}
                                                 <span class="link-not-available">KML</span>
                                                 {% endif %}
                                             </li>
                                             <li>
                                                 {% if layer.data_download_link %}
-                                                <a href="{{layer.data_download_link}}" class="data-layer-link color-up" target="_download">DATA</a>
+                                                <a href="{{layer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
                                                 {% else %}
                                                 <span class="link-not-available">DATA</span>
                                                 {% endif %}
                                             </li>
                                             <li>
                                                {% if layer.metadata_link %}
-                                                <a href="{{layer.metadata_link}}" class="data-layer-link color-up" target="_blank">METADATA</a>
+                                                <a href="{{layer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
                                                 {% else %}
                                                 <span class="link-not-available">METADATA</span>
                                                 {% endif %}
                                             </li>
                                             <li>
                                                 {% if layer.source_link %}
-                                                <a href="{{layer.source_link}}" class="data-layer-link color-up" target="_blank">SOURCE</a>
+                                                <a href="{{layer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
                                                 {% else %}
                                                 <span class="link-not-available">SOURCE</span>
                                                 {% endif %}

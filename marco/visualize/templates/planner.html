@@ -412,6 +412,7 @@
                                         </a></p> 
                                         -->
                                     </div>
+                                    
                                     <!-- the following container is used to estimate width for the actual Aggregated Attribution Overlay -->
                                     <div id="aggregated-attribute-overlay-test" style="position: absolute; visibility: hidden; height: auto; width: auto">
                                         <div data-bind="foreach: attributeLayers()">
@@ -426,7 +427,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <!-- Aggregated Attribution Overlay -->
+                                    
                                     <div data-bind="visible: showFeatureAttribution">
                                         <div id="aggregated-attribute-overlay" class="scrollpane" data-bind="visible: aggregatedAttributes, style: {width: aggregatedAttributesWidth}" style="display: none">
                                             <div id="aggregated-attribute-content" class="accordion">
@@ -443,8 +446,11 @@
                                                                     <dl data-bind="foreach: { data: $root.aggregatedAttributes()[name], afterAdd:$root.updateMarker }">
                                                                         <dt>
                                                                             <!-- ko if: $data.hasOwnProperty("tab") --> 
-                                                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+                                                                            
+                                                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                                                                                                        
                                                                             <!-- /ko -->
+                                                                            
                                                                             <span data-bind="text: display"></span><span data-bind="visible: display && data ? true : data===0">:</span>
                                                                             <span style="font-weight: normal" data-bind="text: data"></span>
                                                                         </dt>
@@ -458,7 +464,7 @@
                                             <span id="close-attribute-overlay" class="pull-right"><a href="#" style="position: absolute; top: 10px; right: 10px; opacity: .6;" class="btn btn-mini close" data-bind="click: closeAttribution"> x </a> </span>
                                         </div>
                                     </div>
-                                  
+                                    
                                     <!-- Bookmark Message -->
                                     <div id="error-overlay" data-bind="visible: error() === 'restoreState'" style="display:none">
                                         <div>
@@ -541,36 +547,36 @@
                                                 <div class="text" style="margin-top: 5px">
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeKmlLink() }, attr: { href: activeKmlLink() }" target="_blank">
-                                                            <span rel="tooltip" title="{% flatblock 'data_catalog_kml_link_tooltip' %}">
-                                                                {% flatblock "data_catalog_kml_link" %}
+                                                            <span rel="tooltip" title="Download to View in Google Earth">
+                                                                KML
                                                             </span>
                                                         </a>
                                                     </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeDataLink() }, attr: { href: activeDataLink() }" target="_blank">
-                                                            <span rel="tooltip" title="{% flatblock 'data_catalog_data_link_tooltip' %}">
-                                                                {% flatblock "data_catalog_data_link" %}
+                                                            <span rel="tooltip" title="Download ESRI Formatted Dataset">
+                                                                DATA
                                                             </span>
                                                         </a>
                                                     </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeMetadataLink() }, attr: { href: activeMetadataLink() }" target="_blank">
-                                                            <span rel="tooltip" title="{% flatblock 'data_catalog_metadata_link_tooltip' %}">
-                                                                {% flatblock "data_catalog_metadata_link" %}
+                                                            <span rel="tooltip" title="View the Metadata">
+                                                                METADATA
                                                             </span>
                                                         </a>
                                                     </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeSourceLink() }, attr: { href: activeSourceLink() }" target="_blank">
-                                                            <span rel="tooltip" title="{% flatblock 'data_catalog_source_link_tooltip' %}">
-                                                                {% flatblock "data_catalog_source_link" %}
+                                                            <span rel="tooltip" title="Link to Dataset Source Provider">
+                                                                SOURCE
                                                             </span>
                                                         </a>
                                                     </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeTilesLink() }, attr: { href: activeTilesLink() }" target="_blank">
-                                                            <span rel="tooltip" title="{% flatblock 'data_catalog_tiles_link_tooltip' %}">
-                                                                {% flatblock "data_catalog_tiles_link" %}
+                                                            <span rel="tooltip" title="Cached Map Tiles">
+                                                                MAP TILES
                                                             </span>
                                                         </a>
                                                     </span>
@@ -676,6 +682,7 @@
      <!-- <script src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>-->
         <script src="http://maps.google.com/maps/api/js?v=3.6&amp;sensor=false"></script>
         <script src="{{MEDIA_URL}}/marco/js/openlayers/OpenLayers.js"></script>
+        <script src="{{MEDIA_URL}}/marco/js/openlayers/arcgisrestidentify.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/simplelayerswitcher/simplelayerswitcher.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/scalebar/scalebar.js"></script>
         <script src="{{MEDIA_URL}}/marco/js/bigscreen/bigscreen.js"></script>
