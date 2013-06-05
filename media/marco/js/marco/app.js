@@ -323,8 +323,6 @@ $(document).ready(function() {
   });
   
   $(document).on('click', '#map', function() {
-    app.viewModel.attributeTitle(false);
-    app.viewModel.attributeData(false);
     app.map.clickOutput.attributes = {};
   });
   
