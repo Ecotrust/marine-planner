@@ -613,8 +613,10 @@
                                 <span data-bind="if: legend">
                                     <div data-bind="if: legend['elements']">
                                         <div data-bind="foreach: legend['elements']">
-                                            <img data-bind="attr: {src: swatch}" />
-                                            <span data-bind="text: label" style="font-size: 11px; font-weight: bold;"></span>
+                                            <div>
+                                                <img data-bind="attr: {src: swatch}" />
+                                                <span data-bind="text: label" style="font-size: 11px; font-weight: bold;"></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div data-bind="if: !legend['elements']">

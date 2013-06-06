@@ -318,6 +318,26 @@ app.init = function () {
         }
     };
     
+    app.utils = {};
+    app.utils.isNumber = function(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    app.utils.numberWithCommas = function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    app.utils.isInteger = function(n) {
+        return app.utils.isNumber(n) && (Math.floor(n) === n);
+    }
+    app.utils.formatNumber = function(n) {
+        var number = Number(n);
+        if (app.utils.isInteger(number)) {
+            var preciseNumber = number.toFixed(0);
+        } else {
+            var preciseNumber = number.toFixed(1);
+        }
+        return app.utils.numberWithCommas(preciseNumber);
+    }
+    
 };
 
 app.addLayerToMap = function(layer) {
@@ -367,11 +387,11 @@ app.addWmsLayerToMap = function(layer) {
 
 app.addArcRestLayerToMap = function(layer) {
     var identifyUrl = layer.url.replace('export', layer.arcgislayers + '/query');
-    var esriQueryFields = [];
+    /*var esriQueryFields = [];
     for(var i = 0; i < layer.attributes.length; i++)
     {
       esriQueryFields.push(layer.attributes[i].display);
-    }
+    }*/
     layer.arcIdentifyControl = new OpenLayers.Control.ArcGisRestIdentify(
     {
         eventListeners: {
@@ -395,16 +415,30 @@ app.addArcRestLayerToMap = function(layer) {
                                 if (layer.attributes.length) {
                                     for (var i=0; i<layer.attributes.length; i+=1) {
                                         if (attributeList[layer.attributes[i].field]) {
+                                            var data = attributeList[layer.attributes[i].field]
+                                            if (app.utils.isNumber(data)) {
+                                                data = app.utils.formatNumber(data);
+                                            } 
                                             attributeObjs.push({
-                                                'display' : layer.attributes[i].display, 
-                                                'data' : attributeList[layer.attributes[i].field]
+                                                'display': layer.attributes[i].display, 
+                                                'data': data
                                             });
                                         }
                                     }
                                 } else {
                                     $.each(returnJSON['fields'], function(fieldNdx, field) {
-                                        attributeObjs.push({'display' : field.name,
-                                              'data' : attributeList[field.name]});
+                                        if (field.name.indexOf('OBJECTID') === -1) {
+                                            var data = attributeList[field.name]
+                                            if (field.type === 'esriFieldTypeDate') {
+                                                data = new Date(data).toDateString();
+                                            } else if (app.utils.isNumber(data)) {
+                                                data = app.utils.formatNumber(data);
+                                            } 
+                                            attributeObjs.push({
+                                                'display': field.alias,
+                                                'data': data
+                                            });
+                                        }
                                     });
                                 }
                             }
@@ -428,7 +462,8 @@ app.addArcRestLayerToMap = function(layer) {
         layerid : layer.arcgislayers,
         sr : 3857,
         clickTolerance: 2,
-        outFields : esriQueryFields.length ? esriQueryFields.join(',') : '*'
+        //outFields : esriQueryFields.length ? esriQueryFields.join(',') : '*'
+        outFields: '*'
     });
     /*
     layer.layer = new OpenLayers.Layer.ArcGIS93Rest(

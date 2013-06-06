@@ -56,7 +56,7 @@ function layerModel(options, parent) {
                                     label = layerobj['layerName'];
                                 }
                                 self.legend['elements'].push({'swatch': swatchURL, 'label': label});
-                                console.log(self.legend);
+                                //console.log(self.legend);
                             });
                         }
                     });
