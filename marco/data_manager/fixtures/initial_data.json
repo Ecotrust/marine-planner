@@ -1,5 +1,124 @@
 [
     {
+        "pk": 1,
+        "model": "data_manager.toc",
+        "fields": {
+            "themes": [
+                2,
+                1
+            ],
+            "name": "Sample"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "data_manager.toc",
+        "fields": {
+            "themes": [
+                3,
+                4,
+                5,
+                6
+            ],
+            "name": "South Florida"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                89,
+                90,
+                95
+            ],
+            "display_name": "Ocean Stuff",
+            "name": "ocean_stuff",
+            "description": ""
+        }
+    },
+    {
+        "pk": 1,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                80
+            ],
+            "display_name": "Boundaries",
+            "name": "boundaries",
+            "description": ""
+        }
+    },
+    {
+        "pk": 3,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                80,
+                19
+            ],
+            "display_name": "Administrative",
+            "name": "administrative",
+            "description": ""
+        }
+    },
+    {
+        "pk": 4,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                53
+            ],
+            "display_name": "Marine Life",
+            "name": "marine_life",
+            "description": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                90,
+                94
+            ],
+            "display_name": "Maritime",
+            "name": "maritime",
+            "description": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                89,
+                59
+            ],
+            "display_name": "Security",
+            "name": "security",
+            "description": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "data_manager.theme",
+        "fields": {
+            "factsheet_link": "/media/marco/factsheets/MARCO_factsheet_security_F.pdf",
+            "feature_link": "",
+            "header_attrib": "",
+            "display_name": "Security",
+            "description": "The Mid-Atlantic is home to important naval installations and training areas, and it\u2019s a busy corridor for commercial shipping and naval and other defense and security operations. ",
+            "overview": "<p>\r\nThe Mid-Atlantic region is a busy corridor for commercial and recreational ship traffic and is home to the world\u2019s largest naval base, as well as many other military installations and training grounds. The U.S. Coast Guard works with other agencies to ensure that navigation routes for both commercial and defense vessels are accessible and safe. Their security focus is on the safety of ports, vessels, and facilities, both on and away from shore and their presence is notable throughout the region, with bases in Norfolk, Baltimore, Cape May, and Staten Island.\r\n<p>\r\nThe Naval Station at Norfolk, Virginia supports 75 large ships and 130 aircraft on seven miles of piers and wharfs, and it houses the largest concentration of Navy personnel in the country. Every year, its Port Services branch oversees more than 3,000 maneuvers as ships arrive and depart their berths. Spatial planners and resource managers must account for this intensive activity and work with military leaders to ensure their missions are not compromised as planning decisions are made. \r\n<p>\r\nThe legal framework supporting maritime security in the U.S. is based on five principal laws:\r\n<ul><li>Espionage Act (1917) \u2013 enabled the Coast Guard to make regulations to prevent losses to harbors and vessels during national emergencies.\r\n</li><li>Magnusson Act (1950) \u2013 provided permanent port security regulations and allowance to control movement of foreign vessels in U.S. ports.\r\n</li><li>Ports and Waterways Safety Act (1972) \u2013 allowed additional protection for port facilities and improved efforts to avoid degrading the marine environment.\r\n</li><li>Maritime Transportation Security Act (2002) \u2013 provided broad authority to prevent acts of terrorism within U.S. waters. \r\n</li><li>International Ship and Port Facility Security Code (2002) \u2013 amendments to International Convention for the Safety of Life at Sea to enhance maritime security.\r\n</li></ul>\r\n<p>\r\nData under development for the Security theme will include areas with potential hazards or public use restrictions and other information deemed to be critical for spatial planning. To ensure that security interests are fully considered, regional ocean planning leads will include defense representatives and officials responsible for maintaining the security of our vessels, ports and Nation.\r\n",
+            "feature_image": "",
+            "thumbnail": "",
+            "factsheet_thumb": "/media/marco/img/themes/sheets/MARCO_factsheet_security-0.jpg",
+            "feature_excerpt": "",
+            "header_image": "/portal/assets/img/themes/security.jpg",
+            "name": "security"
+        }
+    },
+    {
         "pk": 2,
         "model": "data_manager.theme",
         "fields": {
@@ -72,21 +191,46 @@
         }
     },
     {
-        "pk": 5,
-        "model": "data_manager.theme",
+        "pk": 95,
+        "model": "data_manager.layer",
         "fields": {
-            "factsheet_link": "/media/marco/factsheets/MARCO_factsheet_security_F.pdf",
-            "feature_link": "",
-            "header_attrib": "",
-            "display_name": "Security",
-            "description": "The Mid-Atlantic is home to important naval installations and training areas, and it\u2019s a busy corridor for commercial shipping and naval and other defense and security operations. ",
-            "overview": "<p>\r\nThe Mid-Atlantic region is a busy corridor for commercial and recreational ship traffic and is home to the world\u2019s largest naval base, as well as many other military installations and training grounds. The U.S. Coast Guard works with other agencies to ensure that navigation routes for both commercial and defense vessels are accessible and safe. Their security focus is on the safety of ports, vessels, and facilities, both on and away from shore and their presence is notable throughout the region, with bases in Norfolk, Baltimore, Cape May, and Staten Island.\r\n<p>\r\nThe Naval Station at Norfolk, Virginia supports 75 large ships and 130 aircraft on seven miles of piers and wharfs, and it houses the largest concentration of Navy personnel in the country. Every year, its Port Services branch oversees more than 3,000 maneuvers as ships arrive and depart their berths. Spatial planners and resource managers must account for this intensive activity and work with military leaders to ensure their missions are not compromised as planning decisions are made. \r\n<p>\r\nThe legal framework supporting maritime security in the U.S. is based on five principal laws:\r\n<ul><li>Espionage Act (1917) \u2013 enabled the Coast Guard to make regulations to prevent losses to harbors and vessels during national emergencies.\r\n</li><li>Magnusson Act (1950) \u2013 provided permanent port security regulations and allowance to control movement of foreign vessels in U.S. ports.\r\n</li><li>Ports and Waterways Safety Act (1972) \u2013 allowed additional protection for port facilities and improved efforts to avoid degrading the marine environment.\r\n</li><li>Maritime Transportation Security Act (2002) \u2013 provided broad authority to prevent acts of terrorism within U.S. waters. \r\n</li><li>International Ship and Port Facility Security Code (2002) \u2013 amendments to International Convention for the Safety of Life at Sea to enhance maritime security.\r\n</li></ul>\r\n<p>\r\nData under development for the Security theme will include areas with potential hazards or public use restrictions and other information deemed to be critical for spatial planning. To ensure that security interests are fully considered, regional ocean planning leads will include defense representatives and officials responsible for maintaining the security of our vessels, ports and Nation.\r\n",
-            "feature_image": "",
-            "thumbnail": "",
-            "factsheet_thumb": "/media/marco/img/themes/sheets/MARCO_factsheet_security-0.jpg",
-            "feature_excerpt": "",
-            "header_image": "/portal/assets/img/themes/security.jpg",
-            "name": "security"
+            "layer_type": "ArcRest",
+            "themes": [
+                2
+            ],
+            "compress_display": false,
+            "map_tiles": "",
+            "legend_subtitle": "",
+            "bookmark": "",
+            "vector_graphic": "",
+            "kml": "",
+            "source": "",
+            "lookup_table": [],
+            "utfurl": "",
+            "data_download": "",
+            "metadata": "",
+            "opacity": 0.7,
+            "vector_color": "",
+            "attribute_event": "click",
+            "description": "",
+            "attribute_fields": [
+                123
+            ],
+            "vector_fill": null,
+            "data_overview": "",
+            "attribute_title": "",
+            "is_sublayer": false,
+            "lookup_field": "",
+            "legend": "",
+            "shareable_url": true,
+            "data_source": "",
+            "data_notes": "",
+            "name": "Deepwater Coral Habitat Areas of Particular Concern",
+            "url": "http://ocean.floridamarine.org/arcgis/rest/services/SAFMC/SAFMC_Regulations/MapServer/export",
+            "arcgis_layers": "13",
+            "legend_title": "",
+            "sublayers": [],
+            "slug_name": "deepwater-coral-habitat-areas-of-particular-concern"
         }
     },
     {
@@ -136,6 +280,93 @@
             "legend_title": "",
             "sublayers": [],
             "slug_name": "sea-level-rise-vulnerability"
+        }
+    },
+    {
+        "pk": 90,
+        "model": "data_manager.layer",
+        "fields": {
+            "layer_type": "XYZ",
+            "themes": [
+                8
+            ],
+            "compress_display": false,
+            "map_tiles": "",
+            "legend_subtitle": "",
+            "bookmark": "/visualize/#x=-74.49&y=39.13&z=7&dls%5B%5D=true&dls%5B%5D=0.5&dls%5B%5D=90&basemap=ESRI+Ocean&themes%5Bids%5D%5B%5D=8&tab=data&legends=false&layers=true",
+            "vector_graphic": "",
+            "kml": "",
+            "source": "",
+            "lookup_table": [],
+            "utfurl": "/media/data_manager/utfgrid/shipwrecks/${z}/${x}/${y}.json",
+            "data_download": "",
+            "metadata": "https://s3.amazonaws.com/marco-public-2d/Metadata_files/html/ASD_OCS_Block_Density.html",
+            "opacity": 0.5,
+            "vector_color": "",
+            "attribute_event": "click",
+            "description": "Known shipwrecks. These areas may be used in recreational pursuits for scuba diving, fishing, archaeology, historical study, and recovery of materials.",
+            "attribute_fields": [
+                115
+            ],
+            "vector_fill": null,
+            "data_overview": "Density map of reported shipwrecks illustrating the prevalence of potential historic period archaeological sites on the Atlantic OCS. Because this information was compiled using sources that have unreliable location information, this data does not represent a complete record of potential archaeological sites within a particular geographic area and is not intended for decision-making or planning purposes.",
+            "attribute_title": "",
+            "is_sublayer": false,
+            "lookup_field": "",
+            "legend": "https://s3.amazonaws.com/marco-public-2d/Conservation/ShipWreckBlockDensity/legend.png",
+            "shareable_url": true,
+            "data_source": "BOEM",
+            "data_notes": "",
+            "name": "Shipwreck Density",
+            "url": "http://s3.amazonaws.com/marco-public-2d/Conservation/ShipWreckBlockDensity/${z}/${x}/${y}.png",
+            "arcgis_layers": "",
+            "legend_title": "",
+            "sublayers": [],
+            "slug_name": "shipwreck-density"
+        }
+    },
+    {
+        "pk": 89,
+        "model": "data_manager.layer",
+        "fields": {
+            "layer_type": "ArcRest",
+            "themes": [
+                5
+            ],
+            "compress_display": false,
+            "map_tiles": "",
+            "legend_subtitle": "",
+            "bookmark": "/visualize/#x=-73.40&y=38.89&z=7&dls%5B%5D=true&dls%5B%5D=0.5&dls%5B%5D=89&basemap=ESRI+Ocean&themes%5Bids%5D%5B%5D=5&tab=data&legends=false&layers=true",
+            "vector_graphic": "",
+            "kml": "",
+            "source": "http://www.marinecadastre.gov",
+            "lookup_table": [],
+            "utfurl": "/media/data_manager/utfgrid/uxo/${z}/${x}/${y}.json",
+            "data_download": "https://s3.amazonaws.com/marco-public-2d/Shipping/UnexplodedOrdnances/UnexplodedOrdnances.zip",
+            "metadata": "http://csc.noaa.gov/htdata/CMSP/Metadata/UnexplodedOrdnances.htm",
+            "opacity": 0.5,
+            "vector_color": "",
+            "attribute_event": "click",
+            "description": "",
+            "attribute_fields": [
+                120,
+                121
+            ],
+            "vector_fill": null,
+            "data_overview": "Known areas of explosive weapons (e.g., bombs, mines, and shells) that did not explode when they were employed and may still pose a risk of detonation years after being used or discarded.",
+            "attribute_title": "",
+            "is_sublayer": false,
+            "lookup_field": "",
+            "legend": "https://s3.amazonaws.com/marco-public-2d/Shipping/UnexplodedOrdnances/legend.png",
+            "shareable_url": true,
+            "data_source": "Marine Cadastre, NOAA and BOEM",
+            "data_notes": "",
+            "name": "Unexploded Ordnances",
+            "url": "http://www.csc.noaa.gov/ArcGISPUB/rest/services/MultipurposeMarineCadastre/MultipurposeMarineCadastre/MapServer/export",
+            "arcgis_layers": "25",
+            "legend_title": "",
+            "sublayers": [],
+            "slug_name": "unexploded-ordnances"
         }
     },
     {
@@ -354,93 +585,6 @@
         }
     },
     {
-        "pk": 89,
-        "model": "data_manager.layer",
-        "fields": {
-            "layer_type": "ArcRest",
-            "themes": [
-                5
-            ],
-            "compress_display": false,
-            "map_tiles": "",
-            "legend_subtitle": "",
-            "bookmark": "/visualize/#x=-73.40&y=38.89&z=7&dls%5B%5D=true&dls%5B%5D=0.5&dls%5B%5D=89&basemap=ESRI+Ocean&themes%5Bids%5D%5B%5D=5&tab=data&legends=false&layers=true",
-            "vector_graphic": "",
-            "kml": "",
-            "source": "http://www.marinecadastre.gov",
-            "lookup_table": [],
-            "utfurl": "/media/data_manager/utfgrid/uxo/${z}/${x}/${y}.json",
-            "data_download": "https://s3.amazonaws.com/marco-public-2d/Shipping/UnexplodedOrdnances/UnexplodedOrdnances.zip",
-            "metadata": "http://csc.noaa.gov/htdata/CMSP/Metadata/UnexplodedOrdnances.htm",
-            "opacity": 0.5,
-            "vector_color": "",
-            "attribute_event": "click",
-            "description": "",
-            "attribute_fields": [
-                120,
-                121
-            ],
-            "vector_fill": null,
-            "data_overview": "Known areas of explosive weapons (e.g., bombs, mines, and shells) that did not explode when they were employed and may still pose a risk of detonation years after being used or discarded.",
-            "attribute_title": "",
-            "is_sublayer": false,
-            "lookup_field": "",
-            "legend": "https://s3.amazonaws.com/marco-public-2d/Shipping/UnexplodedOrdnances/legend.png",
-            "shareable_url": true,
-            "data_source": "Marine Cadastre, NOAA and BOEM",
-            "data_notes": "",
-            "name": "Unexploded Ordnances",
-            "url": "http://www.csc.noaa.gov/ArcGISPUB/rest/services/MultipurposeMarineCadastre/MultipurposeMarineCadastre/MapServer/export",
-            "arcgis_layers": "25",
-            "legend_title": "",
-            "sublayers": [],
-            "slug_name": "unexploded-ordnances"
-        }
-    },
-    {
-        "pk": 90,
-        "model": "data_manager.layer",
-        "fields": {
-            "layer_type": "XYZ",
-            "themes": [
-                8
-            ],
-            "compress_display": false,
-            "map_tiles": "",
-            "legend_subtitle": "",
-            "bookmark": "/visualize/#x=-74.49&y=39.13&z=7&dls%5B%5D=true&dls%5B%5D=0.5&dls%5B%5D=90&basemap=ESRI+Ocean&themes%5Bids%5D%5B%5D=8&tab=data&legends=false&layers=true",
-            "vector_graphic": "",
-            "kml": "",
-            "source": "",
-            "lookup_table": [],
-            "utfurl": "/media/data_manager/utfgrid/shipwrecks/${z}/${x}/${y}.json",
-            "data_download": "",
-            "metadata": "https://s3.amazonaws.com/marco-public-2d/Metadata_files/html/ASD_OCS_Block_Density.html",
-            "opacity": 0.5,
-            "vector_color": "",
-            "attribute_event": "click",
-            "description": "Known shipwrecks. These areas may be used in recreational pursuits for scuba diving, fishing, archaeology, historical study, and recovery of materials.",
-            "attribute_fields": [
-                115
-            ],
-            "vector_fill": null,
-            "data_overview": "Density map of reported shipwrecks illustrating the prevalence of potential historic period archaeological sites on the Atlantic OCS. Because this information was compiled using sources that have unreliable location information, this data does not represent a complete record of potential archaeological sites within a particular geographic area and is not intended for decision-making or planning purposes.",
-            "attribute_title": "",
-            "is_sublayer": false,
-            "lookup_field": "",
-            "legend": "https://s3.amazonaws.com/marco-public-2d/Conservation/ShipWreckBlockDensity/legend.png",
-            "shareable_url": true,
-            "data_source": "BOEM",
-            "data_notes": "",
-            "name": "Shipwreck Density",
-            "url": "http://s3.amazonaws.com/marco-public-2d/Conservation/ShipWreckBlockDensity/${z}/${x}/${y}.png",
-            "arcgis_layers": "",
-            "legend_title": "",
-            "sublayers": [],
-            "slug_name": "shipwreck-density"
-        }
-    },
-    {
         "pk": 94,
         "model": "data_manager.layer",
         "fields": {
@@ -651,6 +795,16 @@
             "legend_title": "",
             "sublayers": [],
             "slug_name": "regional-ocean-partnerships"
+        }
+    },
+    {
+        "pk": 123,
+        "model": "data_manager.attributeinfo",
+        "fields": {
+            "field_name": "NAME",
+            "display_name": "",
+            "precision": null,
+            "order": 1
         }
     },
     {
