@@ -337,6 +337,17 @@ app.init = function () {
         }
         return app.utils.numberWithCommas(preciseNumber);
     }
+    app.utils.trim = function(str) {
+        return str.replace(/^\s+|\s+$/g,'');
+    }
+    app.utils.getObjectFromList = function(list, field, value) {
+        for (var i=0; i<list.length; i+=1) {
+            if (list[i][field] === value) {
+                return list[i];
+            }
+        }
+        return undefined;
+    }
     
 };
 
@@ -415,14 +426,19 @@ app.addArcRestLayerToMap = function(layer) {
                                 if (layer.attributes.length) {
                                     for (var i=0; i<layer.attributes.length; i+=1) {
                                         if (attributeList[layer.attributes[i].field]) {
-                                            var data = attributeList[layer.attributes[i].field]
-                                            if (app.utils.isNumber(data)) {
+                                            var data = attributeList[layer.attributes[i].field],
+                                                field_obj = app.utils.getObjectFromList(returnJSON['fields'], 'name', layer.attributes[i].field);
+                                            if (field_obj && field_obj.type === 'esriFieldTypeDate') {
+                                                data = new Date(data).toDateString();
+                                            } else if (app.utils.isNumber(data)) {
                                                 data = app.utils.formatNumber(data);
                                             } 
-                                            attributeObjs.push({
-                                                'display': layer.attributes[i].display, 
-                                                'data': data
-                                            });
+                                            if (app.utils.trim(data) !== "") {
+                                                attributeObjs.push({
+                                                    'display': layer.attributes[i].display, 
+                                                    'data': data
+                                                });
+                                            }
                                         }
                                     }
                                 } else {
@@ -434,10 +450,12 @@ app.addArcRestLayerToMap = function(layer) {
                                             } else if (app.utils.isNumber(data)) {
                                                 data = app.utils.formatNumber(data);
                                             } 
-                                            attributeObjs.push({
-                                                'display': field.alias,
-                                                'data': data
-                                            });
+                                            if (app.utils.trim(data) !== "") {
+                                                attributeObjs.push({
+                                                    'display': field.alias,
+                                                    'data': data
+                                                });
+                                            }
                                         }
                                     });
                                 }
