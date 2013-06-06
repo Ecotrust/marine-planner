@@ -427,7 +427,7 @@ app.addArcRestLayerToMap = function(layer) {
         url : identifyUrl,
         layerid : layer.arcgislayers,
         sr : 3857,
-        clickTolerance: 1,
+        clickTolerance: 2,
         outFields : esriQueryFields.length ? esriQueryFields.join(',') : '*'
     });
     /*

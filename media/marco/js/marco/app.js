@@ -324,6 +324,7 @@ $(document).ready(function() {
   
   $(document).on('click', '#map', function() {
     app.map.clickOutput.attributes = {};
+    app.viewModel.closeAttribution();
   });
   
     //$(document).on('click', '#share-option', function(a,b,c) {
