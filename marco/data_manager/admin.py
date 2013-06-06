@@ -9,7 +9,7 @@ class TOCThemeAdmin(admin.ModelAdmin):
     
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "layers":
-            kwargs["queryset"] = Layer.objects.order_by('name')
+            kwargs["queryset"] = Layer.objects.filter(is_sublayer=False).order_by('name')
         return super(TOCThemeAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 class ThemeAdmin(admin.ModelAdmin):
