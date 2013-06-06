@@ -2,10 +2,10 @@ from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
 
-
 class MarinePlannerSettings(models.Model):
     active = models.BooleanField(default=False, help_text='Only 1 project can be active at any time.')
     project_name = models.CharField(max_length=75, blank=True, null=True, help_text='If there is no entry for Project Logo, your Project Name will be displayed at the top-left of the screen.')
+    table_of_contents = models.ForeignKey('data_manager.TOC', blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     zoom = models.IntegerField(blank=True, null=True)
@@ -24,3 +24,4 @@ class MarinePlannerSettings(models.Model):
             # Ensure that any previously active study region is deactivated
             # There can be only one!
             MarinePlannerSettings.objects.filter(active=True).exclude(pk=self.pk).update(active=False)
+           

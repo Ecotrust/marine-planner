@@ -256,7 +256,7 @@
                                                                             </a>
                                                                             <!-- ko if: subLayers.length > 0 -->
                                                                             <!-- ko if: !isCheckBoxLayer() -->
-                                                                            <ul class="dropdown-menu layer-menu" data-bind="event: { mouseleave: closeMenu }">
+                                                                            <ul class="dropdown-menu layer-menu" data-bind="event: { mouseleave: closeMenu }" style="outline: 0">
                                                                                 <li data-bind="foreach: subLayers">
                                                                                     <a data-bind="click: toggleActive">
                                                                                         <span data-bind="style: {visibility: active() ? 'visible': 'hidden' }">• </span>

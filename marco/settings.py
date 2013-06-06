@@ -32,6 +32,7 @@ INSTALLED_APPS += ( #'clipping',
                     #'scenarios', 
                     #'drawing',
                     #'reports',
+                    'mp_settings',
                     'data_manager',
                     #'learn',
                     'explore',
@@ -39,7 +40,6 @@ INSTALLED_APPS += ( #'clipping',
                     #'feedback',
                     'django.contrib.humanize',
                     'flatblocks',
-                    'mp_settings',
                     'proxy'
                     #'marco_profile' 
                   )

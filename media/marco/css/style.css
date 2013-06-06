@@ -231,10 +231,12 @@ div.olLayerGooglePoweredBy
 
 .layer-menu {
   position: absolute;
+  outline: 0;
 }
 
 .dropdown-menu: {
   z-index: 1100 !important;
+  outline: 0;
 }
 
 .btn .badge {

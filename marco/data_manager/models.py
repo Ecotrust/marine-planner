@@ -3,6 +3,36 @@ from utils import get_domain
 from django.template.defaultfilters import slugify
 #from sorl.thumbnail import ImageField
 
+
+class TOC(models.Model):
+    name = models.CharField(max_length=100)
+    themes = models.ManyToManyField("TOCTheme", blank=True, null=True) 
+    
+    def __unicode__(self):
+        return unicode('%s' % (self.name))
+    
+class TOCTheme(models.Model):
+    display_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    layers = models.ManyToManyField("Layer", blank=True, null=True)
+
+    def __unicode__(self):
+        return unicode('%s' % (self.name))
+
+    @property
+    def toDict(self):
+        layers = [layer.id for layer in self.layers.filter(is_sublayer=False).exclude(layer_type='placeholder')]
+        themes_dict = {
+            'id': self.id,
+            'display_name': self.display_name,
+            'layers': layers,
+            'description': self.description
+        }
+        return themes_dict
+
+
+
 class Theme(models.Model):
     display_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -19,8 +49,6 @@ class Theme(models.Model):
     feature_image = models.CharField(max_length=255, blank=True, null=True)
     feature_excerpt = models.TextField(blank=True, null=True)
     feature_link = models.CharField(max_length=255, blank=True, null=True)
-
-
 
     def __unicode__(self):
         return unicode('%s' % (self.name))

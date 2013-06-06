@@ -1,6 +1,17 @@
 from django.contrib import admin
 from models import * 
 
+class TOCAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id')
+
+class TOCThemeAdmin(admin.ModelAdmin):
+    list_display = ('display_name', 'name', 'id')
+    
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "layers":
+            kwargs["queryset"] = Layer.objects.order_by('name')
+        return super(TOCThemeAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('display_name', 'name', 'id')
     pass
@@ -29,6 +40,8 @@ class LookupInfoAdmin(admin.ModelAdmin):
 class DataNeedAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
 
+admin.site.register(TOC, TOCAdmin)
+admin.site.register(TOCTheme, TOCThemeAdmin)
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Layer, LayerAdmin)
 admin.site.register(AttributeInfo, AttributeInfoAdmin)

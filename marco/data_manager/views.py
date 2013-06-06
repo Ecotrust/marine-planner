@@ -7,8 +7,25 @@ from django.views.decorators.cache import cache_page
 from models import *
 
 
-@cache_page(60 * 60 * 24, key_prefix="data_manager_get_json")
+#@cache_page(60 * 60 * 24, key_prefix="data_manager_get_json")
 def get_json(request):
+    from mp_settings.models import *
+    try:
+        activeSettings = MarinePlannerSettings.objects.get(active=True)
+        #if activeSettings.table_of_contents is not None:
+        layer_list = []
+        for theme in activeSettings.table_of_contents.themes.all():
+            for layer in theme.layers.all().order_by('name'):
+                layer_list.append(layer.toDict)
+        json = {
+            "state": { "activeLayers": [] },
+            "layers": layer_list,
+            "themes": [theme.toDict for theme in activeSettings.table_of_contents.themes.all().order_by('display_name')],
+            "success": True
+        }
+        return HttpResponse(simplejson.dumps(json))
+    except:
+        pass
     json = {
         "state": { "activeLayers": [] },
         "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('name')],
