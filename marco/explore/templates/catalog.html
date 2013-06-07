@@ -1,89 +1,246 @@
-{% extends 'explore_base.html' %} 
-{% block main %}
-{% load flatblock_tags %}
+<!doctype html>
+<!--[if IEMobile 7 ]><html dir="ltr" lang="en-US" class="no-js iem7"><![endif]-->
+<!--[if lt IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html dir="ltr" lang="en-US" class="no-js ie8"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><html dir="ltr" lang="en-US" class="no-js"><![endif]-->
+                    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>
+        </title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <!-- media-queries.js (fallback) -->
+        <!--[if lt IE 9]>
+        </script>
+        <style>
+        #feedback-tab {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1.836909530733566e-16, M12=-1, M21=1, M22=-1.836909530733566e-16, SizingMethod='auto expand')";
+            left: 0px;
+            /* IE6 and 7 */ 
+            filter: progid:DXImageTransform.Microsoft.Matrix(
+                     M11=-1.836909530733566e-16,
+                     M12=-1,
+                     M21=1,
+                     M22=-1.836909530733566e-16,
+                     SizingMethod='auto expand');
 
-<h2>{% flatblock "data_catalog_title" %}</h2>
-{% flatblock "data_catalog_intro" %}
+          }
+        </style>
+        <script src="{{MEDIA_URL}}marco/js/respond.min.js"></script>
+        <![endif]-->
+        <!-- html5.js -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+        <!--[if IE]>
+        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/marco_style.ie.css">
+        <![endif]-->        
+        
+        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/bootstrap/bootstrap.css">
+        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/bootstrap/bootstrap-responsive.css">
 
-<div class="row-fluid search-row">
-    <div class="span12" style="margin: 15px 0;">
-        <h3>Data Layer Search</h3>
-        <form class="form-search layer-search">
-            <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }">
-            <a class="btn">
-                <i class="icon-remove icon-large"></i> 
-            </a>
-        </form>
-    </div>
-</div>
+        <!-- marco stylesheet -->
+        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/marco_style.css">
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/base/jquery-ui.css">
+        {% if project_icon %}
+        <link rel="shortcut icon" href="{{project_icon}}">
+        {% else %}
+        <link rel="shortcut icon" href="{{MEDIA_URL}}marco/ico/favicon.ico">
+        {% endif %}
+        <style>
+            #sidebar-nav {
+                top: 95px;
+            }
+            .navbar .nav > li a {
+                height: 45px;
+                padding-top: 30px;
+            }
+        </style>
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="{{MEDIA_URL}}marco/css/font-awesome-ie7.css">
+        <![endif]-->
 
-<div class="span8 theme catalog-page accordion" id="theme-list">
-    {% for theme_dict in themes %}
-    <div class="accordion-group theme-group">
-        <div class="accordion-heading theme-heading">
-            <a class="accordion-toggle theme-title color-up" data-toggle="collapse" data-parent="theme-list" href="#{{ theme_dict.theme.name }}">
-                <h3>
-                    <span class="theme-search-name">{{ theme_dict.theme.display_name }}</span> / {{ theme_dict.num_layers }} 
-                    <small><i class="icon-caret-right caret-icon color-up" style="display: inline-block"></i></small>
-                    <small><i class="icon-caret-down caret-icon color-up" style="display: none"></i></small>
-                </h3>
-            </a>
-        </div>
-        <div id="{{ theme_dict.theme.name }}" class="theme-accordion accordion-body collapse"> 
-            <div class="accordion-inner">
-                {% if not theme_dict.layers %}
-                <p>coming soon...</p>
-                {% else %}
-                <div class="accordion" id="{{theme_dict.theme.name}}-layer-list">
-                    <!-- foreach layer -->
-                    {% for layer in theme_dict.layers %}
-                        <div class="accordion-group layer-group">
-                            {% if layer.is_sublayer %}
-                            {% else %} 
-                                {% if layer.is_parent %}   
-                                <div class="accordion-heading layer-heading">
-                                    <a class="accordion-toggle layer-name color-up" data-toggle="collapse" data-parent="{{theme_dict.theme.name}}-layer-list" href="#{{layer.slug}}-links">
-                                        <span class="layer-search-name">{{ layer.name|upper }}</span> / {{ layer.sublayer_list|length }}
-                                    </a>
-                                </div>
-                                <div id="{{layer.slug}}-links" class="accordion-body collapse">
-                                    <div class="accordion-inner">
-                                        <div class="accordion" id="{{layer.slug}}-sublayer-list">
-                                            {% for sublayer in layer.sublayer_list %}
-                                                <div class="accordion-group sublayer-group">
-                                                    <div class="accordion-heading sublayer-heading">
-                                                        <a class="accordion-toggle sublayer-name color-up" data-toggle="collapse" data-parent="{{layer.slug}}-sublayer-list" href="#{{sublayer.slug}}-links">
-                                                        <span class="layer-search-name">{{ sublayer.name }}</span>
+    </head>
+                    
+    <body class="blog">
+        <header role="banner">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                <div class="container">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            {% if project_home_page %}
+                            <a href="{{project_home_page}}" style="text-decoration: none">
+                            {% else %}
+                            <a style="text-decoration: none; cursor: default;">
+                            {% endif %}
+                              {% if project_logo %}
+                                <img src="{{project_logo}}"/>
+                              {% else %}
+                                {% if project_name %}
+                                <h1 id="project-name-header">{{project_name}}</h1>
+                                {% else %}
+                                <h1 id="project-name-header">Marine Planner</h1>
+                                {% endif %}
+                              {% endif %}
+                            </a>
+                            <!--<h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>-->
+                        </div>
+                        <div class="span8">
+                        </div>
+                        <!--/.nav-collapse -->
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div id="content" class="row-fluid">
+                <div id="main" class="span10" role="main">
+                    {% load flatblock_tags %}
+
+                    <h2>{% flatblock "data_catalog_title" %}</h2>
+                    {% flatblock "data_catalog_intro" %}
+
+                    <div class="row-fluid search-row">
+                        <div class="span12" style="margin: 15px 0;">
+                            <h3>Data Layer Search</h3>
+                            <form class="form-search layer-search">
+                                <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" placeholder="Search the Catalog">
+                                <a class="btn">
+                                    <i class="icon-remove icon-large"></i> 
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="span8 theme catalog-page accordion" id="theme-list">
+                        {% for theme_dict in themes %}
+                        <div class="accordion-group theme-group">
+                            <div class="accordion-heading theme-heading">
+                                <a class="accordion-toggle theme-title color-up" data-toggle="collapse" data-parent="theme-list" href="#{{ theme_dict.theme.name }}">
+                                    <h3>
+                                        <span class="theme-search-name">{{ theme_dict.theme.display_name }}</span> / {{ theme_dict.num_layers }} 
+                                        <small><i class="icon-caret-right caret-icon color-up" style="display: inline-block"></i></small>
+                                        <small><i class="icon-caret-down caret-icon color-up" style="display: none"></i></small>
+                                    </h3>
+                                </a>
+                            </div>
+                            <div id="{{ theme_dict.theme.name }}" class="theme-accordion accordion-body collapse"> 
+                                <div class="accordion-inner">
+                                    {% if not theme_dict.layers %}
+                                    <p>coming soon...</p>
+                                    {% else %}
+                                    <div class="accordion" id="{{theme_dict.theme.name}}-layer-list">
+                                        <!-- foreach layer -->
+                                        {% for layer in theme_dict.layers %}
+                                            <div class="accordion-group layer-group">
+                                                {% if layer.is_sublayer %}
+                                                {% else %} 
+                                                    {% if layer.is_parent %}   
+                                                    <div class="accordion-heading layer-heading">
+                                                        <a class="accordion-toggle layer-name color-up" data-toggle="collapse" data-parent="{{theme_dict.theme.name}}-layer-list" href="#{{layer.slug}}-links">
+                                                            <span class="layer-search-name">{{ layer.name|upper }}</span> / {{ layer.sublayer_list|length }}
                                                         </a>
                                                     </div>
-                                                                        
-                                                    <div id="{{sublayer.slug}}-links" class="accordion-body collapse">
+                                                    <div id="{{layer.slug}}-links" class="accordion-body collapse">
+                                                        <div class="accordion-inner">
+                                                            <div class="accordion" id="{{layer.slug}}-sublayer-list">
+                                                                {% for sublayer in layer.sublayer_list %}
+                                                                    <div class="accordion-group sublayer-group">
+                                                                        <div class="accordion-heading sublayer-heading">
+                                                                            <a class="accordion-toggle sublayer-name color-up" data-toggle="collapse" data-parent="{{layer.slug}}-sublayer-list" href="#{{sublayer.slug}}-links">
+                                                                            <span class="layer-search-name">{{ sublayer.name }}</span>
+                                                                            </a>
+                                                                        </div>
+                                                                                            
+                                                                        <div id="{{sublayer.slug}}-links" class="accordion-body collapse">
+                                                                            <div class="accordion-inner">
+                                                                                <ul class="unstyled data-layer-links">
+                                                                                    <li>
+                                                                                        {% if sublayer.bookmark_link %}
+                                                                                        <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                                                        {% else %}
+                                                                                        <span class="link-not-available">VIEW</span>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        {% if sublayer.data_download_link %}
+                                                                                        <a href="{{sublayer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
+                                                                                        {% else %}
+                                                                                        <span class="link-not-available">DATA</span>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                    <li>
+                                                                                       {% if sublayer.metadata_link %}
+                                                                                        <a href="{{sublayer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
+                                                                                        {% else %}
+                                                                                        <span class="link-not-available">METADATA</span>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        {% if sublayer.source_link %}
+                                                                                        <a href="{{sublayer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
+                                                                                        {% else %}
+                                                                                        <span class="link-not-available">SOURCE</span>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        {% if layer.tiles_link %}
+                                                                                        <a href="{{layer.tiles_link}}" rel="tooltip" title="Web Mapping Services" class="data-layer-link color-up" target="_blank">WMS</a>
+                                                                                        {% else %}
+                                                                                        <span class="link-not-available">WMS</span>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                </ul>
+                                                                                
+                                                                                <div class="descriptive-text">
+                                                                                    <span class="description-url" data-url="{{sublayer.url}}" data-arcid="{{sublayer.arcgis_layers}}" display="none"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% else %}   
+                                                    <div class="accordion-heading layer-heading">
+                                                        <a class="accordion-toggle layer-name color-up" data-toggle="collapse" data-parent="{{theme_dict.theme.name}}-layer-list" href="#{{layer.slug}}-links">
+                                                            <span class="layer-search-name">{{ layer.name|upper }}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div id="{{layer.slug}}-links" class="accordion-body collapse">
                                                         <div class="accordion-inner">
                                                             <ul class="unstyled data-layer-links">
                                                                 <li>
-                                                                    {% if sublayer.bookmark_link %}
-                                                                    <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                                    {% if layer.bookmark_link %}
+                                                                    <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">VIEW</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
-                                                                    {% if sublayer.data_download_link %}
-                                                                    <a href="{{sublayer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
+                                                                    {% if layer.data_download_link %}
+                                                                    <a href="{{layer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">DATA</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
-                                                                   {% if sublayer.metadata_link %}
-                                                                    <a href="{{sublayer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
+                                                                   {% if layer.metadata_link %}
+                                                                    <a href="{{layer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">METADATA</span>
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
-                                                                    {% if sublayer.source_link %}
-                                                                    <a href="{{sublayer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
+                                                                    {% if layer.source_link %}
+                                                                    <a href="{{layer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">SOURCE</span>
                                                                     {% endif %}
@@ -97,492 +254,497 @@
                                                                 </li>
                                                             </ul>
                                                             
+                                                            
                                                             <div class="descriptive-text">
-                                                                <span class="description-url" data-url="{{sublayer.url}}" data-arcid="{{sublayer.arcgis_layers}}" display="none"></span>
+                                                                <span class="description-url" data-url="{{layer.url}}" data-arcid="{{layer.arcgis_layers}}" display="none"></span>
                                                             </div>
-                                                            <!--
-                                                            <div class="descriptive-text">
-                                                                {{ sublayer.description }}
-                                                            </div>
-                                                            -->
+                                                            
+                                                            
                                                         </div>
                                                     </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
+                                                    {% endif%}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor layers %}
                                     </div>
+                                    {% endif %}
+                                    <!-- end foreach layer -->
                                 </div>
-                                {% else %}   
-                                <div class="accordion-heading layer-heading">
-                                    <a class="accordion-toggle layer-name color-up" data-toggle="collapse" data-parent="{{theme_dict.theme.name}}-layer-list" href="#{{layer.slug}}-links">
-                                        <span class="layer-search-name">{{ layer.name|upper }}</span>
-                                    </a>
-                                </div>
-                                <div id="{{layer.slug}}-links" class="accordion-body collapse">
-                                    <div class="accordion-inner">
-                                        <ul class="unstyled data-layer-links">
-                                            <li>
-                                                {% if layer.bookmark_link %}
-                                                <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
-                                                {% else %}
-                                                <span class="link-not-available">VIEW</span>
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                                {% if layer.data_download_link %}
-                                                <a href="{{layer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
-                                                {% else %}
-                                                <span class="link-not-available">DATA</span>
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                               {% if layer.metadata_link %}
-                                                <a href="{{layer.metadata_link}}" rel="tooltip" title="View the Metadata" class="data-layer-link color-up" target="_blank">METADATA</a>
-                                                {% else %}
-                                                <span class="link-not-available">METADATA</span>
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                                {% if layer.source_link %}
-                                                <a href="{{layer.source_link}}" rel="tooltip" title="Link to Dataset Source Provider" class="data-layer-link color-up" target="_blank">SOURCE</a>
-                                                {% else %}
-                                                <span class="link-not-available">SOURCE</span>
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                                {% if layer.tiles_link %}
-                                                <a href="{{layer.tiles_link}}" rel="tooltip" title="Web Mapping Services" class="data-layer-link color-up" target="_blank">WMS</a>
-                                                {% else %}
-                                                <span class="link-not-available">WMS</span>
-                                                {% endif %}
-                                            </li>
-                                        </ul>
-                                        
-                                        
-                                        <div class="descriptive-text">
-                                            <span class="description-url" data-url="{{layer.url}}" data-arcid="{{layer.arcgis_layers}}" display="none"></span>
-                                        </div>
-                                        
-                                        
-                                        <!--
-                                        <div class="descriptive-text">
-                                            {{ layer.description }}
-                                        </div>
-                                        -->
-                                    </div>
-                                </div>
-                                {% endif%}
-                            {% endif %}
+                            </div>
                         </div>
-                    {% endfor layers %}
+                        {% endfor themes%}
+                            
+                            
+                        <!-- FOR SMART PHONES -->
+                        <!--
+                        <div class="visible-phone">
+                            <div>
+                                <table class="table table-striped table-condensed">
+                                    <tbody>
+                                        {% if not theme_dict.layers %}
+                                            <p>coming soon...</p>
+                                        {% else %}
+                                        {% for layer in theme_dict.layers %}
+                                            {% if layer.is_parent %}
+                                            {% else %}
+                                            <tr>
+                                                <td>
+                                                    <div id="{{layer.slug}}" style="position:relative; top:-200px;"></div>
+                                                    <span>{{layer.name}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="catalog-links" style="text-align: right; padding-right: 50px;">
+                                                    <ul class="unstyled btn-group">
+                                                        <li>
+                                                            {% if layer.bookmark_link %}
+                                                            <a class="btn" href="{{layer.bookmark_link}}" target="_blank">
+                                                                    {% flatblock "data_catalog_view_link" %}
+                                                            </a>
+                                                            {% else %}
+                                                            <a class="btn disabled" href="{{layer.bookmark_link}}" target="_blank">
+                                                                    {% flatblock "data_catalog_view_link" %}
+                                                            </a>
+                                                            {% endif %}
+                                                        </li>
+                                                        <li>
+                                                            {% if layer.description_link %}
+                                                            <button class="btn layer-name catalog-tooltip" rel="popover" 
+                                                                data-name="{{layer.name}}" 
+                                                                data-thumbnail="{{layer.thumbnail}}"
+                                                                data-placement="bottom"
+                                                                data-content="{% if layer.tooltip %} {{layer.tooltip}} {% endif %}">
+                                                                {% flatblock "data_catalog_factsheet_link" %}
+                                                            </button>
+                                                            {% else %}
+                                                            <a class="btn disabled" href="{{layer.description_link}}">
+                                                                {% flatblock "data_catalog_factsheet_link" %}
+                                                            </a>
+                                                            {% endif %}
+                                                        </li>
+                                                        <li>
+                                                            {% if layer.source_link %}
+                                                            <a class="btn" href="{{layer.source_link}}" target="_blank">
+                                                                {% flatblock "data_catalog_source_link" %}
+                                                            </a>
+                                                            {% else %}
+                                                            <a class="btn disabled" href="{{layer.source_link}}" target="_blank">
+                                                                {% flatblock "data_catalog_source_link" %}
+                                                            </a>
+                                                            {% endif %}
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor layers %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        -->
+                        
+                    </div>
                 </div>
-                {% endif %}
-                <!-- end foreach layer -->
             </div>
+            <!-- end #content -->
+            <hr>
+            
+            <footer>
+            </footer>
+            
         </div>
-    </div>
-    {% endfor themes%}
+        
+            
+        <style type="text/css">
+
+            input[type="text"] {
+                /*border: 0px;*/
+            }
+            input[type="text"]:hover {
+                /*border: 1px solid #cccccc;*/
+            }
+
+            .catalog-search-button {
+                background-color: transparent; 
+                border: 0; 
+                padding: 0;
+            }
+            
+            /* put the following in to prevent IE from showing contents of accordion when collapsed */
+            .collapse {
+                overflow: hidden !important;
+            }
+
+            #theme-list .accordion-group {
+                border: 0px;
+                margin-bottom: 0px;
+            }
+
+            #theme-list .theme-group {
+                padding-bottom: 3px;
+                border-bottom: 1px solid #e5e5e5;
+                width: 95%;
+            }
+
+            #theme-list .accordion-heading {
+                display: table;
+            }
+
+            #theme-list .accordion-toggle {
+                display: table-cell;
+                vertical-align: middle;
+                padding: 0px 15px;
+                height: 41px;
+            }
+
+            #theme-list .accordion-inner li {
+                padding-left: 0px;
+                padding-right: 16px;
+            }
+
+            #theme-list .accordion-body {
+                position: static;
+            }
+
+            #theme-list h3 {
+                margin: 0px;
+            }
+
+            #theme-list a {
+                text-decoration: none;
+            }
+
+            #theme-list .theme-heading .color-up h3 {
+                color: rgba(75, 137, 153, 1);
+            }
+
+            #theme-list .theme-heading .color-down h3 {
+                color: rgba(75, 137, 153, .8);
+            }
+
+            #theme-list .theme-heading small {
+                vertical-align: middle;
+            }
+
+            #theme-list .theme-heading i.color-up {
+                color: rgba(0,0,0, .6);
+            }
+
+            #theme-list .theme-heading i.color-down {
+                color: rgba(0,0,0, .6);
+            }
+
+            #theme-list .layer-heading .color-up {
+                color: rgba(102, 102, 102, 1);
+            }
+            #theme-list .layer-heading .color-down {
+                color: rgba(102, 102, 102, .8);
+            }
+
+            #theme-list .sublayer-heading .color-up {
+                color: rgba(102, 102, 102, 1);
+            }
+            #theme-list .sublayer-heading .color-down {
+                color: rgba(102, 102, 102, .8);
+            }
+
+            #theme-list .data-layer-links .color-up {
+                color: rgba(0, 136, 204, 1);
+            }
+
+            #theme-list .data-layer-links .color-down {
+                color: rgba(0, 136, 204, .8);
+            }
+
+            #theme-list .data-layer-links li  {
+                display: inline-block;
+            }
+
+            .blog .typeahead {
+                width: 28%;
+            }
+
+            .blog .typeahead li a {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        </style>
         
         
-    <!-- FOR SMART PHONES -->
-    <!--
-    <div class="visible-phone">
-        <div>
-            <table class="table table-striped table-condensed">
-                <tbody>
-                    {% if not theme_dict.layers %}
-                        <p>coming soon...</p>
-                    {% else %}
-                    {% for layer in theme_dict.layers %}
-                        {% if layer.is_parent %}
-                        {% else %}
-                        <tr>
-                            <td>
-                                <div id="{{layer.slug}}" style="position:relative; top:-200px;"></div>
-                                <span>{{layer.name}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="catalog-links" style="text-align: right; padding-right: 50px;">
-                                <ul class="unstyled btn-group">
-                                    <li>
-                                        {% if layer.bookmark_link %}
-                                        <a class="btn" href="{{layer.bookmark_link}}" target="_blank">
-                                                {% flatblock "data_catalog_view_link" %}
-                                        </a>
-                                        {% else %}
-                                        <a class="btn disabled" href="{{layer.bookmark_link}}" target="_blank">
-                                                {% flatblock "data_catalog_view_link" %}
-                                        </a>
-                                        {% endif %}
-                                    </li>
-                                    <li>
-                                        {% if layer.description_link %}
-                                        <button class="btn layer-name catalog-tooltip" rel="popover" 
-                                            data-name="{{layer.name}}" 
-                                            data-thumbnail="{{layer.thumbnail}}"
-                                            data-placement="bottom"
-                                            data-content="{% if layer.tooltip %} {{layer.tooltip}} {% endif %}">
-                                            {% flatblock "data_catalog_factsheet_link" %}
-                                        </button>
-                                        {% else %}
-                                        <a class="btn disabled" href="{{layer.description_link}}">
-                                            {% flatblock "data_catalog_factsheet_link" %}
-                                        </a>
-                                        {% endif %}
-                                    </li>
-                                    <li>
-                                        {% if layer.source_link %}
-                                        <a class="btn" href="{{layer.source_link}}" target="_blank">
-                                            {% flatblock "data_catalog_source_link" %}
-                                        </a>
-                                        {% else %}
-                                        <a class="btn disabled" href="{{layer.source_link}}" target="_blank">
-                                            {% flatblock "data_catalog_source_link" %}
-                                        </a>
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        {% endif %}
-                    {% endfor layers %}
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    -->
-    
-</div>
-    
-<style type="text/css">
+        <!-- end #container -->
+        <!-- scripts are now optimized via Modernizr.load -->
+        <script src="{{MEDIA_URL}}marco/js/jquery/jquery.js"></script>  
+        <script src="{{MEDIA_URL}}marco/js/jquery/jquery-ui.js"></script>
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-transition.js"></script>
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-typeahead.js"></script>   
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-tooltip.js"></script>
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-popover.js"></script>
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-modal.js"></script>
+        <script src="{{MEDIA_URL}}marco/js/bootstrap/bootstrap-collapse.js"></script>  
+        <script>
+        if (!Array.prototype.indexOf) {
 
-    input[type="text"] {
-        /*border: 0px;*/
-    }
-    input[type="text"]:hover {
-        /*border: 1px solid #cccccc;*/
-    }
+        
+            Array.prototype.indexOf = function(obj, start) {
+                 for (var i = (start || 0), j = this.length; i < j; i++) {
+                     if (this[i] === obj) { return i; }
+                 }
+                 return -1;
+            }
+         }
 
-    .catalog-search-button {
-        background-color: transparent; 
-        border: 0; 
-        padding: 0;
-    }
-
-    #theme-list .accordion-group {
-        border: 0px;
-        margin-bottom: 0px;
-    }
-
-    #theme-list .theme-group {
-        padding-bottom: 3px;
-        border-bottom: 1px solid #e5e5e5;
-        width: 95%;
-    }
-
-    #theme-list .accordion-heading {
-        display: table;
-    }
-
-    #theme-list .accordion-toggle {
-        display: table-cell;
-        vertical-align: middle;
-        padding: 0px 15px;
-        height: 41px;
-    }
-
-    #theme-list .accordion-inner li {
-        padding-left: 0px;
-        padding-right: 16px;
-    }
-
-    #theme-list .accordion-body {
-        position: static;
-    }
-
-    #theme-list h3 {
-        margin: 0px;
-    }
-
-    #theme-list a {
-        text-decoration: none;
-    }
-
-    #theme-list .theme-heading .color-up h3 {
-        color: rgba(75, 137, 153, 1);
-    }
-
-    #theme-list .theme-heading .color-down h3 {
-        color: rgba(75, 137, 153, .8);
-    }
-
-    #theme-list .theme-heading small {
-        vertical-align: middle;
-    }
-
-    #theme-list .theme-heading i.color-up {
-        color: rgba(0,0,0, .6);
-    }
-
-    #theme-list .theme-heading i.color-down {
-        color: rgba(0,0,0, .6);
-    }
-
-    #theme-list .layer-heading .color-up {
-        color: rgba(102, 102, 102, 1);
-    }
-    #theme-list .layer-heading .color-down {
-        color: rgba(102, 102, 102, .8);
-    }
-
-    #theme-list .sublayer-heading .color-up {
-        color: rgba(102, 102, 102, 1);
-    }
-    #theme-list .sublayer-heading .color-down {
-        color: rgba(102, 102, 102, .8);
-    }
-
-    #theme-list .data-layer-links .color-up {
-        color: rgba(0, 136, 204, 1);
-    }
-
-    #theme-list .data-layer-links .color-down {
-        color: rgba(0, 136, 204, .8);
-    }
-
-    #theme-list .data-layer-links li  {
-        display: inline-block;
-    }
-
-    .blog .typeahead {
-        width: 28%;
-    }
-
-    .blog .typeahead li a {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-</style>
-{% endblock %}
-
-{% block javascript %}
-<script>
-    $(document).ready( function() {
-        var layers = [],
-            layer_index = {},
-            search =  function(val) {
-                var layer = layer_index[val];
-                
-                //layer.layer.closest('tr').effect("pulsate", {times:2 }, 500);
-                if ( ! $(layer.layer).closest('.theme-group').find('.accordion-body').first().hasClass('in') ) {
-                    $(layer.layer).closest('.theme-group').find('.accordion-body').first().collapse('show');
-                }
-                if ( ! $(layer.layer).closest('.layer-group').find('.accordion-body').first().hasClass('in') ) {
-                    $(layer.layer).closest('.layer-group').find('.accordion-body').first().collapse('show');
-                }
-                if ( $(layer.layer).closest('.sublayer-group').find('.accordion-body').first().length ) {
-                    $(layer.layer).closest('.sublayer-group').find('.accordion-body').first().collapse('show');
-                    $(layer.layer).closest('.sublayer-group').find('.layer-search-name').effect("pulsate", {times:1}, 500);
-                } else {   
-                    $(layer.layer).closest('.layer-group').find('.layer-search-name').first().effect("pulsate", {times:1}, 500);
-                }
-                setTimeout(function() {$(window).scrollTop(layer.layer.closest('.layer-group').offset().top-300)}, 200);
-            };
-
-        if (window.location.hash) {
-            $(window).scrollTop($(window).scrollTop() - 100);
-            $(window.location.hash).closest('tr').effect("pulsate", {times:2 }, 500);
-
+        // handle the search clear buttons
+        $('.form-search').find('.btn').on('click', function(event) {
+           $(event.target).closest('form').find('input').val(null).focus();
+        });
+        $('.attrib').hover(
+            function (event) {
+                var $target = $(event.target), 
+                    $text = $target.find('.text');
+                $text.show().position({
+                    of: $target,
+                    my: "right top",
+                    at: "left bottom",
+                    offset: "2px"
+                });
+                    
+            },
+            function (event) {
+                $(event.target).find('.text').hide();
+            }
+        );
+       
+        var width = window.innerWidth;
+        if (width < 768) {
+            var body = document.getElementsByTagName("body")[0];
+            body.style.marginTop='0px';
         }
 
-        $('.theme-group').each( function(index, theme) {
-            var theme_name = $(theme).find('.theme-search-name').text();
-            $(theme).find('.layer-search-name').each( function(index, layer) {
-                var name = $.trim($(layer).text()) + ' (' + $.trim(theme_name) + ')',
-                    description = $(layer).closest('.accordion-group').find('.descriptive-text'),
-                    kitchenSink = $.trim($(layer).text()) + ' ' + $.trim(theme_name) + ' ' + $.trim($(description).text());
-                layers.push(name);
-                layer_index[name] = { 
-                    layer: $(layer),
-                    fullSearch: kitchenSink
-                };                
-            });
-        });
+        </script>
         
-        $('.layer-search').find('input').typeahead( {
-            source: layers.sort(),
-            updater: function (item) {
-                search(item);
-                return item;
-            },
-            matcher: function(item) {
-                if (layer_index[item].fullSearch.toLowerCase().indexOf(this.query.toLowerCase()) !== -1) { 
-                    return true;
-                }
-            }
-        });
-        
-        $('.layer-search').submit(function (event) {
-            event.preventDefault();
-            //console.log('layer-search submit');
-            search($(this).find('input').val());
-        });
-        
-
-        $('.layer-search').on('keyup', 'input', function (event) {
-            event.preventDefault();  
-            //console.log('layer-search keyup ' + event.which);  
-            if (event.which === 13) {
-                search($(this).val());
-            }
-        });
-
-        $('ul.typeahead').on('click', 'li', function () {
-        //$('.layer-search').on('click', 'li', function () {
-            //console.log('layer-search list click');
-            search($(this).text());
-        });
-
-        $('.theme-name').on('hover', function() {
-            var span = $(this),
-                name = span.data('name'),
-                thumbnail = span.data('thumbnail'),
-                theme = span.closest('.theme');
-            //theme.find('.title').text(name);
-            if ( thumbnail === 'None' || thumbnail === '') {
-                thumbnail = 'http://placehold.it/320x180';
-            }
-            //theme.find('.thumbnail img').attr('src', thumbnail);
-        });
-        $('.layer-name').on('hover', function() {
-            var layer = $(this),
-                name = layer.data('name'),
-                thumbnail = layer.data('thumbnail'),
-                theme = layer.closest('.theme');
-            //theme.find('.title').text(name);
-            if ( thumbnail === 'None' || thumbnail === '') {
-                thumbnail = 'http://placehold.it/320x180';
-            }
-            //theme.find('.thumbnail img').attr('src', thumbnail);
-        });
-        //overriding the template here to remove empty space for title
-        $('.layer-name').popover({
-            template: '<div class="popover layer-popover"><div class="arrow"></div><div class="popover-inner layer-tooltip"><div class="popover-content"><p></p></div></div></div>'
-        });
-        
-        // MODIFIED DATA CATALOG
-        
-        $('.theme-group').hover(function(e) { //trigger the mouseover event
-            $('.theme-title').removeClass('color-up');
-            $('.theme-title').addClass('color-down');
-            $('.caret-icon').removeClass('color-up');
-            $('.caret-icon').addClass('color-down');
-            $(e.currentTarget).find('.theme-title').removeClass('color-down');
-            $(e.currentTarget).find('.theme-title').addClass('color-up');
-            $(e.currentTarget).find('.caret-icon').removeClass('color-down');
-            $(e.currentTarget).find('.caret-icon').addClass('color-up');
-            $('#theme-list .in').siblings('.theme-heading').find('.theme-title').removeClass('color-down');
-            $('#theme-list .in').siblings('.theme-heading').find('.theme-title').addClass('color-up');
-            $('#theme-list .in').siblings('.theme-heading').find('.caret-icon').removeClass('color-down');
-            $('#theme-list .in').siblings('.theme-heading').find('.caret-icon').addClass('color-up');
-        }, function(e) { //trigger the mouseout event
-            $('.theme-title').removeClass('color-down');
-            $('.theme-title').removeClass('color-up');
-            $('.theme-title').addClass('color-up');
-            $('.caret-icon').removeClass('color-down');
-            $('.caret-icon').removeClass('color-up');
-            $('.caret-icon').addClass('color-up');
-        });
-        
-        $('.theme-accordion').on('show', function(e) {
-            $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-right').css('display', 'none');
-            $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-down').css('display', 'inline-block');
-        });
-        
-        $('.theme-accordion').on('hide', function(e) {
-            if ($(e.target).hasClass('theme-accordion')) {
-                $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-right').css('display', 'inline-block');
-                $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-down').css('display', 'none');
-            }
-        });
-        
-        //get description from web-services (when applicable)
-        $('.layer-group .accordion-body').on('show', function(e) {
-            var target = $(e.currentTarget).find('.description-url').first(),
-                url = target.attr('data-url'),
-                arcId = target.attr('data-arcid');
-            if ( ! target.html() ) { // if description is not already provided
-                if (url && url !== "") {
-                    if (arcId && arcId !== "") {
-                        var absoluteURL = url.replace('export', arcId) + '?f=pjson';
-                    } else {
-                        var absoluteURL = url.replace('export', '0') + '?f=pjson';
-                    }
-                    $.ajax({
-                        dataType: "jsonp",
-                        url: absoluteURL,
-                        type: 'GET',
-                        success: function(data) {
-                            var description = data['description'];
-                            if (description && description !== "") {
-                                target.html(data['description']);
-                            } else {
-                                target.html('no description provided');
-                            }
-                        },
-                        error: function(result) {
-                            target.html('no description');
+        <script>
+            $(document).ready( function() {
+                var layers = [],
+                    layer_index = {},
+                    search =  function(val) {
+                        var layer = layer_index[val];
+                        
+                        //layer.layer.closest('tr').effect("pulsate", {times:2 }, 500);
+                        if ( ! $(layer.layer).closest('.theme-group').find('.accordion-body').first().hasClass('in') ) {
+                            $(layer.layer).closest('.theme-group').find('.accordion-body').first().collapse('show');
                         }
-                    });
-                } else {
-                    target.html('no description available');
-                }
-            }
-        })
-        
-        
-        $('.layer-group').hover(function(e) { //trigger the mouseover event
-            $('.layer-namee').removeClass('color-up');
-            $('.layer-name').addClass('color-down');
-            $(e.currentTarget).find('.layer-name').removeClass('color-down');
-            $(e.currentTarget).find('.layer-name').addClass('color-up');
-            $('#theme-list .in').siblings('.layer-heading').find('.layer-name').removeClass('color-down');
-            $('#theme-list .in').siblings('.layer-heading').find('.layer-name').addClass('color-up');
-        }, function(e) { //trigger the mouseout event
-            $('.layer-name').removeClass('color-down');
-            $('.layer-name').removeClass('color-up');
-            $('.layer-name').addClass('color-up');
-        });
-        
-        $('.sublayer-name').hover(function(e) { //trigger the mouseover event
-            $('.sublayer-namee').removeClass('color-up');
-            $('.sublayer-name').addClass('color-down');
-            $(e.currentTarget).removeClass('color-down');
-            $(e.currentTarget).addClass('color-up');
-            $('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').removeClass('color-down');
-            $('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').addClass('color-up');
-        }, function(e) { //trigger the mouseout event
-            $('.sublayer-name').removeClass('color-down');
-            $('.sublayer-name').removeClass('color-up');
-            $('.sublayer-name').addClass('color-up');
-        });
+                        if ( ! $(layer.layer).closest('.layer-group').find('.accordion-body').first().hasClass('in') ) {
+                            $(layer.layer).closest('.layer-group').find('.accordion-body').first().collapse('show');
+                        }
+                        if ( $(layer.layer).closest('.sublayer-group').find('.accordion-body').first().length ) {
+                            $(layer.layer).closest('.sublayer-group').find('.accordion-body').first().collapse('show');
+                            $(layer.layer).closest('.sublayer-group').find('.layer-search-name').effect("pulsate", {times:1}, 500);
+                        } else {   
+                            $(layer.layer).closest('.layer-group').find('.layer-search-name').first().effect("pulsate", {times:1}, 500);
+                        }
+                        setTimeout(function() {$(window).scrollTop(layer.layer.closest('.layer-group').offset().top-300)}, 200);
+                    };
 
-        $('.data-layer-link').hover(function(e) { //trigger the mouseover event
-            $('.data-layer-link').removeClass('color-up');
-            $('.data-layer-link').addClass('color-down');
-            $(e.currentTarget).removeClass('color-down');
-            $(e.currentTarget).addClass('color-up');
-            //$('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').removeClass('color-down');
-            //$('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').addClass('color-up');
-        }, function(e) { //trigger the mouseout event
-            $('.data-layer-link').removeClass('color-down');
-            $('.data-layer-link').removeClass('color-up');
-            $('.data-layer-link').addClass('color-up');
-        });
-        
-    });
-</script>
-{% endblock %}
+                if (window.location.hash) {
+                    $(window).scrollTop($(window).scrollTop() - 100);
+                    $(window.location.hash).closest('tr').effect("pulsate", {times:2 }, 500);
+
+                }
+
+                $('.theme-group').each( function(index, theme) {
+                    var theme_name = $(theme).find('.theme-search-name').text();
+                    $(theme).find('.layer-search-name').each( function(index, layer) {
+                        var name = $.trim($(layer).text()) + ' (' + $.trim(theme_name) + ')',
+                            description = $(layer).closest('.accordion-group').find('.descriptive-text'),
+                            kitchenSink = $.trim($(layer).text()) + ' ' + $.trim(theme_name) + ' ' + $.trim($(description).text());
+                        layers.push(name);
+                        layer_index[name] = { 
+                            layer: $(layer),
+                            fullSearch: kitchenSink
+                        };                
+                    });
+                });
+                
+                $('.layer-search').find('input').typeahead( {
+                    source: layers.sort(),
+                    updater: function (item) {
+                        search(item);
+                        return item;
+                    },
+                    matcher: function(item) {
+                        if (layer_index[item].fullSearch.toLowerCase().indexOf(this.query.toLowerCase()) !== -1) { 
+                            return true;
+                        }
+                    }
+                });
+                
+                $('.layer-search').submit(function (event) {
+                    event.preventDefault();
+                    //console.log('layer-search submit');
+                    search($(this).find('input').val());
+                });
+                
+
+                $('.layer-search').on('keyup', 'input', function (event) {
+                    event.preventDefault();  
+                    //console.log('layer-search keyup ' + event.which);  
+                    if (event.which === 13) {
+                        search($(this).val());
+                    }
+                });
+
+                $('ul.typeahead').on('click', 'li', function () {
+                //$('.layer-search').on('click', 'li', function () {
+                    //console.log('layer-search list click');
+                    search($(this).text());
+                });
+
+                $('.theme-name').on('hover', function() {
+                    var span = $(this),
+                        name = span.data('name'),
+                        thumbnail = span.data('thumbnail'),
+                        theme = span.closest('.theme');
+                    //theme.find('.title').text(name);
+                    if ( thumbnail === 'None' || thumbnail === '') {
+                        thumbnail = 'http://placehold.it/320x180';
+                    }
+                    //theme.find('.thumbnail img').attr('src', thumbnail);
+                });
+                $('.layer-name').on('hover', function() {
+                    var layer = $(this),
+                        name = layer.data('name'),
+                        thumbnail = layer.data('thumbnail'),
+                        theme = layer.closest('.theme');
+                    //theme.find('.title').text(name);
+                    if ( thumbnail === 'None' || thumbnail === '') {
+                        thumbnail = 'http://placehold.it/320x180';
+                    }
+                    //theme.find('.thumbnail img').attr('src', thumbnail);
+                });
+                //overriding the template here to remove empty space for title
+                $('.layer-name').popover({
+                    template: '<div class="popover layer-popover"><div class="arrow"></div><div class="popover-inner layer-tooltip"><div class="popover-content"><p></p></div></div></div>'
+                });
+                
+                // MODIFIED DATA CATALOG
+                
+                $('.theme-group').hover(function(e) { //trigger the mouseover event
+                    $('.theme-title').removeClass('color-up');
+                    $('.theme-title').addClass('color-down');
+                    $('.caret-icon').removeClass('color-up');
+                    $('.caret-icon').addClass('color-down');
+                    $(e.currentTarget).find('.theme-title').removeClass('color-down');
+                    $(e.currentTarget).find('.theme-title').addClass('color-up');
+                    $(e.currentTarget).find('.caret-icon').removeClass('color-down');
+                    $(e.currentTarget).find('.caret-icon').addClass('color-up');
+                    $('#theme-list .in').siblings('.theme-heading').find('.theme-title').removeClass('color-down');
+                    $('#theme-list .in').siblings('.theme-heading').find('.theme-title').addClass('color-up');
+                    $('#theme-list .in').siblings('.theme-heading').find('.caret-icon').removeClass('color-down');
+                    $('#theme-list .in').siblings('.theme-heading').find('.caret-icon').addClass('color-up');
+                }, function(e) { //trigger the mouseout event
+                    $('.theme-title').removeClass('color-down');
+                    $('.theme-title').removeClass('color-up');
+                    $('.theme-title').addClass('color-up');
+                    $('.caret-icon').removeClass('color-down');
+                    $('.caret-icon').removeClass('color-up');
+                    $('.caret-icon').addClass('color-up');
+                });
+                
+                $('.theme-accordion').on('show', function(e) {
+                    $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-right').css('display', 'none');
+                    $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-down').css('display', 'inline-block');
+                });
+                
+                $('.theme-accordion').on('hide', function(e) {
+                    if ($(e.target).hasClass('theme-accordion')) {
+                        $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-right').css('display', 'inline-block');
+                        $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-down').css('display', 'none');
+                    }
+                });
+                
+                //get description from web-services (when applicable)
+                $('.layer-group .accordion-body').on('show', function(e) {
+                    var target = $(e.currentTarget).find('.description-url').first(),
+                        url = target.attr('data-url'),
+                        arcId = target.attr('data-arcid');
+                    if ( ! target.html() ) { // if description is not already provided
+                        if (url && url !== "") {
+                            if (arcId && arcId !== "") {
+                                var absoluteURL = url.replace('export', arcId) + '?f=pjson';
+                            } else {
+                                var absoluteURL = url.replace('export', '0') + '?f=pjson';
+                            }
+                            $.ajax({
+                                dataType: "jsonp",
+                                url: absoluteURL,
+                                type: 'GET',
+                                success: function(data) {
+                                    var description = data['description'];
+                                    if (description && description !== "") {
+                                        target.html(data['description']);
+                                    } else {
+                                        target.html('no description provided');
+                                    }
+                                },
+                                error: function(result) {
+                                    target.html('no description');
+                                }
+                            });
+                        } else {
+                            target.html('no description available');
+                        }
+                    }
+                })
+                
+                
+                $('.layer-group').hover(function(e) { //trigger the mouseover event
+                    $('.layer-namee').removeClass('color-up');
+                    $('.layer-name').addClass('color-down');
+                    $(e.currentTarget).find('.layer-name').removeClass('color-down');
+                    $(e.currentTarget).find('.layer-name').addClass('color-up');
+                    $('#theme-list .in').siblings('.layer-heading').find('.layer-name').removeClass('color-down');
+                    $('#theme-list .in').siblings('.layer-heading').find('.layer-name').addClass('color-up');
+                }, function(e) { //trigger the mouseout event
+                    $('.layer-name').removeClass('color-down');
+                    $('.layer-name').removeClass('color-up');
+                    $('.layer-name').addClass('color-up');
+                });
+                
+                $('.sublayer-name').hover(function(e) { //trigger the mouseover event
+                    $('.sublayer-namee').removeClass('color-up');
+                    $('.sublayer-name').addClass('color-down');
+                    $(e.currentTarget).removeClass('color-down');
+                    $(e.currentTarget).addClass('color-up');
+                    $('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').removeClass('color-down');
+                    $('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').addClass('color-up');
+                }, function(e) { //trigger the mouseout event
+                    $('.sublayer-name').removeClass('color-down');
+                    $('.sublayer-name').removeClass('color-up');
+                    $('.sublayer-name').addClass('color-up');
+                });
+
+                $('.data-layer-link').hover(function(e) { //trigger the mouseover event
+                    $('.data-layer-link').removeClass('color-up');
+                    $('.data-layer-link').addClass('color-down');
+                    $(e.currentTarget).removeClass('color-down');
+                    $(e.currentTarget).addClass('color-up');
+                    //$('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').removeClass('color-down');
+                    //$('#theme-list .in').siblings('.sublayer-heading').find('.sublayer-name').addClass('color-up');
+                }, function(e) { //trigger the mouseout event
+                    $('.data-layer-link').removeClass('color-down');
+                    $('.data-layer-link').removeClass('color-up');
+                    $('.data-layer-link').addClass('color-up');
+                });
+                
+            });
+        </script>
+                            
+    </body>
+</html>
+
+
+
+

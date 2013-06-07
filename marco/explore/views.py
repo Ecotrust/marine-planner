@@ -1,18 +1,42 @@
 # Create your views here.
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from data_manager.models import *
 from utils import get_domain
+import os
 import settings
 
 
 def data_catalog(request, template='catalog.html'):
-    from mp_settings.models import *
+    from mp_settings.models import MarinePlannerSettings
     try:
         activeSettings = MarinePlannerSettings.objects.get(active=True)
+        
+        project_name = activeSettings.project_name 
+        
+        project_logo = activeSettings.project_logo 
+        try:
+            if project_logo:
+                url_validator = URLValidator(verify_exists=False)
+                url_validator(project_logo)
+        except ValidationError, e:
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo)  
+            
+        project_icon = activeSettings.project_icon 
+        try:
+            url_validator = URLValidator(verify_exists=False)
+            url_validator(project_icon)
+        except ValidationError, e:
+            project_icon = os.path.join(settings.MEDIA_URL, project_icon)  
+            
+        project_home_page = activeSettings.project_home_page 
+        
         themes = activeSettings.table_of_contents.themes.all().order_by('display_name')
         themes_with_layers = getTOCThemesAndLayers(themes)
-        context = {'themes': themes_with_layers, 'domain': get_domain(8000), 'domain8010': get_domain()}
+        
+        context = {'themes': themes_with_layers, 'project_name': project_name, 'project_icon': project_icon, 'project_home_page': project_home_page, 'domain': get_domain(8000), 'domain8010': get_domain()}
         return render_to_response(template, RequestContext(request, context)) 
     except:
         pass
