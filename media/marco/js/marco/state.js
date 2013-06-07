@@ -197,8 +197,20 @@ app.loadState = function(state) {
     var loadTimer;
     if (state.z || state.login) {
         return app.loadCompressedState(state);
+    } else {
+        var slug = Object.keys(state)[0],
+            layer = app.viewModel.getLayerBySlug(slug);
+        app.loadCompressedState(state);
+        if (layer) {
+            //activate layer (/planner/#<layer-name>)
+            app.viewModel.layerIndex[layer.id].activateLayer();
+            //set open theme
+            layer.themes()[0].setOpenTheme()
+        }
+        return;
     }
-
+    //Remnant from original MARCO state...
+    /*
     if (state.print === 'true') {
         app.printMode();
     }
@@ -283,6 +295,7 @@ app.loadState = function(state) {
     if (!app.is_authenticated && state.login) {
         $('#sign-in-modal').modal('show');
     }
+    */
 };
 
 // load the state from the url hash

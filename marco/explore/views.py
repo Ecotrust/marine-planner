@@ -7,6 +7,15 @@ import settings
 
 
 def data_catalog(request, template='catalog.html'):
+    from mp_settings.models import *
+    try:
+        activeSettings = MarinePlannerSettings.objects.get(active=True)
+        themes = activeSettings.table_of_contents.themes.all().order_by('display_name')
+        themes_with_layers = getTOCThemesAndLayers(themes)
+        context = {'themes': themes_with_layers, 'domain': get_domain(8000), 'domain8010': get_domain()}
+        return render_to_response(template, RequestContext(request, context)) 
+    except:
+        pass
     themes = Theme.objects.all().order_by('display_name')
     themes_with_links = add_learn_links(themes)
     add_ordered_layers_lists(themes_with_links)
@@ -28,6 +37,14 @@ def add_ordered_needs_lists(themes_list):
             ordered_themes.append(theme)
             theme_dict[theme] = needs
     return ordered_themes, theme_dict
+    
+def getTOCThemesAndLayers(themes):
+    themes_list = []
+    for theme in themes:
+        num_layers = len([layer.name for layer in theme.layers.all() if not layer.is_parent and not layer.layer_type == 'placeholder'])
+        ordered_layers = theme.layers.all().exclude(layer_type='placeholder').order_by('name')
+        themes_list.append({'theme': theme, 'num_layers': num_layers, 'layers': ordered_layers})    
+    return themes_list
     
 def add_ordered_layers_lists(themes_list): 
     for theme_dict in themes_list:

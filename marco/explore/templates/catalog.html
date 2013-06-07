@@ -68,13 +68,6 @@
                                                                     {% endif %}
                                                                 </li>
                                                                 <li>
-                                                                    {% if sublayer.kml %}
-                                                                    <a href="{{sublayer.kml}}" rel="tooltip" title="Download to View in Google Earth" class="data-layer-link color-up" target="_download">KML</a>
-                                                                    {% else %}
-                                                                    <span class="link-not-available">KML</span>
-                                                                    {% endif %}
-                                                                </li>
-                                                                <li>
                                                                     {% if sublayer.data_download_link %}
                                                                     <a href="{{sublayer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
                                                                     {% else %}
@@ -95,10 +88,23 @@
                                                                     <span class="link-not-available">SOURCE</span>
                                                                     {% endif %}
                                                                 </li>
+                                                                <li>
+                                                                    {% if layer.tiles_link %}
+                                                                    <a href="{{layer.tiles_link}}" rel="tooltip" title="Web Mapping Services" class="data-layer-link color-up" target="_blank">WMS</a>
+                                                                    {% else %}
+                                                                    <span class="link-not-available">WMS</span>
+                                                                    {% endif %}
+                                                                </li>
                                                             </ul>
+                                                            
+                                                            <div class="descriptive-text">
+                                                                <span class="description-url" data-url="{{sublayer.url}}" data-arcid="{{sublayer.arcgis_layers}}" display="none"></span>
+                                                            </div>
+                                                            <!--
                                                             <div class="descriptive-text">
                                                                 {{ sublayer.description }}
                                                             </div>
+                                                            -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -123,13 +129,6 @@
                                                 {% endif %}
                                             </li>
                                             <li>
-                                                {% if layer.kml %}
-                                                <a href="{{layer.kml}}" rel="tooltip" title="Download to View in Google Earth" class="data-layer-link color-up" target="_download">KML</a>
-                                                {% else %}
-                                                <span class="link-not-available">KML</span>
-                                                {% endif %}
-                                            </li>
-                                            <li>
                                                 {% if layer.data_download_link %}
                                                 <a href="{{layer.data_download_link}}" rel="tooltip" title="Download ESRI Formatted Dataset" class="data-layer-link color-up" target="_download">DATA</a>
                                                 {% else %}
@@ -150,10 +149,26 @@
                                                 <span class="link-not-available">SOURCE</span>
                                                 {% endif %}
                                             </li>
+                                            <li>
+                                                {% if layer.tiles_link %}
+                                                <a href="{{layer.tiles_link}}" rel="tooltip" title="Web Mapping Services" class="data-layer-link color-up" target="_blank">WMS</a>
+                                                {% else %}
+                                                <span class="link-not-available">WMS</span>
+                                                {% endif %}
+                                            </li>
                                         </ul>
+                                        
+                                        
+                                        <div class="descriptive-text">
+                                            <span class="description-url" data-url="{{layer.url}}" data-arcid="{{layer.arcgis_layers}}" display="none"></span>
+                                        </div>
+                                        
+                                        
+                                        <!--
                                         <div class="descriptive-text">
                                             {{ layer.description }}
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                                 {% endif%}
@@ -493,6 +508,41 @@
                 $(e.currentTarget).siblings('.theme-heading').find('i.icon-caret-down').css('display', 'none');
             }
         });
+        
+        //get description from web-services (when applicable)
+        $('.layer-group .accordion-body').on('show', function(e) {
+            var target = $(e.currentTarget).find('.description-url').first(),
+                url = target.attr('data-url'),
+                arcId = target.attr('data-arcid');
+            if ( ! target.html() ) { // if description is not already provided
+                if (url && url !== "") {
+                    if (arcId && arcId !== "") {
+                        var absoluteURL = url.replace('export', arcId) + '?f=pjson';
+                    } else {
+                        var absoluteURL = url.replace('export', '0') + '?f=pjson';
+                    }
+                    $.ajax({
+                        dataType: "jsonp",
+                        url: absoluteURL,
+                        type: 'GET',
+                        success: function(data) {
+                            var description = data['description'];
+                            if (description && description !== "") {
+                                target.html(data['description']);
+                            } else {
+                                target.html('no description provided');
+                            }
+                        },
+                        error: function(result) {
+                            target.html('no description');
+                        }
+                    });
+                } else {
+                    target.html('no description available');
+                }
+            }
+        })
+        
         
         $('.layer-group').hover(function(e) { //trigger the mouseover event
             $('.layer-namee').removeClass('color-up');

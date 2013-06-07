@@ -179,8 +179,10 @@ class Layer(models.Model):
     def bookmark_link(self):
         if not self.bookmark and self.is_sublayer and self.parent.bookmark:
             return self.parent.bookmark.replace('<layer_id>', str(self.id))
-        else:
-            return self.bookmark
+        if not self.bookmark:
+            domain = get_domain(8000)
+            return '%s/planner/#%s' %(domain, self.slug)
+        return self.bookmark
     
     @property
     def data_download_link(self):
@@ -191,14 +193,18 @@ class Layer(models.Model):
         else:
             return self.data_download
         
+    # Originally the structure of this method was similar to others (e.g. data_download_link and source_link)
+    # but those aren't making sense to me right now so I'm changing the structure of this one 
+    # Eventually this method should change back to reflect the others, or the others should be changed to reflect this method
     @property
     def metadata_link(self):
-        if self.metadata and self.metadata.lower() == 'none':
-            return None
-        if not self.metadata and self.is_sublayer:
-            return self.parent.metadata
-        else:
+        if self.metadata:
             return self.metadata
+        if self.is_sublayer:
+            return self.parent.metadata_link
+        if self.layer_type == 'ArcRest':
+            return self.url.replace('/export', '/info/metadata') 
+        return None
         
     @property
     def source_link(self):

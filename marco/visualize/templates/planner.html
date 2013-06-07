@@ -541,17 +541,9 @@
                                                 </div>
                                             </div>
                                             
-                                            {% load flatblock_tags %}
                                             <div id="overview-overlay-links">
                                               <span class="span11">
                                                 <div class="text" style="margin-top: 5px">
-                                                    <span>
-                                                        <a class="btn btn-mini" data-bind="css: { disabled: ! activeKmlLink() }, attr: { href: activeKmlLink() }" target="_blank">
-                                                            <span rel="tooltip" title="Download to View in Google Earth">
-                                                                KML
-                                                            </span>
-                                                        </a>
-                                                    </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeDataLink() }, attr: { href: activeDataLink() }" target="_blank">
                                                             <span rel="tooltip" title="Download ESRI Formatted Dataset">
@@ -575,8 +567,8 @@
                                                     </span>
                                                     <span>
                                                         <a class="btn btn-mini" data-bind="css: { disabled: ! activeTilesLink() }, attr: { href: activeTilesLink() }" target="_blank">
-                                                            <span rel="tooltip" title="Cached Map Tiles">
-                                                                MAP TILES
+                                                            <span rel="tooltip" title="Web Mapping Services">
+                                                                WMS
                                                             </span>
                                                         </a>
                                                     </span>
