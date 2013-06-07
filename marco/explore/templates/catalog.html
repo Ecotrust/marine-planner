@@ -65,7 +65,8 @@
 
     </head>
                     
-    <body class="blog">
+    <!--<body class="blog">-->
+    <body>
         <header role="banner">
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
@@ -163,7 +164,7 @@
                                                                                 <ul class="unstyled data-layer-links">
                                                                                     <li>
                                                                                         {% if sublayer.bookmark_link %}
-                                                                                        <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                                                        <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_blank">VIEW</a>
                                                                                         {% else %}
                                                                                         <span class="link-not-available">VIEW</span>
                                                                                         {% endif %}
@@ -219,7 +220,7 @@
                                                             <ul class="unstyled data-layer-links">
                                                                 <li>
                                                                     {% if layer.bookmark_link %}
-                                                                    <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_view">VIEW</a>
+                                                                    <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_blank">VIEW</a>
                                                                     {% else %}
                                                                     <span class="link-not-available">VIEW</span>
                                                                     {% endif %}

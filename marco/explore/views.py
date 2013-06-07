@@ -22,7 +22,7 @@ def data_catalog(request, template='catalog.html'):
                 url_validator = URLValidator(verify_exists=False)
                 url_validator(project_logo)
         except ValidationError, e:
-            project_logo = os.path.join(settings.MEDIA_URL, project_logo)  
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo) 
             
         project_icon = activeSettings.project_icon 
         try:
@@ -33,18 +33,22 @@ def data_catalog(request, template='catalog.html'):
             
         project_home_page = activeSettings.project_home_page 
         
-        themes = activeSettings.table_of_contents.themes.all().order_by('display_name')
-        themes_with_layers = getTOCThemesAndLayers(themes)
-        
-        context = {'themes': themes_with_layers, 'project_name': project_name, 'project_icon': project_icon, 'project_home_page': project_home_page, 'domain': get_domain(8000), 'domain8010': get_domain()}
+        try:
+            themes = activeSettings.table_of_contents.themes.all().order_by('display_name')
+            themes_with_layers = getTOCThemesAndLayers(themes)
+        except:
+            themes = Theme.objects.all().order_by('display_name')
+            themes_with_layers = add_learn_links(themes)
+            add_ordered_layers_lists(themes_with_layers)
+            
+        context = {'themes': themes_with_layers, 'project_name': project_name, 'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page, 'domain': get_domain(8000), 'domain8010': get_domain()}
         return render_to_response(template, RequestContext(request, context)) 
     except:
-        pass
-    themes = Theme.objects.all().order_by('display_name')
-    themes_with_links = add_learn_links(themes)
-    add_ordered_layers_lists(themes_with_links)
-    context = {'themes': themes_with_links, 'domain': get_domain(8000), 'domain8010': get_domain()}
-    return render_to_response(template, RequestContext(request, context)) 
+        themes = Theme.objects.all().order_by('display_name')
+        themes_with_links = add_learn_links(themes)
+        add_ordered_layers_lists(themes_with_links)
+        context = {'themes': themes_with_links, 'domain': get_domain(8000), 'domain8010': get_domain()}
+        return render_to_response(template, RequestContext(request, context)) 
 
 def data_needs(request, template='needs.html'):
     themes = Theme.objects.all().order_by('display_name')

@@ -322,15 +322,19 @@ $(document).ready(function() {
     app.viewModel.scenarios.initSharingModal();
   });
   
-  $(document).on('click', '#map', function() {
-    app.map.clickOutput.attributes = {};
-    app.viewModel.closeAttribution();
+  // hiding feature attributes on new click events (but ignoring map pan events)
+  app.map.events.register('move', app.map, function() {
+    app.map.mousedrag = true;
+    console.log('setting mousedrag to true');
+  });
+  $('#map').mouseup( function() {
+    if ( !app.map.mousedrag ) {
+      app.map.clickOutput.attributes = {};
+      app.viewModel.closeAttribution();
+    }
+    app.map.mousedrag = false;
   });
   
-    //$(document).on('click', '#share-option', function(a,b,c) {
-    //    debugger;
-    //});
-
   $('a[data-toggle="tab"]').on('shown', function (e) {
     app.updateUrl();
   });
