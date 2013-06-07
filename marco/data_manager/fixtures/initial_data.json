@@ -618,7 +618,7 @@
             "data_source": "",
             "data_notes": "",
             "name": "Principal Ports",
-            "url": "http://www.csc.noaa.gov/ArcGIS_QA/rest/services/MMC/MultipurposeMarineCadastre/MapServer/export",
+            "url": "http://www.csc.noaa.gov/ArcGISPUB/rest/services/MultipurposeMarineCadastre/MultipurposeMarineCadastre/MapServer/export",
             "arcgis_layers": "4",
             "legend_title": "",
             "sublayers": [],
