@@ -3,7 +3,7 @@ from madrona.common.default_settings import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_ZONE = 'America/Vancouver'
-ROOT_URLCONF = 'urls' # 'marco.urls'
+ROOT_URLCONF = 'urls' 
 LOGIN_REDIRECT_URL = '/visualize'
 
 DATABASES = {
@@ -15,43 +15,35 @@ DATABASES = {
 }
 
 COMPRESS_CSS['application']['source_filenames'] += (
-    'marco/css/analysis_reports.css',
+    'mp/css/analysis_reports.css',
     'kmltree/dist/kmltree_mod.css',
 )
 
 COMPRESS_JS['application']['source_filenames'] += (
-    'marco/js/jquery.qtip-1.0.0-rc3.min.js',
-    #'marco/js/mColorPicker.js',
+    'mp/js/jquery.qtip-1.0.0-rc3.min.js',
 )
 
-LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'marco.log'))
+LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'mp.log'))
 
 
-INSTALLED_APPS += ( #'clipping',
-                    'general', 
-                    #'scenarios', 
-                    #'drawing',
-                    #'reports',
+INSTALLED_APPS += ( 'general', 
                     'mp_settings',
                     'data_manager',
-                    #'learn',
                     'explore',
                     'visualize',
-                    #'feedback',
                     'django.contrib.humanize',
                     'flatblocks',
                     'proxy'
-                    #'marco_profile' 
                   )
 
 GEOMETRY_DB_SRID = 99996
 GEOMETRY_CLIENT_SRID = 3857 #for latlon
 GEOJSON_SRID = 3857
 
-APP_NAME = "MARCO Mid-Atlantic Ocean Data Portal"
-FEEDBACK_RECIPIENT = "MARCO Portal Team <portal@midatlanticocean.org>"
-HELP_EMAIL = "portal@midatlanticocean.org"
-DEFAULT_FROM_EMAIL = "MARCO Portal Team <portal@midatlanticocean.org>"
+#APP_NAME = "Marine Planner Data Portal"
+#FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
+#HELP_EMAIL = "mp-team@marineplanner.org"
+#DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
 
 # url for socket.io printing
 #SOCKET_URL = 'http://dev.marco.marineplanning.org:8080'
