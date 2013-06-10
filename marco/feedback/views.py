@@ -8,14 +8,14 @@ def send_feedback(request):
     feedback_address = settings.FEEDBACK_RECIPIENT #, info@portal.midatlanticocean.org'
     name = request.POST.get('name', '')
     from_email = "%s <%s>" % (name, request.POST.get('email', ''),)
-    reply_email = "MARCO Portal Project Team <%s>" % settings.FEEDBACK_RECIPIENT[0]
+    reply_email = "Marine Planner Project Team <%s>" % settings.FEEDBACK_RECIPIENT[0]
     url = request.POST.get('url', '')
     ua = request.META['HTTP_USER_AGENT']
     feedback_message = "From: %s\nURL: %s\nBrowser: %s\n\n\n%s" % (from_email, url, ua, request.POST.get('comment', ''),)
-    thankyou_message = "\nWe appreciate and value your feedback on the MARCO Portal."
+    thankyou_message = "\nWe appreciate and value your feedback on Marine Planner."
     thankyou_message += "\nYour comments have been sent to the appropriate staff for review and they will be in touch at their earliest convenience."
     thankyou_message += "\n\nRegards,"
-    thankyou_message += "\n\nMARCO Portal Project Team"
+    thankyou_message += "\n\nMarine Planner Project Team"
     thankyou_message_recipient = [request.POST.get('email', '')]
     
     if name and feedback_message and from_email:
@@ -28,25 +28,5 @@ def send_feedback(request):
             return HttpResponse('Invalid header found.')
         return HttpResponse('Thanks for your feedback.')
     else:
-        # In reality we'd use a form class
-        # to get proper validation errors.
+        # In reality we'd use a form class to get proper validation errors.
         return HttpResponse('Make sure all fields are entered and valid.')
-
-# def send_bookmark(request):
-#     recipient = request.POST.get('recipient')
-#     comment = request.POST.get('comment')
-#     link = request.POST.get('link')
-#     message = comment + '<p>' + link
-#     subject = "a MARCO bookmark"
-#     from_email = "info@portal.midatlanticocean.org"
-    
-#     if recipient:
-#         try:
-#             send_mail(subject, message, from_email, recipient)
-#         except BadHeaderError:
-#             return HttpResponse('Invalid header found.')
-#         return HttpResponse('Bookmark Sent.')
-#     else:
-#         # In reality we'd use a form class
-#         # to get proper validation errors.
-#         return HttpResponse('Hmmm...Something went wrong. Try sending your bookmark again.')

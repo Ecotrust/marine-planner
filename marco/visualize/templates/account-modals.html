@@ -4,7 +4,6 @@
 -->
 <!-- SIGN IN MODAL -->
 <div id="sign-in-modal" class="modal hide fade">
-    <!--<form class="form-horizontal" id="sign-in-form" action="/accounts/signin/" method="post">{% csrf_token %}-->
     <form id="sign-in-form" class="form-horizontal" action="/accounts/signin/" method="post" data-bind="submit: verifyLogin">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -51,7 +50,7 @@
 
 <!-- FORGOT USERNAME -->
 <div id="forgot-username-modal" class="modal hide fade">
-    <form class="form-horizontal" id="forgot-username-form" action="/marco_profile/forgot_username/" method="post">
+    <form class="form-horizontal" id="forgot-username-form" action="/mp_profile/forgot_username/" method="post">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Forgotten Username</h3>
@@ -79,8 +78,7 @@
 
 <!-- FORGOT PASSWORD -->
 <div id="forgot-password-modal" class="modal hide fade">
-    <!--<form class="form-horizontal" id="forgot-password-form" action="/marco_profile/change_password/{{user.username}}/" method="post">{% csrf_token %}-->
-    <form class="form-horizontal" id="forgot-password-form" action="/marco_profile/password/reset/" method="post">
+    <form class="form-horizontal" id="forgot-password-form" action="/mp_profile/password/reset/" method="post">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Password Change</h3>
@@ -105,7 +103,7 @@
 
 <!-- REGISTRATION MODAL -->
 <div id="registration-modal" class="modal hide fade">
-    <form class="form-horizontal" id="registration-form" action="{% url marco_registration_register %}" method="post">{% csrf_token %}
+    <form class="form-horizontal" id="registration-form" action="{% url mp_registration_register %}" method="post">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Register</h3>
@@ -165,8 +163,7 @@
 
 <!-- RESET PASSWORD -->
 <div id="reset-password-modal" class="modal hide fade">
-    <!--<form class="form-horizontal" id="forgot-password-form" action="/marco_profile/change_password/{{user.username}}/" method="post">{% csrf_token %}-->
-    <form class="form-horizontal" id="reset-password-form" action="/marco_profile/password_change/{{user.username}}/" method="post" data-bind="submit: verifyPassword">
+    <form class="form-horizontal" id="reset-password-form" action="/mp_profile/password_change/{{user.username}}/" method="post" data-bind="submit: verifyPassword">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Password Change</h3>
@@ -209,7 +206,7 @@
         
 <!-- PROFILE MODAL -->
 <div id="profile-modal" class="modal hide fade">
-    <form class="form-horizontal" id="profile-form" action="/marco_profile/update_profile/{{user.username}}/" method="post">{% csrf_token %}
+    <form class="form-horizontal" id="profile-form" action="/mp_profile/update_profile/{{user.username}}/" method="post">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>{{user.username}}</h3>

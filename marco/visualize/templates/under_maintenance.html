@@ -5,7 +5,11 @@
     <head>
         <meta charset="utf-8">
         <title>
-            MARCO Portal
+            {% if project_name %}
+            {{ project_name }}
+            {% else %}
+            Marine Planner
+            {% endif %}
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
@@ -20,9 +24,6 @@
         <link href="{{MEDIA_URL}}/mp/css/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/mp/css/jquery/jquery.mCustomScrollbar.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}mp/css/jquery/jquery.jscrollpane.css" rel="stylesheet">
-        <!--<link href="{{MEDIA_URL}}/marco-proto/assets/css/jScrollPane.css" rel="stylesheet">-->
-        <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/base/jquery-ui.css"
-        type="text/css" media="all" />-->
         <link rel="shortcut icon" href="{{MEDIA_URL}}mp/ico/favicon.ico">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -61,10 +62,6 @@
         }
 
         </style>
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{MEDIA_URL}}/marco-proto/assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{MEDIA_URL}}/marco-proto/assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{MEDIA_URL}}/marco-proto/assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="{{MEDIA_URL}}/marco-proto/assets/ico/apple-touch-icon-57-precomposed.png">
         
         <!-- Google Analytics -->
         <script type="text/javascript">
@@ -93,7 +90,15 @@
                         <div class="row-fluid">
                             <div class="span5">
                                 <a href="/portal">
-                                    <img style="height: 77px;" src="{{MEDIA_URL}}mp/img/marco-logo.png"/>
+                                    {% if project_logo %}
+                                    <img style="height: 77px;" src="{{project_logo}}"/>
+                                    {% else %}
+                                        {% if project_name %}
+                                        <h1 id="project-name-header">{{project_name}}</h1>
+                                        {% else %}
+                                        <h1 id="project-name-header">Marine Planner</h1>
+                                        {% endif %}
+                                    {% endif %}
                                 </a>
                                 <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
                             </div>
@@ -107,7 +112,7 @@
         
         <div style="margin-left: 60px; padding-top: 20px;">
             <p>We're Sorry. </p>
-            <p>The MARCO site is temporarily down for maintenance. </p>
+            <p>The Marine Planner site is temporarily down for maintenance. </p>
             <p>We will be back up and running shortly. </p>
         </div>
        

@@ -10,5 +10,5 @@ class Bookmark(Feature):
     url_hash = models.CharField(max_length=2050) 
     
     class Options:
-        verbose_name = 'MARCO Bookmark'
+        verbose_name = 'Marine Planner Bookmark'
         form = 'visualize.forms.BookmarkForm'

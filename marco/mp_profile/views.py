@@ -42,8 +42,8 @@ def duplicate_username(request):
 
 def send_username(request, use_openid=False, redirect_field_name=REDIRECT_FIELD_NAME):
     if request.method == 'POST':
-        subject = 'MARCO login'
-        reply_email = "MARCO Portal Team <%s>" % settings.DEFAULT_FROM_EMAIL
+        subject = 'Marine Planner login'
+        reply_email = "Marine Planner Team <%s>" % settings.DEFAULT_FROM_EMAIL
         #check for user account
         user_email = [request.POST.get('email', '')]
         try:
@@ -53,14 +53,14 @@ def send_username(request, use_openid=False, redirect_field_name=REDIRECT_FIELD_
             username = None
         if username:
             message = "Hello,"
-            message += "\n\nYour username for the MARCO Planner is:  %s" %username
-            message += "\n\n-MARCO Portal Technical Team"
+            message += "\n\nYour username for Marine Planner is:  %s" %username
+            message += "\n\n-Marine Planner Technical Team"
         else:
             message = "Hello,"
             message += "\n\nWe did not find a username associated with this email address." 
             message += "\nYou may want to try another email address, or register for an account with this email address."
             message += "\n\Feel free to reply to this email if this does not resolve your problem and you would like further assistance."
-            message += "\n\n-MARCO Portal Technical Team"
+            message += "\n\n-Marine Planner Technical Team"
 
         #send notification of profile change to user
         if user_email and reply_email:
@@ -94,13 +94,13 @@ def update_profile(request, username, use_openid=False, redirect_field_name=REDI
 
     if request.method == 'POST':
         #prepare email fields
-        subject = 'MARCO profile change'
+        subject = 'Marine Planner profile change'
         user_email = user.email
-        reply_email = "MARCO Portal Team<%s>" % settings.DEFAULT_FROM_EMAIL
-        message = "Your MARCO Portal profile was just updated."
+        reply_email = "Marine Planner Team<%s>" % settings.DEFAULT_FROM_EMAIL
+        message = "Your Marine Planner profile was just updated."
         message += "\nIf this was in error, please contact us immediately so that we can rectify the situation."
         message += "\n\nThank you."
-        message += "\n\n-MARCO Portal technical staff"
+        message += "\n\n-Marine Planner technical staff"
     
         #prepare redirect
         redirect_to = request.REQUEST.get(redirect_field_name, '')
@@ -176,13 +176,13 @@ def password_change(request, username,
 
     if request.POST:
         #prepare email fields
-        subject = 'MARCO profile change'
+        subject = 'Marine Planner profile change'
         user_email = user.email
-        reply_email = "MARCO Portal Team<%s>" % settings.DEFAULT_FROM_EMAIL
-        message = "Your MARCO Portal password was just changed."
+        reply_email = "Marine Planner Team<%s>" % settings.DEFAULT_FROM_EMAIL
+        message = "Your Marine Planner password was just changed."
         message += "\nIf you did not make this change, please contact us immediately."
         message += "\n\nThank you."
-        message += "\n\n-MARCO Portal technical staff"
+        message += "\n\n-Marine Planner technical staff"
         
         form = change_form(request.user, request.POST)
         if form.is_valid():
