@@ -15,7 +15,6 @@ function layerModel(options, parent) {
     self.legendTitle = options.legend_title || false;
     self.legendSubTitle = options.legend_subtitle || false;
     self.themes = ko.observableArray();
-    //self.attributeTitle = options.attributes ? options.attributes.title : self.name;
     self.attributes = options.attributes ? options.attributes.attributes : [];
     self.compress_attributes = options.attributes ? options.attributes.compress_attributes : false;
     self.attributeEvent = options.attributes ? options.attributes.event : [];
@@ -910,10 +909,6 @@ function viewModel() {
     self.activeInfoLayer = ko.observable(false);
     self.activeInfoSublayer = ko.observable(false);
 
-    // new attribute data
-    //self.attributeTitle = ko.observable(false);
-    //self.attributeData = ko.observable(false);
-    
     // attribute data
     self.aggregatedAttributes = ko.observable(false);
     self.aggregatedAttributesWidth = ko.observable('280px');

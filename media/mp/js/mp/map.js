@@ -110,42 +110,11 @@ app.init = function () {
         }   
     });
 
-    // map.addControl(new OpenLayers.Control.MousePosition({
-    //     element: document.getElementById('pos')
-    // }));
-
     map.events.register("moveend", null, function () {
         // update the url when we move
         app.updateUrl();
     });
 
-    /*
-    // callback functions for vector attribution (SelectFeature Control)
-    var report = function(e) {
-        var layer = e.feature.layer.layerModel;
-        
-        if ( layer.attributes.length ) {
-            var attrs = layer.attributes,
-                title = layer.name,
-                text = [];
-            app.viewModel.attributeTitle(title); 
-            for (var i=0; i<attrs.length; i++) {
-                if ( e.feature.data[attrs[i].field] ) {
-                    text.push({'display': attrs[i].display, 'data': e.feature.data[attrs[i].field]});
-                }
-            }
-            app.viewModel.attributeData(text);
-        }
-    };
-    */
-    /*  
-    var clearout = function(e) {
-        //document.getElementById("output").innerHTML = ""; 
-        app.viewModel.attributeTitle(false);
-        app.viewModel.attributeData(false);
-    };  
-    */
-    
     app.map = map;
     
     app.map.attributes = [];
@@ -165,14 +134,7 @@ app.init = function () {
     map.addControl(map.UTFControl);    
     
     app.map.utfGridClickHandling = function(infoLookup, lonlat, xy) {
-        var clickAttributes = [],
-            date = new Date(),
-            newTime = date.getTime();
-            
-        if (newTime - app.map.clickOutput.time > 500) {
-            app.map.clickOutput.attributes = {};
-            app.map.clickOutput.time = newTime;
-        } 
+        var clickAttributes = [];            
         
         for (var idx in infoLookup) {
             $.each(app.viewModel.visibleLayers(), function (layer_index, potential_layer) {
@@ -249,8 +211,6 @@ app.init = function () {
     app.map.events.register("featureclick", null, function(e, test) {
         var layer = e.feature.layer.layerModel || e.feature.layer.scenarioModel;
         if (layer) {
-            var date = new Date();
-            var newTime = date.getTime();
             var text = [],
                 title = layer.name;
             
@@ -269,38 +229,27 @@ app.init = function () {
                 }
             } 
             
-            if (newTime - app.map.clickOutput.time > 300) {
-                app.map.clickOutput.attributes = {};
-                app.map.clickOutput.time = newTime;
-            } 
-            app.map.clickOutput.attributes[title] = text;
-            app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
+            // the following delay prevents the #map click-event-attributes-clearing from taking place after this has occurred
+            setTimeout( function() {
+                app.map.clickOutput.attributes[title] = text;
+                app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
+                if (app.marker) {
+                    app.marker.display(true);
+                }
+            }, 100);
             
         }
         
-        //the following delay is so that the "click" handler below gets activated (and the marker is created) before the marker is updated here
-        setTimeout( function() {
-            if (app.marker) {
-                app.marker.display(true);   
-            }
-        }, 100);
-    });
-    
-    app.map.events.register("nofeatureclick", null, function(e) {
-        var date = new Date();
-        var newTime = date.getTime();
-        if (newTime - app.map.clickOutput.time > 300) {
-            app.viewModel.closeAttribution();
-        } 
     });
     
     app.markers = new OpenLayers.Layer.Markers( "Markers" );
     var size = new OpenLayers.Size(16,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    app.markers.icon = new OpenLayers.Icon('/media/marco/img/red-pin.png', size, offset);
+    app.markers.icon = new OpenLayers.Icon('/media/mp/img/red-pin.png', size, offset);
     app.map.addLayer(app.markers);
       
-    
+    //no longer needed?
+    //replaced with #map mouseup and move events in app.js?
     //place the marker on click events
     app.map.events.register("click", app.map , function(e){
         //app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.xy));
@@ -406,22 +355,19 @@ app.addArcRestLayerToMap = function(layer) {
     layer.arcIdentifyControl = new OpenLayers.Control.ArcGisRestIdentify(
     {
         eventListeners: {
-            //arcfeaturequery : function() {            
-            //},
             //the handler for the return click data
             resultarrived : function(responseText, xy) {
-                var clickAttributes = [];
-                //app.viewModel.featureRequested(false);
-                var jsonFormat = new OpenLayers.Format.JSON();
-                var returnJSON = jsonFormat.read(responseText.text);
-                //Activate the Identify tab.
-                //$('#identifyTab').tab('show');          
+                var clickAttributes = [],
+                    jsonFormat = new OpenLayers.Format.JSON(),
+                    returnJSON = jsonFormat.read(responseText.text);
+                
                 if(returnJSON['features'] && returnJSON['features'].length) { 
-                    //app.viewModel.attributeTitle(layer.name);
                     var attributeObjs = [];
+                    
                     $.each(returnJSON['features'], function(index, feature) {
                         if(index == 0) {
                             var attributeList = feature['attributes'];
+                            
                             if('fields' in returnJSON) {
                                 if (layer.attributes.length) {
                                     for (var i=0; i<layer.attributes.length; i+=1) {
@@ -464,15 +410,12 @@ app.addArcRestLayerToMap = function(layer) {
                         }
                     });
                 }
-                //we can remove attributeData and attributeTitle 
-                //app.viewModel.attributeData(attributeObjs);
+                
                 if (attributeObjs && attributeObjs.length) {
                     clickAttributes[layer.name] = attributeObjs;
                     $.extend(app.map.clickOutput.attributes, clickAttributes);
                     app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
-                    //console.log('displaying marker');
                     app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(responseText.xy));
-                    //app.marker.display(true);
                 }
             }
         },
