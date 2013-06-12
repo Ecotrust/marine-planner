@@ -294,7 +294,7 @@ function bookmarksModel(options) {
                 ownedBookmarks.push(bookmark);
             }
         }
-        amplify.store("marco-bookmarks", ownedBookmarks);
+        amplify.store("mp-bookmarks", ownedBookmarks);
     };
     
     self.updateBookmarkScrollBar = function() {
@@ -309,7 +309,7 @@ function bookmarksModel(options) {
     // method for loading existing bookmarks
     self.getBookmarks = function() {
         //get bookmarks from local storage
-        var existingBookmarks = amplify.store("marco-bookmarks"),
+        var existingBookmarks = amplify.store("mp-bookmarks"),
             local_bookmarks = [];
         if (existingBookmarks) {
             for (var i=0; i < existingBookmarks.length; i++) {
