@@ -518,7 +518,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: transparent url("../img/pageguide_arrow.png") 10px 4px no-repeat;
+  background: transparent url("../../img/pageguide_arrow.png") 10px 4px no-repeat;
   display: block;
   height: 30px;
   overflow: hidden;
