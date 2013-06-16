@@ -14,21 +14,21 @@ DATABASES = {
     }
 }
 
-COMPRESS_CSS['application']['source_filenames'] += (
-    'mp/css/analysis_reports.css',
-    'kmltree/dist/kmltree_mod.css',
-)
+# COMPRESS_CSS['application']['source_filenames'] += (
+#     'mp/css/analysis_reports.css',
+#     'kmltree/dist/kmltree_mod.css',
+# )
 
-COMPRESS_JS['application']['source_filenames'] += (
-    'mp/js/jquery.qtip-1.0.0-rc3.min.js',
-)
+# COMPRESS_JS['application']['source_filenames'] += (
+#     'mp/js/jquery.qtip-1.0.0-rc3.min.js',
+# )
 
 LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'mp.log'))
 
 
 INSTALLED_APPS += ( 'general', 
-                    'mp_settings',
                     'data_manager',
+                    'mp_settings',
                     'explore',
                     'visualize',
                     'django.contrib.humanize',
