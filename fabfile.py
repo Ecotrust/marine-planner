@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from fabric.operations import put
 from fabric.api import env, local, sudo, run, cd, prefix, task, settings
 
+branch = 'chef'
 
 CHEF_VERSION = '10.20.0'
 
@@ -146,6 +147,7 @@ def push():
             # result2 = run("ls %s" % env.code_dir)
             # if not result2.succeeded:
             #     run('mkdir %s' % env.code_dir)
+            print "Creating remote repo, now."
             with cd(env.root_dir):
                 run("git init")
                 run("git config --bool receive.denyCurrentBranch false")
@@ -200,7 +202,7 @@ def vagrant(username='vagrant'):
     result = local('vagrant ssh-config', capture=True)
     data = parse_ssh_config(result)
     env.remote = 'vagrant'
-    env.branch = 'chef'
+    env.branch = branch
     env.host = '127.0.0.1'
     env.port = data['Port']
     env.code_dir = '/vagrant/mp'
@@ -215,7 +217,7 @@ def vagrant(username='vagrant'):
 def staging(connection):
     env.remote = 'staging'
     env.role = 'staging'
-    env.branch = 'chef'
+    env.branch = branch
     username, env.host = connection.split('@')
     env.port = 22
     env.host_string = '%s@%s:%s' % (username, env.host, env.port)
