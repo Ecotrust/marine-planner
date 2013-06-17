@@ -11,7 +11,7 @@ fab vagrant runserver
 You development server will be available on http://localhost:8000.
 
 ## Provision a fresh Server with Chef and Fabric
-Create a node file with the name scripts/cookbook/node_staging.json from the template in scripts/cookbook/node_staging.json.template.  Set the postgresql password and add your ssh public key to scripts/node_staging.json.  Edit the fabfile.py and set the staging host.  Tested with Ubuntu 12.04 (precise pangolin).
+Create a node file with the name scripts/cookbook/node_staging.json from the template in scripts/cookbook/node_staging.json.template.  Set the postgresql password and add your ssh public key to scripts/node_staging.json.  Tested with Ubuntu 12.04 (precise pangolin).
 
 These commands install all the prerequisites for running marine planner, including postgresql/postgis, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files.
 
