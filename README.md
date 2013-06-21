@@ -21,3 +21,6 @@ The code is built using Python / Django, Jquery / KnockoutJS, OpenLayers, and Tw
 * Search feature for locating and activating data layers
 * Active tab allowing users to re-arrange the ordering of the data layers and adjusting the opacity of each data layer
 * Pageguide.js Tours / Tutorials
+
+##Questions
+If you have questions, feature requests, etc, feel free to email us at marine@ecotrust.org
