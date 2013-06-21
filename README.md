@@ -1,1 +1,1 @@
-Marine Planner Lite
+Marine Planner
