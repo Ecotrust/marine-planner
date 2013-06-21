@@ -1,15 +1,12 @@
 # Marine Planner
 
-##Marine Planner is a simple, configurable Data Viewer 
+Marine Planner is a lightweight map viewer and catalog built with Django, Jquery, KnockoutJS, OpenLayers, and Twitter Bootstrap.  Marine Planner can be readily extended to support a broad range of marine planning activities including visualization, spatial design, and analysis using Madrona and other planning frameworks.
 
-##Technology
-The code is built using Python / Django, Jquery / KnockoutJS, OpenLayers, and Twitter Bootstrap / CSS.  
-
-##Features include
-* Ability to configure (via the Django admin): 
+##Features
+* Admoin 
  * project name and/or logo
- * default location and zoom level
- * data layers and data categories
+ * default map extent and zoom level
+ * data layers organized into categories/themes
  * among other options.
 * Data layer Legends (pulled from web services, or configured to a specific url or file)
 * Drill-down feature attributes on click events (pulled from web services,, UTFGrid, vector geojson)
