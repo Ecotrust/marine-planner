@@ -27,13 +27,7 @@ Vagrant.configure("2") do |config|
                 :password => {
                     :postgres  => "SECRET"
                 }
-            },
-            :users => [
-                {
-                    :name => "user",
-                    :key => "ssh-rsa key"
-                }
-            ]
+            }
         }
         chef.add_role "vagrant"
     end
