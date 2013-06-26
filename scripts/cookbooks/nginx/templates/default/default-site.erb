@@ -36,6 +36,14 @@ server {
     location /media/ {
         alias <%= node[:mediafiles] %>/;
     }
+    
+    <% end %>
+    
+    <% if node[:adminmediafiles] %>
+
+    location /media/admin/ {
+        alias <%= node[:adminmediafiles] %>/;
+    }
 
     <% end %>
 

@@ -4,6 +4,7 @@
     "dbname": "marine-planner",
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
+    "adminmediafiles": "/usr/local/venv/marine-planner/lib/python2.7/site-packages/django/contrib/admin/static/admin",
     "users": [
         {
             "name": "username",
