@@ -180,6 +180,7 @@ def deploy():
             _manage_py('syncdb --noinput')
             _manage_py('add_srid 99996')
             _manage_py('migrate')
+            _manage_py('enable_sharing')
             sudo('chown -R www-data:deploy %s/mediaroot' % env.root_dir)
 
 
