@@ -5,6 +5,7 @@ Marine Planner Lite
 vagrant plugin install vagrant-vbguest
 vagrant up
 fab vagrant bootstrap
+NOTE for Windows machines: http://www.voidspace.org.uk/python/modules.shtml#pycrypto 
 fab vagrant runserver
 ```
 

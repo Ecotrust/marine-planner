@@ -108,6 +108,7 @@ def bootstrap(username=None):
             _manage_py('add_srid 99996')
             _manage_py('migrate')
             _manage_py('install_media')
+            _manage_py('enable_sharing')
 @task
 def createsuperuser(username=None):
     set_env_for_user(username)
@@ -179,6 +180,7 @@ def deploy():
             _manage_py('syncdb --noinput')
             _manage_py('add_srid 99996')
             _manage_py('migrate')
+            _manage_py('enable_sharing')
             sudo('chown -R www-data:deploy %s/mediaroot' % env.root_dir)
 
 
@@ -218,9 +220,9 @@ def staging(connection):
     env.remote = 'staging'
     env.role = 'staging'
     env.branch = branch
-    username, env.host = connection.split('@')
+    env.user, env.host = connection.split('@')
     env.port = 22
-    env.host_string = '%s@%s:%s' % (username, env.host, env.port)
+    env.host_string = '%s@%s:%s' % (env.user, env.host, env.port)
 
 
 def upload_project_sudo(local_dir=None, remote_dir=""):
@@ -233,28 +235,52 @@ def upload_project_sudo(local_dir=None, remote_dir=""):
     local_dir = local_dir.rstrip(os.sep)
 
     local_path, local_name = os.path.split(local_dir)
-    tar_file = "%s.tar.gz" % local_name
-    target_tar = os.path.join(remote_dir, tar_file)
+    #tar_file = "%s.tar.gz" % local_name
+    #target_tar = os.path.join(remote_dir, tar_file)
+    zip_file = "%s.zip" % local_name
+    target_zip = os.path.join(remote_dir, zip_file)
+    target_zip = target_zip.replace('\\','/')
     tmp_folder = mkdtemp()
-
     try:
-        tar_path = os.path.join(tmp_folder, tar_file)
-        local("tar -czf %s -C %s %s" % (tar_path, local_path, local_name))
-        put(tar_path, target_tar, use_sudo=True)
+        #tar_path = os.path.join(tmp_folder, tar_file)
+        zip_path = os.path.join(tmp_folder, zip_file)
+        #local("tar -czf %s -C %s %s" % (tar_path, local_path, local_name))
+        #local("tar -czf %s %s" % (tar_path, local_dir))
+        zipdir(local_dir, zip_path)
+        #put(tar_path, target_tar, use_sudo=True)
+        put(zip_path, target_zip, use_sudo=True)
         with cd(remote_dir):
             try:
-                sudo("tar -xzf %s" % tar_file)
+                #sudo("tar -xzf %s" % tar_file)
+                sudo("apt-get install -y unzip")
+                sudo("unzip %s" % zip_file)
             finally:
-                sudo("rm -f %s" % tar_file)
+                #sudo("rm -f %s" % tar_file)
+                sudo("rm -f %s" % zip_file)
     finally:
-        local("rm -rf %s" % tmp_folder)
+        pass
+        #local("rm -rf %s" % tmp_folder)
 
+def zipdir(basedir, archivename):
+    from zipfile import ZipFile, ZIP_DEFLATED
+    from contextlib import closing
+    with closing(ZipFile(archivename, "w", ZIP_DEFLATED)) as z:
+        for root, dirs, files in os.walk(basedir):
+            #NOTE: ignoring empty directories
+            for fn in files:
+                absfn = os.path.join(root, fn)
+                zfn = absfn[len(basedir)+len(os.sep):] #XXX: relative path
+                z.write(absfn, zfn)
 
 @task
 def sync_config():
-    sudo('mkdir -p /etc/chef')
-    upload_project_sudo(local_dir='./scripts/cookbooks', remote_dir='/etc/chef')
-    upload_project_sudo(local_dir='./scripts/roles/', remote_dir='/etc/chef')
+    sudo("rm -rf /etc/chef")
+    #upload_project_sudo(local_dir='./scripts/cookbooks', remote_dir='/etc/chef')
+    sudo('mkdir -p /etc/chef/cookbooks')
+    upload_project_sudo(local_dir='./scripts/cookbooks', remote_dir='/etc/chef/cookbooks')
+    #upload_project_sudo(local_dir='./scripts/roles/', remote_dir='/etc/chef')
+    sudo('mkdir -p /etc/chef/roles')
+    upload_project_sudo(local_dir='./scripts/roles', remote_dir='/etc/chef/roles')
 
 
 @task
