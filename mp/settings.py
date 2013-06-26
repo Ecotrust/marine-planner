@@ -39,6 +39,7 @@ GEOJSON_SRID = 3857
 
 # url for socket.io printing
 #SOCKET_URL = 'http://dev.marco.marineplanning.org:8080'
+SOCKET_URL = False
 
 # Change the following line to True, to display the 'under maintenance' template
 UNDER_MAINTENANCE_TEMPLATE = False

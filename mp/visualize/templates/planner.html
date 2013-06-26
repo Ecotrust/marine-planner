@@ -669,13 +669,17 @@
         <script src="{{MEDIA_URL}}/mp/js/jquery/jquery.jscrollpane.min.js"></script>
         <script src="{{MEDIA_URL}}/mp/js/date/date.js"></script>
 
-        <script src="{{SOCKET_URL}}/socket.io/socket.io.js"></script>
         <script>
-            var app = {
-                socketUrl: "{{ SOCKET_URL }}"
-            };
+            var app = {};
             {% if user.is_authenticated %} /*app.is_authenticated = true;*/ {% endif %}
         </script>
+        
+        {% if SOCKET_URL %}
+        <script src="{{SOCKET_URL}}/socket.io/socket.io.js"></script>
+        <script>
+            app.socketUrl: "{{ SOCKET_URL }}";
+        </script>
+        {% endif %}
         
         <!-- Check for Marine Planner Settings -->
         <script type="text/javascript">

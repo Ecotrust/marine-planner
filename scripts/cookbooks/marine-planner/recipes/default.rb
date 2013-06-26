@@ -67,6 +67,11 @@ else
         source "sudoers"
         mode 0440
     end
+    
+    package "dos2unix"
+    execute "authorized keys" do
+        command "dos2unix /etc/sudoers"
+    end
 end
 
 directory "/usr/local/apps" do
@@ -114,6 +119,7 @@ package "mosh"
 package "mercurial"
 package "subversion"
 package "csstidy"
+package "unzip"
 
 include_recipe "openssl"
 include_recipe "build-essential"
