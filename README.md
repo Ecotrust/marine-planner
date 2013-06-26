@@ -30,6 +30,6 @@ Marine Planner is a lightweight map viewer and data catalog built using Django, 
 Instructions for automated installation using Chef coming soon
 
 ##Questions
-If you have questions, feature requests, etc, feel free to email us at marine@ecotrust.org
+If you have questions, feature requests, etc, feel free to email us at marine-dev@ecotrust.org
 
 Marine Planner is developed in partnership by Ecotrust and The Nature Conservancy
