@@ -1,0 +1,21 @@
+{
+    "user": "www-data",
+    "servername": "staging.example.com",
+    "dbname": "marine-planner",
+    "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
+    "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
+    "users": [
+        {
+            "name": "username",
+            "key": "ssh-rsa sdflkjdfdslkQ== username@hostname"
+        }
+    ],
+    "postgresql": {
+        "password": {
+            "postgres": "some random password here"
+        }
+    },
+    "run_list": [
+        "marine-planner::default"
+    ]
+}

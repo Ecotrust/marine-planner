@@ -1,0 +1,8 @@
+{
+    "name": "vagrant",
+    "json_class": "Chef::Role",
+    "description": "",
+    "chef_type": "role",
+    "run_list": ["marine-planner::default"],
+    "default_attributes": {}
+}

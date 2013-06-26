@@ -1,0 +1,7 @@
+[program:app]
+command=/usr/local/venv/marine-planner/bin/gunicorn_django -b 0.0.0.0:8888 /usr/local/apps/marine-planner/mp/settings.py
+user=www-data
+directory=/usr/local/apps/marine-planner
+autostart=true
+autorestart=true
+killasgroup=true

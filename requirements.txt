@@ -6,4 +6,4 @@ django-redis
 querystring-parser
 httplib2
 requests
-
+gunicorn
