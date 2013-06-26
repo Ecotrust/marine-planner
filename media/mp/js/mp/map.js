@@ -208,7 +208,7 @@ app.init = function () {
         
     }; //end utfGridClickHandling
       
-    app.map.events.register("featureclick", null, function(e, test) {
+    app.map.events.register("featureclick", null, function(e) {
         var layer = e.feature.layer.layerModel || e.feature.layer.scenarioModel;
         if (layer) {
             var text = [],
@@ -233,9 +233,11 @@ app.init = function () {
             setTimeout( function() {
                 app.map.clickOutput.attributes[title] = text;
                 app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
-                if (app.marker) {
-                    app.marker.display(true);
-                }
+                app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.event.xy));
+                //if (app.marker) {
+                //    app.marker.display(true);
+                    //app.viewModel.updateMarker(lonlat);
+                //}
             }, 100);
             
         }
