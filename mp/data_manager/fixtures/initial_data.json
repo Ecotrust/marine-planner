@@ -29,7 +29,8 @@
         "fields": {
             "themes": [
                 7,
-                8
+                8,
+                9
             ],
             "name": "Colombia"
         }
@@ -145,6 +146,18 @@
             ],
             "display_name": "Parques y reservas",
             "name": "parks-and-reserves",
+            "description": ""
+        }
+    },
+    {
+        "pk": 9,
+        "model": "data_manager.toctheme",
+        "fields": {
+            "layers": [
+                111
+            ],
+            "display_name": "Oil and Gas",
+            "name": "oil-and-gas",
             "description": ""
         }
     },
@@ -823,6 +836,45 @@
                 80
             ],
             "slug_name": "limit-of-ocsla-8g-zone"
+        }
+    },
+    {
+        "pk": 111,
+        "model": "data_manager.layer",
+        "fields": {
+            "layer_type": "ArcRest",
+            "themes": [],
+            "compress_display": false,
+            "map_tiles": "",
+            "legend_subtitle": "",
+            "bookmark": "",
+            "vector_graphic": "",
+            "kml": "",
+            "source": "",
+            "lookup_table": [],
+            "utfurl": "",
+            "data_download": "",
+            "metadata": "",
+            "opacity": 0.5,
+            "vector_color": "",
+            "attribute_event": "click",
+            "description": "",
+            "attribute_fields": [],
+            "vector_fill": null,
+            "data_overview": "",
+            "attribute_title": "",
+            "is_sublayer": false,
+            "lookup_field": "",
+            "legend": "",
+            "shareable_url": true,
+            "data_source": "",
+            "data_notes": "",
+            "name": "\u00c1reas en exploraci\u00f3n",
+            "url": "http://gis.invemar.org.co/ArcGIS/rest/services/ANH2/1_TM_ANH2/MapServer/export",
+            "arcgis_layers": "0",
+            "legend_title": "",
+            "sublayers": [],
+            "slug_name": "areas-en-exploracion"
         }
     },
     {

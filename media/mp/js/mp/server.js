@@ -84,3 +84,4 @@ app.viewModel.loadLayersFromServer = function() {
 		app.viewModel.loadLayers(data);
 	});
 };
+//test comment
