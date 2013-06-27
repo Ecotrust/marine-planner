@@ -61,5 +61,26 @@
             "bitly_api_key": "R_d02e03290041107b75e3720d7e3c4b95",
             "project_home_page": "http://portal.midatlanticocean.org/"
         }
+    },
+    {
+        "pk": 4,
+        "model": "mp_settings.marineplannersettings",
+        "fields": {
+            "bitly_username": "",
+            "project_name": "Columbia",
+            "table_of_contents": 3,
+            "project_icon": "",
+            "bitly_registered_domain": "",
+            "max_zoom": 12,
+            "zoom": 6,
+            "longitude": -78.38,
+            "latitude": 7.73,
+            "min_zoom": 5,
+            "slug_name": "columbia",
+            "project_logo": "",
+            "active": false,
+            "bitly_api_key": "",
+            "project_home_page": ""
+        }
     }
 ]
