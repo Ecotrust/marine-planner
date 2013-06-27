@@ -2,6 +2,7 @@
     "user": "www-data",
     "servername": "staging.example.com",
     "dbname": "marine-planner",
+    "socketurl": "",
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
     "adminmediafiles": "/usr/local/venv/marine-planner/lib/python2.7/site-packages/django/contrib/admin/static/admin",
