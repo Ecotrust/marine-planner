@@ -25,7 +25,7 @@ class MarinePlannerSettings(models.Model):
         return slugify(self.project_name)
     
     def save(self, *args, **kwargs):
-        self.slug_name = self.slug
+        #self.slug_name = self.slug
         super(MarinePlannerSettings, self).save(*args, **kwargs)
         if self.active and MarinePlannerSettings.objects.filter(active=True).count() > 1:
             # Ensure that any previously active study region is deactivated

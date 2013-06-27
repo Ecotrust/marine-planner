@@ -67,7 +67,7 @@
         "model": "mp_settings.marineplannersettings",
         "fields": {
             "bitly_username": "",
-            "project_name": "Columbia",
+            "project_name": "Colombia",
             "table_of_contents": 3,
             "project_icon": "",
             "bitly_registered_domain": "",
