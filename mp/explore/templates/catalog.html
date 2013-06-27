@@ -162,7 +162,7 @@
                                                                         <div id="{{sublayer.slug}}-links" class="accordion-body collapse">
                                                                             <div class="accordion-inner">
                                                                                 <ul class="unstyled data-layer-links">
-                                                                                    <li>
+                                                                                    <li class="view-link">
                                                                                         {% if sublayer.bookmark_link %}
                                                                                         <a href="{{sublayer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_blank">VIEW</a>
                                                                                         {% else %}
@@ -218,7 +218,7 @@
                                                     <div id="{{layer.slug}}-links" class="accordion-body collapse">
                                                         <div class="accordion-inner">
                                                             <ul class="unstyled data-layer-links">
-                                                                <li>
+                                                                <li class="view-link">
                                                                     {% if layer.bookmark_link %}
                                                                     <a href="{{layer.bookmark_link}}" rel="tooltip" title="View this layer in Marine Planner" class="data-layer-link color-up" target="_blank">VIEW</a>
                                                                     {% else %}
@@ -670,7 +670,24 @@
                 $('.layer-group .accordion-body').on('show', function(e) {
                     var target = $(e.currentTarget).find('.description-url').first(),
                         url = target.attr('data-url'),
-                        arcId = target.attr('data-arcid');
+                        arcId = target.attr('data-arcid'),
+                        viewLinkAnchorTag = $(e.currentTarget).find('li.view-link a'),
+                        viewLink = viewLinkAnchorTag.attr('href'),
+                        pathname = window.location.pathname,
+                        slugName = pathname.substring(1, pathname.indexOf('/catalog'));
+                        
+                    if (slugName !== '/') {
+                        if (viewLink.indexOf('/visualize') !== -1) {
+                            var projectPath = viewLink.replace('/visualize', '/' + slugName + '/visualize');
+                        } else if (viewLink.indexOf('/planner') !== -1) {
+                            var projectPath = viewLink.replace('/planner', '/' + slugName + '/planner');
+                        } else {
+                            var projectPath = '/' + slugName + '/planner/' + viewLink;
+                        }
+                        projectPath = projectPath.replace(slugName + '/' + slugName, slugName);
+                        viewLinkAnchorTag.attr('href', projectPath);
+                    } 
+                    
                     if ( ! target.html() ) { // if description is not already provided
                         if (url && url !== "") {
                             if (arcId && arcId !== "") {
