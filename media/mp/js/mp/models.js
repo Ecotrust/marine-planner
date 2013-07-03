@@ -1088,7 +1088,20 @@ function viewModel() {
         if (self.showLegend()) return "Hide Legend";
         else return "Show Legend";
     });
+    
+    self.showEmbeddedLegend = ko.observable(false);
 
+    // toggle embedded legend (on embedded maps)
+    self.toggleEmbeddedLegend = function() {
+        self.showEmbeddedLegend( !self.showEmbeddedLegend() );
+        var legendScrollpane = $('#embedded-legend').data('jsp');
+        if (legendScrollpane === undefined) {
+            $('#embedded-legend').jScrollPane();
+        } else {
+            legendScrollpane.reinitialise();
+        }
+    };
+    
     // toggle legend panel visibility
     self.toggleLegend = function() {
         self.showLegend(!self.showLegend());

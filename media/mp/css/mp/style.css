@@ -13,6 +13,29 @@
   border: 1px solid #ccc;
 }
 
+#embedded-legend-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 750;
+}
+
+#embedded-legend {
+  position: absolute;
+  top: 42px;
+  right: 12px;
+  z-index: 750;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 280px;
+  max-height: 70%;
+  outline: none;
+}
+
+#embedded-legend-wrapper {
+  padding: 10px;
+}
+
 #map-buttons {
   position: absolute;
   bottom: 50px;

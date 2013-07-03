@@ -120,14 +120,14 @@
             #embedded-logo {
                 position: absolute;
                 top: 12px;
-                left: 53px;
+                left: 12px;
                 z-index: 800;
                 width: 20%;
             }
             #project-name-header {
                 position: absolute;
                 top: 0px;
-                left: 50px;
+                left: 12px;
                 z-index: 800;
             }
         </style>
@@ -138,7 +138,7 @@
     <body style="margin: 0px; padding: 0px; height: 100%;">
         
         <div class="container-fluid" id="primary-content" style="height: 100%; padding: 0px">
-            <div id="loading">
+            <div id="loading" style="position: absolute; top: 12px; left: 12px;">
                 <h2>Loading...</h2>
             </div>
             <div class="row-fluid" id="fullscreen" style="height: 100%;">
@@ -214,10 +214,10 @@
                                     </div>
                                                                    
                                     <!--Hide/Show Legends Button-->
-                                    <a id="embedded-legend-button" class="btn" data-bind="click: toggleEmbeddedLegend, visible: activeLegendLayers().length > 0 && app.viewModel.showLegend()">
+                                    <a id="embedded-legend-button" class="btn" data-bind="click: toggleEmbeddedLegend, visible: true || activeLegendLayers().length > 0 && app.viewModel.showLegend()">
                                         <!--<i class="icon-list-ul icon-large"></i> -->
                                         <span>Legend</span>
-                                        <span data-bind="visible: hasActiveLegends() > 0"> (<span data-bind="text: activeLegendLayers().length"></span>) </span>
+                                        <!--<span data-bind="visible: hasActiveLegends() > 0"> (<span data-bind="text: activeLegendLayers().length"></span>) </span>-->
                                     </a>
                                     
                                     <!-- Legend -->
