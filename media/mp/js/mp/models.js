@@ -559,6 +559,7 @@ function layerModel(options, parent) {
     self.toggleDescription = function(layer) {
         if ( ! layer.infoActive() ) {
             self.showDescription(layer);
+            app.viewModel.closeAttribution();
         } else {
             self.hideDescription(layer);
         }
@@ -1138,9 +1139,9 @@ function viewModel() {
                 dataScrollpane.reinitialise();
             }
             
-            var activeScrollpane = $('#active').data('jsp');
+            var activeScrollpane = $('#active-content').data('jsp');
             if (activeScrollpane === undefined) {
-                $('#active').jScrollPane();
+                $('#active-content').jScrollPane();
             } else {
                 activeScrollpane.reinitialise();
             }
@@ -1303,7 +1304,7 @@ function viewModel() {
                 "my": "right middle",
                 "at": "left middle",
                 "of": $button,
-                offset: "-10px 0px"
+                offset: "-40"
             });
             self.bookmarks.updateBookmarkScrollBar();
         }

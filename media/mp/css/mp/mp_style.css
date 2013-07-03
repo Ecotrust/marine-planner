@@ -486,7 +486,9 @@ input + i.icon-remove-sign {
 	margin-top: -10px;
 	text-transform: uppercase;
 	font-size: 14px;
-	border-right: 1px solid #ccc;
+	border: 1px solid #ccc;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 	margin-bottom: 0px;
 	margin-left: -2px;
 	font-size: 16px;
@@ -532,7 +534,7 @@ img + h3 {
 
 }
 .active .accordion-body {
-	border-left: 3px solid #2d8998;
+	/*border-left: 3px solid #2d8998;*/
 }
 #data,
 #data .tab-content,
@@ -728,12 +730,16 @@ img + h3 {
   z-index: 1020;
   border-radius: 4px;
   padding: 5px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #basemaps {
 	top: 8px;
 	right: 8px;
+}
+
+#basemaps i {
+    font-size: 16px;
 }
 
 #basemaps a {
@@ -742,8 +748,8 @@ img + h3 {
     text-decoration: none;
     outline: none;
     overflow: hidden;
-    width: 25px;
-    line-height: 22px;
+    width: 26px;
+    line-height: 26px;
     background: #130085; /* fallback for IE - IE6 requires background shorthand*/
     background: rgba(0, 60, 136, 0.5);
     opacity: .8;
@@ -757,13 +763,12 @@ img + h3 {
 #basemaps a {
 	text-align: left;
     padding-left: 10px;
- 	
 }
 
 #basemaps span {
 	opacity: 0;
 	filter: alpha(opacity=0);
-	font-size: 12px;
+	font-size: 14px;
 	-webkit-transition: opacity .3s ease-in-in-out;
     -moz-transition: opacity .3s ease-in-in-out;
     -o-transition: opacity .3s ease-in-in-out;
@@ -777,7 +782,7 @@ img + h3 {
 
 #basemaps:hover a,
 #basemaps.open a {
-    width: 120px;
+    width: 140px;
 	
 }
 #basemaps:hover span ,
@@ -809,13 +814,13 @@ img + h3 {
 .SimpleLayerSwitcher {
   position:absolute;
   top:12px;
-  right:146px;
+  right:166px;
   background-color:whiteSmoke;
   border:1px solid #ccc;
   border-radius:4px;
   max-width:150px;
   text-align: left;
-  background: #130085; /* fallback for IE - IE6 requires background shorthand*/
+  background: #130085;  /*fallback for IE - IE6 requires background shorthand*/
   background: rgba(0, 60, 136, 0.5);
   border-radius: 10px;
   display: none;
@@ -831,11 +836,17 @@ img + h3 {
   padding:5px 5px 5px 5px;
   padding-left: 10px;
   font-size: 14px;
-  background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-  background: rgba(0, 60, 136, 0.5);
+  /*background: #130085;  fallback for IE - IE6 requires background shorthand
+  background: rgba(0, 60, 136, 0.5);*/
   opacity: .8;
   filter: alpha(opacity=80);
 
+}
+
+.SimpleLayerSwitcher a.basey:hover {
+    background: #130085; /* fallback for IE */
+    background: rgba(0, 60, 136, 0.2);
+    filter: alpha(opacity=100);
 }
 
 .SimpleLayerSwitcher a.basey-on {

@@ -9,13 +9,13 @@ app.onResize = function(percent) {
   if (height) {
     //if (!app.embeddedMap) {
     if ( width > 767 && !app.embeddedMap ) {
-        $("#map").height(height);
-        $("#map-wrapper").height(height);
+        //$("#map").height(height);
+        //$("#map-wrapper").height(height);
         $(".tabs").height(height);
-        $("#legend-wrapper").height(height - 20);
+        //$("#legend-wrapper").height(height - 20);
         $("#data-accordion").height(height - (($.browser.msie && $.browser.version < 9)? 130: 96));
-        $("#designs-accordion").height(height - 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
-        $("#active").height(height + 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
+        //$("#designs-accordion").height(height - 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
+        //$("#active").height(height + 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
     } 
     app.map.render('map');
   }
@@ -330,6 +330,7 @@ $(document).ready(function() {
     if ( !app.map.mousedrag ) {
       app.map.clickOutput.attributes = {};
       app.viewModel.closeAttribution();
+      app.viewModel.closeDescription();
     }
     app.map.mousedrag = false;
   });

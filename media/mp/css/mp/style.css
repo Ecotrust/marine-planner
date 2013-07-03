@@ -45,9 +45,9 @@
 
 #aggregated-attribute-overlay {
   position: absolute;
-  /*top: 25%;*/
+  /*top: 25%;
   top: 180px;
-  left: 10px;
+  left: 10px;*/
   z-index: 950; 
   width: 280px;
   max-height: 250px;
@@ -175,6 +175,14 @@
   bottom: 0px;
   left: 3px;
 }
+#map .olControlZoom {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+}
+#map .olControlScaleBar {
+    right: 50px;
+}
 
 i.check {
   position: absolute;
@@ -213,8 +221,8 @@ div.olLayerGooglePoweredBy
 }
 
 .sidebar-nav {
-  height: 600px;
-  padding: 9px 0;
+  /*height: 600px;
+  padding: 9px 0;*/
 }
 
 .tab-content {
@@ -250,6 +258,7 @@ div.olLayerGooglePoweredBy
 .olImageLoadError { 
     /* when OL encounters a 404, don't display the pink image */
     display: none !important;
+    visibility: hidden !important;
     background-color: transparent; 
 }
 
@@ -311,11 +320,11 @@ a.disabled-link:hover {
 #overview-overlay {
   position: absolute;
   /*border-radius: 4px; can't tell if I want this or not...*/
-  bottom: 0;
   z-index: 950; 
+  /*bottom: 0;
   min-width: 100%;
   max-height: 60%;
-  /*overflow-x: hidden;
+  overflow-x: hidden;
   overflow-y: auto;*/
   /*overflow: auto;*/
   font-size: 12px;
@@ -396,7 +405,7 @@ a.disabled-link:hover {
 #overview-overlay-text .mCSB_container {
   padding: 5px 10px 15px;  
   margin-right: 25px;
-  background-color: rgba(60, 110, 160, 0.25098);
+  /*background-color: rgba(60, 110, 160, 0.25098);*/
 }
 
 #overview-overlay-text .mCSB_scrollTools {
@@ -497,6 +506,10 @@ a.disabled-link:hover {
   overflow-y: auto;
 }
 
+#data-accordion .accordion-group {
+  border-radius: 0px;
+}
+
 #myTabContent .accordion-inner {
   /*overflow: visible;*/
   background: white;
@@ -523,9 +536,9 @@ a.disabled-link:hover {
 }
 
 #bookmark-popover {
-  left: 550px;
   width: 400px;
   z-index: 1030;
+  top: -68px !important;
 }
 
 #bookmark-modal {

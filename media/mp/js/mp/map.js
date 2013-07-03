@@ -245,7 +245,7 @@ app.init = function () {
     });
     
     app.markers = new OpenLayers.Layer.Markers( "Markers" );
-    var size = new OpenLayers.Size(16,25);
+    var size = new OpenLayers.Size(18,28);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
     app.markers.icon = new OpenLayers.Icon('/media/mp/img/red-pin.png', size, offset);
     app.map.addLayer(app.markers);
