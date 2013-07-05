@@ -112,6 +112,7 @@ end
 
 package "vim"
 package "python-software-properties"
+package "python-setuptools"
 package "ntp"
 package "curl"
 package "htop"
@@ -128,7 +129,7 @@ include_recipe "python"
 include_recipe "apt"
 include_recipe "nginx"
 include_recipe "postgresql::server"
-include_recipe "supervisor"
+# include_recipe "supervisor"
 
 # marine planner specific
 package "postgresql-#{node[:postgresql][:version]}-postgis"
@@ -165,17 +166,17 @@ else
     end
 end
 
-template "/etc/supervisor.d/app.conf" do
-    source "app.conf.erb"
-end
+# template "/etc/supervisor.d/app.conf" do
+#     source "app.conf.erb"
+# end
 
-service "supervisor" do
-    action :stop
-end
+# service "supervisor" do
+#     action :stop
+# end
 
-service "supervisor" do
-    action :start
-end
+# service "supervisor" do
+#     action :start
+# end
 
 cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf"
