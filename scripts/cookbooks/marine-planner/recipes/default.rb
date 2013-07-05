@@ -112,6 +112,7 @@ end
 
 package "vim"
 package "python-software-properties"
+package "python-setuptools"
 package "ntp"
 package "curl"
 package "htop"
