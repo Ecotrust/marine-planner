@@ -142,13 +142,18 @@ $(document).ready(function() {
   //the following appears to fix that problem
   $('#dataTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.updateScrollBars();
+    app.viewModel.showLegend(false);
   });
   $('#activeTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.updateScrollBars();
+    app.viewModel.showLegend(false);
   });
   $('#designsTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.updateAllScrollBars();
     setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000); 
+  });
+  $('#legendTab[data-toggle="tab"]').on('shown', function(e) {
+    app.viewModel.showLegend(true);
   });
   
   //the following appears to handle the bookmark sharing, while the earlier popover activation handles the design sharing
