@@ -858,6 +858,7 @@ function viewModel() {
         app.map.render('map');
         if (self.showLayers()) app.map.render('map'); //doing this again seems to prevent the vector wandering effect
         app.updateUrl();
+        app.viewModel.updateScrollBars();
         //if toggling layers during default pageguide, then correct step 4 position
         //self.correctTourPosition();
         //throws client-side error in pageguide.js for some reason...

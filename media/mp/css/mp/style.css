@@ -328,8 +328,8 @@ a.disabled-link:hover {
   width: 55% !important;
 }
 .fullscreen-data {
-  margin-left: 0px !important;
-  width: 25% !important;
+  max-width: 500px;
+  max-height: 700px;
 }
 .fullscreen-data-authenticated {
   margin-left: 0px !important;
