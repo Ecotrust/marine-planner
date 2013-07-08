@@ -75,7 +75,13 @@ app.viewModel.loadLayersFromFixture = function() {
 
 
 app.viewModel.loadLayersFromServer = function() {
-	return $.getJSON('/data_manager/get_json', function(data) {
+    var pathname = window.location.pathname,
+        slug_name = pathname.substring(1, pathname.indexOf('/planner'));
+    if (slug_name === '/') {
+        slug_name = pathname.substring(1, pathname.indexOf('/visualize'));
+    }
+	return $.getJSON('/data_manager/get_json/'+slug_name, function(data) {
 		app.viewModel.loadLayers(data);
 	});
 };
+//test comment

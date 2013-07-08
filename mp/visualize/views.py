@@ -15,13 +15,16 @@ from models import *
 from data_manager.models import *
 from mp_settings.models import *
 
-def show_planner(request, template='planner.html'):
+def show_planner(request, project=None, template='planner.html'):
     try:
         socket_url = settings.SOCKET_URL
     except AttributeError:
         socket_url = ''
     try:
-        mp_settings = MarinePlannerSettings.objects.get(active=True)
+        if project:
+            mp_settings = MarinePlannerSettings.objects.get(slug_name=project)
+        else:
+            mp_settings = MarinePlannerSettings.objects.get(active=True)
         project_name = mp_settings.project_name 
         latitude = mp_settings.latitude 
         longitude = mp_settings.longitude

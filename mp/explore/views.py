@@ -9,10 +9,13 @@ import os
 import settings
 
 
-def data_catalog(request, template='catalog.html'):
+def data_catalog(request, project=None, template='catalog.html'):
     from mp_settings.models import MarinePlannerSettings
     try:
-        activeSettings = MarinePlannerSettings.objects.get(active=True)
+        if project:
+            activeSettings = MarinePlannerSettings.objects.get(slug_name=project)
+        else:
+            activeSettings = MarinePlannerSettings.objects.get(active=True)
         
         project_name = activeSettings.project_name 
         

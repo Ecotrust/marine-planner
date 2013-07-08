@@ -8,10 +8,13 @@ from models import *
 
 
 #@cache_page(60 * 60 * 24, key_prefix="data_manager_get_json")
-def get_json(request):
+def get_json(request, project=None):
     from mp_settings.models import *
     try:
-        activeSettings = MarinePlannerSettings.objects.get(active=True)
+        if project:
+            activeSettings = MarinePlannerSettings.objects.get(slug_name=project)
+        else:
+            activeSettings = MarinePlannerSettings.objects.get(active=True)
         #if activeSettings.table_of_contents is not None:
         layer_list = []
         for theme in activeSettings.table_of_contents.themes.all():
