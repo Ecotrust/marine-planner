@@ -981,6 +981,7 @@ body.borderless #map-wrapper {
 	}
 	body {
 		margin-top: 0px;
+        padding-left: 0px;
 	}
 	#sidebar-nav {
 		position: relative;
@@ -1004,11 +1005,12 @@ body.borderless #map-wrapper {
 	.theme li {
 		padding-left: 0px;
 	}
+    
 	#data-accordion .btn-group-layer .btn-layer {
 	  width: 72%;
 	  font-size: 12px;
 	}
-
+    
 }
 
 
@@ -1045,10 +1047,12 @@ body.borderless #map-wrapper {
 		width: 55%;
 		margin-left: -18px;
 	}
+    
 	#data-accordion .btn-group-layer .btn-layer {
 	  width: 68%;
 	  font-size: 12px;
 	}
+    
 
 }
 

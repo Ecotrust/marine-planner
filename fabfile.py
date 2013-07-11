@@ -208,7 +208,7 @@ def vagrant(branch='master'):
     env.code_dir = '/vagrant/mp'
 
     try:
-        env.host_string = '%s@127.0.0.1:%s' % (username, data['Port'])
+        env.host_string = '%s@127.0.0.1:%s' % ('vagrant', data['Port'])
     except KeyError:
         raise Exception("Missing data from ssh-config")
 
