@@ -575,6 +575,10 @@ function layerModel(options, parent) {
         } else {
             $('#overview-overlay').height(186);
         }
+        if (app.viewModel.getOverviewText() === "") {
+            $('#overview-overlay').height(88);
+            $('#overview-overlay-text').height(0);
+        }
         app.viewModel.showOverview(true);
         app.viewModel.updateCustomScrollbar('#overview-overlay-text');
         //app.viewModel.updateDropdownScrollbar('#overview-overlay-dropdown');

@@ -356,8 +356,10 @@
                                                         </li>
                                                     </ul>
                                                 </span>
-                                                <span class="title" data-bind="text: activeInfoLayer().name, visible: activeInfoLayer() && (!activeInfoLayer().subLayers || activeInfoLayer().subLayers.length == 0)"></span> 
-                                                <span><a href="#" style="margin-left: 10px; opacity: .8;" class="btn btn-mini pull-right close" data-bind="click: closeDescription"> x </a> </span>
+                                                <div style="width: 90%;overflow: hidden;text-overflow: ellipsis;">
+                                                    <span style="white-space: nowrap" class="title" data-bind="text: activeInfoLayer().name, visible: activeInfoLayer() && (!activeInfoLayer().subLayers || activeInfoLayer().subLayers.length == 0)"></span> 
+                                                </div>
+                                                <span style="position: absolute; top: 8px; right: 8px"><a href="#" style="margin-left: 10px; opacity: .8;" class="btn btn-mini pull-right close" data-bind="click: closeDescription"> x </a> </span>
                                             </div>
                                             <div id="overview-overlay-text" style="margin-top: 5px"> 
                                                 <span class="text" data-bind="text: getOverviewText()" style="white-space: pre-wrap"></span>
