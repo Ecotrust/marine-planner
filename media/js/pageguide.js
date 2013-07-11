@@ -10,8 +10,8 @@ var defaultGuide = {
     {
       target: '#help-button',
       content: $('#help-text-help-button').html(),
-      direction: 'left',
-      arrow: {offsetX: 0, offsetY: 0}
+      direction: 'top',
+      arrow: {offsetX: 10, offsetY: -10}
     },
     {
       target: '#dataTab',
@@ -26,16 +26,22 @@ var defaultGuide = {
       arrow: {offsetX: 65, offsetY: 10}
     },
     {
+      target: '#legendTab',
+      content: $('#help-text-legendTab').html(),
+      direction: 'top',
+      arrow: {offsetX: 65, offsetY: 10}
+    },
+    {
       target: '.olControlZoom',
       content: $('#help-text-olControlZoom').html(),
-      direction: 'right',
-      arrow: {offsetX: 0, offsetY: 0}
+      direction: 'top',
+      arrow: {offsetX: -10, offsetY: -10}
     },
     {
       target: '#basemaps',
       content: $('#help-text-basemaps').html(),
       direction: 'left',
-      arrow: {offsetX: -95, offsetY: 10}
+      arrow: {offsetX: -100, offsetY: 10}
     }
   ]
 };
@@ -82,6 +88,7 @@ var defaultGuideOverrides = {
             $('#dataTab').tab('show');
             app.viewModel.deactivateAllLayers();
             app.viewModel.closeAllThemes();
+            $('#pageGuideMessage').height(120);
         } else if ($(this).data('idx') === 1) {
             app.viewModel.showLayers(true);
             $('#dataTab').tab('show');
@@ -101,13 +108,20 @@ var defaultGuideOverrides = {
                     });
                 }
             }
+            $('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 2) {
             app.viewModel.showLayers(true);
             $('#activeTab').tab('show');
+            $('#pageGuideMessage').height(150);
+        } else if ($(this).data('idx') === 3) {
+            app.viewModel.showLayers(true);
+            $('#legendTab').tab('show');
+            $('#pageGuideMessage').height(150);
         } else {
             //app.viewModel.showLayers(true);
             //$('#dataTab').tab('show');
             //$('#basemaps').addClass('open');
+            $('#pageGuideMessage').height(150);
         }
       }
     }
@@ -127,7 +141,7 @@ var dataGuide = {
       arrow: {offsetX: 45, offsetY: 10}
     },
     {
-      target: '.form-search',
+      target: '.search-form',
       content: $('#help-text-data-tour-form-search').html(),
       direction: 'top',
       arrow: {offsetX: 180, offsetY: 0}
@@ -202,7 +216,7 @@ var dataGuideOverrides = {
             }
             $('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 4) {
-            $('#pageGuideMessage').height(75);
+            $('#pageGuideMessage').height(150);
             for (var i=0; i < app.viewModel.themes()[0].layers().length; i++) {
                 var layer = app.viewModel.themes()[0].layers()[i];
                 if ( layer.name === 'Regional Ocean Partnerships' ) {

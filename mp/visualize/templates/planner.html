@@ -108,70 +108,7 @@
         
         <!-- REGISTRATION MODALS -->
         {% include "account-modals.html" %}
-        <!-- SIGN IN MODAL -->
-                
-        <!-- END REGISTRATION MODALS -->
-        <!--
-        <header role="banner">
-            <div class="navbar navbar-fixed-top">
-                <div class="navbar-inner">
-                    <div class="container-fluid">
-                        <div class="row-fluid">
-                            <div class="span5">
-                                {% if project_home_page %}
-                                <a href="{{project_home_page}}" style="text-decoration: none">
-                                {% else %}
-                                <a style="text-decoration: none; cursor: default;">
-                                {% endif %}
-                                    {% if project_logo %}
-                                    <img src="{{project_logo}}"/>
-                                    {% else %}
-                                        {% if project_name %}
-                                        <h1 id="project-name-header">{{project_name}}</h1>
-                                        {% else %}
-                                        <h1 id="project-name-header">Marine Planner</h1>
-                                        {% endif %}
-                                    {% endif %}
-                                </a>
-                                <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
-                            </div>
-                            <div class="span7">
-                                <div class="pull-right">
-                                    <span class="user-btn">
-                                        <span class="btn-group">
-                                          <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Take a Tour</a>
-                                        </span>
-                                        <!--
-                                        {% if user.is_authenticated %}
-                                        <span class="btn-group">
-                                          <a class="btn dropdown-toggle" style="margin-top: 10px;" data-toggle="dropdown" href="#">
-                                            <i class="icon-user"></i> 
-                                            {{user.username}}
-                                            <span class="caret"></span>
-                                          </a>
-                                          <ul id="username" class="dropdown-menu">
-                                            <li><a href="#profile-modal" data-toggle="modal"><i class="icon-pencil"></i> Profile</a></li>
-                                            <li><a href="#reset-password-modal" data-toggle="modal"><i class="icon-lock"></i> Password</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="{% url 'user_signout' %}"><i class="i"></i>Log Out</a></li>
-                                          </ul>
-                                        </span>
-                                        {% else %}
-                                        <span class="btn-group">
-                                          <a id="#sign-in-button" style="margin-top: 10px;" class="btn" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
-                                        </span>                           
-                                        {% endif %}
-                                        --><!--
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header> 
-        -->
-        <!-- end header -->
+        <!-- SIGN IN MODAL -->                
         
         <div class="container-fluid" id="primary-content" style="padding: 0px;">
             <div id="loading" style="margin: 50px">
@@ -426,11 +363,10 @@
                 <!-- Data Panel (left panel) -->
                 <div class="row-fluid" data-bind="visible: showLayers()">
                 <div class="span4 frame tabs">
-                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 300px; height: 100%; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
+                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 300px; height: 96%; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
+                        
                         <!-- Header -->
                         <div>
-                            
-                            <!--
                             <div class="row-fluid">
                                 <div class="span12">
                                     {% if project_home_page %}
@@ -442,54 +378,46 @@
                                         <img src="{{project_logo}}"/>
                                         {% else %}
                                             {% if project_name %}
-                                            <h2 id="project-name-header">{{project_name}}</h2>
+                                            <h2 style="margin-left: 15px; margin-bottom: 0px;" id="project-name-header">{{project_name}}</h2>
                                             {% else %}
-                                            <h2 id="project-name-header">Marine Planner</h2>
+                                            <h2 style="margin-left: 15px; margin-bottom: 0px;" id="project-name-header">Marine Planner</h2>
                                             {% endif %}
                                         {% endif %}
                                     </a>
                                     <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
                                 </div>
-                                
-                                <div class="span7">
-                                    <div class="pull-right">
-                                        <span class="user-btn">
-                                            <span class="btn-group">
-                                              <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Take a Tour</a>
-                                            </span>
-                                            <!--
-                                            {% if user.is_authenticated %}
-                                            <span class="btn-group">
-                                              <a class="btn dropdown-toggle" style="margin-top: 10px;" data-toggle="dropdown" href="#">
-                                                <i class="icon-user"></i> 
-                                                {{user.username}}
-                                                <span class="caret"></span>
-                                              </a>
-                                              <ul id="username" class="dropdown-menu">
-                                                <li><a href="#profile-modal" data-toggle="modal"><i class="icon-pencil"></i> Profile</a></li>
-                                                <li><a href="#reset-password-modal" data-toggle="modal"><i class="icon-lock"></i> Password</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="{% url 'user_signout' %}"><i class="i"></i>Log Out</a></li>
-                                              </ul>
-                                            </span>
-                                            {% else %}
-                                            <span class="btn-group">
-                                              <a id="#sign-in-button" style="margin-top: 10px;" class="btn" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
-                                            </span>                           
-                                            {% endif %}
-                                            
-                                        </span>
-                                    </div>
+                                <div>
+                                    <span style="position: absolute; bottom: 12px; left: 12px; z-index: 1;" class="btn-group">
+                                      <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Take a Tour</a>
+                                    </span>
+                                    <!--
+                                    {% if user.is_authenticated %}
+                                    <span style="position: absolute; bottom: 12px; right: 12px; z-index: 1;" class="btn-group">
+                                      <a class="btn dropdown-toggle" style="margin-top: 10px;" data-toggle="dropdown" href="#">
+                                        <i class="icon-user"></i> 
+                                        {{user.username}}
+                                        <span class="caret"></span>
+                                      </a>
+                                      <ul id="username" class="dropdown-menu">
+                                        <li><a href="#profile-modal" data-toggle="modal"><i class="icon-pencil"></i> Profile</a></li>
+                                        <li><a href="#reset-password-modal" data-toggle="modal"><i class="icon-lock"></i> Password</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{% url 'user_signout' %}"><i class="i"></i>Log Out</a></li>
+                                      </ul>
+                                    </span>
+                                    {% else %}
+                                    <span style="position: absolute; bottom: 12px; right: 12px; z-index: 1;" class="btn-group">
+                                      <a id="#sign-in-button" style="margin-top: 10px;" class="btn" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
+                                    </span>                           
+                                    {% endif %}
+                                    -->
                                 </div>
                             </div>
-                            -->
-                            
-                            
                         </div>
                         
                         <!-- Search -->
                         <div class="row-fluid" style="padding: 20px 0px;">
-                            <div class="span12 ">
+                            <div class="search-form span12">
                                 <form class="form-search" data-bind="submit: layerSearch" style="margin-left: auto; margin-right: auto; width: 80%;">
                                     <div class="span12">
                                         <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
@@ -524,7 +452,7 @@
                         </ul>
                         
                         <!-- tab body -->
-                        <div id="myTabContent" class="tab-content" style="height: 75%">
+                        <div id="myTabContent" class="tab-content" style="height: 67%">
                         
                             <!-- DATA TAB -->
                             <div class="tab-pane active in fade" id="data" style="height: 100%">
