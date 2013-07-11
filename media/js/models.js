@@ -552,7 +552,7 @@ function layerModel(options, parent) {
         app.viewModel.showOverview(true);
         app.viewModel.updateCustomScrollbar('#overview-overlay-text');
         //app.viewModel.updateDropdownScrollbar('#overview-overlay-dropdown');
-        app.viewModel.hideMapAttribution();
+        //app.viewModel.hideMapAttribution();
     };
     
     // display descriptive text below the map
@@ -578,13 +578,13 @@ function layerModel(options, parent) {
         app.viewModel.showOverview(true);
         app.viewModel.updateCustomScrollbar('#overview-overlay-text');
         //app.viewModel.updateDropdownScrollbar('#overview-overlay-dropdown');
-        app.viewModel.hideMapAttribution();
+        //app.viewModel.hideMapAttribution();
     };
     
     self.hideDescription = function(layer) {
         app.viewModel.showOverview(false);
         app.viewModel.activeInfoSublayer(false);
-        app.viewModel.showMapAttribution();
+        //app.viewModel.showMapAttribution();
     };
     
     self.toggleDescriptionMenu = function(layer) {
@@ -1202,7 +1202,7 @@ function viewModel() {
         //self.showDescription(false);
         app.viewModel.showOverview(false);
         if ( ! app.pageguide.tourIsActive ) {
-            app.viewModel.showMapAttribution();
+            //app.viewModel.showMapAttribution();
         }
     };
     
