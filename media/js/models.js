@@ -1020,6 +1020,30 @@ function viewModel() {
             $layerSwitcher.show();
         }
     };
+    
+    // minimize data panel
+    self.minimized = false;
+    self.minimizeLeftPanel = function() {
+        if ( !self.minimized ) {
+            $('.sidebar-nav').animate( {height: '50px'}, 400 );
+            $('#help-button').hide();
+            $('.search-form').hide();
+            $('#myTab').hide();
+            $('#myTabContent').hide();
+        } else {
+            $('.sidebar-nav').animate( {height: '96%'}, 400 );
+            setTimeout( function() {
+                $('#help-button').show();
+                $('.search-form').show();
+                $('#myTab').show();
+                $('#myTabContent').show();
+            }, 200);
+            setTimeout( function() {
+                self.updateAllScrollBars();
+            }, 400);
+        }
+        self.minimized = !self.minimized;
+    };
 
     // zoom with box
     self.zoomBoxIn = function (self, event) {
