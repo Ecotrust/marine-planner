@@ -568,7 +568,7 @@ img + h3 {
 	font-size: 13px;
 }
 .sidebar-nav .btn-group-layer .btn-layer  {
-  width: 80%;
+  width: 78%;
   text-align: left;
   overflow: hidden;
   border-left: 0px;
@@ -1007,8 +1007,8 @@ body.borderless #map-wrapper {
 	}
     
 	#data-accordion .btn-group-layer .btn-layer {
-	  width: 72%;
-	  font-size: 12px;
+	  width: 78%;
+	  /*font-size: 12px;*/
 	}
     
 }
@@ -1040,17 +1040,17 @@ body.borderless #map-wrapper {
 		top: 100px;
 	}
 	#active .btn-group .btn-layer {
-		width: 65%;
-		font-size: 12px;
+		width: 70%;
+		/*font-size: 12px;*/
 	}
 	.form-search input {
 		width: 55%;
-		margin-left: -18px;
+		/*margin-left: -18px;*/
 	}
     
 	#data-accordion .btn-group-layer .btn-layer {
-	  width: 68%;
-	  font-size: 12px;
+	  width: 78%;
+	  /*font-size: 12px;*/
 	}
     
 

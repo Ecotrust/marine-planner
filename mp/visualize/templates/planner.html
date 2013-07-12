@@ -363,7 +363,7 @@
                 <!-- Data Panel (left panel) -->
                 <div class="row-fluid" data-bind="visible: showLayers()">
                 <div class="span4 frame tabs">
-                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 300px; height: 96%; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
+                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 350px; max-width: 350px; height: 96%; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
                         
                         <!-- Header -->
                         <div>
@@ -417,10 +417,10 @@
                         </div>
                         
                         <!-- Search -->
-                        <div class="row-fluid" style="padding: 20px 0px;">
+                        <div class="row-fluid" style="padding: 20px 0px; height: 30px;">
                             <div class="search-form span12">
-                                <form class="form-search" data-bind="submit: layerSearch" style="margin-left: auto; margin-right: auto; width: 80%;">
-                                    <div class="span12">
+                                <form class="form-search" data-bind="submit: layerSearch" style="margin-left: auto; margin-right: auto; width: 80%; height: 0px">
+                                    <div class="span12" style="float: none;">
                                         <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
                                         <a class="btn">
                                             <i class="icon-remove icon-large"></i> 
