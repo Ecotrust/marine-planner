@@ -151,7 +151,7 @@
                                               <span data-bind="text: showLayersText()"></span>
                                           </a>
                                           <!--Bookmarks Button-->
-                                          <a id="bookmarks-button" class="btn" data-bind="click: showBookmarks">
+                                          <a id="bookmarks-button" class="btn" data-bind="click: showBookmarks, visible: !isFullScreen()">
                                               <i class="icon-map-marker icon-large"></i>
                                               <span>Bookmarks</span>
                                               <span data-bind="visible: bookmarks.bookmarksList().length > 0">
@@ -159,12 +159,12 @@
                                               </span>
                                           </a>
                                           <!--Map Links Button-->
-                                          <a id="basemap-button" class="btn" href="#map-links-modal" data-toggle="modal" data-bind="click: resetMapLinks">
+                                          <a id="basemap-button" class="btn" href="#map-links-modal" data-toggle="modal" data-bind="click: resetMapLinks, visible: !isFullScreen()">
                                               <i class="icon-link icon-large"></i>
-                                              <span>Map Links</span>
+                                              <span>Share this Map</span>
                                           </a>
                                           <!-- Print Button -->
-                                          <a class="btn" id="btn-print" data-bind="click: printing.showPrintDialog, visible: printing.enabled">
+                                          <a class="btn" id="btn-print" data-bind="click: printing.showPrintDialog, visible: printing.enabled() && !isFullScreen()">
                                               <i class="icon-print icon-large"></i>
                                               <span>Print/Export</span>
                                           </a>
