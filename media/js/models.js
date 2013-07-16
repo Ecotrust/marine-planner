@@ -520,6 +520,25 @@ function layerModel(options, parent) {
     self.isBottomLayer = function(layer) {
         return app.viewModel.activeLayers.indexOf(layer) === app.viewModel.activeLayers().length - 1;
     };
+        
+    self.showingLegendDetails = ko.observable(true);
+    self.toggleLegendDetails = function() {
+        var legendID = '#' + app.viewModel.convertToSlug(self.name) + '-legend-content';
+        if ( self.showingLegendDetails() ) {
+            self.showingLegendDetails(false);
+            $(legendID).css('display', 'none');
+            //$(legendID).collapse('hide');
+            //$(legendID).slideUp(200);
+            //setTimeout( function() { $(legendID).css('display', 'none'); }, 300 );
+        } else {
+            self.showingLegendDetails(true);
+            $(legendID).css('display', 'block');
+            //$(legendID).collapse('show');
+            //$(legendID).slideDown(200);
+        }
+        //update scrollbar
+        setTimeout( function() { app.viewModel.updateScrollBars(); }, 200 );
+    };      
     
     self.showingLayerAttribution = ko.observable(true);
     self.toggleLayerAttribution = function() {

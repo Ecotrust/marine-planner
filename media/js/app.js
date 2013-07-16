@@ -154,6 +154,7 @@ $(document).ready(function() {
   });
   $('#legendTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.showLegend(true);
+    app.viewModel.updateScrollBars();
   });
   
   //the following appears to handle the bookmark sharing, while the earlier popover activation handles the design sharing
