@@ -129,7 +129,8 @@ var defaultGuideOverrides = {
 };
 
 /* THE DATA PANEL PAGE GUIDE */
-
+//var layerName = $('.layer').first().find('div').first().attr('name');
+//var targetLayer = "div[name*='" + layerName + "']";
 var dataGuide = {
   id: 'data-guide',
   title: 'Data Guide',
@@ -137,8 +138,8 @@ var dataGuide = {
     {
       target: '#dataTab',
       content: $('#help-text-data-tour-dataTab').html(),
-      direction: 'top',
-      arrow: {offsetX: 45, offsetY: 10}
+      direction: 'right',
+      arrow: {offsetX: 0, offsetY: 0}
     },
     {
       target: '.search-form',
@@ -153,13 +154,16 @@ var dataGuide = {
       arrow: {offsetX: -10, offsetY: 10}
     },
     {
-      target: 'div[name*="Regional Ocean Partnerships"]',
+      target: '.layer div',
+      //target: "div[name*='" + $('.layer').first().find('div').first().attr('name') + "']",
+      //target: "div[name*='EEZ Boundary Lines']",
       content: $('#help-text-data-tour-layer').html(),
       direction: 'right',
       arrow: {offsetX: -10, offsetY: 10}
     },
     {
-      target: 'div[name*="Regional Ocean Partnerships"] a.btn-info-sign',
+      target: '.layer div a.btn-info-sign',
+      //target: 'div[name*="' + $('.layer').first().find('div').first().attr('name') + '"] a.btn-info-sign',
       content: $('#help-text-data-tour-info-sign').html(),
       direction: 'bottom',
       arrow: {offsetX: 10, offsetY: 0}
@@ -182,11 +186,13 @@ var dataGuideOverrides = {
         if ($(this).data('idx') === 0) {
             app.viewModel.closeDescription();
             app.viewModel.deactivateAllLayers();
-            $('#pageGuideMessage').height(150);
+            //app.viewModel.closeAllThemes();
+            //$('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 1) {
             app.viewModel.closeDescription();
             app.viewModel.deactivateAllLayers();
-            $('#pageGuideMessage').height(150);
+            //app.viewModel.closeAllThemes();
+            //$('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 2) {
             //alert("Step 2");
             app.viewModel.closeDescription();
@@ -194,37 +200,23 @@ var dataGuideOverrides = {
             app.viewModel.closeAllThemes();
             app.viewModel.themes()[0].setOpenTheme();
             //$('#pageGuideMessage').css //can we adjust the height of the tour background as well as that of the description overlay?
-            $('#pageGuideMessage').height(150);
+            //$('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 3) {
             //alert("Step 3");
             app.viewModel.closeDescription();
             app.viewModel.closeAllThemes();
             app.viewModel.themes()[0].setOpenTheme();
-            for (var i=0; i < app.viewModel.themes()[0].layers().length; i++) {
-                var layer = app.viewModel.themes()[0].layers()[i];
-                if ( layer.name === 'Regional Ocean Partnerships' ) {
-                    layer.activateLayer();
-                }
-            }
-            for (var i=0; i < app.viewModel.themes()[0].layers().length; i++) {
-                var layer = app.viewModel.themes()[0].layers()[i];
-                if ( layer.name === 'Marine Jurisdictions' ) {
-                    $.each(layer.subLayers, function(index, sublayer) {
-                        sublayer.activateLayer();
-                    });
-                }
-            }
-            $('#pageGuideMessage').height(150);
+            var layer = app.viewModel.themes()[0].layers()[0];
+            layer.activateLayer();
+            //$('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 4) {
-            $('#pageGuideMessage').height(150);
-            for (var i=0; i < app.viewModel.themes()[0].layers().length; i++) {
-                var layer = app.viewModel.themes()[0].layers()[i];
-                if ( layer.name === 'Regional Ocean Partnerships' ) {
-                    layer.showDescription(layer);
-                }
-            }
+            //$('#pageGuideMessage').height(150);
+            app.viewModel.closeAllThemes();
+            app.viewModel.themes()[0].setOpenTheme();
+            var layer = app.viewModel.themes()[0].layers()[0];
+            layer.showDescription(layer);
             //app.viewModel.themes()[0].layers()[3].showDescription(app.viewModel.themes()[0].layers()[3]);
-            $('#overview-overlay').height(236);
+            //$('#overview-overlay').height(236);
         }
       }
     }

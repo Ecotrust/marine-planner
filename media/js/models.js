@@ -1579,7 +1579,8 @@ function viewModel() {
         app.viewModel.closeAllThemes();
         app.viewModel.deactivateAllLayers();
         app.viewModel.themes()[0].setOpenTheme();
-        app.setMapPosition(-73, 38.5, 7);
+        //app.setMapPosition(-73, 38.5, 7);
+        app.initializeMapLocation();
         $('#dataTab').tab('show');
          
         //start the tour
