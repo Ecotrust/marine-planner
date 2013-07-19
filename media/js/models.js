@@ -1611,17 +1611,50 @@ function viewModel() {
         //app.viewModel.closeAllThemes();
         app.viewModel.deactivateAllLayers();
         //activate desired layers
-        for (var i=0; i < app.viewModel.themes()[4].layers().length; i++) {
-            if ( app.viewModel.themes()[4].layers()[i].name === 'Danger Zones & Restricted Areas' ) { //might be more robust if indexOf were used
-                app.viewModel.themes()[4].layers()[i].activateLayer();
+        var foundFirstLayer = false;
+        var foundSecondLayer = false;
+        if (app.viewModel.themes()[2]) {
+            for (var i=0; i < app.viewModel.themes()[2].layers().length; i++) {
+                if ( app.viewModel.themes()[2].layers()[i].name === 'High Seas Areas Closed Bottom Fishing' ) { //might be more robust if indexOf were used
+                    app.viewModel.themes()[2].layers()[i].activateLayer();
+                    foundFirstLayer = true;
+                }
             }
         }
-        for (var i=0; i < app.viewModel.themes()[3].layers().length; i++) {
-            if ( app.viewModel.themes()[3].layers()[i].name === 'Wind Speed' ) {
-                app.viewModel.themes()[3].layers()[i].activateLayer();
+        if (app.viewModel.themes()[3]) {
+            for (var i=0; i < app.viewModel.themes()[3].layers().length; i++) {
+                if ( app.viewModel.themes()[3].layers()[i].name === 'EEZ Boundary Lines' ) {
+                    app.viewModel.themes()[3].layers()[i].activateLayer();
+                    foundSecondLayer = true;
+                }
             }
         }
-        app.setMapPosition(-75, 37.6, 8);
+        if ( ! (foundFirstLayer && foundSecondLayer) ) {
+            if (app.viewModel.themes()[0]) {
+                var firstThemeLayers = app.viewModel.themes()[0].layers()
+                if (firstThemeLayers.length) {
+                    firstThemeLayers[0].activateLayer();
+                    if (firstThemeLayers.length > 1) {
+                        firstThemeLayers[firstThemeLayers.length-1].activateLayer();
+                    }
+                }
+            }
+        }
+            
+        if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
+            latitude = app.MPSettings['latitude'];
+            longitude = app.MPSettings['longitude'];
+        } else {
+            latitude = 36.87;
+            longitude = 6.17;
+        }
+        if (app.MPSettings && app.MPSettings['zoom']) {
+            zoom = app.MPSettings['zoom'];
+        } else {
+            zoom = 4;
+        }
+    
+        app.setMapPosition(longitude, latitude, zoom);
         $('#activeTab').tab('show');
         
         //start the tour

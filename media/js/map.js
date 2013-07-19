@@ -100,7 +100,7 @@ app.init = function () {
         if (app.MPSettings && app.MPSettings['min_zoom']) {
             var min_zoom = app.MPSettings['min_zoom'];
         } else {
-            var min_zoom = 5;
+            var min_zoom = 3;
         }
         if (map.zoomBox.active) {
             app.viewModel.deactivateZoomBox();
