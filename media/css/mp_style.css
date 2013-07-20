@@ -508,6 +508,10 @@ input + i.icon-remove-sign {
 	margin-top: -2px;
 }
 
+.sidebar-nav .btn-group-layer {
+    width: 100%;
+}
+
 #sidebar-nav img {
 	max-height: 220px;
 }
@@ -587,6 +591,9 @@ img + h3 {
 #active {
     outline: 0;
 }
+#active div:focus {
+    outline: 0;
+}
 
 #active ul li {
 	margin-bottom: 10px;
@@ -594,9 +601,11 @@ img + h3 {
 #active .btn {
 	padding-left: 0px;
 }
+#active .opacity-button {
+    padding: 4px 9px;
+}
 #active .btn:last-child {
-	padding-left: 5px;
-	padding-right: 5px;
+	padding: 4px 9px;
 }
 #active .btn-group {
 	width: 90%;
@@ -605,6 +614,9 @@ img + h3 {
 	text-align: left;
 	width: 70%;
 
+}
+#active .btn-info-sign {
+    padding: 4px 8px;
 }
 
 #active .btn-layer > div {
@@ -699,6 +711,8 @@ img + h3 {
 
 .legend-title {
 	font-weight: bold;
+    font-size: 14px;
+    color: rgb(51, 51, 51);
 }
 
 #legend-wrapper hr {
@@ -809,6 +823,10 @@ img + h3 {
 
 #map.zoomBox .olHandlerBoxZoomBox {
 	border: 2px solid #2d8998;
+}
+
+.modal {
+    z-index: 1051;
 }
 
 .SimpleLayerSwitcher {
