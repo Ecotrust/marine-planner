@@ -607,7 +607,9 @@ function layerModel(options, parent) {
     self.hideDescription = function(layer) {
         app.viewModel.showOverview(false);
         app.viewModel.activeInfoSublayer(false);
-        //app.viewModel.showMapAttribution();
+        if ( app.embeddedMap ) {        
+            app.viewModel.showMapAttribution();
+        }
     };
     
     self.toggleDescriptionMenu = function(layer) {
@@ -774,8 +776,11 @@ function mapLinksModel() {
     
     self.getIFrameHTML = function(bookmarkState) {
         var urlOrigin = window.location.origin,
-            urlHash = window.location.hash;
-        
+            urlHash = window.location.hash,
+            projectName = app.MPSettings['project_name'];
+        if ( projectName ) {
+            var projectSlug = app.viewModel.convertToSlug(app.MPSettings['project_name']);
+        }
         if ( bookmarkState ) {
             //urlHash = '#'+$.param(bookmarkState);
             urlHash = '#' + bookmarkState;
@@ -784,6 +789,9 @@ function mapLinksModel() {
             urlOrigin = 'http://' + window.location.host;
         }
         var embedURL = urlOrigin + '/embed/map/' + urlHash;
+        if ( projectSlug ) {
+            embedURL = urlOrigin + '/' + projectSlug + '/embed/map/' + urlHash;
+        }
         //console.log(embedURL);
         return '<iframe width="600" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"' +
                                      'src="' + embedURL + '">' + '</iframe>' + '<br />';
@@ -847,6 +855,9 @@ function viewModel() {
     self.disableFeatureAttribution = function() {
         self.featureAttribution(false); 
         app.markers.clearMarkers();
+        if ( app.embeddedMap ) {
+            self.showMapAttribution();
+        }
     };
     
     self.showFeatureAttribution = ko.observable(false);
@@ -971,6 +982,9 @@ function viewModel() {
     self.closeAttribution = function() {
         self.aggregatedAttributes(false);
         app.markers.clearMarkers();
+        if ( app.embeddedMap ) {
+            self.showMapAttribution();
+        }
     };
     
     self.updateMarker = function(lonlat) {
@@ -983,6 +997,9 @@ function viewModel() {
             if (app.marker && !$.isEmptyObject(self.aggregatedAttributes()) && self.featureAttribution()) {
                 app.markers.addMarker(app.marker);
                 app.map.setLayerIndex(app.markers, 99);
+                if (app.embeddedMap) {
+                    self.hideMapAttribution();
+                }
             }
         }
     };
@@ -1248,8 +1265,8 @@ function viewModel() {
     self.closeDescription = function() {
         //self.showDescription(false);
         app.viewModel.showOverview(false);
-        if ( ! app.pageguide.tourIsActive ) {
-            //app.viewModel.showMapAttribution();
+        if ( app.embeddedMap ) {
+            app.viewModel.showMapAttribution();
         }
     };
     
@@ -1611,17 +1628,50 @@ function viewModel() {
         //app.viewModel.closeAllThemes();
         app.viewModel.deactivateAllLayers();
         //activate desired layers
-        for (var i=0; i < app.viewModel.themes()[4].layers().length; i++) {
-            if ( app.viewModel.themes()[4].layers()[i].name === 'Danger Zones & Restricted Areas' ) { //might be more robust if indexOf were used
-                app.viewModel.themes()[4].layers()[i].activateLayer();
+        var foundFirstLayer = false;
+        var foundSecondLayer = false;
+        if (app.viewModel.themes()[2]) {
+            for (var i=0; i < app.viewModel.themes()[2].layers().length; i++) {
+                if ( app.viewModel.themes()[2].layers()[i].name === 'High Seas Areas Closed Bottom Fishing' ) { //might be more robust if indexOf were used
+                    app.viewModel.themes()[2].layers()[i].activateLayer();
+                    foundFirstLayer = true;
+                }
             }
         }
-        for (var i=0; i < app.viewModel.themes()[3].layers().length; i++) {
-            if ( app.viewModel.themes()[3].layers()[i].name === 'Wind Speed' ) {
-                app.viewModel.themes()[3].layers()[i].activateLayer();
+        if (app.viewModel.themes()[3]) {
+            for (var i=0; i < app.viewModel.themes()[3].layers().length; i++) {
+                if ( app.viewModel.themes()[3].layers()[i].name === 'EEZ Boundary Lines' ) {
+                    app.viewModel.themes()[3].layers()[i].activateLayer();
+                    foundSecondLayer = true;
+                }
             }
         }
-        app.setMapPosition(-75, 37.6, 8);
+        if ( ! (foundFirstLayer && foundSecondLayer) ) {
+            if (app.viewModel.themes()[0]) {
+                var firstThemeLayers = app.viewModel.themes()[0].layers()
+                if (firstThemeLayers.length) {
+                    firstThemeLayers[0].activateLayer();
+                    if (firstThemeLayers.length > 1) {
+                        firstThemeLayers[firstThemeLayers.length-1].activateLayer();
+                    }
+                }
+            }
+        }
+            
+        if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
+            latitude = app.MPSettings['latitude'];
+            longitude = app.MPSettings['longitude'];
+        } else {
+            latitude = 36.87;
+            longitude = 6.17;
+        }
+        if (app.MPSettings && app.MPSettings['zoom']) {
+            zoom = app.MPSettings['zoom'];
+        } else {
+            zoom = 4;
+        }
+    
+        app.setMapPosition(longitude, latitude, zoom);
         $('#activeTab').tab('show');
         
         //start the tour
@@ -1642,10 +1692,16 @@ function viewModel() {
     self.showMapAttribution = function() {
         $('.olControlScaleBar').show();
         $('.olControlAttribution').show();
+        if ( app.embeddedMap ) {
+            $('.olControlZoom').show();
+        }
     };
     self.hideMapAttribution = function() {
         $('.olControlScaleBar').hide();
         $('.olControlAttribution').hide();
+        if ( app.embeddedMap ) {
+            $('.olControlZoom').hide();
+        }
     };
     
     self.convertToSlug = function(orig) {

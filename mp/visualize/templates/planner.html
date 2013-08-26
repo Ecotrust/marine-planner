@@ -16,6 +16,7 @@
         <meta name="author" content="">
         <!-- Le styles -->
         <link href="{{MEDIA_URL}}/assets/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="{{MEDIA_URL}}/assets/font/font-awesome.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/css/mp_style.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/openlayers/scalebar-thin.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/css/style.css" rel="stylesheet">
@@ -222,7 +223,7 @@
                                                                             <!-- /ko -->
                                                                             
                                                                             <span data-bind="text: display"></span><span data-bind="visible: display && data ? true : data===0">:</span>
-                                                                            <span style="font-weight: normal" data-bind="text: data"></span>
+                                                                            <span style="font-weight: normal" data-bind="html: data"></span>
                                                                         </dt>
                                                                     </dl>
                                                                 </div>
@@ -385,7 +386,7 @@
                                         {% endif %}
                                     </a>
                                     <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
-                                    <i class="icon-minus icon-large" data-bind="click: minimizeLeftPanel" style="position: absolute; top: 5px; right: 12px;"></i>
+                                    <i class="icon-minus icon-large" data-bind="click: minimizeLeftPanel" style="cursor: pointer; position: absolute; top: 5px; right: 12px;"></i>
                                 </div>
                                 <div>
                                     <span style="position: absolute; bottom: 12px; left: 12px; z-index: 1;" class="btn-group">
@@ -480,7 +481,7 @@
 
                                                                         <a class="btn btn-layer" data-bind="css: { 'active': active(), 'not-active': ! active() }, click: toggleActive">
                                                                             <div style="font-weight: normal">
-                                                                                <span style="padding-left: 2px;" data-bind="text: name"></span>
+                                                                                <span style="padding-left: 5px;" data-bind="text: name"></span>
                                                                                 <span class="caret" style="display:none" data-bind="visible: subLayers.length > 0"></span>
                                                                                 <i class="check icon-large icon-check" data-bind="visible: active() && visible()"></i>
                                                                                 <i class="check icon-large icon-check-empty" data-bind="visible: active() && ! visible()"></i>
@@ -491,10 +492,11 @@
                                                                         <ul class="dropdown-menu layer-menu" data-bind="event: { mouseleave: closeMenu }" style="outline: 0">
                                                                             <li data-bind="foreach: subLayers">
                                                                                 <a data-bind="click: toggleActive">
-                                                                                    <span data-bind="style: {visibility: active() ? 'visible': 'hidden' }">• </span>
+                                                                                    <!--<span data-bind="style: {visibility: active() ? 'visible': 'hidden' }">• </span>-->
                                                                                     <!--<span style="margin-left: -10px" data-bind="style: {visibility: active() ? 'visible': 'hidden' }">
                                                                                         <i class="icon-ok-circle"></i>
                                                                                     </span>-->
+                                                                                    <i class="icon-ok" data-bind="style: {visibility: active() ? 'visible': 'hidden' }"></i>
                                                                                     <span data-bind="text: name"></span>
                                                                                 </a>
                                                                             </li>
@@ -503,7 +505,7 @@
                                                                         <!-- ko if: isCheckBoxLayer() -->
                                                                         <ul class="dropdown-menu layer-menu" data-bind="event: { mouseleave: closeMenu }">
                                                                             <li data-bind="foreach: subLayers">
-                                                                                <a data-bind="click: toggleActive">
+                                                                                <a data-bind="click: toggleActive" style="padding-left: 15px;">
                                                                                     <span style="margin-left: -10px">
                                                                                         <i class="icon-check" data-bind="style: {display: active() ? 'inline': 'none' }"></i>
                                                                                         <i style="opacity: .4" class="icon-check-empty" data-bind="style: {display: ! active() ? 'inline': 'none' }"></i>
