@@ -324,7 +324,9 @@ app.addLayerToMap = function(layer) {
 // add XYZ layer with no utfgrid
 app.addXyzLayerToMap = function(layer) {
     var opts = { displayInLayerSwitcher: false };
-        
+    
+    layer.url = app.modifyURL(layer.url);
+    
     // adding layer to the map for the first time		
     layer.layer = new OpenLayers.Layer.XYZ(layer.name, 
         layer.url,
@@ -335,6 +337,38 @@ app.addXyzLayerToMap = function(layer) {
             }
         )
     ); 
+};
+
+app.modifyURL = function(url) {
+    var dateStringStart = url.search(new RegExp("{(y{2,4}|M{1,4}|d{1,4})+")),
+        today = url.indexOf('{today}'),
+        tomorrow = url.indexOf('{tomorrow}'),
+        yesterday = url.indexOf('{yesterday}'),
+        newURL = url;
+        
+    if ( dateStringStart !== -1 ) {
+        var dateStringEnd = url.indexOf('}', dateStringStart);
+        var dateStringSpecifier = url.slice(dateStringStart+1, dateStringEnd);
+        var dateString = Date.today().toString(dateStringSpecifier);
+        newURL = url.substr(0, dateStringStart) + dateString + url.substring(dateStringEnd+1);
+    }
+    if ( today !== -1 ) {
+        today = newURL.indexOf('{today}');
+        var todayEnd = newURL.indexOf('}', today);
+        newURL = newURL.substr(0, today) + Date.today().toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(todayEnd+1);
+    } 
+    if ( tomorrow !== -1 ) {
+        tomorrow = newURL.indexOf('{tomorrow}');
+        var tomorrowEnd = newURL.indexOf('}', tomorrow);
+        newURL = newURL.substr(0, tomorrow) + Date.today().add({days:1}).toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(tomorrowEnd+1);
+    } 
+    if ( yesterday !== -1 ) {
+        yesterday = newURL.indexOf('{yesterday}');
+        var yesterdayEnd = newURL.indexOf('}', yesterday);
+        newURL = newURL.substr(0, yesterday) + Date.today().add({days:-1}).toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(yesterdayEnd+1);
+    }
+    
+    return newURL;
 };
 
 app.addWmsLayerToMap = function(layer) {
