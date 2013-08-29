@@ -325,11 +325,11 @@ app.addLayerToMap = function(layer) {
 app.addXyzLayerToMap = function(layer) {
     var opts = { displayInLayerSwitcher: false };
     
-    layer.url = app.modifyURL(layer.url);
+    var url = app.modifyURL(layer.url);
     
     // adding layer to the map for the first time		
     layer.layer = new OpenLayers.Layer.XYZ(layer.name, 
-        layer.url,
+        url,
         $.extend({}, opts, 
             {
                 sphericalMercator: true,
@@ -355,28 +355,34 @@ app.modifyURL = function(url) {
     if ( today !== -1 ) {
         today = newURL.indexOf('{today}');
         var todayEnd = newURL.indexOf('}', today);
-        newURL = newURL.substr(0, today) + Date.today().toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(todayEnd+1);
+        newURL = newURL.substr(0, today) + Date.today().toString("yyyy-MM-dd") + newURL.substr(todayEnd+1);
     } 
     if ( tomorrow !== -1 ) {
         tomorrow = newURL.indexOf('{tomorrow}');
         var tomorrowEnd = newURL.indexOf('}', tomorrow);
-        newURL = newURL.substr(0, tomorrow) + Date.today().add({days:1}).toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(tomorrowEnd+1);
+        newURL = newURL.substr(0, tomorrow) + Date.today().add({days:1}).toString("yyyy-MM-dd") + newURL.substr(tomorrowEnd+1);
     } 
     if ( yesterday !== -1 ) {
         yesterday = newURL.indexOf('{yesterday}');
         var yesterdayEnd = newURL.indexOf('}', yesterday);
-        newURL = newURL.substr(0, yesterday) + Date.today().add({days:-1}).toString("yyyy-MM-ddThh:mm:ssZ") + newURL.substr(yesterdayEnd+1);
+        newURL = newURL.substr(0, yesterday) + Date.today().add({days:-1}).toString("yyyy-MM-dd") + newURL.substr(yesterdayEnd+1);
     }
     
     return newURL;
 };
 
 app.addWmsLayerToMap = function(layer) {
+    
+    var url = app.modifyURL(layer.url);
+
     layer.layer = new OpenLayers.Layer.WMS(
         layer.name, 
-        layer.url,
+        url,
         {
-            'layers': 'basic'
+            //'layers': 'basic'
+            srs: 'EPSG:3857',
+            transparent: true,
+            format: 'image/png'
         }
     );
 };
