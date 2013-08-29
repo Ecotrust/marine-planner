@@ -93,7 +93,7 @@ class Layer(models.Model):
     legend_title = models.CharField(max_length=255, blank=True, null=True)
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
-    
+    utfjsonp = models.BooleanField(default=False)
     #tooltip
     description = models.TextField(blank=True, null=True)
     
@@ -267,6 +267,7 @@ class Layer(models.Model):
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
                 'utfurl': layer.utfurl,
+                'utfjsonp': layer.utfjsonp,
                 'parent': self.id,
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
@@ -296,6 +297,7 @@ class Layer(models.Model):
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
             'utfurl': self.utfurl,
+            'utfjsonp': self.utfjsonp,
             'subLayers': sublayers,
             'legend': self.legend,
             'legend_title': self.legend_title,
