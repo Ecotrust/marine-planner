@@ -371,6 +371,7 @@ app.modifyURL = function(url) {
     return newURL;
 };
 
+
 app.addWmsLayerToMap = function(layer) {
     
     var url = app.modifyURL(layer.url);
@@ -379,12 +380,15 @@ app.addWmsLayerToMap = function(layer) {
         layer.name, 
         url,
         {
-            //'layers': 'basic'
-            srs: 'EPSG:3857',
-            transparent: true,
-            format: 'image/png'
+            layers: layer.wms_slug,
+            transparent: "true",
+            format: "image/png"
+        }, 
+        {
+            singleTile: true
         }
     );
+    
 };
 
 app.addArcRestLayerToMap = function(layer) {

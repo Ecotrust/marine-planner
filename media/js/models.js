@@ -8,6 +8,7 @@ function layerModel(options, parent) {
     self.featureAttributionName = self.name;
     self.url = options.url || null;
     self.arcgislayers = options.arcgis_layers || -1;
+    self.wms_slug = options.wms_slug || '';
     self.type = options.type || null;
     self.utfurl = options.utfurl || false;
     self.legend = options.legend || false;
