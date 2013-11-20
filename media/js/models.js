@@ -11,6 +11,7 @@ function layerModel(options, parent) {
     self.wms_slug = options.wms_slug || '';
     self.type = options.type || null;
     self.utfurl = options.utfurl || false;
+    self.utfjsonp = options.utfjsonp || false;
     self.legend = options.legend || false;
     self.legendVisibility = ko.observable(false);
     self.legendTitle = options.legend_title || false;

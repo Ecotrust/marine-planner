@@ -161,7 +161,7 @@ def push():
 
         sudo('chown -R www-data:deploy *')
         sudo('chown -R www-data:deploy /usr/local/venv')
-        sudo('chmod -R 0770 *')
+        sudo('chmod -R g+w *')
 
 
 @task

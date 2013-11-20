@@ -562,6 +562,7 @@ app.addVectorLayerToMap = function(layer) {
 
 app.addUtfLayerToMap = function(layer) {
     var opts = { displayInLayerSwitcher: false };
+    console.log(layer);
     layer.utfgrid = new OpenLayers.Layer.UTFGrid({
         layerModel: layer,
         url: layer.utfurl ? layer.utfurl : layer.parent.utfurl,
@@ -569,9 +570,8 @@ app.addUtfLayerToMap = function(layer) {
         //events: {fallThrough: true},
         utfgridResolution: 4, // default is 2
         displayInLayerSwitcher: false,
-        useJSONP: false
+        useJSONP: layer.utfjsonp
     });
-     
     app.map.addLayer(layer.utfgrid);      
     
     if (layer.type === 'ArcRest') {
