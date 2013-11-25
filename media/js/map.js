@@ -374,20 +374,35 @@ app.modifyURL = function(url) {
 
 app.addWmsLayerToMap = function(layer) {
     
-    var url = app.modifyURL(layer.url);
-
-    layer.layer = new OpenLayers.Layer.WMS(
-        layer.name, 
-        url,
+    layer.layer = new OpenLayers.Layer.WMS( layer.name, layer.url, 
         {
             layers: layer.wms_slug,
             transparent: "true",
             format: "image/png"
         }, 
         {
-            singleTile: true
+            // singleTile: true
+            // 'buffer': 0
         }
     );
+    
+    // map.addLayer(cables);
+
+    // var url = app.modifyURL(layer.url);
+
+    // layer.layer = new OpenLayers.Layer.WMS( 
+    //     "25M Depth Contour", "http://www.coastalatlas.net/services/wms/getmap", 
+    //     // layer.name, 
+    //     // url,
+    //     {
+    //         layers: "SubmarineCables_OFCC_2012",
+    //         transparent: "true",
+    //         format: "image/png"
+    //     }, 
+    //     {
+    //         singleTile: true
+    //     }
+    // );
     
 };
 
