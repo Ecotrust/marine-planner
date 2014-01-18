@@ -5,7 +5,7 @@ class TOCAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
 
 class TOCThemeAdmin(admin.ModelAdmin):
-    list_display = ('display_name', 'name', 'id')
+    list_display = ('display_name', 'name', 'TOC', 'id')
     
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "layers":
@@ -18,7 +18,7 @@ class ThemeAdmin(admin.ModelAdmin):
 
 class LayerAdmin(admin.ModelAdmin):
     list_display = ('name', 'layer_type', 'url')
-    search_fields = ['name', 'layer_type']
+    search_fields = ['name', 'layer_type', 'url']
     ordering = ('name',)
     exclude = ('slug_name',)
     

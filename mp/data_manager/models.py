@@ -17,6 +17,12 @@ class TOCTheme(models.Model):
     description = models.TextField(blank=True, null=True)
     layers = models.ManyToManyField("Layer", blank=True, null=True)
 
+    def TOC(self):
+        #import pdb
+        #pdb.set_trace()
+        #return self.toc_set.all()[0]
+        return "\n".join([toc.name for toc in self.toc_set.all()])
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 

@@ -1069,7 +1069,7 @@ function viewModel() {
             $('#myTab').hide();
             $('#myTabContent').hide();
         } else {
-            $('.sidebar-nav').animate( {height: '96%'}, 400 );
+            $('.sidebar-nav').animate( {height: '550px'}, 400 );
             setTimeout( function() {
                 $('#help-button').show();
                 $('.search-form').show();
