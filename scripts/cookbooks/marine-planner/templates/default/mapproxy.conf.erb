@@ -1,0 +1,17 @@
+description "mapproxy"
+author      "Edwin Knuth"
+
+
+start on filesystem
+stop on runlevel S
+
+respawn
+script
+<% if node[:user] == "vagrant" %>
+cd /vagrant/proxy
+exec sudo -u vagrant /usr/local/venv/marine-planner/bin/gunicorn -k eventlet -w 4 -b :8889 config:application >>/var/log/mapproxy/gunicorn.log 2>&1
+<% else %>
+cd /usr/local/apps/marine-planner/proxy
+exec sudo -u www-data /usr/local/venv/marine-planner/bin/gunicorn -k eventlet -w 4 -b :8889 config:application >>/var/log/mapproxy/gunicorn.log 2>&1
+<% end %>
+end script

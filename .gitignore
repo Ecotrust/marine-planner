@@ -1,3 +1,4 @@
+proxy/cache_data
 *.pyc
 mp/settings_local.py
 logs/*

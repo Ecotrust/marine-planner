@@ -169,17 +169,15 @@ else
     end
 end
 
-template "/etc/supervisor/conf.d/app.conf" do
+
+template "/etc/init/app.conf" do
     source "app.conf.erb"
 end
 
-service "supervisor" do
-    action :stop
+execute "restart app" do
+    command "sudo service app restart"
 end
 
-service "supervisor" do
-    action :start
-end
 
 cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf"
@@ -188,6 +186,9 @@ end
 
 execute "restart postgres" do
     command "sudo /etc/init.d/postgresql restart"
+end
+execute "restart nginx" do
+    command "sudo /etc/init.d/nginx restart"
 end
 
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
@@ -216,4 +217,19 @@ python_virtualenv "/usr/local/venv/marine-planner" do
     else
         owner "www-data"
     end
+end
+link "/usr/venv" do
+  to "/usr/local/venv"
+end
+
+
+# map proxy stuff
+template "/etc/init/mapproxy.conf" do
+    source "mapproxy.conf.erb"
+end
+
+directory "/var/log/mapproxy" do
+    owner node[:user]
+    group "deploy"
+    mode 0700
 end

@@ -2,6 +2,7 @@
     "user": "www-data",
     "servername": "staging.example.com",
     "dbname": "marine-planner",
+    "project": "marine-planner",
     "socketurl": "",
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",

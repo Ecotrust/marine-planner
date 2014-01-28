@@ -1,9 +1,15 @@
 # pip requirements file for MARCO
-django==1.4
-madrona
+django==1.4.9
+-e git+https://github.com/springmeyer/djmapnik.git#egg=djmapnik
+-e git+https://github.com/ixc/elementtree.git@1.2.6#egg=elementtree
+django-flatblocks==0.8
+madrona==4.0
 simplejson
 django-redis
 querystring-parser
 httplib2
 requests
 gunicorn
+django-proxy
+MapProxy==1.6.0
+eventlet==0.14.0

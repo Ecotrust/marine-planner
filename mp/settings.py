@@ -25,7 +25,8 @@ INSTALLED_APPS += ( 'general',
                     'visualize',
                     'django.contrib.humanize',
                     'flatblocks',
-                    'proxy'
+                    'mp_proxy',
+                    'mapproxy'
                   )
 
 GEOMETRY_DB_SRID = 99996
@@ -50,3 +51,4 @@ import logging
 logging.getLogger('django.db.backends').setLevel(logging.ERROR)
 
 from settings_local import *
+
