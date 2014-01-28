@@ -161,10 +161,12 @@ if node[:user] == "vagrant"
     template "/vagrant/mp/settings_local.py" do
         source "settings_local.erb"
         owner "vagrant"
+        mode 0760
     end
 else
     template "/usr/local/apps/marine-planner/mp/settings_local.py" do
         source "settings_deploy.erb"
+         mode 0760
         owner "www-data"
     end
 end

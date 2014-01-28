@@ -7,7 +7,7 @@ from fabric.api import env, local, sudo, run, cd, prefix, task, settings
 
 CHEF_VERSION = '10.20.0'
 
-branch = 'redesign-update'
+branch = 'mapproxy'
 
 env.root_dir = '/usr/local/apps/marine-planner'
 env.venvs = '/usr/local/venv'
@@ -33,13 +33,7 @@ def install_chef(latest=True):
     """
     Install chef-solo on the server
     """
-    sudo('apt-get update', pty=True)
-    sudo('apt-get install -y git-core rubygems ruby ruby-dev', pty=True)
-
-    if latest:
-        sudo('gem install chef --no-ri --no-rdoc', pty=True)
-    else:
-        sudo('gem install chef --no-ri --no-rdoc --version {0}'.format(CHEF_VERSION), pty=True)
+    sudo('curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 10.20.0 && rm install.sh')
 
 def parse_ssh_config(text):
     """
@@ -131,12 +125,13 @@ def push():
     Update application code on the server
     """
     with settings(warn_only=True):
-        remote_result = local('git remote | grep %s' % env.remote)
+        remote_result = local('git remote | grep %s' % env.host)
         if not remote_result.succeeded:
             local('git remote add %s ssh://%s@%s:%s%s' %
-                (env.remote, env.user, env.host, env.port,env.root_dir))
+                (env.host, env.user, env.host, env.port,env.root_dir))
 
-        result = local("git push %s %s" % (env.remote, env.branch))
+        #result = local("git push --mirror %s %s" % (env.host, env.branch))
+        result = local("git push --mirror %s" % (env.host))
 
         # if push didn't work, the repository probably doesn't exist
         # 1. create an empty repo
@@ -152,11 +147,12 @@ def push():
             with cd(env.root_dir):
                 run("git init")
                 run("git config --bool receive.denyCurrentBranch false")
-                local("git push %s -u %s" % (env.remote, env.branch))
+                local("git push --mirror %s -u %s" % (env.host, env.branch))
 
     with cd(env.root_dir):
         # Really, git?  Really?
         run('git reset HEAD --hard')
+
         run('git checkout %s' % env.branch)
         #run('git checkout .')
         run('git checkout %s' % env.branch)
@@ -183,7 +179,6 @@ def deploy():
             _manage_py('enable_sharing')
             sudo('chown -R www-data:deploy %s/mediaroot' % env.root_dir)
 
-
     restart()
 
 
@@ -193,7 +188,8 @@ def restart():
     Reload nginx/gunicorn
     """
     with settings(warn_only=True):
-        sudo('supervisorctl restart app')
+        sudo('service app restart')
+        sudo('service mapproxy restart')
         sudo('/etc/init.d/nginx reload')
 
 
