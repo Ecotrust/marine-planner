@@ -26,7 +26,7 @@ INSTALLED_APPS += ( 'general',
                     'django.contrib.humanize',
                     'flatblocks',
                     'mp_proxy',
-                    'mapproxy'
+                    'map_proxy'
                   )
 
 GEOMETRY_DB_SRID = 99996

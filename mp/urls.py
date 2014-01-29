@@ -4,8 +4,9 @@ from django.views.generic.simple import redirect_to
 from django.conf import settings
 import visualize
 import explore
-from mapproxy.views import proxy_view
-
+#from mapproxy.views import proxy_view
+#import map_proxy
+#print dir(map_proxy)
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -22,7 +23,7 @@ urlpatterns = patterns('',
     (r'^mobile/', include('visualize.urls')),
     (r'^feedback/', include('feedback.urls')),
     (r'^proxy/', include('mp_proxy.urls')),
-    (r'^mapproxy/(?P<path>.*)', proxy_view),
+    url(r'^mapproxy/(?P<path>.*)', 'map_proxy.views.proxy_view'),
     (r'^([\w-]*)/planner/', visualize.views.show_planner),
     (r'^([\w-]*)/visualize/', visualize.views.show_planner),
     (r'^([\w-]*)/embed/', visualize.views.show_embedded_map),
