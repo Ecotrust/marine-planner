@@ -11,5 +11,5 @@ from mapproxy.wsgiapp import make_wsgi_app
 ROOT = os.path.dirname(os.path.realpath(__file__))
 
 YAML = os.path.join(ROOT, 'mapproxy.yaml')
-# application = make_wsgi_app(YAML)
-application = make_wsgi_app('/vagrant/proxy/mapproxy.yaml')
+application = make_wsgi_app(YAML)
+#application = make_wsgi_app('/vagrant/proxy/mapproxy.yaml')
