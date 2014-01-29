@@ -132,7 +132,7 @@ include_recipe "nginx"
 include_recipe "postgresql::server"
 #include_recipe "supervisor"
 
-package "supervisor"
+# package "supervisor"
 
 # marine planner specific
 package "postgresql-#{node[:postgresql][:version]}-postgis"
