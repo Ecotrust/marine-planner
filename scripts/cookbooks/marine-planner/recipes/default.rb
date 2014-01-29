@@ -230,6 +230,16 @@ template "/etc/init/mapproxy.conf" do
     source "mapproxy.conf.erb"
 end
 
+if node[:user] == "vagrant"
+    template "/vagrant/proxy/mapproxy.yaml" do
+        source "mapproxy.yaml.erb"
+    end
+else
+    template "/usr/local/apps/marine-planner/proxy/mapproxy.yaml" do
+        source "mapproxy.yaml.erb"
+    end
+end
+
 directory "/var/log/mapproxy" do
     owner node[:user]
     group "deploy"

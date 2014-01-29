@@ -28,6 +28,34 @@ Vagrant.configure("2") do |config|
                 :password => {
                     :postgres  => "SECRET"
                 }
+            },
+            :mapproxy => {
+                :grids => [
+                    {
+                        :slug => "or_lambert",
+                        :extent => "[197752.0112, 118183.8060, 2410622.1845, 1680961.2935]",
+                        :srs => "EPSG:2992"
+                    }
+                ],
+                :proxylayers => [
+                    {
+                        :url => "http://www.coastalatlas.net/services/wms/?",
+                        :title => "Oregon Coastal Atlas",
+                        :slug => "or_coastal_atlas",
+                        :layers => [
+                            {
+                                :slug => "NAIP_Orthos_2011",
+                                :title => "NAIP Orthos 2011",
+                                :grid => "or_lambert"
+                            },
+                            {
+                                :slug => "Big_Regional_Water",
+                                :title => "Big Regional Water",
+                                :grid => "or_lambert"
+                            }
+                        ]
+                    }
+                ]
             }
         }
         chef.add_role "vagrant"

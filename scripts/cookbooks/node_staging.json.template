@@ -7,6 +7,34 @@
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
     "adminmediafiles": "/usr/local/venv/marine-planner/lib/python2.7/site-packages/django/contrib/admin/static/admin",
+    "mapproxy": {
+        "grids": [
+            {
+                "slug": "or_lambert",
+                "extent": "[197752.0112, 118183.8060, 2410622.1845, 1680961.2935]",
+                "srs": "EPSG:2992"
+            }
+        ],
+        "proxylayers": [
+            {
+                "url": "http://www.coastalatlas.net/services/wms/?",
+                "title": "Oregon Coastal Atlas",
+                "slug": "or_coastal_atlas",
+                "layers": [
+                    {
+                        "slug": "NAIP_Orthos_2011",
+                        "title": "NAIP Orthos 2011",
+                        "grid": "or_lambert"   
+                    },
+                    {
+                        "slug": "Big_Regional_Water",
+                        "title": "Big Regional Water",
+                        "grid": "or_lambert"
+                    }
+                ]
+            }
+        ]    
+    },
     "users": [
         {
             "name": "username",
