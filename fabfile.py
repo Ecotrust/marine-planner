@@ -7,7 +7,7 @@ from fabric.api import env, local, sudo, run, cd, prefix, task, settings
 
 CHEF_VERSION = '10.20.0'
 
-branch = 'mapproxy'
+branch = 'redesign-update'
 
 env.root_dir = '/usr/local/apps/marine-planner'
 env.venvs = '/usr/local/venv'
