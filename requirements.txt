@@ -33,7 +33,6 @@ lxml==2.3.2
 madrona==4.0
 medusa==0.5.4
 meld3==0.6.10
-mercurial==2.0.2
 numpy==1.6.1
 psycopg2==2.4.5
 pycurl==7.19.0
