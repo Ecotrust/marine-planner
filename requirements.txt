@@ -1,5 +1,4 @@
 Django==1.4.9
-GDAL==1.7.3
 GnuPGInterface==0.3.2
 MapProxy==1.6.0
 PIL==1.1.7
