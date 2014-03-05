@@ -1063,6 +1063,7 @@ function viewModel() {
         if ( !self.minimized ) {
             $('.sidebar-nav').animate( {height: '50px'}, 400 );
             $('#help-button').hide();
+            $('#add-layer-button').hide();
             $('.search-form').hide();
             $('#myTab').hide();
             $('#myTabContent').hide();
@@ -1070,6 +1071,7 @@ function viewModel() {
             $('.sidebar-nav').animate( {height: '96%'}, 400 );
             setTimeout( function() {
                 $('#help-button').show();
+                $('#add-layer-button').show();
                 $('.search-form').show();
                 $('#myTab').show();
                 $('#myTabContent').show();
