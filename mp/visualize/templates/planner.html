@@ -392,6 +392,14 @@
                                     <span style="position: absolute; bottom: 12px; left: 12px; z-index: 1;" class="btn-group">
                                       <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Take a Tour</a>
                                     </span>
+                                    {% if user.is_staff %}
+                                    <span style="position: absolute; bottom: 12px; right: 12px; z-index: 1;" class="btn-group">
+                                      <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" data-bind="click: showAddLayerModal">
+                                        <i class="icon-plus"></i>
+                                        Add Layer
+                                      </a>
+                                    </span>
+                                    {% endif %}
                                     <!--
                                     {% if user.is_authenticated %}
                                     <span style="position: absolute; bottom: 12px; right: 12px; z-index: 1;" class="btn-group">
@@ -748,6 +756,9 @@
         <script src="{{MEDIA_URL}}/js/bookmarks.js"></script>
         <script src="{{MEDIA_URL}}/js/server.js"></script>
         <script src="{{MEDIA_URL}}/js/printing.js"></script>
+        {% if user.is_staff %}
+        <script src="{{MEDIA_URL}}/js/add-layer.js"></script>
+        {% endif %}
         <script src="{{MEDIA_URL}}/js/app.js"></script>
         <script src="{{MEDIA_URL}}/js/pageguide.js"></script>
 
@@ -756,6 +767,25 @@
         <!--<![endif]-->
 
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.js"></script>
+
+        <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        app.csrftoken = getCookie('csrftoken');
+        </script>
 
 
         <script>

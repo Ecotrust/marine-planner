@@ -18,14 +18,19 @@ DATABASES = {
 LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'mp.log'))
 
 
-INSTALLED_APPS += ( 'general', 
+INSTALLED_APPS += ( 
+                    'django_extensions',
+
+                    'general', 
                     'data_manager',
                     'mp_settings',
                     'explore',
                     'visualize',
                     'django.contrib.humanize',
                     'flatblocks',
-                    'proxy'
+                    'proxy',
+
+
                   )
 
 GEOMETRY_DB_SRID = 99996
