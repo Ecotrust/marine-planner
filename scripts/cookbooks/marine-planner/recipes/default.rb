@@ -233,10 +233,16 @@ end
 if node[:user] == "vagrant"
     template "/vagrant/proxy/mapproxy.yaml" do
         source "mapproxy.yaml.erb"
+        owner node[:user]
+        group "deploy"
+        mode 0700
     end
 else
     template "/usr/local/apps/marine-planner/proxy/mapproxy.yaml" do
         source "mapproxy.yaml.erb"
+        owner node[:user]
+        group "deploy"
+        mode 0700
     end
 end
 
