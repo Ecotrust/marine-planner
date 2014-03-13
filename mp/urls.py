@@ -4,7 +4,7 @@ from django.views.generic.simple import redirect_to
 from django.conf import settings
 from data_manager.api import LayerResource, ThemeResource
 from tastypie.api import Api
-
+from django.http import HttpResponseRedirect
 
 import visualize
 import explore
@@ -16,6 +16,7 @@ v1_api.register(ThemeResource())
 
 
 urlpatterns = patterns('',
+                        url(r'^$', lambda r: HttpResponseRedirect('/visualize')),
                        (r'^mp_profile/', include('mp_profile.urls')),
                        #(r'^sdc/', include('scenarios.urls')),
                        #(r'^drawing/', include('drawing.urls')),
