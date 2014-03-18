@@ -5,7 +5,8 @@ Vagrant.configure("2") do |config|
     config.vm.box = "precise32"
     config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-    config.vm.network :forwarded_port, guest: 80, host: 8010  # nginx
+    config.vm.network :forwarded_port, guest: 80, host: 8080  # nginx
+    config.vm.network :forwarded_port, guest: 8889, host: 8889  # mapproxy
     config.vm.network :forwarded_port, guest: 8000, host: 8000  # django dev server
     config.vm.network :forwarded_port, guest: 5432, host: 15432  # postgresql
 
@@ -27,6 +28,34 @@ Vagrant.configure("2") do |config|
                 :password => {
                     :postgres  => "SECRET"
                 }
+            },
+            :mapproxy => {
+                :grids => [
+                    {
+                        :slug => "or_lambert",
+                        :extent => "[197752.0112, 118183.8060, 2410622.1845, 1680961.2935]",
+                        :srs => "EPSG:2992"
+                    }
+                ],
+                :proxylayers => [
+                    {
+                        :url => "http://www.coastalatlas.net/services/wms/?",
+                        :title => "Oregon Coastal Atlas",
+                        :slug => "or_coastal_atlas",
+                        :layers => [
+                            {
+                                :slug => "NAIP_Orthos_2011",
+                                :title => "NAIP Orthos 2011",
+                                :grid => "or_lambert"
+                            },
+                            {
+                                :slug => "Big_Regional_Water",
+                                :title => "Big Regional Water",
+                                :grid => "or_lambert"
+                            }
+                        ]
+                    }
+                ]
             }
         }
         chef.add_role "vagrant"

@@ -371,20 +371,39 @@ app.modifyURL = function(url) {
     return newURL;
 };
 
+
 app.addWmsLayerToMap = function(layer) {
     
-    var url = app.modifyURL(layer.url);
-
-    layer.layer = new OpenLayers.Layer.WMS(
-        layer.name, 
-        url,
+    layer.layer = new OpenLayers.Layer.WMS( layer.name, layer.url, 
         {
-            //'layers': 'basic'
-            srs: 'EPSG:3857',
-            transparent: true,
-            format: 'image/png'
+            layers: layer.wms_slug,
+            transparent: "true",
+            format: "image/png"
+        }, 
+        {
+            // singleTile: true
+            // 'buffer': 0
         }
     );
+    
+    // map.addLayer(cables);
+
+    // var url = app.modifyURL(layer.url);
+
+    // layer.layer = new OpenLayers.Layer.WMS( 
+    //     "25M Depth Contour", "http://www.coastalatlas.net/services/wms/getmap", 
+    //     // layer.name, 
+    //     // url,
+    //     {
+    //         layers: "SubmarineCables_OFCC_2012",
+    //         transparent: "true",
+    //         format: "image/png"
+    //     }, 
+    //     {
+    //         singleTile: true
+    //     }
+    // );
+    
 };
 
 app.addArcRestLayerToMap = function(layer) {
@@ -558,6 +577,7 @@ app.addVectorLayerToMap = function(layer) {
 
 app.addUtfLayerToMap = function(layer) {
     var opts = { displayInLayerSwitcher: false };
+    console.log(layer);
     layer.utfgrid = new OpenLayers.Layer.UTFGrid({
         layerModel: layer,
         url: layer.utfurl ? layer.utfurl : layer.parent.utfurl,
@@ -565,9 +585,8 @@ app.addUtfLayerToMap = function(layer) {
         //events: {fallThrough: true},
         utfgridResolution: 4, // default is 2
         displayInLayerSwitcher: false,
-        useJSONP: false
+        useJSONP: layer.utfjsonp
     });
-     
     app.map.addLayer(layer.utfgrid);      
     
     if (layer.type === 'ArcRest') {

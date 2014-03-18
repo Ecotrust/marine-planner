@@ -8,8 +8,10 @@ function layerModel(options, parent) {
     self.featureAttributionName = self.name;
     self.url = options.url || null;
     self.arcgislayers = options.arcgis_layers || -1;
+    self.wms_slug = options.wms_slug || '';
     self.type = options.type || null;
     self.utfurl = options.utfurl || false;
+    self.utfjsonp = options.utfjsonp || false;
     self.legend = options.legend || false;
     self.legendVisibility = ko.observable(false);
     self.legendTitle = options.legend_title || false;
@@ -1068,7 +1070,7 @@ function viewModel() {
             $('#myTab').hide();
             $('#myTabContent').hide();
         } else {
-            $('.sidebar-nav').animate( {height: '96%'}, 400 );
+            $('.sidebar-nav').animate( {height: '550px'}, 400 );
             setTimeout( function() {
                 $('#help-button').show();
                 $('#add-layer-button').show();

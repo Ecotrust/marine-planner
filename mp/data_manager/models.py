@@ -17,6 +17,12 @@ class TOCTheme(models.Model):
     description = models.TextField(blank=True, null=True)
     layers = models.ManyToManyField("Layer", blank=True, null=True)
 
+    def TOC(self):
+        #import pdb
+        #pdb.set_trace()
+        #return self.toc_set.all()[0]
+        return "\n".join([toc.name for toc in self.toc_set.all()])
+
     def __unicode__(self):
         return unicode('%s' % (self.name))
 
@@ -86,6 +92,7 @@ class Layer(models.Model):
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True)
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True)
+    wms_slug = models.CharField(max_length=255, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
@@ -93,7 +100,7 @@ class Layer(models.Model):
     legend_title = models.CharField(max_length=255, blank=True, null=True)
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
-    
+    utfjsonp = models.BooleanField(default=False)
     #tooltip
     description = models.TextField(blank=True, null=True)
     
@@ -266,7 +273,9 @@ class Layer(models.Model):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'wms_slug': layer.wms_slug,
                 'utfurl': layer.utfurl,
+                'utfjsonp': layer.utfjsonp,
                 'parent': self.id,
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
@@ -295,7 +304,9 @@ class Layer(models.Model):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'wms_slug': self.wms_slug,
             'utfurl': self.utfurl,
+            'utfjsonp': self.utfjsonp,
             'subLayers': sublayers,
             'legend': self.legend,
             'legend_title': self.legend_title,

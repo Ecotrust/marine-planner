@@ -1,0 +1,53 @@
+
+services:
+  demo:
+  tms:
+    use_grid_names: true
+    # origin for /tiles service
+    origin: 'nw'
+  kml:
+      use_grid_names: true
+  wmts:
+  wms:
+    md:
+      title: Marine Planner MapProxy
+      abstract: MapProxy managed by Point 97's Marine Planner.
+
+layers:
+  <% node[:mapproxy][:proxylayers].each do |proxylayer| %>
+  <% proxylayer['layers'].each do |layer| %>
+  - name: <%= proxylayer['slug'] %>_<%= layer['slug'] %>
+    title: <%= proxylayer['title'] %> <%= layer['title'] %>
+    sources: [<%= proxylayer['slug'] %>_<%= layer['slug'] %>_cache]
+  <% end %>
+  <% end %> 
+
+caches:
+  <% node[:mapproxy][:proxylayers].each do |proxylayer| %>
+  <% proxylayer['layers'].each do |layer| %>
+  <%= proxylayer['slug'] %>_<%= layer['slug'] %>_cache:
+    grids: [<%= layer['grid'] %>]
+    sources: [<%= proxylayer['slug'] %>_<%= layer['slug'] %>_wms]
+  <% end %>
+  <% end %> 
+
+sources:
+  <% node[:mapproxy][:proxylayers].each do |proxylayer| %>
+  <% proxylayer['layers'].each do |layer| %>
+  <%= proxylayer['slug'] %>_<%= layer['slug'] %>_wms:
+    type: wms
+    req:
+      url: <%= proxylayer['url'] %>
+      layers: <%= layer['slug'] %>
+  <% end %>
+  <% end %>   
+
+grids:
+    webmercator:
+        base: GLOBAL_WEBMERCATOR
+    <% node[:mapproxy][:grids].each do |grid| %>
+    <%= grid['slug'] %>:
+        srs: <%= grid['srs'] %>
+        bbox: <%= grid['extent'] %>
+    <% end %>
+globals:

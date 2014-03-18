@@ -2,7 +2,7 @@
 #map {
   height: 800px;
   margin-bottom: 15px;
-  border-radius: 10px;
+  /*border-radius: 10px;*/
   overflow: hidden;
 }
 
