@@ -86,8 +86,8 @@ class Layer(models.Model):
         ('Vector', 'Vector'),
         ('placeholder', 'placeholder'),
     )
-    name = models.CharField(max_length=100)
-    slug_name = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=244)
+    slug_name = models.CharField(max_length=244, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True)

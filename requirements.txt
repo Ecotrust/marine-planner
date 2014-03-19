@@ -14,3 +14,4 @@ gunicorn
 django-proxy
 MapProxy==1.6.0
 eventlet==0.14.0
+ipython==1.2.1

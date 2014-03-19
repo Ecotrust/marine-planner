@@ -5,7 +5,7 @@
 		var self = this;
 		self.name = ko.observable();
 		self.url = ko.observable();
-		self.type = ko.observable();
+		self.layer_type = ko.observable();
 		self.theme = ko.observable();
 		self.arcgis_layers = ko.observable();
 		return this;
@@ -19,13 +19,19 @@
 
 	app.viewModel.createLayer = function() {
 		var theme_uri = "/api/v1/theme/" + app.viewModel.newLayer().theme().id + '/';
-		var data = JSON.stringify({
+		var data = {
 			name: app.viewModel.newLayer().name(),
 			url: app.viewModel.newLayer().url(),
-			type: app.viewModel.newLayer().type(),
+			layer_type: app.viewModel.newLayer().layer_type(),
 			arcgis_layers: app.viewModel.newLayer().arcgis_layers(),
 			themes: [theme_uri]
-		});
+		};
+		if (data.layer_type === 'ArcRest') {
+			data.url = data.url + '/export';
+			if (! data.arcgis_layer) {
+				data.arcgis_layer = 0;
+			}
+		}
 		$.ajax({
 			beforeSend: function (request) {
                 request.setRequestHeader("X-CSRFToken", app.csrftoken);
@@ -36,7 +42,7 @@
 			dataType: 'json',
 			processData: false,
 			dataType: "json",
-			data: data
+			data: JSON.stringify(data)
 		})
 			.success(function(data) {
 				var layer = new layerModel(data);

@@ -63,13 +63,13 @@
             <div class="control-group">
               <label class="control-label" for="inputPassword">ArcGIS Layers</label>
               <div class="controls">
-                <input type="text" placeholder="ArcGIS Layers" data-bind="value: arcgis_layers, enable: type() == 'ArcRest'">
+                <input type="text" placeholder="ArcGIS Layers" data-bind="value: arcgis_layers, enable: layer_type() == 'ArcRest'">
               </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Type</label>
                 <div class="controls">
-                    <select data-bind="value: type">
+                    <select data-bind="value: layer_type">
                       <option value="ArcRest">ArcRest</option>
                       <option value="XYZ">XYZ</option>
                     </select>
@@ -78,7 +78,7 @@
             <div class="control-group">
                 <label class="control-label">Theme</label>
                 <div class="controls">
-                    <select data-bind="options: $root.themes, value: theme, optionsText: 'name'">        
+                    <select data-bind="options: $root.themes, value: theme, optionsText: 'name'">
                     </select>
                 </div>
             </div>

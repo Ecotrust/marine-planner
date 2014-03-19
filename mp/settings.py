@@ -36,7 +36,7 @@ GEOMETRY_DB_SRID = 99996
 GEOMETRY_CLIENT_SRID = 3857 #for latlon
 GEOJSON_SRID = 3857
 
-#APP_NAME = "Marine Planner Data Portal"
+APP_NAME = "Marine Planner Data Portal"
 #FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
 #HELP_EMAIL = "mp-team@marineplanner.org"
 #DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
