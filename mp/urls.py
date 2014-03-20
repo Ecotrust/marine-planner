@@ -38,7 +38,7 @@ urlpatterns = patterns('',
     (r'^([\w-]*)/visualize/', visualize.views.show_planner),
     (r'^([\w-]*)/embed/', visualize.views.show_embedded_map),
     (r'^([\w-]*)/catalog/', explore.views.data_catalog),
-    (r'^$', redirect_to, {'url': '/portal/'}),
+    (r'^$', redirect_to, {'url': '/visualize/'}),
     (r'', include('madrona.common.urls')),
 )
 

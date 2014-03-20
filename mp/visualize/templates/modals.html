@@ -55,26 +55,34 @@
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="inputPassword">URL</label>
-              <div class="controls">
-                <input type="text" placeholder="URL" data-bind="value: url">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="inputPassword">ArcGIS Layers</label>
-              <div class="controls">
-                <input type="text" placeholder="ArcGIS Layers" data-bind="value: arcgis_layers, enable: layer_type() == 'ArcRest'">
-              </div>
-            </div>
-            <div class="control-group">
                 <label class="control-label">Type</label>
                 <div class="controls">
                     <select data-bind="value: layer_type">
                       <option value="ArcRest">ArcRest</option>
                       <option value="XYZ">XYZ</option>
+                      <option value="WMS">WMS</option>
                     </select>
                 </div>
             </div>
+            <div class="control-group">
+              <label class="control-label" for="inputPassword">URL</label>
+              <div class="controls">
+                <input type="text" placeholder="URL" data-bind="value: url">
+              </div>
+            </div>
+            <div class="control-group" data-bind="visible: layer_type() == 'ArcRest'">
+              <label class="control-label" for="inputPassword">ArcGIS Layers</label>
+              <div class="controls">
+                <input type="text" placeholder="ArcGIS Layers" data-bind="value: arcgis_layers">
+              </div>
+            </div>
+            <div class="control-group" data-bind="visible: layer_type() == 'WMS'">
+              <label class="control-label" for="inputPassword">WMS Layer Name</label>
+              <div class="controls">
+                <input type="text" placeholder="WMA Layer Name" data-bind="value: wms_slug">
+              </div>
+            </div>
+            
             <div class="control-group">
                 <label class="control-label">Theme</label>
                 <div class="controls">

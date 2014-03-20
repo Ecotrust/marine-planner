@@ -8,6 +8,7 @@
 		self.layer_type = ko.observable();
 		self.theme = ko.observable();
 		self.arcgis_layers = ko.observable();
+		self.wms_slug = ko.observable();
 		return this;
 	};
 	app.viewModel.newLayer = ko.observable();
@@ -24,6 +25,7 @@
 			url: app.viewModel.newLayer().url(),
 			layer_type: app.viewModel.newLayer().layer_type(),
 			arcgis_layers: app.viewModel.newLayer().arcgis_layers(),
+			wms_slug: app.viewModel.newLayer().wms_slug(),
 			themes: [theme_uri]
 		};
 		if (data.layer_type === 'ArcRest') {
