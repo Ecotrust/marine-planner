@@ -91,6 +91,7 @@ class Layer(models.Model):
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True)
+    proxy_url = models.BooleanField(default=False)
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True)
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
@@ -101,6 +102,7 @@ class Layer(models.Model):
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
     utfjsonp = models.BooleanField(default=False)
+    proj = models.CharField(max_length=255, blank=True, null=True, help_text="will be EPSG:3857, if unspecified")
     #tooltip
     description = models.TextField(blank=True, null=True)
     
@@ -276,6 +278,8 @@ class Layer(models.Model):
                 'wms_slug': layer.wms_slug,
                 'utfurl': layer.utfurl,
                 'utfjsonp': layer.utfjsonp,
+                'proxy_url': layer.proxy_url,
+                'proj': layer.proj,
                 'parent': self.id,
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
@@ -307,6 +311,8 @@ class Layer(models.Model):
             'wms_slug': self.wms_slug,
             'utfurl': self.utfurl,
             'utfjsonp': self.utfjsonp,
+            'proxy_url': self.proxy_url,
+            'proj': self.proj,
             'subLayers': sublayers,
             'legend': self.legend,
             'legend_title': self.legend_title,

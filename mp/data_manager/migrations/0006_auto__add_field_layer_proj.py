@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Layer.wms_slug'
-        db.add_column('data_manager_layer', 'wms_slug',
+        # Adding field 'Layer.proj'
+        db.add_column('data_manager_layer', 'proj',
                       self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Layer.wms_slug'
-        db.delete_column('data_manager_layer', 'wms_slug')
+        # Deleting field 'Layer.proj'
+        db.delete_column('data_manager_layer', 'proj')
 
 
     models = {
@@ -68,6 +68,8 @@ class Migration(SchemaMigration):
             'metadata': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'opacity': ('django.db.models.fields.FloatField', [], {'default': '0.5', 'null': 'True', 'blank': 'True'}),
+            'proj': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'proxy_url': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'shareable_url': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'slug_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'source': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),

@@ -4,10 +4,12 @@ from urlparse import urlparse
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.http import HttpResponse
+from proxy.views import proxy_view
 import requests
 import logging
 import logging.config
-
+from django.shortcuts import get_object_or_404
+from data_manager.models import Layer
 #PROXY_FORMAT = u"http://%s/%s" % (settings.PROXY_DOMAIN, u"%s")
 
 def getLegendJSON(request, url):
@@ -39,3 +41,9 @@ def getLegendJSON(request, url):
         data = urlencode(request.POST)
         resp, content = conn.request(url, request.method, data)
         return HttpResponse(content)
+
+
+def layer_proxy_view(request, layer_id):
+    layer = get_object_or_404(Layer, id=layer_id, proxy_url=True)
+    return proxy_view(request, layer.url)
+
