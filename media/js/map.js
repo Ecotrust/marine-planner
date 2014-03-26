@@ -526,6 +526,7 @@ app.addArcRestLayerToMap = function(layer) {
 };
 
 app.addVectorLayerToMap = function(layer) {
+    var url = layer.url, proj = layer.proj || 'EPSG:3857';
     var styleMap = new OpenLayers.StyleMap( {
         fillColor: layer.color,
         fillOpacity: layer.fillOpacity,
@@ -542,6 +543,10 @@ app.addVectorLayerToMap = function(layer) {
         graphicHeight: 8,
         graphicOpacity: layer.defaultOpacity
     });
+    if (layer.proxy_url) {
+        url = '/proxy/layer/' + layer.id;
+    }
+
     if (layer.lookupField) {
         var mylookup = {};
         $.each(layer.lookupDetails, function(index, details) {    
@@ -561,11 +566,11 @@ app.addVectorLayerToMap = function(layer) {
     layer.layer = new OpenLayers.Layer.Vector(
         layer.name,
         {
-            projection: new OpenLayers.Projection('EPSG:3857'),
+            projection: new OpenLayers.Projection(proj), // 3857
             displayInLayerSwitcher: false,
             strategies: [new OpenLayers.Strategy.Fixed()],
             protocol: new OpenLayers.Protocol.HTTP({
-                url: layer.url,
+                url: url,
                 format: new OpenLayers.Format.GeoJSON()
             }),
             styleMap: styleMap,                    
