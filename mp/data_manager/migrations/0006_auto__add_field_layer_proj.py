@@ -6,18 +6,20 @@ from django.db import models
 
 
 class Migration(SchemaMigration):
+    depends_on = (
+        ("data_manager", "0006_auto__chg_field_layer_slug_name"),
+    )
 
     def forwards(self, orm):
         # Adding field 'Layer.proj'
         db.add_column('data_manager_layer', 'proj',
-                      self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True),
+                      self.gf('django.db.models.fields.CharField')(
+                          max_length=255, null=True, blank=True),
                       keep_default=False)
-
 
     def backwards(self, orm):
         # Deleting field 'Layer.proj'
         db.delete_column('data_manager_layer', 'proj')
-
 
     models = {
         'data_manager.attributeinfo': {
