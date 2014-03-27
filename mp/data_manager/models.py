@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 
 class TOC(models.Model):
     name = models.CharField(max_length=100)
-    themes = models.ManyToManyField("TOCTheme", blank=True, null=True) 
+    themes = models.ManyToManyField("TOCTheme", blank=True, null=True)
     
     def __unicode__(self):
         return unicode('%s' % (self.name))
@@ -91,7 +91,7 @@ class Layer(models.Model):
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True)
-    proxy_url = models.BooleanField(default=False)
+    proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True)
     wms_slug = models.CharField(max_length=255, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
@@ -102,6 +102,7 @@ class Layer(models.Model):
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
     utfjsonp = models.BooleanField(default=False)
+    summarize_to_grid = models.BooleanField(default=False)
     proj = models.CharField(max_length=255, blank=True, null=True, help_text="will be EPSG:3857, if unspecified")
     #tooltip
     description = models.TextField(blank=True, null=True)
@@ -280,6 +281,7 @@ class Layer(models.Model):
                 'utfjsonp': layer.utfjsonp,
                 'proxy_url': layer.proxy_url,
                 'proj': layer.proj,
+                'summarize_to_grid': layer.summarize_to_grid,
                 'parent': self.id,
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
@@ -321,6 +323,7 @@ class Layer(models.Model):
             'overview': self.data_overview,
             'data_source': self.data_source,
             'data_notes': self.data_notes,
+            'summarize_to_grid': self.summarize_to_grid,
             'kml': self.kml,
             'data_download': self.data_download_link,
             'metadata': self.metadata_link,

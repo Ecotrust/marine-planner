@@ -248,6 +248,7 @@ app.init = function () {
     var size = new OpenLayers.Size(18,28);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
     app.markers.icon = new OpenLayers.Icon('/media/img/red-pin.png', size, offset);
+
     app.map.addLayer(app.markers);
       
     //no longer needed?
@@ -270,6 +271,27 @@ app.init = function () {
     };
     
     app.utils = {};
+
+    app.utils.pip = function (point, vs) {
+        // substacks point in polygon
+        // ray-casting algorithm based on
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        
+        var x = point[0], y = point[1];
+        
+        var inside = false;
+        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+            var xi = vs[i][0], yi = vs[i][1];
+            var xj = vs[j][0], yj = vs[j][1];
+            
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        
+        return inside;
+    };
+
     app.utils.isNumber = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
@@ -316,6 +338,7 @@ app.addLayerToMap = function(layer) {
             app.addXyzLayerToMap(layer);
         }
     } 
+    
     app.map.addLayer(layer.layer); 
     layer.layer.opacity = layer.opacity();
     layer.layer.setVisibility(true);
@@ -525,7 +548,86 @@ app.addArcRestLayerToMap = function(layer) {
     );
 };
 
+app.addGridSummaryLayerToMap = function(layer) {
+    var url = layer.url;
+    var dfd = new jQuery.Deferred();
+
+    if (layer.proxy_url) {
+        url = '/proxy/layer/' + layer.id;
+    }
+    if (! app.grid) {
+        app.grid = {
+            layers: {}
+        }
+    };
+    var styleMap = new OpenLayers.StyleMap( {
+        fillColor: layer.color,
+        fillOpacity: layer.fillOpacity,
+        //strokeDashStyle: "dash",
+        //strokeOpacity: 1,
+        strokeColor: layer.color,
+        strokeOpacity: layer.defaultOpacity,
+        //strokeLinecap: "square",
+        //http://dev.openlayers.org/apidocs/files/OpenLayers/Feature/Vector-js.html
+        //title: 'testing'
+        pointRadius: 2,
+        externalGraphic: layer.graphic,
+        graphicWidth: 8,
+        graphicHeight: 8,
+        graphicOpacity: layer.defaultOpacity
+    });
+    app.geojson_format = new OpenLayers.Format.GeoJSON();
+    app.grid.grid_b_layer = new OpenLayers.Layer.Vector(
+        'grid',
+        {
+            projection: new OpenLayers.Projection('EPSG:4326'), // 3857
+            displayInLayerSwitcher: false,
+            strategies: [new OpenLayers.Strategy.Fixed()],
+            protocol: new OpenLayers.Protocol.HTTP({
+                url: "/media/data_manager/geojson/grid_b.json",
+                format: new OpenLayers.Format.GeoJSON()
+            }),
+            styleMap: styleMap
+        }
+    );
+    app.grid.grid_b_layer.events.register('loadend', {}, function () {
+        console.log('loaded');
+        dfd.resolve();
+    })
+    
+    $.when(
+        $.get(url, function( data ) {
+            app.grid.layers[layer.id] = data;
+        }),
+        dfd
+    ).then(function () {
+        var features = app.grid.layers[layer.id].features;
+        var grid_features = app.grid.grid_b_layer.features
+
+        for (var i = 0; i < features.length; i++) {
+            for (var j = 0; j < grid_features.length; j++) {
+                debugger;
+               // if (grid_features[j].geometry.containsPoint(new OpenLayers.Geometry.Point([features[i].geometry.coordinates[0],
+               //      features[i].geometry.coordinates[1]]))) {
+               //  if (grid_features[j].properties.count) {
+               //      grid_features[j].properties.count++;
+               //  } else {
+               //      grid_features[j].properties.count = 1;
+               //  }
+               // }
+            }   
+        }
+    });
+    return app.grid.grid_b_layer;
+};
+
 app.addVectorLayerToMap = function(layer) {
+
+    if (layer.type === 'Vector' && layer.summarize_to_grid) {
+        layer.layer = app.addGridSummaryLayerToMap(layer);
+        return;   
+    }
+
     var url = layer.url, proj = layer.proj || 'EPSG:3857';
     var styleMap = new OpenLayers.StyleMap( {
         fillColor: layer.color,
@@ -546,6 +648,7 @@ app.addVectorLayerToMap = function(layer) {
     if (layer.proxy_url) {
         url = '/proxy/layer/' + layer.id;
     }
+
 
     if (layer.lookupField) {
         var mylookup = {};
@@ -577,6 +680,7 @@ app.addVectorLayerToMap = function(layer) {
             layerModel: layer
         }
     );
+
 
 };
 

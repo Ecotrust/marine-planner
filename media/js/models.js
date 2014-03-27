@@ -14,6 +14,7 @@ function layerModel(options, parent) {
     self.utfjsonp = options.utfjsonp || false;
     self.proxy_url = options.proxy_url || false;
     self.proj = options.proj || false;
+    self.summarize_to_grid = options.summarize_to_grid || false;
     self.legend = options.legend || false;
     self.legendVisibility = ko.observable(false);
     self.legendTitle = options.legend_title || false;
