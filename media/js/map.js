@@ -582,41 +582,46 @@ app.addGridSummaryLayerToMap = function(layer) {
         {
             projection: new OpenLayers.Projection('EPSG:4326'), // 3857
             displayInLayerSwitcher: false,
-            strategies: [new OpenLayers.Strategy.Fixed()],
-            protocol: new OpenLayers.Protocol.HTTP({
-                url: "/media/data_manager/geojson/grid_b.json",
-                format: new OpenLayers.Format.GeoJSON()
-            }),
             styleMap: styleMap
         }
     );
-    app.grid.grid_b_layer.events.register('loadend', {}, function () {
-        console.log('loaded');
-        dfd.resolve();
-    })
-    
+    app.map.addLayer(app.grid.grid_b_layer);
+    var timer = new Date().getTime();
     $.when(
         $.get(url, function( data ) {
             app.grid.layers[layer.id] = data;
         }),
-        dfd
+        $.get('/media/data_manager/geojson/grid_west_coast.json', function( data ) {
+            app.grid.grid_b = data;
+        })
     ).then(function () {
         var features = app.grid.layers[layer.id].features;
-        var grid_features = app.grid.grid_b_layer.features
-
+        var grid_features = app.grid.grid_b.features;
+        var feature, geometry, grid_feature;
+        var count = 0;
+        var matches = {};
         for (var i = 0; i < features.length; i++) {
-            for (var j = 0; j < grid_features.length; j++) {
-                debugger;
-               // if (grid_features[j].geometry.containsPoint(new OpenLayers.Geometry.Point([features[i].geometry.coordinates[0],
-               //      features[i].geometry.coordinates[1]]))) {
-               //  if (grid_features[j].properties.count) {
-               //      grid_features[j].properties.count++;
-               //  } else {
-               //      grid_features[j].properties.count = 1;
-               //  }
-               // }
+            for (var j = 0; j < grid_features.length; j++) { 
+                grid_feature = grid_features[j];
+                if (app.utils.pip([features[i].geometry.coordinates[0], features[i].geometry.coordinates[1]], grid_feature.geometry.coordinates[0])) {
+                    if (grid_feature.properties.count) {
+                        matches[j].attributes.count++;
+                    } else {
+                        grid_feature.properties.count = 1;
+                        count++;
+                        geometry = app.geojson_format.read(grid_feature,
+                            'Feature').geometry.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:3857"));
+                        feature = new OpenLayers.Feature.Vector(geometry, {
+                            count: 1
+                        });
+                        app.grid.grid_b_layer.addFeatures(feature);
+                        matches[j] = feature;
+                    }
+                    break;
+                }
             }   
         }
+        console.log((new Date().getTime() - timer) / 1000);
     });
     return app.grid.grid_b_layer;
 };
