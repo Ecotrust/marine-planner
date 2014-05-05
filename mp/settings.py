@@ -74,14 +74,6 @@ MIDDLEWARE_CLASSES += (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue'
-        }
-    },
     'formatters': {
         'main_formatter': {
             'format': '%(levelname)s:%(name)s: %(message)s '
@@ -97,7 +89,7 @@ LOGGING = {
         },
         'console':{
             'level': 'DEBUG',
-            'filters': ['require_debug_true'],
+            # 'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'main_formatter',
         },
@@ -108,7 +100,7 @@ LOGGING = {
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
             'formatter': 'main_formatter',
-            'filters': ['require_debug_false'],
+            # 'filters': ['require_debug_false'],
         },
         'debug_file':{
             'level' : 'DEBUG',
@@ -117,7 +109,7 @@ LOGGING = {
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
             'formatter': 'main_formatter',
-            'filters': ['require_debug_true'],
+            # 'filters': ['require_debug_true'],
         },
         'null': {
             "class": 'django.utils.log.NullHandler',
