@@ -37,6 +37,16 @@ GEOMETRY_CLIENT_SRID = 3857 #for latlon
 GEOJSON_SRID = 3857
 
 APP_NAME = "Marine Planner Data Portal"
+SERVER_ADMIN = 'edwin@pointnineseven.com'
+DEFAULT_FROM_EMAIL = 'USVI <developers@pointnineseven.com>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+MANAGERS = ADMINS
+EMAIL_SUBJECT_PREFIX = 'Marine Planner'
+ADMINS = (
+    ('Edwin Knuth', 'edwin@pointnineseven.com'),
+    ('Scott Fletcher', 'scott@pointnineseven.com'),
+)
+
 #FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
 #HELP_EMAIL = "mp-team@marineplanner.org"
 #DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
@@ -61,7 +71,80 @@ MIDDLEWARE_CLASSES += (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'formatters': {
+        'main_formatter': {
+            'format': '%(levelname)s:%(name)s: %(message)s '
+                     '(%(asctime)s; %(filename)s:%(lineno)d)',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console':{
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_formatter',
+        },
+        'production_file':{
+            'level' : 'INFO',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : 'logs/main.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'main_formatter',
+            'filters': ['require_debug_false'],
+        },
+        'debug_file':{
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : 'logs/main_debug.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'main_formatter',
+            'filters': ['require_debug_true'],
+        },
+        'null': {
+            "class": 'django.utils.log.NullHandler',
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', 'console', 'production_file',],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['null', ],
+        },
+        'py.warnings': {
+            'handlers': ['null', ],
+        },
+        'apps': {
+            'handlers': ['console', 'production_file', 'debug_file'],
+            'level': "DEBUG",
+        },
+        'tracekit': {
+            'handlers': ['console', 'production_file', 'debug_file'],
+            'level': "DEBUG",
+        },
+    }
+}
 
 import logging
 logging.getLogger('django.db.backends').setLevel(logging.ERROR)
