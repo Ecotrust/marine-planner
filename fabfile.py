@@ -178,6 +178,8 @@ def deploy():
             _manage_py('migrate')
             _manage_py('enable_sharing')
             sudo('chown -R www-data:deploy %s/mediaroot' % env.root_dir)
+            sudo('chown -R www-data:deploy *')
+            sudo('chmod -R g+w %s' % env.root_dir)
 
     restart()
 
