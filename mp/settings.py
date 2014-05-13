@@ -16,7 +16,7 @@ DATABASES = {
  
 
 LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'mp.log'))
-
+LOG_DIR =  os.path.realpath(os.path.join(os.path.dirname(__file__), 'logs'))
 
 INSTALLED_APPS += ( 
                     'django_extensions',
@@ -96,7 +96,7 @@ LOGGING = {
         'production_file':{
             'level' : 'INFO',
             'class' : 'logging.handlers.RotatingFileHandler',
-            'filename' : 'logs/main.log',
+            'filename' : os.path.join(os.path.dirname(LOG_DIR, 'main.log'),
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
             'formatter': 'main_formatter',
