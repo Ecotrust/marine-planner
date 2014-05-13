@@ -105,7 +105,7 @@ LOGGING = {
         'debug_file':{
             'level' : 'DEBUG',
             'class' : 'logging.handlers.RotatingFileHandler',
-            'filename' : 'logs/main_debug.log',
+            'filename' : os.path.join(LOG_DIR, 'main_debug.log'),
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
             'formatter': 'main_formatter',
