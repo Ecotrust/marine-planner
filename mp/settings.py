@@ -96,7 +96,7 @@ LOGGING = {
         'production_file':{
             'level' : 'INFO',
             'class' : 'logging.handlers.RotatingFileHandler',
-            'filename' : os.path.join(os.path.dirname(LOG_DIR, 'main.log')),
+            'filename' : os.path.join(LOG_DIR, 'main.log'),
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
             'formatter': 'main_formatter',
