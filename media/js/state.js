@@ -1,6 +1,6 @@
 // represents whether or not restoreState is currently being updated
-// example use:  saveStateMode will be false when a user is viewing a bookmark 
-app.saveStateMode = true; 
+// example use:  saveStateMode will be false when a user is viewing a bookmark
+app.saveStateMode = true;
 
 // save the state of app
 app.getState = function () {
@@ -9,10 +9,10 @@ app.getState = function () {
                 layers = $.map(app.viewModel.activeLayers(), function(layer) {
                     //return {id: layer.id, opacity: layer.opacity(), isVisible: layer.visible()};
                     return [ layer.id, layer.opacity(), layer.visible() ];
-                });   
+                });
     return {
         x: center.lon.toFixed(2),
-        y: center.lat.toFixed(2), 
+        y: center.lat.toFixed(2),
         z: app.map.getZoom(),
         logo: app.viewModel.showLogo(),
         dls: layers.reverse(),
@@ -49,10 +49,10 @@ app.establishLayerLoadState = function () {
             }
         }, 100);
     }
-        
+
 };
 // load compressed state (the url was getting too long so we're compressing it
-app.loadCompressedState = function(state) { 
+app.loadCompressedState = function(state) {
     // turn off active laters
     // create a copy of the activeLayers list and use that copy to iteratively deactivate
     var activeLayers = $.map(app.viewModel.activeLayers(), function(layer) {
@@ -68,7 +68,7 @@ app.loadCompressedState = function(state) {
             var id = state.dls[x+2],
                 opacity = state.dls[x+1],
                 isVisible = state.dls[x];
-                
+
             if (app.viewModel.layerIndex[id]) {
                 app.viewModel.layerIndex[id].activateLayer();
                 app.viewModel.layerIndex[id].opacity(opacity);
@@ -87,11 +87,11 @@ app.loadCompressedState = function(state) {
             $('#designsTab').tab('show'); //to activate the loading of designs
        }
     }
-    
+
     if ( !state.logo || state.logo === 'false') {
         app.viewModel.hideLogo();
     }
-    
+
     if (state.print === 'true') {
         app.printMode();
     }
@@ -120,14 +120,14 @@ app.loadCompressedState = function(state) {
                     }
                 }
             });
-        } 
+        }
     }
-    
+
     //if (app.embeddedMap) {
     if ( $(window).width() < 768 || app.embeddedMap ) {
         state.tab = "data";
     }
-    
+
     // active tab -- the following prevents theme and data layers from loading in either tab (not sure why...disbling for now)
     // it appears the dataTab show in state.themes above was causing the problem...?
     // timeout worked, but then realized that removing datatab show from above worked as well...
@@ -140,7 +140,7 @@ app.loadCompressedState = function(state) {
     } else {
         setTimeout( function() { $('#dataTab').tab('show'); }, 200 );
     }
-    
+
     if ( state.legends && state.legends === 'true' ) {
         app.viewModel.showLegend(true);
     } else {
@@ -166,13 +166,13 @@ app.loadCompressedState = function(state) {
     //app.map.setCenter(
     //    new OpenLayers.LonLat(state.x, state.y).transform(
     //        new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913") ), state.z);
-    
+
     // is url is indicating a login request then show the login modal
     // /visualize/#login=true
-    if (!app.is_authenticated && state.login) { // not sure 
+    if (!app.is_authenticated && state.login) { // not sure
         $('#sign-in-modal').modal('show');
     }
-    
+
 };
 
 app.setMapPosition = function(x, y, z) {
@@ -205,7 +205,7 @@ app.loadState = function(state) {
             //activate layer (/planner/#<layer-name>)
             app.viewModel.layerIndex[layer.id].activateLayer();
             //set open theme
-            layer.themes()[0].setOpenTheme()
+            layer.themes()[0].setOpenTheme();
         }
         return;
     }
@@ -223,7 +223,7 @@ app.loadState = function(state) {
         return layer;
     });
     //var activeLayers = $.extend({}, app.viewModel.activeLayers());
-    
+
     // turn on the layers that should be active
     app.viewModel.deactivateAllLayers();
     if (state.activeLayers) {
@@ -240,7 +240,7 @@ app.loadState = function(state) {
             }
        });
     }
-    
+
     if (state.basemap) {
         app.map.setBaseLayer(app.map.getLayersByName(state.basemap.name)[0]);
     }
@@ -261,10 +261,10 @@ app.loadState = function(state) {
                         app.viewModel.openThemes.remove(theme);
                     }
                 });
-            } 
+            }
         }
     }
-    
+
     if ( state.legends && state.legends.visible === "true" ) {
         app.viewModel.showLegend(true);
     } else {
@@ -283,14 +283,14 @@ app.loadState = function(state) {
         app.viewModel.mapTitle(state.title);
     }
 
-    
+
     // Google.v3 uses EPSG:900913 as projection, so we have to
     // transform our coordinates
     if (state.location) {
         app.map.setCenter(new OpenLayers.LonLat(state.location.x, state.location.y).transform(
         new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), state.location.zoom);
     }
-    
+
     // is url is indicating a login request then show the login modal
     if (!app.is_authenticated && state.login) {
         $('#sign-in-modal').modal('show');
@@ -300,14 +300,14 @@ app.loadState = function(state) {
 
 // load the state from the url hash
 
-app.loadStateFromHash = function (hash) { 
+app.loadStateFromHash = function (hash) {
     app.loadState($.deparam(hash.slice(1)));
 };
 
 // update the hash
 app.updateUrl = function () {
     var state = app.getState();
-    
+
     // save the restore state
     if (app.saveStateMode) {
         app.restoreState = state;

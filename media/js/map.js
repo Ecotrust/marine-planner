@@ -1,5 +1,6 @@
 app.init = function() {
-
+    var max_zoom,
+        min_zoom;
     //to turn basemap indicator off (hide the plus sign)
     //see email from Matt on 7/26 2:24pm with list of controls
     var map = new OpenLayers.Map(null, {
@@ -8,10 +9,10 @@ app.init = function() {
         projection: "EPSG:3857"
     });
 
-    if (app.MPSettings && app.MPSettings['max_zoom']) {
-        var max_zoom = app.MPSettings['max_zoom'] + 1;
+    if (app.MPSettings && app.MPSettings.max_zoom) {
+        max_zoom = app.MPSettings.max_zoom + 1;
     } else {
-        var max_zoom = 13;
+        max_zoom = 13;
     }
 
     esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean", "http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
@@ -94,10 +95,10 @@ app.init = function() {
 
     // only allow onetime zooming with box
     map.events.register("zoomend", null, function() {
-        if (app.MPSettings && app.MPSettings['min_zoom']) {
-            var min_zoom = app.MPSettings['min_zoom'];
+        if (app.MPSettings && app.MPSettings.min_zoom) {
+            min_zoom = app.MPSettings.min_zoom;
         } else {
-            var min_zoom = 3;
+            min_zoom = 3;
         }
         if (map.zoomBox.active) {
             app.viewModel.deactivateZoomBox();
@@ -135,7 +136,7 @@ app.init = function() {
 
     app.map.utfGridClickHandling = function(infoLookup, lonlat, xy) {
         var clickAttributes = [];
-
+        // we should probably use another loop here to avoid the jshint on the next line
         for (var idx in infoLookup) {
             $.each(app.viewModel.visibleLayers(), function(layer_index, potential_layer) {
                 if (potential_layer.type !== 'Vector') {
@@ -146,7 +147,7 @@ app.init = function() {
                             hasAllAttributes = true,
                             parentHasAllAttributes = false;
                         // if info.data has all the attributes we're looking for
-                        // we'll accept this layer as the attribution layer 
+                        // we'll accept this layer as the attribution layer
                         //if ( ! potential_layer.attributes.length ) {
                         hasAllAttributes = false;
                         //}
@@ -209,18 +210,19 @@ app.init = function() {
             app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
         }
         app.viewModel.updateMarker(lonlat);
-        //app.marker.display(true); 
+        //app.marker.display(true);
 
     }; //end utfGridClickHandling
 
     app.map.events.register("featureclick", null, function(e) {
         var layer = e.feature.layer.layerModel || e.feature.layer.scenarioModel;
+        var attrs;
         if (layer) {
             var text = [],
                 title = layer.name;
 
             if (layer.scenarioAttributes && layer.scenarioAttributes.length) {
-                var attrs = layer.scenarioAttributes;
+                attrs = layer.scenarioAttributes;
                 for (var i = 0; i < attrs.length; i++) {
                     text.push({
                         'display': attrs[i].title,
@@ -228,13 +230,13 @@ app.init = function() {
                     });
                 }
             } else if (layer.attributes.length) {
-                var attrs = layer.attributes;
+                attrs = layer.attributes;
 
-                for (var i = 0; i < attrs.length; i++) {
-                    if (e.feature.data[attrs[i].field]) {
+                for (var idx=0; idx < attrs.length; idx++) {
+                    if (e.feature.data[attrs[idx].field]) {
                         text.push({
-                            'display': attrs[i].display,
-                            'data': e.feature.data[attrs[i].field]
+                            'display': attrs[idx].display,
+                            'data': e.feature.data[attrs[idx].field]
                         });
                     }
                 }
@@ -307,25 +309,31 @@ app.init = function() {
 
     app.utils.isNumber = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
-    }
+    };
+
     app.utils.numberWithCommas = function(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+    };
+
     app.utils.isInteger = function(n) {
         return app.utils.isNumber(n) && (Math.floor(n) === n);
-    }
+    };
+
     app.utils.formatNumber = function(n) {
         var number = Number(n);
+        var preciseNumber;
         if (app.utils.isInteger(number)) {
-            var preciseNumber = number.toFixed(0);
+            preciseNumber = number.toFixed(0);
         } else {
-            var preciseNumber = number.toFixed(1);
+            preciseNumber = number.toFixed(1);
         }
         return app.utils.numberWithCommas(preciseNumber);
-    }
+    };
+
     app.utils.trim = function(str) {
         return str.replace(/^\s+|\s+$/g, '');
-    }
+    };
+
     app.utils.getObjectFromList = function(list, field, value) {
         for (var i = 0; i < list.length; i += 1) {
             if (list[i][field] === value) {
@@ -333,7 +341,7 @@ app.init = function() {
             }
         }
         return undefined;
-    }
+    };
 
 };
 
@@ -365,7 +373,7 @@ app.addXyzLayerToMap = function(layer) {
 
     var url = app.modifyURL(layer.url);
 
-    // adding layer to the map for the first time		
+    // adding layer to the map for the first time
     layer.layer = new OpenLayers.Layer.XYZ(layer.name,
         url,
         $.extend({}, opts, {
@@ -427,15 +435,15 @@ app.addWmsLayerToMap = function(layer) {
 
     // var url = app.modifyURL(layer.url);
 
-    // layer.layer = new OpenLayers.Layer.WMS( 
-    //     "25M Depth Contour", "http://www.coastalatlas.net/services/wms/getmap", 
-    //     // layer.name, 
+    // layer.layer = new OpenLayers.Layer.WMS(
+    //     "25M Depth Contour", "http://www.coastalatlas.net/services/wms/getmap",
+    //     // layer.name,
     //     // url,
     //     {
     //         layers: "SubmarineCables_OFCC_2012",
     //         transparent: "true",
     //         format: "image/png"
-    //     }, 
+    //     },
     //     {
     //         singleTile: true
     //     }
@@ -457,20 +465,20 @@ app.addArcRestLayerToMap = function(layer) {
                 var clickAttributes = [],
                     jsonFormat = new OpenLayers.Format.JSON(),
                     returnJSON = jsonFormat.read(responseText.text);
+                var attributeObjs;
+                if (returnJSON.features && returnJSON.features.length) {
+                    attributeObjs = [];
 
-                if (returnJSON['features'] && returnJSON['features'].length) {
-                    var attributeObjs = [];
-
-                    $.each(returnJSON['features'], function(index, feature) {
-                        if (index == 0) {
-                            var attributeList = feature['attributes'];
+                    $.each(returnJSON.features, function(index, feature) {
+                        if (index === 0) {
+                            var attributeList = feature.attributes;
 
                             if ('fields' in returnJSON) {
                                 if (layer.attributes.length) {
                                     for (var i = 0; i < layer.attributes.length; i += 1) {
                                         if (attributeList[layer.attributes[i].field]) {
                                             var data = attributeList[layer.attributes[i].field],
-                                                field_obj = app.utils.getObjectFromList(returnJSON['fields'], 'name', layer.attributes[i].field);
+                                                field_obj = app.utils.getObjectFromList(returnJSON.fields, 'name', layer.attributes[i].field);
                                             if (field_obj && field_obj.type === 'esriFieldTypeDate') {
                                                 data = new Date(data).toDateString();
                                             } else if (app.utils.isNumber(data)) {
@@ -485,9 +493,9 @@ app.addArcRestLayerToMap = function(layer) {
                                         }
                                     }
                                 } else {
-                                    $.each(returnJSON['fields'], function(fieldNdx, field) {
+                                    $.each(returnJSON.fields, function(fieldNdx, field) {
                                         if (field.name.indexOf('OBJECTID') === -1) {
-                                            var data = attributeList[field.name]
+                                            var data = attributeList[field.name];
                                             if (field.type === 'esriFieldTypeDate') {
                                                 data = new Date(data).toDateString();
                                             } else if (app.utils.isNumber(data)) {
@@ -525,7 +533,7 @@ app.addArcRestLayerToMap = function(layer) {
     });
     /*
     layer.layer = new OpenLayers.Layer.ArcGIS93Rest(
-        layer.name, 
+        layer.name,
         layer.url,
         {
             layers: "show:"+layer.arcgislayers,
@@ -568,12 +576,12 @@ app.addGridSummaryLayerToMap = function(layer) {
     if (!app.grid) {
         app.grid = {
             layers: {}
-        }
-    };
+        };
+    }
 
     var style = new OpenLayers.Style({
         fillColor: "${fillColor}",
-        fillOpacity: .8
+        fillOpacity: 0.8
     }, {
         context: {
             fillColor: function(feature) {
@@ -585,11 +593,11 @@ app.addGridSummaryLayerToMap = function(layer) {
                             return false;
                         }
                     });
-                    return color;    
+                    return color;
                 } else {
                     return scale[0];
                 }
-                
+
             }
         }
     });
