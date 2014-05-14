@@ -5,7 +5,7 @@ function bookmarkModel(options) {
     self.uid = options.uid;
     self.name = options.name;
     self.state = options.state || null;
-    
+
     self.shared = ko.observable();
     self.sharedByName = options.sharedByName || null;
     self.sharedByUsername = options.sharedByUsername;
@@ -22,14 +22,14 @@ function bookmarkModel(options) {
         self.shared(false);
         self.sharedBy(false);
     }
-    
+
     self.selectedGroups = ko.observableArray();
     self.sharedGroupsList = [];
     if (options.sharingGroups && options.sharingGroups.length) {
         self.selectedGroups(options.sharingGroups);
-    } 
+    }
     self.temporarilySelectedGroups = ko.observableArray();
-    
+
     // load state from bookmark
     self.loadBookmark = function() {
         app.saveStateMode = false;
@@ -41,14 +41,14 @@ function bookmarkModel(options) {
         app.viewModel.error("restoreState");
         $('#bookmark-popover').hide();
     };
-    
+
     self.showSharingModal = function() {
         app.viewModel.bookmarks.sharingBookmark(self);
         self.temporarilySelectedGroups.removeAll();
         self.temporarilySelectedGroups(self.selectedGroups());
         $('#bookmark-share-modal').modal('show');
     };
-    
+
     // get the url from a bookmark
     self.getBookmarkUrl = function() {
         var host = window.location.href.split('#')[0];
@@ -56,39 +56,39 @@ function bookmarkModel(options) {
         return host + "#" + self.getBookmarkHash();
         //return host + "#" + self.state;
     };
-    
+
     self.getBookmarkState = function() {
         return self.state;
     };
-    
+
     self.getBookmarkHash = function() {
         return $.param(self.getBookmarkState());
     };
-    
+
     return self;
 } // end of bookmarkModel
 
 function bookmarksModel(options) {
     var self = this;
-    
+
     // list of bookmarks
     self.bookmarksList = ko.observableArray();
-    
+
     self.activeBookmark = ko.observable();
-    
+
     // current bookmark for sharing modal or map links modal
     self.sharingBookmark = ko.observable();
-    
+
     // groups a bookmark may be shared with
     self.sharingGroups = ko.observableArray();
-    
+
     // name of newly created bookmark
     self.newBookmarkName = ko.observable();
-        
+
     self.toggleGroup = function(obj) {
         var groupName = obj.group_name,
             indexOf = self.sharingBookmark().temporarilySelectedGroups.indexOf(groupName);
-    
+
         if ( indexOf === -1 ) {  //add group to list
             self.sharingBookmark().temporarilySelectedGroups.push(groupName);
         } else { //remove group from list
@@ -96,14 +96,14 @@ function bookmarksModel(options) {
         }
         /*var groupName = obj.group_name,
             indexOf = self.sharingBookmark().selectedGroups.indexOf(groupName);
-    
+
         if ( indexOf === -1 ) {  //add group to list
             self.sharingBookmark().selectedGroups.push(groupName);
         } else { //remove group from list
             self.sharingBookmark().selectedGroups.splice(indexOf, 1);
         }*/
     };
-    
+
     self.groupIsSelected = function(groupName) {
         if (self.sharingBookmark()) {
             var indexOf = self.sharingBookmark().temporarilySelectedGroups.indexOf(groupName);
@@ -111,7 +111,7 @@ function bookmarksModel(options) {
         }
         return false;
     };
-    
+
     self.groupMembers = function(groupName) {
         var memberList = "";
         for (var i=0; i<self.sharingGroups().length; i++) {
@@ -125,7 +125,7 @@ function bookmarksModel(options) {
         }
         return memberList;
     };
-          
+
     self.getCurrentBookmarkURL = function() {
         if ( self.sharingBookmark() ) {
             return self.sharingBookmark().getBookmarkUrl();
@@ -133,7 +133,7 @@ function bookmarksModel(options) {
             return '';
         }
     };
-    
+
     self.shrinkBookmarkURL = ko.observable();
     self.shrinkBookmarkURL.subscribe( function() {
         if (self.shrinkBookmarkURL()) {
@@ -142,26 +142,26 @@ function bookmarksModel(options) {
             self.useLongBookmarkURL();
         }
     });
-    
+
     self.resetBookmarkMapLinks = function(bookmark) {
         self.sharingBookmark(bookmark);
         self.shrinkBookmarkURL(false);
         $('#short-url').text = self.getCurrentBookmarkURL();
         self.setBookmarkIFrameHTML();
     };
-    
+
     self.useLongBookmarkURL = function() {
         $('#bookmark-short-url')[0].value = self.sharingBookmark().getBookmarkUrl();
     };
-        
+
     self.useShortBookmarkURL = function() {
         var bitly_login = "ecofletch",
             bitly_api_key = 'R_d02e03290041107b75e3720d7e3c4b95',
             long_url = self.sharingBookmark().getBookmarkUrl();
-            
-        $.getJSON( 
-            "http://api.bitly.com/v3/shorten?callback=?", 
-            { 
+
+        $.getJSON(
+            "http://api.bitly.com/v3/shorten?callback=?",
+            {
                 "format": "json",
                 "apiKey": bitly_api_key,
                 "login": bitly_login,
@@ -173,14 +173,14 @@ function bookmarksModel(options) {
             }
         );
     };
-    
+
     self.setBookmarkIFrameHTML = function() {
         var bookmarkState = self.sharingBookmark().getBookmarkHash();
         $('#bookmark-iframe-html')[0].value = app.viewModel.mapLinks.getIFrameHTML(bookmarkState);
-        
+
         /*var urlOrigin = window.location.origin,
             urlHash = $.param(self.sharingBookmark().state);
-        
+
         if ( !urlOrigin ) {
             urlOrigin = 'http://' + window.location.host;
         }
@@ -189,10 +189,10 @@ function bookmarksModel(options) {
                                      'src="' + embedURL + '">' + '</iframe>' + '<br />';
         */
     };
-    
+
     self.openBookmarkIFrameExample = function() {
         app.viewModel.mapLinks.openIFrameExample('bookmark');
-        
+
         /*var windowName = "newMapWindow",
             windowSize = "width=650, height=550",
             mapWindow = window.open('', windowName, windowSize);
@@ -205,45 +205,45 @@ function bookmarksModel(options) {
         mapWindow.document.close();
         */
     };
-    
+
     self.removeBookmark = function(bookmark) {
         self.bookmarksList.remove(bookmark);
-        
-        //if the user is logged in, ajax call to add bookmark to server 
-        if (app.is_authenticated) { 
-            $.ajax({ 
-                url: '/visualize/remove_bookmark', 
-                data: { name: bookmark.name, hash: bookmark.getBookmarkHash(), uid: bookmark.uid }, 
+
+        //if the user is logged in, ajax call to add bookmark to server
+        if (app.is_authenticated) {
+            $.ajax({
+                url: '/visualize/remove_bookmark',
+                data: { name: bookmark.name, hash: bookmark.getBookmarkHash(), uid: bookmark.uid },
                 type: 'POST',
                 dataType: 'json',
                 success: function() {
                     self.updateBookmarkScrollBar();
                 },
-                error: function(result) { 
+                error: function(result) {
                     //debugger;
-                } 
+                }
             });
-        } 
-        
+        }
+
         // store the bookmarks locally
-        self.storeBookmarks();        
-        
+        self.storeBookmarks();
+
     };
 
     // handle the bookmark submit
     self.saveBookmark = function() {
         // add to the list of bookmarks
         var bookmarkState = app.getState(),
-            bookmark = new bookmarkModel( { 
+            bookmark = new bookmarkModel( {
                 state: bookmarkState,
                 name: self.newBookmarkName()
             });
-            
-        //if the user is logged in, ajax call to add bookmark to server 
-        if (app.is_authenticated) { 
-            $.ajax({ 
-                url: '/visualize/add_bookmark', 
-                data: { name: self.newBookmarkName(), hash: window.location.hash.slice(1) }, 
+
+        //if the user is logged in, ajax call to add bookmark to server
+        if (app.is_authenticated) {
+            $.ajax({
+                url: '/visualize/add_bookmark',
+                data: { name: self.newBookmarkName(), hash: window.location.hash.slice(1) },
                 type: 'POST',
                 dataType: 'json',
                 success: function(bookmark) {
@@ -256,9 +256,9 @@ function bookmarksModel(options) {
                     self.bookmarksList.unshift(newBookmark);
                     self.updateBookmarkScrollBar();
                 },
-                error: function(result) { 
+                error: function(result) {
                     //debugger;
-                } 
+                }
             });
         } else {
             self.bookmarksList.unshift(bookmark);
@@ -267,9 +267,9 @@ function bookmarksModel(options) {
         }
         //$('#bookmark-popover').hide();
         self.newBookmarkName('');
-        
+
     };
-    
+
     // get bookmark sharing groups for this user
     self.getSharingGroups = function() {
         $.ajax({
@@ -284,7 +284,7 @@ function bookmarksModel(options) {
             }
         });
     };
-    
+
     // store the bookmarks to local storage
     self.storeBookmarks = function() {
         var ownedBookmarks = [];
@@ -296,7 +296,7 @@ function bookmarksModel(options) {
         }
         amplify.store("mp-bookmarks", ownedBookmarks);
     };
-    
+
     self.updateBookmarkScrollBar = function() {
         var bookmarkScrollpane = $('#bookmarks-table').data('jsp');
         if (bookmarkScrollpane === undefined) {
@@ -320,13 +320,13 @@ function bookmarksModel(options) {
                 });
             }
         }
-        
-        // load bookmarks from server while syncing with client 
-        //if the user is logged in, ajax call to sync bookmarks with server 
-        if (app.is_authenticated) { 
-            $.ajax({ 
-                url: '/visualize/get_bookmarks', 
-                data: { bookmarks: local_bookmarks }, 
+
+        // load bookmarks from server while syncing with client
+        //if the user is logged in, ajax call to sync bookmarks with server
+        if (app.is_authenticated) {
+            $.ajax({
+                url: '/visualize/get_bookmarks',
+                data: { bookmarks: local_bookmarks },
                 type: 'POST',
                 dataType: 'json',
                 success: function(result) {
@@ -341,7 +341,7 @@ function bookmarksModel(options) {
                             sharedByUsername: bookmarks[i].shared_by_username,
                             sharedByName: bookmarks[i].shared_by_name,
                             sharingGroups: bookmarks[i].sharing_groups
-                        });   
+                        });
                         blist.push(bookmark);
                     }
                     if (blist.length > 0) {
@@ -349,7 +349,7 @@ function bookmarksModel(options) {
                         //self.storeBookmarks();
                     }
                 },
-                error: function(result) { 
+                error: function(result) {
                     if (existingBookmarks) {
                         for (var i=0; i < existingBookmarks.length; i++) {
                             self.bookmarksList.push( new bookmarkModel( {
@@ -359,22 +359,22 @@ function bookmarksModel(options) {
                             }));
                         }
                         //self.bookmarksList = ko.observableArray(existingBookmarks);
-                    } 
-                } 
+                    }
+                }
             });
         } else if (existingBookmarks) {
-            for (var i=0; i < existingBookmarks.length; i++) {
+            for (var j=0; j < existingBookmarks.length; j++) {
                 self.bookmarksList.push( new bookmarkModel( {
-                    name: existingBookmarks[i].name,
-                    state: existingBookmarks[i].state,
-                    sharing_groups: existingBookmarks[i].sharingGroups
+                    name: existingBookmarks[j].name,
+                    state: existingBookmarks[j].state,
+                    sharing_groups: existingBookmarks[j].sharingGroups
                 }));
             }
             //self.bookmarksList = ko.observableArray(existingBookmarks);
-        } 
+        }
         self.getSharingGroups();
     };
-    
+
     //sharing bookmark
     self.submitShare = function() {
         self.sharingBookmark().selectedGroups(self.sharingBookmark().temporarilySelectedGroups());
@@ -408,7 +408,7 @@ function bookmarksModel(options) {
     // load the bookmarks
     self.getBookmarks();
 
-    
+
     return self;
 } // end of bookmarksModel
 

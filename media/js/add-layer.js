@@ -10,7 +10,7 @@
 		self.arcgis_layers = ko.observable();
 		self.wms_slug = ko.observable();
 		return this;
-	};
+	}
 	app.viewModel.newLayer = ko.observable();
 
 	app.viewModel.showAddLayerModal = function() {
@@ -43,7 +43,6 @@
 			contentType: "application/json; charset=utf-8",
 			dataType: 'json',
 			processData: false,
-			dataType: "json",
 			data: JSON.stringify(data)
 		})
 			.success(function(data) {
