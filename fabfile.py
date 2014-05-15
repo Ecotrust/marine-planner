@@ -298,3 +298,16 @@ def provision():
 def prepare():
     install_chef(latest=False)
     provision()
+
+@task
+def restore_db(dump_name):
+    env.warn_only = True
+    put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
+    run("dropdb geosurvey -U %s" % env.db_user)
+    run("createdb -U postgres -T template0 -O postgres geosurvey")
+    with cd(env.code_dir):
+        with _virtualenv():
+            #_manage_py('flush --noinput')
+            # _manage_py('syncdb --noinput')
+            run("pg_restore --create --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
+            _manage_py('migrate --settings=%s' % env.settings)
