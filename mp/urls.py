@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
-from django.views.generic.simple import redirect_to
+from django.views.generic import RedirectView
+
 from django.conf import settings
 from data_manager.api import LayerResource, ThemeResource
 from tastypie.api import Api
@@ -40,7 +41,7 @@ urlpatterns = patterns('',
                        (r'^([\w-]*)/embed/',
                         visualize.views.show_embedded_map),
                        (r'^([\w-]*)/catalog/', explore.views.data_catalog),
-                       (r'^$', redirect_to, {'url': '/visualize/'}),
+                       (r'^$', RedirectView.as_view(url='/visualize')),
                        (r'', include('madrona.common.urls')),
                        )
 
