@@ -103,7 +103,7 @@
 
 <!-- REGISTRATION MODAL -->
 <div id="registration-modal" class="modal hide fade">
-    <form class="form-horizontal" id="registration-form" action="{% url mp_registration_register %}" method="post">{% csrf_token %}
+    <form class="form-horizontal" id="registration-form" action="{% url 'mp_registration_register' %}" method="post">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Register</h3>
