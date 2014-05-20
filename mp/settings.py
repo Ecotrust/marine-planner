@@ -47,6 +47,8 @@ ADMINS = (
     ('Scott Fletcher', 'scott@pointnineseven.com'),
 )
 
+OPENID_ENABLED = True
+
 #FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
 #HELP_EMAIL = "mp-team@marineplanner.org"
 #DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
