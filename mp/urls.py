@@ -21,6 +21,7 @@ v1_api.register(TocThemeResource())
 
 
 urlpatterns = patterns('',
+                        url('', include('social.apps.django_app.urls', namespace='social')),
                        (r'^api/', include(v1_api.urls)),
                        (r'^mp_profile/', include('mp_profile.urls')),
                        #(r'^sdc/', include('scenarios.urls')),

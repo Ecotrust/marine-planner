@@ -739,13 +739,22 @@ img + h3 {
 
 /*** Rules for the layer switcher ***/
 
-#basemaps {
+#login-buttons, #basemaps {
   position: absolute;
   z-index: 1020;
   border-radius: 4px;
   padding: 5px;
   font-size: 14px;
 }
+
+#login-buttons {
+    top: 8px;
+    right: 65px;
+}
+    #login-buttons .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
 
 #basemaps {
 	top: 8px;

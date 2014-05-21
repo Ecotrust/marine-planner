@@ -20,6 +20,7 @@ LOG_FILE = os.path.realpath(os.path.join(os.path.dirname(__file__),
 LOG_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), 'logs'))
 
 INSTALLED_APPS += ('django_extensions',
+                   'social.apps.django_app.default',
                    'general',
                    'data_manager',
                    'mp_settings',
@@ -58,6 +59,20 @@ UNDER_MAINTENANCE_TEMPLATE = False
 
 TEMPLATE_DIRS = (os.path.realpath(os.path.join(os.path.dirname(__file__),
                  'templates').replace('\\', '/')), )
+
+SOCIAL_AUTH_P97_WHITELISTED_DOMAINS = ['pointnineseven.com']
+
+AUTHENTICATION_BACKENDS = (
+    'auth.P97OpenId',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
 
 MIDDLEWARE_CLASSES += (
     'django.middleware.common.CommonMiddleware',
