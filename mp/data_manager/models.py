@@ -33,7 +33,8 @@ class TOCTheme(models.Model):
             'id': self.id,
             'display_name': self.display_name,
             'layers': layers,
-            'description': self.description
+            'description': self.description,
+            'is_toc_theme': True
         }
         return themes_dict
 

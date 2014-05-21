@@ -37,14 +37,14 @@ def show_planner(request, project=None, template='planner.html'):
                 url_validator = URLValidator()
                 url_validator(project_logo)
         except ValidationError, e:
-            project_logo = os.path.join(settings.MEDIA_URL, project_logo)            
-        project_icon = mp_settings.project_icon 
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo)
+        project_icon = mp_settings.project_icon
         try:
             url_validator = URLValidator()
             url_validator(project_icon)
         except ValidationError, e:
-            project_icon = os.path.join(settings.MEDIA_URL, project_icon)    
-        project_home_page = mp_settings.project_home_page 
+            project_icon = os.path.join(settings.MEDIA_URL, project_icon)
+        project_home_page = mp_settings.project_home_page
         bitly_registered_domain = mp_settings.bitly_registered_domain 
         bitly_username = mp_settings.bitly_username 
         bitly_api_key = mp_settings.bitly_api_key 
@@ -60,8 +60,8 @@ def show_planner(request, project=None, template='planner.html'):
     }
     if settings.UNDER_MAINTENANCE_TEMPLATE:
         return render_to_response('under_maintenance.html', RequestContext(request, context))
-    return render_to_response(template, RequestContext(request, context)) 
-    
+    return render_to_response(template, RequestContext(request, context))
+
 def show_embedded_map(request, project=None, template='map.html'):
     try:
         if project:

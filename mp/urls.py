@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 from django.conf import settings
-from data_manager.api import LayerResource, ThemeResource
+from data_manager.api import LayerResource, ThemeResource, TocThemeResource
 from tastypie.api import Api
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -17,6 +17,7 @@ admin.autodiscover()
 v1_api = Api(api_name='v1')
 v1_api.register(LayerResource())
 v1_api.register(ThemeResource())
+v1_api.register(TocThemeResource())
 
 
 urlpatterns = patterns('',

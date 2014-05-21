@@ -655,6 +655,7 @@ function themeModel(options) {
     self.id = options.id;
     self.description = options.description;
     self.learn_link = options.learn_link;
+    self.is_toc_theme = options.is_toc_theme || false;
 
     // array of layers
     self.layers = ko.observableArray();
