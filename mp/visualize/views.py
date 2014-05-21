@@ -34,13 +34,13 @@ def show_planner(request, project=None, template='planner.html'):
         project_logo = mp_settings.project_logo 
         try:
             if project_logo:
-                url_validator = URLValidator(verify_exists=False)
+                url_validator = URLValidator()
                 url_validator(project_logo)
         except ValidationError, e:
             project_logo = os.path.join(settings.MEDIA_URL, project_logo)            
         project_icon = mp_settings.project_icon 
         try:
-            url_validator = URLValidator(verify_exists=False)
+            url_validator = URLValidator()
             url_validator(project_icon)
         except ValidationError, e:
             project_icon = os.path.join(settings.MEDIA_URL, project_icon)    
