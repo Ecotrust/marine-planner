@@ -19,15 +19,22 @@
 	};
 
 	app.viewModel.createLayer = function() {
-		var theme_uri = "/api/v1/theme/" + app.viewModel.newLayer().theme().id + '/';
-		var data = {
+		var data, theme_uri, theme = app.viewModel.newLayer().theme();
+
+		data = {
 			name: app.viewModel.newLayer().name(),
 			url: app.viewModel.newLayer().url(),
 			layer_type: app.viewModel.newLayer().layer_type(),
 			arcgis_layers: app.viewModel.newLayer().arcgis_layers(),
-			wms_slug: app.viewModel.newLayer().wms_slug(),
-			themes: [theme_uri]
+			wms_slug: app.viewModel.newLayer().wms_slug()
 		};
+		if (theme.is_toc_theme) {
+			theme_uri = "/api/v1/toctheme/" + theme.id + '/';
+			data.toc_themes = [theme_uri];
+		} else {
+			theme_uri = "/api/v1/theme/" + theme.id + '/';
+			data.themes = [theme_uri];
+		}
 		if (data.layer_type === 'ArcRest') {
 			data.url = data.url + '/export';
 			if (! data.arcgis_layer) {
@@ -48,10 +55,11 @@
 			.success(function(data) {
 				var layer = new layerModel(data);
 				$.each(app.viewModel.themes(), function (i, theme) {
-					if (theme.name === data.themes[0].display_name) {
+					var data_theme = theme.is_toc_theme ? data.toc_themes[0]: data.themes[0];
+					if (theme.name === data_theme.display_name) {
 						theme.layers.push(layer);
 						if (! theme.isOpenTheme()) {
-							theme.setOpenTheme();	
+							theme.setOpenTheme();
 						}
 						layer.activateLayer();
 					}

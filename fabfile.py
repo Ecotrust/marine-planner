@@ -1,4 +1,5 @@
 import os
+import datetime
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
@@ -314,3 +315,11 @@ def restore_db(dump_name):
             # _manage_py('syncdb --noinput')
             run("pg_restore --create --no-acl --no-owner -U vagrant -d marine-planner /tmp/%s" % dump_name.split('/')[-1])
             _manage_py('migrate --settings=%s' % env.settings)
+
+
+@task
+def backup_db():
+    date = datetime.datetime.now().strftime("%Y-%m-%d%H%M")
+    dump_name = "%s-marine-planner.dump" % date
+    run("pg_dump -h database.point97.io marine-planner -n public -c -f /tmp/%s -Fc -O -no-acl -U postgres" % dump_name)
+    get("/tmp/%s" % dump_name, "backups/%s" % dump_name)
