@@ -132,7 +132,31 @@
                             <div class="row-fluid" style="height: 100%">
                                 <div id="map-wrapper" style="height: 100%; border-radius: 0px; border: 0px;">
                                     <div id="map" style="height: 100%"></div>
+                                    <div id="login-buttons">
+                                      <div>
+                                        {% if user.is_authenticated %}
+                                        <span class="btn-group">
+                                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="icon-user"></i> 
+                                            {{user.username}}
+                                            <span class="caret"></span>
+                                          </a>
+                                          <ul id="username" class="dropdown-menu">
+                                            <li><a href="#profile-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-pencil"></i> Profile</a></li>
+                                            <li><a href="#reset-password-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-lock"></i> Password</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="{% url 'user_signout' %}" style="padding-left: 15px"><i class="i"></i>Log Out</a></li>
+                                          </ul>
+                                        </span>
+                                        {% else %}
+                                        <span class="btn-group">
+                                          <a id="#sign-in-button" class="btn" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
+                                        </span>                           
+                                        {% endif %}
+                                      </div>
+                                    </div>
                                     <div id="basemaps"> <!-- Basemaps, Legends, Layers, Bookmarks, and FullScreen buttons -->
+                                        
                                         <div class="btn-group btn-group-vertical">
                                           <!--Basemaps Button-->
                                           <a id="basemap-button" class="btn" data-bind="click: showBasemaps">
