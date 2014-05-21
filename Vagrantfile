@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "precise32-ubuntu"
-    config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-i386-vagrant-disk1.box"
+    config.vm.box = "precise32"
+    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
     config.vm.network :forwarded_port, guest: 80, host: 8080  # nginx
     config.vm.network :forwarded_port, guest: 8889, host: 8889  # mapproxy
@@ -21,15 +21,15 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "../devops/provisioning/vagrant.yml"
       ansible.extra_vars = {
             repo: 'https://github.com/point97/marine-planner.git',
-            branch: 'redesign-update',
+            branch: 'wcodp-md-staging',
             name: 'marine-planner',
             app: 'mp',
             local_settings: 'mp/settings_local.py',
             settings: 'settings',
             assets_dir: 'media',
             redis: false,
-            pgver: 91,
             installmedia: true,
+            enable_sharing: true,
             srids: [99996]
         }
       # ansible.inventory_path = "hosts.ini"

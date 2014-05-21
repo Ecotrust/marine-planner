@@ -5,7 +5,7 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from data_manager.api import LayerResource, ThemeResource
 from tastypie.api import Api
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 import visualize
 import explore
@@ -47,8 +47,4 @@ urlpatterns = patterns('',
 
 
 if settings.DEBUG:
-    urlpatterns += patterns('',
-                            url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                                'document_root': settings.MEDIA_ROOT,
-                                }),
-                            )
+    urlpatterns += staticfiles_urlpatterns()

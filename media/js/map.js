@@ -14,35 +14,44 @@ app.init = function() {
     } else {
         max_zoom = 13;
     }
-
-    esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean", "http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
+    esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean","http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
         sphericalMercator: true,
         isBaseLayer: true,
         numZoomLevels: max_zoom,
-        attribution: "Sources: Esri, GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, Geonames.org, and others"
+        attribution: "Sources: Esri, GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, Geonames.org, and others",
+        buffer: 3
     });
+    // esriOcean = new OpenLayers.Layer.WMTS({
+    //     name: "ESRI Ocean",
+    //     url: "http://services.arcgisonline.com/arcgis/rest/services/Ocean_Basemap/MapServer/0",
+    //     layer: 0
+    // });
 
     openStreetMap = new OpenLayers.Layer.OSM("Open Street Map", "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png", {
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: max_zoom
+        numZoomLevels: max_zoom,
+        buffer: 3
     });
     googleStreet = new OpenLayers.Layer.Google("Google Streets", {
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: max_zoom
+        numZoomLevels: max_zoom,
+        buffer: 3
     });
     googleTerrain = new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: max_zoom
+        numZoomLevels: max_zoom,
+        buffer: 3
     });
     googleSatellite = new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE,
         sphericalMercator: true,
         isBaseLayer: true,
-        numZoomLevels: max_zoom
+        numZoomLevels: max_zoom,
+        buffer: 3
     });
 
     /*var bingHybrid = new OpenLayers.Layer.Bing( {
@@ -60,13 +69,13 @@ app.init = function() {
         key: "AvD-cuulbvBqwFDQGNB1gCXDEH4S6sEkS7Yw9r79gOyCvd2hBvQYPaRBem8cpkjv",
         type: "AerialWithLabels"
     });*/
-
     nauticalCharts = new OpenLayers.Layer.WMS("Nautical Charts", "http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/ImageServer/WMSServer", {
         layers: 'null'
     }, {
         isBaseLayer: true,
         numZoomLevels: max_zoom,
-        projection: "EPSG:3857"
+        projection: "EPSG:3857",
+        buffer: 3
     });
 
     map.addLayers([esriOcean, openStreetMap, googleStreet, googleTerrain, googleSatellite]); //, nauticalCharts]);
