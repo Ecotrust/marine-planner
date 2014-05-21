@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "../devops/provisioning/vagrant.yml"
       ansible.extra_vars = {
             repo: 'https://github.com/point97/marine-planner.git',
-            branch: 'redesign-update',
+            branch: 'wcodp-md-staging',
             name: 'marine-planner',
             app: 'mp',
             local_settings: 'mp/settings_local.py',
