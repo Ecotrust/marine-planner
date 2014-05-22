@@ -60,10 +60,12 @@ UNDER_MAINTENANCE_TEMPLATE = False
 TEMPLATE_DIRS = (os.path.realpath(os.path.join(os.path.dirname(__file__),
                  'templates').replace('\\', '/')), )
 
-SOCIAL_AUTH_P97_WHITELISTED_DOMAINS = ['pointnineseven.com']
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = 'key'
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'secret'
 
 AUTHENTICATION_BACKENDS = (
-    'auth.P97OpenId',
+    # 'social.backends.google.GooglePlusAuth',
+    'auth.CustomGooglePlusAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 

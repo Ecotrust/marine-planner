@@ -8,14 +8,19 @@ from django.template import RequestContext
 import os
 from querystring_parser import parser
 import simplejson
+
 from simplejson import dumps
+from social.backends.google import GooglePlusAuth
 from madrona.features import get_feature_by_uid
+
 import settings
+
 from models import *
 from data_manager.models import *
 from mp_settings.models import *
 
 def show_planner(request, project=None, template='planner.html'):
+    plus_scope = ' '.join(GooglePlusAuth.DEFAULT_SCOPE)
     try:
         socket_url = settings.SOCKET_URL
     except AttributeError:
@@ -52,12 +57,18 @@ def show_planner(request, project=None, template='planner.html'):
         project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
         latitude = longitude = zoom = min_zoom = max_zoom = None
     context = {
+        
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 
         'min_zoom': min_zoom, 'max_zoom': max_zoom,
         'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page, 
         'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
     }
+    if request.user.is_authenticated() and request.user.social_auth.all().count() > 0:
+        context['picture'] = request.user.social_auth.all()[0].extra_data.get('picture')
+    if settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY:
+        context['plus_scope'] = plus_scope,
+        context['plus_id'] = settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     if settings.UNDER_MAINTENANCE_TEMPLATE:
         return render_to_response('under_maintenance.html', RequestContext(request, context))
     return render_to_response(template, RequestContext(request, context))

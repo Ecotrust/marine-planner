@@ -1064,6 +1064,12 @@ function viewModel() {
         }
     };
 
+    // logout
+    self.logout = function (self, event) {
+        gapi.auth.signOut();
+        window.location.href = $(event.target).data('href');
+    };
+
     // minimize data panel
     self.minimized = false;
     self.minimizeLeftPanel = function() {
