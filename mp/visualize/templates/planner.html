@@ -66,7 +66,10 @@
         .navbar .nav > li > a {
             height: 25px;
         }
-
+        /* don't display g+ login notifications */
+        iframe[src*="https://apis.google.com/u/0/_/widget/oauthflow/toast"] {
+          display: none;
+        }
         </style>
         
         <!-- Google Analytics -->
@@ -136,8 +139,12 @@
                                       <div>
                                         {% if user.is_authenticated %}
                                         <span class="btn-group">
-                                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                          <a class="btn btn-large dropdown-toggle" data-toggle="dropdown" href="#">
+                                            {% if picture %}
+                                            <img src="{{picture}}"/>
+                                            {% else %}
                                             <i class="icon-user"></i> 
+                                            {% endif %}
                                             {{user.username}}
                                             <span class="caret"></span>
                                           </a>
@@ -145,13 +152,13 @@
                                             <li><a href="#profile-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-pencil"></i> Profile</a></li>
                                             <li><a href="#reset-password-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-lock"></i> Password</a></li>
                                             <li class="divider"></li>
-                                            <li><a href="{% url 'user_signout' %}" style="padding-left: 15px"><i class="i"></i>Log Out</a></li>
+                                            <li><a data-href="{% url 'user_signout' %}" data-bind="click: logout"style="padding-left: 15px"><i class="i"></i>Log Out</a></li>
                                           </ul>
                                         </span>
                                         {% else %}
                                         <span class="btn-group">
-                                          <a id="#sign-in-button" class="btn" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
-                                        </span>                           
+                                          <a id="#sign-in-button" class="btn btn-large" href="#sign-in-modal" data-toggle="modal">Sign In / Register</a> 
+                                        </span>
                                         {% endif %}
                                       </div>
                                     </div>
@@ -715,8 +722,12 @@
         {% include "bookmarks.html" %}
         
         {% include "printing.html" %}
-
-        
+        {% if not user.is_authenticated %}
+        <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}">{% csrf_token %}
+            <input id="at" type="hidden" name="access_token" value="" />
+            <input id="code" type="hidden" name="code" value="" />
+        </form>
+        {% endif %}
         <!-- Le javascript -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.js"></script>
@@ -743,7 +754,11 @@
 
         <script>
             var app = {};
-            {% if user.is_authenticated %} /*app.is_authenticated = true;*/ {% endif %}
+            {% if user.is_authenticated %}
+            app.is_authenticated = true;
+            {% else %}
+            app.is_authenticated = false;
+            {% endif %}
         </script>
         
         {% if SOCKET_URL %}
@@ -793,6 +808,28 @@
 
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.js"></script>
 
+        <!-- google plus login -->
+        <script>
+        window.___gcfg = {
+          isSignedOut: true
+        };
+        </script>
+        <script type="text/javascript" src='https://plus.google.com/js/client:plusone.js'>
+        </script>
+        <script type="text/javascript">
+
+            var signInCallback = function (result) {
+                if (result['error']) {
+                    console.log('An error happened:', result['error']);
+                } else if (result['g-oauth-window']) {
+                    $('#code').attr('value', result['code']);
+                    $('#at').attr('value', result['access_token']);
+                    $('#google-plus').submit();
+                } else {
+                  gapi.auth.signOut();
+                }
+            };
+        </script>
         <script>
         function getCookie(name) {
             var cookieValue = null;

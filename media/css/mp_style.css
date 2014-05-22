@@ -755,7 +755,18 @@ img + h3 {
         right: 0;
         left: auto;
     }
-
+    #login-buttons .btn-large {
+        padding: 6px 9px;
+    }
+    #login-buttons img {
+        height: 30px;
+    }
+    #login-buttons .caret {
+        margin-top: 11px;
+    }
+#signinButton h4 {
+    margin: 0 5px 10px;
+}
 #basemaps {
 	top: 8px;
 	right: 8px;

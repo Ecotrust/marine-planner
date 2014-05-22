@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config|
             redis: false,
             installmedia: true,
             enable_sharing: true,
+            gplus: {
+                key: '40588472264-7qt1n9prnkpj40ivnuuck4jcntbknluk.apps.googleusercontent.com',
+                secret: 'e8aiVDsZGUGqyNK-8tmMq3Wv'
+            },
             srids: [99996]
         }
       # ansible.inventory_path = "hosts.ini"
