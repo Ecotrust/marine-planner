@@ -57,8 +57,7 @@ def show_planner(request, project=None, template='planner.html'):
         project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
         latitude = longitude = zoom = min_zoom = max_zoom = None
     context = {
-        'plus_scope': plus_scope,
-        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
+        
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 
         'min_zoom': min_zoom, 'max_zoom': max_zoom,
@@ -67,6 +66,9 @@ def show_planner(request, project=None, template='planner.html'):
     }
     if request.user.is_authenticated() and request.user.social_auth.all().count() > 0:
         context['picture'] = request.user.social_auth.all()[0].extra_data.get('picture')
+    if settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY:
+        context['plus_scope'] = plus_scope,
+        context['plus_id'] = settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     if settings.UNDER_MAINTENANCE_TEMPLATE:
         return render_to_response('under_maintenance.html', RequestContext(request, context))
     return render_to_response(template, RequestContext(request, context))
