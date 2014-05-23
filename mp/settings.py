@@ -47,7 +47,9 @@ ADMINS = (
     ('Scott Fletcher', 'scott@pointnineseven.com'),
 )
 
-OPENID_ENABLED = True
+# FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
+# HELP_EMAIL = "mp-team@marineplanner.org"
+# DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
 
 # url for socket.io printing
 # SOCKET_URL = 'http://dev.marco.marineplanning.org:8080'
@@ -60,8 +62,6 @@ UNDER_MAINTENANCE_TEMPLATE = False
 TEMPLATE_DIRS = (os.path.realpath(os.path.join(os.path.dirname(__file__),
                  'templates').replace('\\', '/')), )
 
-SOCIAL_AUTH_GOOGLE_PLUS_KEY = 'key'
-SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'secret'
 
 AUTHENTICATION_BACKENDS = (
     # 'social.backends.google.GooglePlusAuth',

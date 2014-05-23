@@ -766,6 +766,7 @@ img + h3 {
     }
 #signinButton h4 {
     margin: 0 5px 10px;
+    color: #000;
 }
 #basemaps {
 	top: 8px;

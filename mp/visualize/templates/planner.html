@@ -808,31 +808,26 @@
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.js"></script>
 
         <!-- google plus login -->
-        <script>
-        window.___gcfg = {
-          isSignedOut: true
-        };
-        </script>
-        <script type="text/javascript" src='https://plus.google.com/js/client:plusone.js'>
+        <script type="text/javascript" src='//plus.google.com/js/client:plusone.js'>
         </script>
         <script type="text/javascript">
 
             var signInCallback = function (result) {
-                if (result['error']) {
-                    console.log('An error happened:', result['error']);
-                } else if (result['g-oauth-window']) {
-                    $('#code').attr('value', result['code']);
-                    $('#at').attr('value', result['access_token']);
-                    $('#google-plus').submit();
-                } else {
-                  gapi.auth.signOut();
-                }
+              if (result.error) {
+                  console.log('An error happened:', result.error);
+              } else if (result['g-oauth-window']) {
+                  $('#code').attr('value', result.code);
+                  $('#at').attr('value', result.access_token);
+                  $('#google-plus').submit();
+              } else {
+                gapi.auth.signOut();
+              }
             };
         </script>
         <script>
         function getCookie(name) {
             var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
+            if (document.cookie && document.cookie !== '') {
                 var cookies = document.cookie.split(';');
                 for (var i = 0; i < cookies.length; i++) {
                     var cookie = jQuery.trim(cookies[i]);
