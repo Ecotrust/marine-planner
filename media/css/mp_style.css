@@ -746,7 +746,23 @@ img + h3 {
   padding: 5px;
   font-size: 14px;
 }
-
+#sign-in-form {
+    margin: 0;
+}
+#sign-in-modal .other-links {
+    padding: 15px;
+    margin-top: -60px;
+    float: left;
+}
+#signinButton {
+    padding: 15px;
+}
+    #signinButton h4 {
+        margin-top: 0;
+    }
+    #signinButton div {
+        float: right !important;
+    }
 #login-buttons {
     top: 8px;
     right: 65px;

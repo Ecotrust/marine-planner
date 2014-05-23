@@ -145,9 +145,11 @@
                                             <i class="icon-user"></i> 
                                             {% endif %}
                                             {{user.username}}
-                                            <span class="caret"></span>
                                           </a>
                                           <ul id="username" class="dropdown-menu">
+                                            {% if user.is_staff %}
+                                            <li><a href="/admin" style="padding-left: 10px"><i class="icon-cogs"></i> Admin</a></li>
+                                            {% endif %}
                                             <li><a href="#profile-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-pencil"></i> Profile</a></li>
                                             <li><a href="#reset-password-modal" data-toggle="modal" style="padding-left: 10px"><i class="icon-lock"></i> Password</a></li>
                                             <li class="divider"></li>

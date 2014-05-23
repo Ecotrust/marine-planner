@@ -31,31 +31,33 @@
             <div>
                 <input type="hidden" name="next" data-bind="attr: { value: currentURL() }">
             </div>
-            <div id="signinButton" class="pull-right">
-              <h4>or sign in with google</h4>
-              <span class="g-signin" data-scope="{{ plus_scope }}"
-                                     data-clientid="{{ plus_id }}"
-                                     data-redirecturi="postmessage"
-                                     data-accesstype="offline"
-                                     data-cookiepolicy="single_host_origin"
-                                     data-callback="signInCallback">
-              </span>
-            </div>
-            <div> 
-                <p><a href="#registration-modal" data-dismiss="modal" data-toggle="modal">Not yet Registered?</a></p>
-            </div>
-            <div>
-                <p><a href="#forgot-username-modal" data-dismiss="modal" data-toggle="modal">Forgot your username?</a></p>
-            </div>
-            <div>
-                <p><a href="#forgot-password-modal" data-dismiss="modal" data-toggle="modal">Forgot your password?</a></p>
-            </div>
         </div>
         <div class="modal-footer">
             <input type="button" href="#" class="btn" data-dismiss="modal" value="Close">
             <input type="submit" class="btn btn-primary" value="Sign In">
         </div>
+        <div class="other-links">
+          <div> 
+              <p><a href="#registration-modal" data-dismiss="modal" data-toggle="modal">Not yet Registered?</a></p>
+          </div>
+          <div>
+              <p><a href="#forgot-username-modal" data-dismiss="modal" data-toggle="modal">Forgot your username?</a></p>
+          </div>
+          <div>
+              <p><a href="#forgot-password-modal" data-dismiss="modal" data-toggle="modal">Forgot your password?</a></p>
+          </div>
+        </div>
   </form>
+  <div id="signinButton" class="pull-right">
+        <h4>or sign in with google</h4>
+        <span class="g-signin" data-scope="{{ plus_scope }}"
+                               data-clientid="{{ plus_id }}"
+                               data-redirecturi="postmessage"
+                               data-accesstype="offline"
+                               data-cookiepolicy="single_host_origin"
+                               data-callback="signInCallback">
+        </span>
+  </div>
 </div>
 
 <!-- FORGOT USERNAME -->
