@@ -766,6 +766,7 @@ img + h3 {
 #login-buttons {
     top: 8px;
     right: 65px;
+    z-index: 1019!important;
 }
     #login-buttons .dropdown-menu {
         right: 0;
