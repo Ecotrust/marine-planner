@@ -43,7 +43,7 @@
 <div id="add-layer-modal" class="modal hide fade">
     <div class="modal-header" style="min-height: 20px;">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Add a Layer to the Marine Planner</h3>
+        <h3>Add a Layer to Marine Planner</h3>
     </div>
     <div class="modal-body" data-bind="if: newLayer">  
       <div class="row-fluid" data-bind="with: newLayer">
@@ -52,6 +52,7 @@
               <label class="control-label" for="inputEmail">Name</label>
               <div class="controls">
                 <input type="text" placeholder="Name" required data-bind="value: name">
+                 <i class="icon-info-sign" data-content="The name of the data layer that you want to display on the map viewer."></i>
               </div>
             </div>
             <div class="control-group">
@@ -62,24 +63,28 @@
                       <option value="XYZ">XYZ</option>
                       <option value="WMS">WMS</option>
                     </select>
+                    <i class="icon-info-sign" data-content="The service type of the data layer to be added. ArcREST is the appropriate type for ESRI ArcGIS service layers. XYZ is appropriate for ?. WMS is appropriate for web mapping service data layers."></i>
                 </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="inputPassword">URL</label>
               <div class="controls">
                 <input type="text" placeholder="URL" data-bind="value: url">
+                <i class="icon-info-sign" data-content="The full URL of the data layer. If the layer is an ArcREST layer, do not include the layer ID."></i>
               </div>
             </div>
             <div class="control-group" data-bind="visible: layer_type() == 'ArcRest'">
               <label class="control-label" for="inputPassword">ArcGIS Layers</label>
               <div class="controls">
                 <input type="text" placeholder="ArcGIS Layers" data-bind="value: arcgis_layers">
+                <i class="icon-info-sign" data-content="The layer ID."></i>
               </div>
             </div>
             <div class="control-group" data-bind="visible: layer_type() == 'WMS'">
               <label class="control-label" for="inputPassword">WMS Layer Name</label>
               <div class="controls">
-                <input type="text" placeholder="WMA Layer Name" data-bind="value: wms_slug">
+                <input type="text" placeholder="WMS Layer Name" data-bind="value: wms_slug">
+                <i class="icon-info-sign" data-content="The WMS layer slug."></i>
               </div>
             </div>
             
@@ -88,6 +93,7 @@
                 <div class="controls">
                     <select data-bind="options: $root.themes, value: theme, optionsText: 'name'">
                     </select>
+                    <i class="icon-info-sign" data-content="Select the theme that the data layer will fall under."></i>
                 </div>
             </div>
           </form>

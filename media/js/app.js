@@ -174,6 +174,14 @@ $(document).ready(function() {
     }
   })
   */
+  $('#add-layer-modal').on('shown', function () {
+    // do something…
+    console.log('bind');
+    $('#add-layer-modal .icon-info-sign').popover({
+      trigger: 'hover',
+      container: 'body'
+    });
+  });
 
   app.fullscreen = {};
   // fullscreen stuff

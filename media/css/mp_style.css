@@ -785,6 +785,10 @@ img + h3 {
     margin: 0 5px 10px;
     color: #000;
 }
+
+
+
+
 #basemaps {
 	top: 8px;
 	right: 8px;
@@ -1021,6 +1025,21 @@ body.borderless #map-wrapper {
 }
 /*** END PRINTING ***/
 
+/** add layer modal **/
+#add-layer-modal .controls {
+    position: relative;
+}
+
+#add-layer-modal .controls .icon-info-sign {
+    font-size: 20px;
+    top: 7px;
+    padding-left: 7px;
+    color: rgb(100,100,100);
+    position: absolute;
+}
+.popover {
+      z-index: 2020;
+}
 
 /*** RESPONSIVE DESIGN ***/
 
