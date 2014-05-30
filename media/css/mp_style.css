@@ -755,7 +755,8 @@ img + h3 {
     float: left;
 }
 #signinButton {
-    padding: 15px;
+    /*padding: 15px;*/
+    opacity: 0;
 }
     #signinButton h4 {
         margin-top: 0;
