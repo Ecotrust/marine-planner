@@ -14,6 +14,9 @@ DATABASES = {
     }
 }
 
+FEEDBACK_RECIPIENT = ["eknuth@pointnineseven.com"]
+FEEDBACK_SUBJECT = "Our Florida Reefs/Marine Planner Feedback"
+
 
 LOG_FILE = os.path.realpath(os.path.join(os.path.dirname(__file__),
                             '..', 'mp.log'))

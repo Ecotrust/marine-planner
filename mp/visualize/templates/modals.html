@@ -14,13 +14,21 @@
             <div class="control-group">
               <label class="control-label" for="name">Full Name</label>
               <div class="controls">
-                <input class="input-xlarge" type="text" name="name" placeholder="Full Name" required>
+                <input class="input-xlarge" type="text" name="name" placeholder="Full Name"
+                    {% if user.is_authenticated %}
+                    value="{{user.first_name}} {{user.last_name}}"
+                    {% endif %}
+                required>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="email">Email Address</label>
               <div class="controls">
-                <input class="input-xlarge" type="email" name="email" placeholder="Email Address" required>
+                <input class="input-xlarge" type="email" name="email" placeholder="Email Address"
+                {% if user.is_authenticated %}
+                value="{{user.email}}"
+                {% endif %}
+                required>
               </div>
             </div>
             <div class="control-group">
