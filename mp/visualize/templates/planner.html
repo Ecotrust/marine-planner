@@ -134,6 +134,11 @@
                             <div class="row-fluid" style="height: 100%">
                                 <div id="map-wrapper" style="height: 100%; border-radius: 0px; border: 0px;">
                                     <div id="map" style="height: 100%"></div>
+                                    {% if user.is_authenticated %}
+                                    <div id="feedback-tab" class="rounded" data-toggle="modal" data-target="#feedback-modal">
+                                      <a href="#">feedback</a>
+                                    </div>
+                                    {% endif %}
                                     <div id="login-buttons">
                                       <div>
                                         {% if user.is_authenticated %}
@@ -164,7 +169,6 @@
                                       </div>
                                     </div>
                                     <div id="basemaps"> <!-- Basemaps, Legends, Layers, Bookmarks, and FullScreen buttons -->
-                                        
                                         <div class="btn-group btn-group-vertical">
                                           <!--Basemaps Button-->
                                           <a id="basemap-button" class="btn" data-bind="click: showBasemaps">
@@ -785,7 +789,7 @@
                 bitly_registered_domain: "{{bitly_registered_domain}}",
                 bitly_username: "{{bitly_username}}",
                 bitly_api_key: "{{bitly_api_key}}"
-            }
+            };
         </script>
         
 
