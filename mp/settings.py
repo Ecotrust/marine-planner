@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-FEEDBACK_RECIPIENT = ["eknuth@pointnineseven.com"]
+FEEDBACK_RECIPIENT = ["eknuth@pointnineseven.com", "jenny@pointnineseven.com"]
 FEEDBACK_SUBJECT = "Our Florida Reefs/Marine Planner Feedback"
 
 
