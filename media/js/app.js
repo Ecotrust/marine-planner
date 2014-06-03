@@ -377,6 +377,7 @@ $('#feedback-form').on('submit', function (event) {
    });
    feedback.url = window.location.href;
    $.post('/feedback/send', feedback, function () {
+      $form.find('textarea').val('');
       $form.closest('.modal').modal('hide');
       //$('#thankyou-modal').modal('show');
    });
