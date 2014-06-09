@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-FEEDBACK_RECIPIENT = ["eknuth@pointnineseven.com", "jenny@pointnineseven.com"]
+FEEDBACK_RECIPIENT = ["edwin@pointnineseven.com", "jenny@pointnineseven.com"]
 FEEDBACK_SUBJECT = "Our Florida Reefs/Marine Planner Feedback"
 
 
@@ -51,6 +51,8 @@ ADMINS = (
     ('Edwin Knuth', 'edwin@pointnineseven.com'),
     ('Scott Fletcher', 'scott@pointnineseven.com'),
 )
+
+
 
 # FEEDBACK_RECIPIENT = "Marine Planning Team <mp-team@marineplanner.org>"
 # HELP_EMAIL = "mp-team@marineplanner.org"
