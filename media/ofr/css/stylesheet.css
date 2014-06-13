@@ -32,7 +32,11 @@
 }
 
 .ofr .form-search input {
-	width: 80%;
+	width: 75%;
+}
+
+.ofr .form-search > div {
+	padding-left: 10px;
 }
 
 .ofr .nav-tabs > li a {
@@ -131,9 +135,14 @@
 	left: 35px;
 }
 
-#project-logo {
+.ofr #project-logo {
 	margin-top: 10px;
-	margin-left: 10px;
+	margin-left: 42px;
+}
+
+.ofr .legend-title {
+	color: #20767D;
+	/* color: #00446D; */
 }
 
 @font-face {

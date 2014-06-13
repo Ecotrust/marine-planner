@@ -33,6 +33,8 @@ app.init = function() {
         numZoomLevels: max_zoom,
         buffer: 3
     });
+    // openStreetMap = new OpenLayers.Layer.OSM();
+    
     googleStreet = new OpenLayers.Layer.Google("Google Streets", {
         sphericalMercator: true,
         isBaseLayer: true,
