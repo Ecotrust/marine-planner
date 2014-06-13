@@ -25,6 +25,8 @@
         <link href="{{MEDIA_URL}}/assets/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.jscrollpane.css" rel="stylesheet">
+
+        <link href="{{MEDIA_URL}}/ofr/css/stylesheet.css" rel="stylesheet">
         
         {% if project_icon %}
         <link rel="shortcut icon" href="{{project_icon}}">
@@ -98,7 +100,7 @@
         
     </head>
     
-    <body style="margin: 0px;">
+    <body class="ofr" style="margin: 0px;">
     
         
         <!-- modals -->
@@ -139,7 +141,7 @@
                                       <a href="#">feedback</a>
                                     </div>
                                     {% endif %}
-                                    <div id="login-buttons">
+                                    <div id="login-buttons" style="right: 8px; z-index: 1021">
                                       <div>
                                         {% if user.is_authenticated %}
                                         <span class="btn-group">
@@ -168,7 +170,7 @@
                                         {% endif %}
                                       </div>
                                     </div>
-                                    <div id="basemaps"> <!-- Basemaps, Legends, Layers, Bookmarks, and FullScreen buttons -->
+                                    <div id="basemaps" style="top: 65px"> <!-- Basemaps, Legends, Layers, Bookmarks, and FullScreen buttons -->
                                         <div class="btn-group btn-group-vertical">
                                           <!--Basemaps Button-->
                                           <a id="basemap-button" class="btn" data-bind="click: showBasemaps">
@@ -400,10 +402,10 @@
                 <!-- Data Panel (left panel) -->
                 <div class="row-fluid" data-bind="visible: showLayers()">
                 <div class="span4 tabs">
-                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 350px; max-width: 350px; height: 550px; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
+                    <div class="sidebar-nav" data-bind="css: {'fullscreen-data': isFullScreen()}" style="min-width: 350px; max-width: 350px; height: 625px; top: 12px; z-index: 750; margin-left: 12px; background-color: white; border-radius: 10px; opacity: .9; border: 1px solid #ccc;">
                         
                         <!-- Header -->
-                        <div>
+                        <div id="data-panel-header">
                             <div class="row-fluid">
                                 <div class="span12">
                                     {% if project_home_page %}
@@ -412,7 +414,7 @@
                                     <a style="text-decoration: none; cursor: default;">
                                     {% endif %}
                                         {% if project_logo %}
-                                        <img src="{{project_logo}}"/>
+                                        <img id="project-logo" src="{{project_logo}}"/>
                                         {% else %}
                                             {% if project_name %}
                                             <h2 style="margin-left: 15px; margin-bottom: 0px;" id="project-name-header">{{project_name}}</h2>
@@ -466,10 +468,14 @@
                             <div class="search-form span12">
                                 <form class="form-search" data-bind="submit: layerSearch" style="margin-left: auto; margin-right: auto; width: 80%; height: 0px">
                                     <div class="span12" style="float: none;">
-                                        <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
+                                        <span style="border-radius: 4px;">
+                                          <input type="search" class="field search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" name="s" id="s" placeholder="Search" style="border-radius: 4px;">
+                                        </span>
+                                        <input type="submit" class="search" name="submit" id="searchsubmit" value="Search" style="background: url(http://ourfloridareefs.org/wp-content/themes/OurFloridaReefs/images/search.png) no-repeat 0 0; width: 26px; height: 30px; border: none; padding: 0; cursor: pointer; font-size: 0; margin-top: 9px; border-radius: 0px">
+                                        <!-- <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
                                         <a class="btn">
                                             <i class="icon-remove icon-large"></i> 
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </form>
                             </div>

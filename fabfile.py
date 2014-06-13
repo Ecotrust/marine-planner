@@ -209,7 +209,7 @@ def vagrant(branch='master'):
     env.port = data['Port']
     env.code_dir = '/vagrant/mp'
     env.settings = 'settings'
-    env.db_user = 'vagrant'
+    env.db_user = 'postgres'
 
     try:
         env.host_string = '%s@127.0.0.1:%s' % ('vagrant', data['Port'])
@@ -307,13 +307,13 @@ def prepare():
 def restore_db(dump_name):
     env.warn_only = True
     put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
-    run("dropdb marine-planner -U %s" % env.db_user)
-    run("createdb -U vagrant -T template0 -O postgres marine-planner")
+    run("dropdb marine-planner -U %s -h localhost" % env.db_user)
+    run("createdb -U %s -h localhost -T template0 -O postgres marine-planner" % env.db_user)
     with cd(env.code_dir):
         with _virtualenv():
             #_manage_py('flush --noinput')
             # _manage_py('syncdb --noinput')
-            run("pg_restore --create --no-acl --no-owner -U vagrant -d marine-planner /tmp/%s" % dump_name.split('/')[-1])
+            run("pg_restore --create --no-acl --no-owner -U %s -h localhost -d marine-planner /tmp/%s" %(env.db_user, dump_name.split('/')[-1]))
             _manage_py('migrate --settings=%s' % env.settings)
 
 

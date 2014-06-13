@@ -1074,14 +1074,14 @@ function viewModel() {
     self.minimized = false;
     self.minimizeLeftPanel = function() {
         if ( !self.minimized ) {
-            $('.sidebar-nav').animate( {height: '50px'}, 400 );
+            $('.sidebar-nav').animate( {height: '122px'}, 400 );
             $('#help-button').hide();
             $('#add-layer-button').hide();
             $('.search-form').hide();
             $('#myTab').hide();
             $('#myTabContent').hide();
         } else {
-            $('.sidebar-nav').animate( {height: '550px'}, 400 );
+            $('.sidebar-nav').animate( {height: '625px'}, 400 );
             setTimeout( function() {
                 $('#help-button').show();
                 $('#add-layer-button').show();
