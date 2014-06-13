@@ -2,6 +2,7 @@
 
 .ofr h1, .ofr h2, .ofr h3, .ofr h4 {
 	font-family: "bebas_neueregular";
+	color: #20767D;
 }
 
 .ofr a {
@@ -19,6 +20,15 @@
 
 .ofr {
 	font-family: 'open_sanslight';
+}
+
+.ofr form h1, .ofr form h2, .ofr form h3, .ofr form h4 {
+	color: #20767D; /*rgb(16,118,125);*/
+}
+
+.ofr .btn-primary {
+	background: rgba(16,118,125,1);
+	color: white;
 }
 
 .ofr .form-search input {
