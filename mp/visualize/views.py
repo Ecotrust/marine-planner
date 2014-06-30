@@ -62,9 +62,12 @@ def show_planner(request, project=None, template='planner.html'):
         return render_to_response('under_maintenance.html', RequestContext(request, context))
     return render_to_response(template, RequestContext(request, context)) 
     
-def show_embedded_map(request, template='map.html'):
+def show_embedded_map(request, project=None, template='map.html'):
     try:
-        mp_settings = MarinePlannerSettings.objects.get(active=True)
+        if project:
+            mp_settings = MarinePlannerSettings.objects.get(slug_name=project)
+        else:
+            mp_settings = MarinePlannerSettings.objects.get(active=True)
         project_name = mp_settings.project_name
         project_logo = mp_settings.project_logo
         try:

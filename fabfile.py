@@ -5,8 +5,6 @@ from contextlib import contextmanager
 from fabric.operations import put
 from fabric.api import env, local, sudo, run, cd, prefix, task, settings
 
-branch = 'master'
-
 CHEF_VERSION = '10.20.0'
 
 env.root_dir = '/usr/local/apps/marine-planner'
@@ -156,9 +154,9 @@ def push():
 
     with cd(env.root_dir):
         # Really, git?  Really?
+        run('git reset HEAD --hard')
         run('git checkout %s' % env.branch)
-        run('git reset HEAD')
-        run('git checkout .')
+        #run('git checkout .')
         run('git checkout %s' % env.branch)
 
         sudo('chown -R www-data:deploy *')
@@ -167,9 +165,9 @@ def push():
 
 
 @task
-def deploy():
+def deploy(branch='master'):
     set_env_for_user(env.user)
-
+    env.branch = branch
     push()
     sudo('chmod -R 0770 %s' % env.virtualenv)
 
@@ -198,9 +196,9 @@ def restart():
 
 
 @task
-def vagrant(username='vagrant'):
+def vagrant(branch='master'):
     # set ssh key file for vagrant
-    set_env_for_user(username)
+    set_env_for_user('vagrant')
     result = local('vagrant ssh-config', capture=True)
     data = parse_ssh_config(result)
     env.remote = 'vagrant'
@@ -210,7 +208,7 @@ def vagrant(username='vagrant'):
     env.code_dir = '/vagrant/mp'
 
     try:
-        env.host_string = '%s@127.0.0.1:%s' % (username, data['Port'])
+        env.host_string = '%s@127.0.0.1:%s' % ('vagrant', data['Port'])
     except KeyError:
         raise Exception("Missing data from ssh-config")
 
@@ -219,7 +217,7 @@ def vagrant(username='vagrant'):
 def staging(connection):
     env.remote = 'staging'
     env.role = 'staging'
-    env.branch = branch
+    #env.branch = branch
     env.user, env.host = connection.split('@')
     env.port = 22
     env.host_string = '%s@%s:%s' % (env.user, env.host, env.port)

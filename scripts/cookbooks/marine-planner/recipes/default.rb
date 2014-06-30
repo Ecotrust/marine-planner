@@ -52,11 +52,11 @@ else
             mode 0700
         end
 
-        cookbook_file "/home/#{u[:name]}/.profile" do
-            source "profile"
-            owner u[:name]
-            mode 0700
-        end
+        # cookbook_file "/home/#{u[:name]}/.profile" do
+            # source "profile"
+            # owner u[:name]
+            # mode 0700
+        # end
 
         execute "authorized keys" do
             command "echo #{u[:key]} > /home/#{u[:name]}/.ssh/authorized_keys"

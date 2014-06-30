@@ -56,7 +56,7 @@
             "latitude": 38.93,
             "min_zoom": 5,
             "slug_name": "marco",
-            "project_logo": "mp/img/marco-logo_planner.jpg",
+            "project_logo": "img/marco-logo_planner.jpg",
             "active": false,
             "bitly_api_key": "R_d02e03290041107b75e3720d7e3c4b95",
             "project_home_page": "http://portal.midatlanticocean.org/"
@@ -77,6 +77,48 @@
             "latitude": 7.73,
             "min_zoom": 5,
             "slug_name": "colombia",
+            "project_logo": "",
+            "active": false,
+            "bitly_api_key": "",
+            "project_home_page": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "mp_settings.marineplannersettings",
+        "fields": {
+            "bitly_username": "",
+            "project_name": "Peru",
+            "table_of_contents": 4,
+            "project_icon": "",
+            "bitly_registered_domain": "",
+            "max_zoom": 12,
+            "zoom": 6,
+            "longitude": -81.4,
+            "latitude": -10.64,
+            "min_zoom": 4,
+            "slug_name": "peru",
+            "project_logo": "",
+            "active": false,
+            "bitly_api_key": "",
+            "project_home_page": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "mp_settings.marineplannersettings",
+        "fields": {
+            "bitly_username": "",
+            "project_name": "Global Marine Data",
+            "table_of_contents": 5,
+            "project_icon": "",
+            "bitly_registered_domain": "",
+            "max_zoom": 21,
+            "zoom": 3,
+            "longitude": -50.0,
+            "latitude": 20.0,
+            "min_zoom": 3,
+            "slug_name": "global-marine-data",
             "project_logo": "",
             "active": false,
             "bitly_api_key": "",

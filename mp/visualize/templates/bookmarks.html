@@ -1,7 +1,6 @@
 
-<div style="display:none" id="bookmark-popover" class="popover fade left in" data-bind="with: bookmarks">
-    <div class="arrow">
-    </div>
+<div style="display:none; margin-top: 80px; " id="bookmark-popover" class="popover fade left in" data-bind="with: bookmarks">
+    <div class="arrow" style="display: none"></div>
     <div class="popover-inner">
         <h3 class="popover-title" style="font-size: 16px; font-weight: bold">
             Bookmarks
@@ -21,7 +20,7 @@
                                 </a>-->
                                 {% endif %}
                             </td>
-                            <td style="padding-right: 0px; width: 80px">
+                            <td style="padding-right: 5px; text-align: right">
                                 <div class="btn-group" style="text-align: center">
                                     {% if user.is_authenticated %}
                                     <!--<a class="btn btn-mini tweet-trash" data-bind="click: showSharingModal, visible: !shared()">
@@ -43,12 +42,12 @@
                     </tbody>
                 </table>
                 <p data-bind="visible: bookmarksList().length === 0">
-                    Bookmarks save the map and active layers. You currently have no bookmarks.
+                    Create bookmarks to store map views (active data layers, location, and zoom level) for later use and sharing with others. 
                 </p>
             </div>
             <hr style="margin-bottom: 10px" />
             <h5>
-                Create new bookmark
+                Create Bookmark
             </h5>
             <form data-bind="submit: saveBookmark" style="margin-bottom: 0px">
                 <input type="text" data-bind="value: newBookmarkName" class="input">
