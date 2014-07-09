@@ -1,11 +1,11 @@
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
-import settings
+from django.conf import settings
 
 
 def send_feedback(request):
     subject = settings.FEEDBACK_SUBJECT
-    feedback_address = settings.FEEDBACK_RECIPIENT #, info@portal.midatlanticocean.org'
+    feedback_address = settings.FEEDBACK_RECIPIENT
     name = request.POST.get('name', '')
     from_email = "%s <%s>" % (name, request.POST.get('email', ''),)
     reply_email = "Marine Planner Project Team <%s>" % settings.FEEDBACK_RECIPIENT[0]

@@ -132,7 +132,7 @@ include_recipe "nginx"
 include_recipe "postgresql::server"
 #include_recipe "supervisor"
 
-package "supervisor"
+# package "supervisor"
 
 # marine planner specific
 package "postgresql-#{node[:postgresql][:version]}-postgis"
@@ -161,25 +161,25 @@ if node[:user] == "vagrant"
     template "/vagrant/mp/settings_local.py" do
         source "settings_local.erb"
         owner "vagrant"
+        mode 0760
     end
 else
     template "/usr/local/apps/marine-planner/mp/settings_local.py" do
         source "settings_deploy.erb"
+         mode 0760
         owner "www-data"
     end
 end
 
-template "/etc/supervisor/conf.d/app.conf" do
+
+template "/etc/init/app.conf" do
     source "app.conf.erb"
 end
 
-service "supervisor" do
-    action :stop
+execute "restart app" do
+    command "sudo service app restart"
 end
 
-service "supervisor" do
-    action :start
-end
 
 cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf"
@@ -188,6 +188,9 @@ end
 
 execute "restart postgres" do
     command "sudo /etc/init.d/postgresql restart"
+end
+execute "restart nginx" do
+    command "sudo /etc/init.d/nginx restart"
 end
 
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
@@ -216,4 +219,35 @@ python_virtualenv "/usr/local/venv/marine-planner" do
     else
         owner "www-data"
     end
+end
+link "/usr/venv" do
+  to "/usr/local/venv"
+end
+
+
+# map proxy stuff
+template "/etc/init/mapproxy.conf" do
+    source "mapproxy.conf.erb"
+end
+
+if node[:user] == "vagrant"
+    template "/vagrant/proxy/mapproxy.yaml" do
+        source "mapproxy.yaml.erb"
+        owner node[:user]
+        group "deploy"
+        mode 0700
+    end
+else
+    template "/usr/local/apps/marine-planner/proxy/mapproxy.yaml" do
+        source "mapproxy.yaml.erb"
+        owner node[:user]
+        group "deploy"
+        mode 0700
+    end
+end
+
+directory "/var/log/mapproxy" do
+    owner node[:user]
+    group "deploy"
+    mode 0700
 end

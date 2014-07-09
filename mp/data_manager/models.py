@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 
 class TOC(models.Model):
     name = models.CharField(max_length=100)
-    themes = models.ManyToManyField("TOCTheme", blank=True, null=True) 
+    themes = models.ManyToManyField("TOCTheme", blank=True, null=True)
     
     def __unicode__(self):
         return unicode('%s' % (self.name))
@@ -16,6 +16,12 @@ class TOCTheme(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     layers = models.ManyToManyField("Layer", blank=True, null=True)
+
+    def TOC(self):
+        #import pdb
+        #pdb.set_trace()
+        #return self.toc_set.all()[0]
+        return "\n".join([toc.name for toc in self.toc_set.all()])
 
     def __unicode__(self):
         return unicode('%s' % (self.name))
@@ -27,7 +33,8 @@ class TOCTheme(models.Model):
             'id': self.id,
             'display_name': self.display_name,
             'layers': layers,
-            'description': self.description
+            'description': self.description,
+            'is_toc_theme': True
         }
         return themes_dict
 
@@ -80,12 +87,14 @@ class Layer(models.Model):
         ('Vector', 'Vector'),
         ('placeholder', 'placeholder'),
     )
-    name = models.CharField(max_length=100)
-    slug_name = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=244)
+    slug_name = models.CharField(max_length=244, blank=True, null=True)
     layer_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     url = models.CharField(max_length=255, blank=True, null=True)
     shareable_url = models.BooleanField(default=True)
+    proxy_url = models.BooleanField(default=False, help_text="proxy layer url through marine planner")
     arcgis_layers = models.CharField(max_length=255, blank=True, null=True)
+    wms_slug = models.CharField(max_length=255, blank=True, null=True)
     sublayers = models.ManyToManyField('self', blank=True, null=True)
     themes = models.ManyToManyField("Theme", blank=True, null=True)
     is_sublayer = models.BooleanField(default=False)
@@ -93,7 +102,9 @@ class Layer(models.Model):
     legend_title = models.CharField(max_length=255, blank=True, null=True)
     legend_subtitle = models.CharField(max_length=255, blank=True, null=True)
     utfurl = models.CharField(max_length=255, blank=True, null=True)
-    
+    utfjsonp = models.BooleanField(default=False)
+    summarize_to_grid = models.BooleanField(default=False)
+    proj = models.CharField(max_length=255, blank=True, null=True, help_text="will be EPSG:3857, if unspecified")
     #tooltip
     description = models.TextField(blank=True, null=True)
     
@@ -266,7 +277,12 @@ class Layer(models.Model):
                 'type': layer.layer_type,
                 'url': layer.url,
                 'arcgis_layers': layer.arcgis_layers,
+                'wms_slug': layer.wms_slug,
                 'utfurl': layer.utfurl,
+                'utfjsonp': layer.utfjsonp,
+                'proxy_url': layer.proxy_url,
+                'proj': layer.proj,
+                'summarize_to_grid': layer.summarize_to_grid,
                 'parent': self.id,
                 'legend': layer.legend,
                 'legend_title': layer.legend_title,
@@ -295,7 +311,11 @@ class Layer(models.Model):
             'type': self.layer_type,
             'url': self.url,
             'arcgis_layers': self.arcgis_layers,
+            'wms_slug': self.wms_slug,
             'utfurl': self.utfurl,
+            'utfjsonp': self.utfjsonp,
+            'proxy_url': self.proxy_url,
+            'proj': self.proj,
             'subLayers': sublayers,
             'legend': self.legend,
             'legend_title': self.legend_title,
@@ -304,6 +324,7 @@ class Layer(models.Model):
             'overview': self.data_overview,
             'data_source': self.data_source,
             'data_notes': self.data_notes,
+            'summarize_to_grid': self.summarize_to_grid,
             'kml': self.kml,
             'data_download': self.data_download_link,
             'metadata': self.metadata_link,

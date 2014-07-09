@@ -16,12 +16,12 @@ app.onResize = function(percent) {
         $("#data-accordion").height(height - (($.browser.msie && $.browser.version < 9)? 130: 96));
         //$("#designs-accordion").height(height - 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
         //$("#active").height(height + 20 - (($.browser.msie && $.browser.version < 9)? 130: 96));
-    } 
+    }
     app.map.render('map');
   }
-  
+
   app.viewModel.updateAllScrollBars();
-  
+
   if (width < 946) {
     app.viewModel.hideTours(true);
   } else {
@@ -62,10 +62,10 @@ app.viewModel.loadLayersFromServer().done(function() {
   $('#loading').hide();
   // app.map.updateSize();
   app.onResize();
-  
+
   // trigger events that depend on the map
   $(document).trigger('map-ready');
-  
+
   // if we have the hash state go ahead and load it now
   if (app.hash) {
     app.loadStateFromHash(app.hash);
@@ -87,18 +87,18 @@ app.init();
 // Google.v3 uses EPSG:900913 as projection, so we have to
 // transform our coordinates
 app.initializeMapLocation = function() {
-    var latitude = 46.31,
-        longitude = -123.64,
-        zoom = 6;
-        
-    if (app.MPSettings && app.MPSettings['latitude'] && app.MPSettings['longitude']) {
-        latitude = app.MPSettings['latitude'];
-        longitude = app.MPSettings['longitude'];
-    } 
-    if (app.MPSettings && app.MPSettings['zoom']) {
-        zoom = app.MPSettings['zoom'];
+    var latitude = 40.46,
+        longitude = -124.56,
+        zoom = 5;
+
+    if (app.MPSettings && app.MPSettings.latitude && app.MPSettings.longitude) {
+        latitude = app.MPSettings.latitude;
+        longitude = app.MPSettings.longitude;
     }
-    
+    if (app.MPSettings && app.MPSettings.zoom) {
+        zoom = app.MPSettings.zoom;
+    }
+
     app.map.setCenter(new OpenLayers.LonLat(longitude, latitude).transform(
         new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), zoom);
 
@@ -109,7 +109,7 @@ app.initializeMapLocation();
 $(document).ready(function() {
   app.onResize();
   $(window).resize(app.onResize);
-    
+
   //Do not display any warning for missing tiles
   OpenLayers.Util.onImageLoadError = function(){
     this.src = 'http://www.openlayers.org/api/img/blank.gif';
@@ -132,11 +132,11 @@ $(document).ready(function() {
     });
   });
 
-  
+
   $('.form-search').find('.btn').on('click', function(event) {
      $(event.target).closest('form').find('input').val(null).focus();
   });
-  
+
   //fixes a problem in which the data accordion scrollbar was reinitialized before the app switched back to the data tab
   //causing the data tab to appear empty
   //the following appears to fix that problem
@@ -150,23 +150,23 @@ $(document).ready(function() {
   });
   $('#designsTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.updateAllScrollBars();
-    setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000); 
+    setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000);
   });
   $('#legendTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.showLegend(true);
     app.viewModel.updateScrollBars();
   });
-  
+
   //the following appears to handle the bookmark sharing, while the earlier popover activation handles the design sharing
-  setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000); 
-    
+  setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000);
+
   //format the legend scrollbar
   //setTimeout(function() { $('#legend-content').jScrollPane(); }, 500);
   //setTimeout(function() { app.viewModel.updateScrollBars(); }, 500);
-  
+
   //resizable behavior for overview-overlay
-  //might not use the following after all... 
-  //(having problems setting minHeight, losing resizing ability 
+  //might not use the following after all...
+  //(having problems setting minHeight, losing resizing ability
   /*
   $("#overview-overlay").resizable({
     handles: 'n',
@@ -174,6 +174,14 @@ $(document).ready(function() {
     }
   })
   */
+
+  $('#add-layer-modal').on('shown', function () {
+    // do something…
+    $('#add-layer-modal .icon-info-sign').popover({
+      trigger: 'hover',
+      container: 'body'
+    });
+  });
 
   app.fullscreen = {};
   // fullscreen stuff
@@ -189,7 +197,7 @@ $(document).ready(function() {
               $('#fullscreen-error-overlay').show();
             }
           }, false);
-      } else {    
+      } else {
           $('#btn-fullscreen').on('click', function() {
             // fallback for browsers that don't support addEventListener
             $('#fullscreen-error-overlay').show();
@@ -225,7 +233,7 @@ $(document).ready(function() {
     // called when exiting full screen
     app.viewModel.isFullScreen(false);
     // return to normal size
-    // Not exactly comfortable with the following 2 calls to resize, 
+    // Not exactly comfortable with the following 2 calls to resize,
     // but ff kept having problems when other strategies were tried...
     //for firefox
     setTimeout( app.onResize(), 300);
@@ -242,20 +250,20 @@ $(document).ready(function() {
     }
     if ( app.fullscreen.pageguide ) {
         app.viewModel.showLayers(true);
-        setTimeout( function() { 
-            $.pageguide('open'); 
+        setTimeout( function() {
+            $.pageguide('open');
             if ($.pageguide().guide().id === 'default-guide') {
-                setTimeout( function() { 
+                setTimeout( function() {
                     $.pageguide('showStep', $.pageguide().guide().steps.length-1);
                 }, 300 );
-            }            
+            }
         }, 500 );
         app.fullscreen.pageguide = false;
     }
     //for chrome
     setTimeout( app.onResize, 300);
   };
-  
+
   // Basemaps button and drop-down behavior
   //hide basemaps drop-down on mouseout
   $('#basemaps').mouseleave( function(e) {
@@ -267,7 +275,7 @@ $(document).ready(function() {
         $('#SimpleLayerSwitcher_28').hide();
     }
   });
-  
+
   //hide basemaps drop-down on mouseout
   $('#SimpleLayerSwitcher_28').mouseleave( function() {
     $('#SimpleLayerSwitcher_28').hide();
@@ -275,51 +283,51 @@ $(document).ready(function() {
         $('#basemaps').removeClass('open');
     }
   });
-  
+
   //hide basemaps drop-down on mouseout
   $('#SimpleLayerSwitcher_28').mousedown( function() {
     if (!app.pageguide.preventBasemapsClose) {
         $('#basemaps').removeClass('open');
     }
   });
-  
+
   //hide basemaps drop-down on mouseout
   $('#SimpleLayerSwitcher_28').mouseenter( function() {
     $('#basemaps').addClass('open');
   });
-  
+
   $('#overview-overlay-dropdown').mouseleave( function() {
     $('#overview-overlay-dropdown').closest('.btn-group').removeClass('open');
   });
-  
+
   $('#opacity-popover').mouseleave( function() {
     app.viewModel.hideOpacity();
-  });  
-  
+  });
+
   $('#registration-modal').on('show', function() {
     $('.empty-input').val("");
   });
-  
+
   $('#sign-in-modal').on('show', function() {
     $('.empty-input').val("");
   });
-  
+
   $('#reset-password-modal').on('show', function() {
     $('.empty-input').val("");
   });
-  
+
   $(document).on('click', 'a[name="start-default-tour"]', function() {
     app.viewModel.startDefaultTour();
   });
-  
+
   $(document).on('click', '#continue-basic-tour', function() {
     app.viewModel.stepTwoOfBasicTour();
   });
-  
+
   $(document).on('click', '#start-data-tour', function() {
     app.viewModel.startDataTour();
   });
-  
+
   $(document).on('click', '#start-active-tour', function() {
     app.viewModel.startActiveTour();
   });
@@ -327,7 +335,7 @@ $(document).ready(function() {
   $(document).on('click', '#share-option', function() {
     app.viewModel.scenarios.initSharingModal();
   });
-  
+
   // hiding feature attributes on new click events (but ignoring map pan events)
   app.map.events.register('move', app.map, function() {
     app.map.mousedrag = true;
@@ -340,11 +348,11 @@ $(document).ready(function() {
     }
     app.map.mousedrag = false;
   });
-  
+
   $('a[data-toggle="tab"]').on('shown', function (e) {
     app.updateUrl();
   });
-  
+
 });
 
 $('#bookmark-form').on('submit', function(event) {
@@ -369,6 +377,7 @@ $('#feedback-form').on('submit', function (event) {
    });
    feedback.url = window.location.href;
    $.post('/feedback/send', feedback, function () {
+      $form.find('textarea').val('');
       $form.closest('.modal').modal('hide');
       //$('#thankyou-modal').modal('show');
    });
@@ -382,7 +391,7 @@ $(document).mousedown(function(e) {
   } else if (!$(e.target).closest("#bookmark-popover").length) {
     $('#bookmark-popover').hide();
   }
-  
+
   //ensure layer switcher is removed
   $('#SimpleLayerSwitcher_28').hide();
 

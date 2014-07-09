@@ -8,9 +8,13 @@ from django.template import RequestContext
 import os
 from querystring_parser import parser
 import simplejson
+
 from simplejson import dumps
+from social.backends.google import GooglePlusAuth
 from madrona.features import get_feature_by_uid
+
 import settings
+
 from models import *
 from data_manager.models import *
 from mp_settings.models import *
@@ -25,43 +29,49 @@ def show_planner(request, project=None, template='planner.html'):
             mp_settings = MarinePlannerSettings.objects.get(slug_name=project)
         else:
             mp_settings = MarinePlannerSettings.objects.get(active=True)
-        project_name = mp_settings.project_name 
-        latitude = mp_settings.latitude 
+        project_name = mp_settings.project_name
+        latitude = mp_settings.latitude
         longitude = mp_settings.longitude
         zoom = mp_settings.zoom
         min_zoom = mp_settings.min_zoom
         max_zoom = mp_settings.max_zoom
-        project_logo = mp_settings.project_logo 
+        project_logo = mp_settings.project_logo
         try:
             if project_logo:
-                url_validator = URLValidator(verify_exists=False)
+                url_validator = URLValidator()
                 url_validator(project_logo)
         except ValidationError, e:
-            project_logo = os.path.join(settings.MEDIA_URL, project_logo)            
-        project_icon = mp_settings.project_icon 
+            project_logo = os.path.join(settings.MEDIA_URL, project_logo)
+        project_icon = mp_settings.project_icon
         try:
-            url_validator = URLValidator(verify_exists=False)
+            url_validator = URLValidator()
             url_validator(project_icon)
         except ValidationError, e:
-            project_icon = os.path.join(settings.MEDIA_URL, project_icon)    
-        project_home_page = mp_settings.project_home_page 
-        bitly_registered_domain = mp_settings.bitly_registered_domain 
-        bitly_username = mp_settings.bitly_username 
-        bitly_api_key = mp_settings.bitly_api_key 
+            project_icon = os.path.join(settings.MEDIA_URL, project_icon)
+        project_home_page = mp_settings.project_home_page
+        bitly_registered_domain = mp_settings.bitly_registered_domain
+        bitly_username = mp_settings.bitly_username
+        bitly_api_key = mp_settings.bitly_api_key
     except:
         project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
         latitude = longitude = zoom = min_zoom = max_zoom = None
     context = {
-        'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true', 
-        'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom, 
+        'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true',
+        'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom,
         'min_zoom': min_zoom, 'max_zoom': max_zoom,
-        'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page, 
+        'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page,
         'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
     }
+    if request.user.is_authenticated() and request.user.social_auth.all().count() > 0:
+        context['picture'] = request.user.social_auth.all()[0].extra_data.get('picture')
+    if settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY:
+        context['plus_scope'] = ' '.join(GooglePlusAuth.DEFAULT_SCOPE)
+        context['plus_id'] = settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY
     if settings.UNDER_MAINTENANCE_TEMPLATE:
-        return render_to_response('under_maintenance.html', RequestContext(request, context))
-    return render_to_response(template, RequestContext(request, context)) 
-    
+        return render_to_response('under_maintenance.html',
+                                  RequestContext(request, context))
+    return render_to_response(template, RequestContext(request, context))
+
 def show_embedded_map(request, project=None, template='map.html'):
     try:
         if project:

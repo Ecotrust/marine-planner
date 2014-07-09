@@ -31,17 +31,29 @@
             <div>
                 <input type="hidden" name="next" data-bind="attr: { value: currentURL() }">
             </div>
-            <div> 
-                <p><a href="#registration-modal" data-dismiss="modal" data-toggle="modal">Not yet Registered?</a></p>
-            </div>
             <div>
-                <p><a href="#forgot-username-modal" data-dismiss="modal" data-toggle="modal">Forgot your username?</a></p>
-            </div>
-            <div>
-                <p><a href="#forgot-password-modal" data-dismiss="modal" data-toggle="modal">Forgot your password?</a></p>
+              <!-- <div> 
+                  <p><a href="#registration-modal" data-dismiss="modal" data-toggle="modal">Not yet Registered?</a></p>
+              </div> -->
+              <div>
+                  <p><a href="#forgot-username-modal" data-dismiss="modal" data-toggle="modal">Forgot your username?</a></p>
+              </div>
+              <div>
+                  <p><a href="#forgot-password-modal" data-dismiss="modal" data-toggle="modal">Forgot your password?</a></p>
+              </div>
             </div>
         </div>
         <div class="modal-footer">
+          <div id="signinButton" class="pull-left">
+                <!-- <h4>or sign in with google</h4> -->
+                <span class="g-signin" data-scope="{{ plus_scope }}"
+                                       data-clientid="{{ plus_id }}"
+                                       data-redirecturi="postmessage"
+                                       data-accesstype="offline"
+                                       data-cookiepolicy="single_host_origin"
+                                       data-callback="signInCallback">
+                </span>
+          </div>
             <input type="button" href="#" class="btn" data-dismiss="modal" value="Close">
             <input type="submit" class="btn btn-primary" value="Sign In">
         </div>
@@ -103,7 +115,7 @@
 
 <!-- REGISTRATION MODAL -->
 <div id="registration-modal" class="modal hide fade">
-    <form class="form-horizontal" id="registration-form" action="{% url mp_registration_register %}" method="post">{% csrf_token %}
+    <form class="form-horizontal" id="registration-form" action="{% url 'mp_registration_register' %}" method="post">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Register</h3>

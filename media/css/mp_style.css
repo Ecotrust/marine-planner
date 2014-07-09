@@ -201,8 +201,9 @@ li a {
 #feedback-tab {
 	position: fixed;
     z-index: 950;
-	left: -26px;
-	top: 80%;
+    /* positioning feedback button on bottom */
+	/*right: -26px;
+	top: 35%;*/
 	padding: 2px 8px;
 	border: 2px solid #ccc;
 	background: #2d8998; /* fallback for IE - IE6 requires background shorthand*/
@@ -215,11 +216,12 @@ li a {
 	-moz-border-top-right-radius: 10px;
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 10px;
-	-webkit-transform: rotate(90deg);	
-	-moz-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
-	-o-transform: rotate(90deg);
-	transform: rotate(90deg);
+	/* positioning feedback button on bottom */
+	/*-webkit-transform: rotate(-90deg);	
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);*/
 }
 #feedback-tab a {
 	color: white;
@@ -739,13 +741,57 @@ img + h3 {
 
 /*** Rules for the layer switcher ***/
 
-#basemaps {
+#login-buttons, #basemaps {
   position: absolute;
   z-index: 1020;
   border-radius: 4px;
   padding: 5px;
   font-size: 14px;
 }
+#sign-in-form {
+    margin: 0;
+}
+#sign-in-modal .other-links {
+    padding: 15px;
+    margin-top: -60px;
+    float: left;
+}
+#signinButton {
+    /*padding: 15px;*/
+    opacity: 0;
+}
+    #signinButton h4 {
+        margin-top: 0;
+    }
+    #signinButton div {
+        float: right !important;
+    }
+#login-buttons {
+    top: 8px;
+    right: 65px;
+    /* OFR edit */
+    /*z-index: 1019!important;*/
+}
+    #login-buttons .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+    #login-buttons .btn-large {
+        padding: 6px 9px;
+    }
+    #login-buttons img {
+        height: 30px;
+    }
+    #login-buttons .caret {
+        margin-top: 11px;
+    }
+#signinButton h4 {
+    margin: 0 5px 10px;
+    color: #000;
+}
+
+
+
 
 #basemaps {
 	top: 8px;
@@ -765,7 +811,9 @@ img + h3 {
     width: 26px;
     line-height: 26px;
     background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-    background: rgba(0, 60, 136, 0.5);
+    /* OFR Edit */
+    /*background: rgba(0, 60, 136, 0.5);*/
+    background: rgba(0, 68, 109, 0.5);
     opacity: .8;
     filter: alpha(opacity=80);
     -webkit-transition: width .3s ease-in-out;
@@ -808,7 +856,9 @@ img + h3 {
 
 #basemaps a:hover {
     background: #130085; /* fallback for IE */
-    background: rgba(0, 60, 136, 0.7);
+    /* OFR Edit */
+    /*background: rgba(0, 60, 136, 0.7);*/
+    background: rgba(0, 68, 109, 0.7);
     filter: alpha(opacity=100);
 }
 
@@ -831,7 +881,7 @@ img + h3 {
 
 .SimpleLayerSwitcher {
   position:absolute;
-  top:12px;
+  top:60px;
   right:166px;
   background-color:whiteSmoke;
   border:1px solid #ccc;
@@ -983,6 +1033,21 @@ body.borderless #map-wrapper {
 }
 /*** END PRINTING ***/
 
+/** add layer modal **/
+#add-layer-modal .controls {
+    position: relative;
+}
+
+#add-layer-modal .controls .icon-info-sign {
+    font-size: 20px;
+    top: 7px;
+    padding-left: 7px;
+    color: rgb(100,100,100);
+    position: absolute;
+}
+.popover {
+      z-index: 2020;
+}
 
 /*** RESPONSIVE DESIGN ***/
 
