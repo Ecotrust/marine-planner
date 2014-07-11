@@ -568,6 +568,9 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
                     } catch(err) {
                         continue;
                     }
+                    if (!allRules) {
+                        allRules = [];
+                    }
                     for(var ruleIndex = 0; ruleIndex < allRules.length; ++ruleIndex) {
                         var rule = allRules[ruleIndex];
                         if(rule.selectorText &&
