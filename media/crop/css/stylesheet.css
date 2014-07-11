@@ -128,8 +128,13 @@
 }
 
 .crop #overview-overlay {
-	background: #03871D;  /* for IE */
-	background: rgba(0, 135, 29, .65);
+	background: #D9EDFF;  /* for IE */
+	/*background: rgba(0, 135, 29, .65);*/
+	background: rgba(217,237,255, .95);
+}
+
+.crop #overview-overlay-content {
+	color: #03871D;
 }
 
 .crop #aggregated-attribute-overlay > div {
