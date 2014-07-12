@@ -288,3 +288,13 @@
     font-weight: normal;
     font-style: normal;
 }*/
+
+/*** Mobile Map ***/
+.crop .bar-title {
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}
+.crop .bar-title a {
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}

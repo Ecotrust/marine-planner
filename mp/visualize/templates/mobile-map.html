@@ -37,6 +37,8 @@
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.jscrollpane.css" rel="stylesheet">
         <link rel="shortcut icon" href="{{MEDIA_URL}}mp/ico/favicon.ico">
 
+        <link href="{{MEDIA_URL}}/crop/css/stylesheet.css" rel="stylesheet">
+
         <style>
         .navbar .nav > li:hover > a, .navbar .nav > li.active > a, .navbar .nav > li:hover > a:visited {
             height: 30px;
@@ -127,7 +129,7 @@
     </head>
     
     
-    <body style="margin: 0px; padding: 0px; height: 100%;">
+    <body class="crop" style="margin: 0px; padding: 0px; height: 100%;">
     
 
         <!-- Make sure all your bars are the first things in your <body> -->
@@ -146,7 +148,7 @@
                     {% if project_name %}
                     <h1 id="project-name-header">{{project_name}}</h1>
                     {% else %}
-                    <h1 id="project-name-header">Marine Planner</h1>
+                    <h1 id="project-name-header" style="display: none">Marine Planner</h1>
                     {% endif %}
                 {% endif %}
             </h1>
@@ -264,6 +266,34 @@
         <!--/row-->
           
         <!--/.fluid-container-->
+
+        <script>
+            var app = {};
+            {% if user.is_authenticated %}
+            app.is_authenticated = true;
+            {% else %}
+            app.is_authenticated = false;
+            {% endif %}
+        </script>
+
+        <!-- Check for Marine Planner Settings -->
+        <script type="text/javascript">
+            app.MPSettings = {
+                // project_name: "{{project_name}}",
+                // slug_name: "{{slug_name}}",
+                latitude: parseFloat("{{latitude}}"),
+                longitude: parseFloat("{{longitude}}"),
+                zoom: parseFloat("{{zoom}}") - 1,
+                // min_zoom: parseFloat("{{min_zoom}}"),
+                // max_zoom: parseFloat("{{max_zoom}}"),
+                // project_logo: "{{project_logo}}",
+                // project_icon: "{{project_icon}}",
+                // project_home_page: "{{project_home_page}}",
+                // bitly_registered_domain: "{{bitly_registered_domain}}",
+                // bitly_username: "{{bitly_username}}",
+                // bitly_api_key: "{{bitly_api_key}}"
+            };
+        </script>
 
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.js"></script>
         <script src="{{MEDIA_URL}}/assets/bootstrap/bootstrap.min.js"></script>
