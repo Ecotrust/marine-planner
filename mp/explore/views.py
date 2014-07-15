@@ -99,28 +99,30 @@ def tiles_page(request, slug=None, template='tiles_page.html'):
 def map_tile_example(request, slug=None, template='map_tile_example.html'):
     map_settings = getMapSettings()
     layer = get_object_or_404(Layer, slug_name=slug)
-    context = {'layer': layer}
-    if map_settings:
-        context['map_settings'] = map_settings
+    print map_settings
+    context = {'layer': layer, 'MEDIA_URL': settings.MEDIA_URL, 'map_settings': map_settings}
     return render_to_response(template, RequestContext(request, context)) 
 
 def map_tile_esri_example(request, slug=None, template='map_tile_esri_example.html'):
+    map_settings = getMapSettings()
     layer = get_object_or_404(Layer, slug_name=slug)
     orig_url = layer.url
     arctile_url = orig_url.replace('{z}', '{level}').replace('{x}', '{col}').replace('{y}', '{row}')
-    context = {'layer': layer, 'arctile_url': arctile_url}
+    context = {'layer': layer, 'arctile_url': arctile_url, 'map_settings': map_settings}
     return render_to_response(template, RequestContext(request, context)) 
 
 def map_tile_leaflet_example(request, slug=None, template='map_tile_leaflet_example.html'):
+    map_settings = getMapSettings()
     layer = get_object_or_404(Layer, slug_name=slug)
     orig_url = layer.url
     leaflet_url = orig_url.replace('$', '')
-    context = {'layer': layer, 'leaflet_url': leaflet_url}
+    context = {'layer': layer, 'leaflet_url': leaflet_url, 'map_settings': map_settings}
     return render_to_response(template, RequestContext(request, context)) 
 
 def arcrest_example(request, slug=None, template='arcrest_example.html'):
+    map_settings = getMapSettings()
     layer = get_object_or_404(Layer, slug_name=slug)
-    context = {'layer': layer}
+    context = {'layer': layer, 'map_settings': map_settings}
     return render_to_response(template, RequestContext(request, context)) 
 
 def linkify(text):
@@ -128,15 +130,13 @@ def linkify(text):
 
 def getMapSettings(): 
     from mp_settings.models import MarinePlannerSettings
+    import json
     try:
-        if project:
-            activeSettings = MarinePlannerSettings.objects.get(slug_name=project)
-        else:
-            activeSettings = MarinePlannerSettings.objects.get(active=True)        
+        activeSettings = MarinePlannerSettings.objects.get(active=True)        
         latitude = activeSettings.latitude        
         longitude = activeSettings.longitude 
         zoom = activeSettings.zoom
-        return {'lat': latitude, 'lng': longitude, 'zoom': zoom}
+        return json.dumps({'lat': latitude, 'lng': longitude, 'zoom': zoom})
     except:
-        return None
+        return json.dumps({})
     

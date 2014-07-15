@@ -11,6 +11,23 @@
     <script type="text/javascript">
         var map, esriOcean, layer;
         function init(){
+            var lat = 38.8,
+                lng = -73,
+                zoom = 6;
+
+            var map_settings = JSON.parse('{{map_settings|safe}}');
+            if (map_settings) {
+                if (map_settings.lat) {
+                    lat = map_settings.lat;                    
+                } 
+                if (map_settings.lng) {
+                    lng = map_settings.lng;
+                }
+                if (map_settings.zoom) {
+                    zoom = map_settings.zoom - 1;
+                }
+            }
+
             map = new OpenLayers.Map('mymap', {
                 //allOverlays: true,
                 projection: "EPSG:3857"
@@ -42,10 +59,10 @@
             
             //app.initializeMapLocation();
             map.setCenter(
-                new OpenLayers.LonLat(-50, 10).transform(
+                new OpenLayers.LonLat(lng, lat).transform(
                     new OpenLayers.Projection("EPSG:4326"),
                     map.getProjectionObject()
-                ), 2
+                ), zoom
             ); 
             
         }

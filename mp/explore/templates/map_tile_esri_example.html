@@ -15,10 +15,27 @@
  var map;
  // Create initialization function that sets option for the map 
  function init() {
+    var lat = 38.3,
+        lng = -73,
+        zoom = 6;
+
+    var map_settings = JSON.parse('{{map_settings|safe}}');
+    if (map_settings) {
+        if (map_settings.lat) {
+            lat = map_settings.lat - .5;                    
+        } 
+        if (map_settings.lng) {
+            lng = map_settings.lng;
+        }
+        if (map_settings.zoom) {
+            zoom = map_settings.zoom - 1;
+        }
+    }
+
     var options = { 
         basemap: "topo",
-        center: [-74, 37.5],
-        zoom: 6
+        center: [lng, lat],
+        zoom: zoom
     };
     // Create map and call Init function
     map = new esri.Map("mapDiv",options);
@@ -34,7 +51,7 @@
  </script>
  </head>
  <body>
- <div id="mapDiv">
+ <div id="mapDiv" style="width: 500px">
  </div>
  </body>
  </html>
