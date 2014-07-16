@@ -149,6 +149,11 @@
 	font-size: 16px;
 }
 
+.ofr .olControlMousePosition {
+	bottom: 55px;
+	right: 65px;
+}
+
 @font-face {
     font-family: 'bebas_neueregular';
     src: url('../fonts/bebasneue-webfont.eot');
