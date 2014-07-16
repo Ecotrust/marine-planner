@@ -80,7 +80,7 @@ app.init = function() {
         buffer: 3
     });
 
-    map.addLayers([esriOcean, openStreetMap, googleStreet, googleTerrain, googleSatellite]); //, nauticalCharts]);
+    map.addLayers([esriOcean, openStreetMap, googleStreet, googleTerrain, googleSatellite, nauticalCharts]);
 
     //map.addLayers([esriOcean]);
     esriOcean.setZIndex(100);
