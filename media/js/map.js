@@ -90,8 +90,8 @@ app.init = function() {
     //Scale Bar
     var scalebar = new OpenLayers.Control.ScaleBar({
         displaySystem: "english",
-        minWidth: 100, //default
-        maxWidth: 150, //default
+        minWidth: 200, //default
+        maxWidth: 250, //default
         divisions: 2, //default
         subdivisions: 2, //default
         showMinorMeasures: false //default

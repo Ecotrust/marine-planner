@@ -145,6 +145,10 @@
 	/* color: #00446D; */
 }
 
+.ofr .olControlScaleBarWrapper {
+	font-size: 16px;
+}
+
 @font-face {
     font-family: 'bebas_neueregular';
     src: url('../fonts/bebasneue-webfont.eot');
