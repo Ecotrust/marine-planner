@@ -1,0 +1,23 @@
+[
+{
+    "pk": 1, 
+    "model": "mp_settings.marineplannersettings", 
+    "fields": {
+        "bitly_username": "", 
+        "project_name": "Our Florida Reefs", 
+        "table_of_contents": 6, 
+        "project_icon": "", 
+        "bitly_registered_domain": "", 
+        "max_zoom": 16, 
+        "zoom": 9, 
+        "longitude": -80.06, 
+        "latitude": 26.55, 
+        "min_zoom": 5, 
+        "slug_name": "our-florida-reefs", 
+        "project_logo": "/media/ofr/img/ofr-logo.png", 
+        "active": true, 
+        "bitly_api_key": "", 
+        "project_home_page": ""
+    }
+}
+]
