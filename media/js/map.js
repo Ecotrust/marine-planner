@@ -135,8 +135,8 @@ app.init = function() {
 
     map.coordsControl = new OpenLayers.Control.MousePosition({
         prefix: 'Mouse Coordinates: ',
-        separator: ', ',
-        numDigits: 2,
+        // separator: ', ',
+        // numDigits: 2,
         emptyString: '',
         formatOutput: function( lonLat ) {
             return 'Lat/Lng: (' + lonLat.lat.toFixed(3) + ', ' + lonLat.lon.toFixed(3) + ')';

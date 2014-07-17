@@ -595,9 +595,9 @@ function layerModel(options, parent) {
         app.viewModel.activeInfoLayer(layer);
         self.infoActive(true);
         if (layer.subLayers.length > 0) {
-            $('#overview-overlay').height(195);
+            $('#overview-overlay').height(195); // 195
         } else {
-            $('#overview-overlay').height(186);
+            $('#overview-overlay').height(app.OVERVIEW_OVERLAY_HEIGHT); // 186
         }
         if (app.viewModel.getOverviewText() === "") {
             $('#overview-overlay').height(88);
@@ -1265,11 +1265,16 @@ function viewModel() {
             app.viewModel.scrollBarElements.push(elem);
             $(elem).mCustomScrollbar({
                 scrollInertia:250,
-                mouseWheel: 6
+                mouseWheel: 6,
+                advanced:{ updateOnContentResize:true }
             });
         }
+        // addressing the issue of an early click on info-icon results in permanent empty display
+        if ( elem === '#overview-overlay-text' && $('#overview-overlay').height() >= app.OVERVIEW_OVERLAY_HEIGHT && $('#overview-overlay-text').height() === 0) {
+            $('#overview-overlay-text').height(95);
+        }
         //$(elem).mCustomScrollbar("update");
-        //$(elem).mCustomScrollbar("scrollTo", "top");
+        $(elem).mCustomScrollbar("scrollTo", "top");
         setTimeout( function() {
             $(elem).mCustomScrollbar("update");
             $(elem).mCustomScrollbar("scrollTo", "top");
@@ -1856,4 +1861,5 @@ function viewModel() {
     return self;
 } //end viewModel
 
+app.OVERVIEW_OVERLAY_HEIGHT = 186;
 app.viewModel = new viewModel();

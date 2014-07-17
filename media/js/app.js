@@ -105,6 +105,10 @@ app.initializeMapLocation = function() {
 };
 app.initializeMapLocation();
 
+setTimeout(function() {  
+    app.map.mousedrag = false;
+}, 800);
+
 
 $(document).ready(function() {
   app.onResize();
