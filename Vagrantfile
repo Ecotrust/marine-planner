@@ -38,6 +38,7 @@ Vagrant.configure("2") do |config|
         }
       # ansible.inventory_path = "hosts.ini"
       # ansible.limit = "vagrant-apps"
+      ansible.limit = 'all'
     end
 
     # config.vm.provision :chef_solo do |chef|

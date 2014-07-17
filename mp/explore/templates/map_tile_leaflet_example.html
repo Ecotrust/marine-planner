@@ -15,6 +15,23 @@
  var layer;
 
  function initmap() {
+    var lat = 38.8,
+        lng = -73,
+        zoom = 6;
+
+    var map_settings = JSON.parse('{{map_settings|safe}}');
+    if (map_settings) {
+        if (map_settings.lat) {
+            lat = map_settings.lat;                    
+        } 
+        if (map_settings.lng) {
+            lng = map_settings.lng;
+        }
+        if (map_settings.zoom) {
+            zoom = map_settings.zoom - 1;
+        }
+    }
+
 	// set up the map
 	map = new L.Map('mymap');
 
@@ -41,7 +58,7 @@
     );
     map.addLayer(layer);
     
-	map.setView(new L.LatLng(38.7, -74), 6);
+	map.setView(new L.LatLng(lat, lng), zoom);
  }
  
  

@@ -10,6 +10,7 @@ django-redis
 querystring-parser
 httplib2
 requests
+oauthlib
 gunicorn
 django-proxy==1.0.2
 MapProxy==1.6.0

@@ -1,0 +1,300 @@
+
+.crop h1, .crop h2, .crop h3, .crop h4 {
+	font-family: "Oswald", sans-serif;
+	color: #0387FF;
+}
+
+.crop h2 {
+    font-size: 26px;
+    line-height: 36px;
+    color: #0387FF;
+}
+
+.crop .accordion-heading a:hover {
+	color: #03871D;
+}
+
+.crop .accordion-heading.active a {
+	color: #03871D;
+}
+
+.crop a {
+	color: #03871D; 
+}
+
+.crop .btn {
+	color: #03871D; 
+}
+
+.crop .btn:hover, .crop .btn.active {
+	color: #03871D; 
+}
+
+/*.crop a:hover, .crop a:focus {
+	color: #EF3824; 
+	text-decoration: none;
+}*/
+
+.crop {
+	font-family: 'Lato';
+}
+
+.crop form h1, .crop form h2, .crop form h3, .crop form h4 {
+	/*color: #7F8184; */
+	/*rgb(16,118,125);*/
+}
+
+.crop .btn-primary {
+	background: #03871D;
+	/*background: #0387FF;*/
+	color: white;
+}
+
+.crop .btn-primary:hover {
+	background: #13972D;
+	/*background: #1397FF;*/
+	color: white;
+}
+
+.crop .form-search input {
+	width: 75%;
+}
+
+.crop .form-search > div {
+	padding-left: 10px;
+}
+
+.crop .nav-tabs > li a {
+	font-family: "Lato";
+	font-size: 19px;
+	color: #0387FF; /* 0, 68, 109 */
+}
+
+.crop .sidebar-nav .nav-tabs a {
+	border: 0;
+}
+
+.crop .sidebar-nav .nav-tabs li.active a, .crop .sidebar-nav .nav-tabs li.active:hover a {
+	border: 0;
+	border-bottom: 2px solid #03871D;
+	background-color: inherit;
+}
+
+.crop .sidebar-nav .nav-tabs li:hover a {
+	border: 0;
+	color: #03871D; 
+}
+
+.crop .nav > li > a:hover, .crop .nav > li > a:focus {
+	background-color: inherit;
+}
+
+.crop .nav-tabs > li.active a {
+	color: #03871D; 
+}
+
+.crop .accordion-group .active span {
+	/*color: #EF3824;  /*239, 56, 36 */
+}
+
+.crop .accordion-toggle span {
+	font-family: "Lato";
+	font-size: 18px;
+}
+
+.crop .accordion-heading.active {
+	font-weight: inherit;
+}
+
+.crop .accordion-inner .btn:hover, .crop .accordion-inner .btn:focus {
+	/*color: #0387FF; */
+	color: #03871D;
+}
+
+.crop .dropdown-menu > li > a {
+	background: inherit;
+	color: #03871D;
+}
+
+.crop .dropdown-menu > .active > a {
+	background: #D9EDFF;
+}
+
+.crop .dropdown-menu > li > a:hover {
+	/*color: #2D30FF;
+	background: inherit;*/
+	background: #D9EDFF;
+	color: #03871D;
+}
+
+.crop #overview-overlay {
+	background: #D9EDFF;  /* for IE */
+	/*background: rgba(0, 135, 29, .65);*/
+	background: rgba(217,237,255, .95);
+}
+
+.crop #overview-overlay-content {
+	color: #03871D;
+}
+
+.crop #aggregated-attribute-overlay > div {
+	background: #03871D;  /* for IE */
+	background: rgba(0, 135, 29, .65);
+}
+
+.crop #login-buttons a {
+	background: white;  
+	opacity: .9;
+	color: #03871D;  /* for IE */
+}
+
+.crop #login-buttons a:hover { 
+	opacity: 1;
+}
+
+.crop #login-buttons .dropdown-menu {
+	background: white; 
+	color: #03871D;  /* for IE */
+}
+
+.crop #login-buttons .dropdown-menu a {
+	background: white; 
+	color: #03871D;  /* for IE */
+}
+
+.crop #login-buttons .dropdown-menu a:hover {
+	background: #D9EDFF;  /* for IE */
+}
+
+.crop #basemaps a {
+	background: #D9EDFF;  /* for IE */
+	background: rgba(217, 237, 255, .95);
+	color: #03871D;
+	opacity: 1;
+}
+
+.crop #basemaps a:hover {
+	background: #E9FDFF;  /* for IE */
+	background: rgba(233, 253, 255, .95);
+}
+
+.crop #basemaps a span {
+	position: absolute;
+	left: 35px;
+}
+
+.crop .SimpleLayerSwitcher {
+	background: #D9EDFF;  /* for IE */
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+	border-radius: 4px;
+}
+
+.crop .SimpleLayerSwitcher a.basey {
+	background: #D9EDFF;  /* for IE */
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}
+
+.crop .SimpleLayerSwitcher a.basey:hover {
+	background: #E9FDFF;  /* for IE */
+	background: rgba(233, 253, 255, .85);
+}
+
+.crop div.olControlZoom {
+	padding: 0px;
+}
+
+.crop div.olControlZoom a {
+	background: #D9EDFF;  /* for IE */
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}
+
+.crop div.olControlZoom a:hover {
+	background: #E9FDFF;  /* for IE */
+	background: rgba(233, 253, 255, .85);
+}
+
+.crop #feedback-tab {
+	bottom: -2px;
+	background: #D9EDFF;  /* for IE */
+	background: rgba(217, 237, 255, .85);
+	margin-left: 50%;
+	margin-right: 50%;
+	border: 0;
+}
+
+.crop #feedback-tab:hover {
+	background: #E9FDFF;  /* for IE */
+	background: rgba(233, 253, 255, .85);
+}
+
+.crop #feedback-tab a {
+	color: #03871D;
+}
+
+.crop #feedback-modal form {
+	margin-bottom: 0px;
+}
+
+.crop .olControlAttribution {
+	width: 40%;
+}
+
+.crop #project-logo {
+	/*margin-top: 10px;
+	margin-left: 42px;*/
+	max-width: 320px;
+	margin: 15px 15px 5px 15px;
+}
+
+.crop .legend-title {
+	color: #7F8184;
+	/* color: #00446D; */
+}
+/*
+
+@font-face {
+    font-family: 'latoregular';
+    src: url('../fonts/lato-reg-webfont.eot');
+    src: url('../fonts/lato-reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lato-reg-webfont.woff') format('woff'),
+         url('../fonts/lato-reg-webfont.ttf') format('truetype'),
+         url('../fonts/lato-reg-webfont.svg#latoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'bebas_neueregular';
+    src: url('../fonts/bebasneue-webfont.eot');
+    src: url('../fonts/bebasneue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebasneue-webfont.woff') format('woff'),
+         url('../fonts/bebasneue-webfont.ttf') format('truetype'),
+         url('../fonts/bebasneue-webfont.svg#bebas_neueregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('../fonts/opensans-light-webfont.eot');
+    src: url('../fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/opensans-light-webfont.woff') format('woff'),
+         url('../fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('../fonts/opensans-light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
+/*** Mobile Map ***/
+.crop .bar-title {
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}
+.crop .bar-title a {
+	background: rgba(217, 237, 255, .85);
+	color: #03871D;
+}

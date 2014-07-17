@@ -98,8 +98,48 @@ def show_embedded_map(request, project=None, template='map.html'):
     #context = {'MEDIA_URL': settings.MEDIA_URL}
     return render_to_response(template, RequestContext(request, context)) 
     
-def show_mobile_map(request, template='mobile-map.html'):
-    context = {'MEDIA_URL': settings.MEDIA_URL}
+def show_mobile_map(request, project=None, template='mobile-map.html'):
+    try:
+        if project:
+            mp_settings = MarinePlannerSettings.objects.get(slug_name=project)
+        else:
+            mp_settings = MarinePlannerSettings.objects.get(active=True)
+        print 'so far so good'
+        project_name = mp_settings.project_name
+        project_logo = mp_settings.project_logo
+        print project_name
+        print project_logo
+        # try:
+        #     if project_logo:
+        #         url_validator = URLValidator(verify_exists=False)
+        #         url_validator(project_logo)
+        # except ValidationError, e:
+        #     project_logo = os.path.join(settings.MEDIA_URL, project_logo) 
+        print 'almost there...'       
+        project_home_page = mp_settings.project_home_page
+        print 'here we go...'
+        latitude = mp_settings.latitude
+        print latitude
+        longitude = mp_settings.longitude
+        print longitude
+        zoom = mp_settings.zoom
+        print zoom
+        min_zoom = mp_settings.min_zoom
+        max_zoom = mp_settings.max_zoom
+        print min_zoom
+        print max_zoom
+    except:
+        project_name = project_logo = project_home_page = None
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL, 
+        # 'project_name': project_name,
+        # 'project_logo': project_logo, 
+        # 'project_home_page': project_home_page 
+        'latitude': latitude,
+        'longitude': longitude,
+        'zoom': zoom
+    }
+    #context = {'MEDIA_URL': settings.MEDIA_URL}
     return render_to_response(template, RequestContext(request, context)) 
     
 def get_sharing_groups(request):

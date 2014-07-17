@@ -5,12 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>{{layer.name}} OpenLayers example</title>
-    <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/mp/style.css" type="text/css">
-    <link rel="stylesheet" href="http://openlayers.org/dev/examples/mp/style.css" type="text/css">
+    <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="http://openlayers.org/dev/examples/style.css" type="text/css">
     <script src="http://openlayers.org/dev/OpenLayers.js"></script>
     <script type="text/javascript">
-        var map, esriOcean, layer;
-        function init(){
+        // var map, esriOcean, layer;
+        function init(){        
+            var lat = 38.8,
+                lng = -73,
+                zoom = 6;
+
+            var map_settings = JSON.parse('{{map_settings|safe}}');
+            if (map_settings) {
+                if (map_settings.lat) {
+                    lat = map_settings.lat;                    
+                } 
+                if (map_settings.lng) {
+                    lng = map_settings.lng;
+                }
+                if (map_settings.zoom) {
+                    zoom = map_settings.zoom - 1;
+                }
+            }
+            
             map = new OpenLayers.Map('mymap');
             esriocean = new OpenLayers.Layer.XYZ(
                 "ESRI Ocean", 
@@ -31,17 +48,24 @@
                     isBaseLayer: false 
                 }
             );
-            map.addLayer(layer);    
-            
+            map.addLayer(layer); 
+
             map.setCenter(
-                new OpenLayers.LonLat(-73, 38.8).transform(
+                new OpenLayers.LonLat(lng, lat).transform(
                     new OpenLayers.Projection("EPSG:4326"),
                     map.getProjectionObject()
-                ), 6
+                ), zoom
             ); 
             
         }
     </script>
+    <!-- <script src="{{MEDIA_URL}}/explore/map-tile-example.js"></script> -->
+    <style>
+    .olImageLoadError { 
+        opacity: 0 !important; 
+        filter: alpha(opacity=0) !important; /* IE */ 
+    } 
+    </style>
   </head>
   <body onload="init()">
     <div id="mymap" class="smallmap"></div>
