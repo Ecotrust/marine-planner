@@ -14,11 +14,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-
-        <!-- Le Fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-
         <!-- Le styles -->
         <link href="{{MEDIA_URL}}/assets/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/font/font-awesome.css" rel="stylesheet">
@@ -31,7 +26,7 @@
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.jscrollpane.css" rel="stylesheet">
 
-        <!-- <link href="{{MEDIA_URL}}/crop/css/stylesheet.css" rel="stylesheet"> -->
+        <link href="{{MEDIA_URL}}/ofr/css/stylesheet.css" rel="stylesheet">
         
         {% if project_icon %}
         <link rel="shortcut icon" href="{{project_icon}}">
@@ -105,7 +100,7 @@
         
     </head>
     
-    <body class="crop" style="margin: 0px;">
+    <body class="ofr" style="margin: 0px;">
     
         
         <!-- modals -->
@@ -473,14 +468,14 @@
                             <div class="search-form span12">
                                 <form class="form-search" data-bind="submit: layerSearch" style="margin-left: auto; margin-right: auto; width: 80%; height: 0px">
                                     <div class="span12" style="float: none;">
-                                        <!-- <span style="border-radius: 4px;">
+                                        <span style="border-radius: 4px;">
                                           <input type="search" class="field search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" name="s" id="s" placeholder="Search" style="border-radius: 4px;">
-                                        </span> -->
-                                        <!-- <input type="submit" class="search" name="submit" id="searchsubmit" value="Search" style="background: url(http://ourfloridareefs.org/wp-content/themes/OurFloridaReefs/images/search.png) no-repeat 0 0; width: 26px; height: 30px; border: none; padding: 0; cursor: pointer; font-size: 0; margin-top: 9px; border-radius: 0px"> -->
-                                        <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
+                                        </span>
+                                        <input type="submit" class="search" name="submit" id="searchsubmit" value="Search" style="background: url(http://ourfloridareefs.org/wp-content/themes/OurFloridaReefs/images/search.png) no-repeat 0 0; width: 26px; height: 30px; border: none; padding: 0; cursor: pointer; font-size: 0; margin-top: 9px; border-radius: 0px">
+                                        <!-- <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }" style="overflow: hidden; text-overflow: ellipsis; width: 80%;" placeholder="Search">
                                         <a class="btn">
                                             <i class="icon-remove icon-large"></i> 
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </form>
                             </div>
@@ -509,7 +504,7 @@
                         </ul>
                         
                         <!-- tab body -->
-                        <div id="myTabContent" class="tab-content" style="height: 375px">
+                        <div id="myTabContent" class="tab-content" style="height: 330px">
                         
                             <!-- DATA TAB -->
                             <div class="tab-pane active in fade" id="data" style="height: 100%">

@@ -1074,7 +1074,7 @@ function viewModel() {
     self.minimized = false;
     self.minimizeLeftPanel = function() {
         if ( !self.minimized ) {
-            $('.sidebar-nav').animate( {height: '85px'}, 400 );
+            $('.sidebar-nav').animate( {height: '122px'}, 400 );
             $('#help-button').hide();
             $('#add-layer-button').hide();
             $('.search-form').hide();
