@@ -130,7 +130,7 @@
 	background: rgba(0, 68, 109, .65);
 }
 
-#basemaps a span {
+#basemaps a span:first {
 	position: absolute;
 	left: 35px;
 }
