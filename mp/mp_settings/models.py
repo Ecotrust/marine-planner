@@ -13,6 +13,7 @@ class MarinePlannerSettings(models.Model):
     zoom = models.IntegerField(blank=True, null=True)
     min_zoom = models.IntegerField(blank=True, null=True, default=5, help_text='Minimum Zoom Level (5 is default).')
     max_zoom = models.IntegerField(blank=True, null=True, default=12, help_text='Maximum Zoom Level (12 is default).')
+    default_hash = models.TextField(blank=True, null=True, help_text="Default Map View as expressed in the URL hash (should start with '#x=')")
     project_logo = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
     project_icon = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
     project_home_page = models.URLField(max_length=255, blank=True, null=True, help_text='The Project Name or Project Logo will link to this page.')

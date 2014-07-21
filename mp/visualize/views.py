@@ -33,6 +33,7 @@ def show_planner(request, project=None, template='planner.html'):
         latitude = mp_settings.latitude
         longitude = mp_settings.longitude
         zoom = mp_settings.zoom
+        default_hash = mp_settings.default_hash
         min_zoom = mp_settings.min_zoom
         max_zoom = mp_settings.max_zoom
         project_logo = mp_settings.project_logo
@@ -58,7 +59,7 @@ def show_planner(request, project=None, template='planner.html'):
     context = {
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true',
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom,
-        'min_zoom': min_zoom, 'max_zoom': max_zoom,
+        'default_hash': default_hash, 'min_zoom': min_zoom, 'max_zoom': max_zoom,
         'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page,
         'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
     }

@@ -69,7 +69,10 @@ app.viewModel.loadLayersFromServer().done(function() {
   // if we have the hash state go ahead and load it now
   if (app.hash) {
     app.loadStateFromHash(app.hash);
-  }
+  } else if (app.MPSettings.default_hash) {
+    app.loadStateFromDefaultHash(app.MPSettings.default_hash);
+  } 
+  
   // autocomplete for filter
   $('.search-box').typeahead({
     source: app.typeAheadSource

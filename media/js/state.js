@@ -304,6 +304,11 @@ app.loadStateFromHash = function (hash) {
     app.loadState($.deparam(hash.slice(1)));
 };
 
+app.loadStateFromDefaultHash = function (default_hash) {
+    var hash = default_hash.replace(/&amp;/g, '&');
+    app.loadState($.deparam(hash.slice(1)));
+};
+
 // update the hash
 app.updateUrl = function () {
     var state = app.getState();
