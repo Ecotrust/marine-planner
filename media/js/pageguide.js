@@ -48,6 +48,12 @@ var defaultGuide = {
       content: $('#help-text-minimize-icon').html(),
       direction: 'right',
       arrow: {offsetX: 0, offsetY: 0}
+    },
+    {
+      target: '#project-logo',
+      content: $('#help-text-project-logo').html(),
+      direction: 'right',
+      arrow: {offsetX: 0, offsetY: 55}
     }
   ]
 };
