@@ -7,12 +7,12 @@ var defaultGuide = {
   id: 'default-guide',
   title: 'Default Guide',
   steps: [
-    {
-      target: '#help-button',
-      content: $('#help-text-help-button').html(),
-      direction: 'top',
-      arrow: {offsetX: 10, offsetY: -10}
-    },
+    // {
+    //   target: '#help-button',
+    //   content: $('#help-text-help-button').html(),
+    //   direction: 'top',
+    //   arrow: {offsetX: 10, offsetY: -10}
+    // },
     {
       target: '#dataTab',
       content: $('#help-text-dataTab').html(),
@@ -42,6 +42,12 @@ var defaultGuide = {
       content: $('#help-text-basemaps').html(),
       direction: 'left',
       arrow: {offsetX: -100, offsetY: 10}
+    },
+    {
+      target: '#minimize-icon',
+      content: $('#help-text-minimize-icon').html(),
+      direction: 'right',
+      arrow: {offsetX: 0, offsetY: 0}
     }
   ]
 };
@@ -83,13 +89,14 @@ var defaultGuideOverrides = {
   step: {
     events: {
       select: function() {
+        // if ($(this).data('idx') === 0) {
+        //     app.viewModel.showLayers(true);
+        //     $('#dataTab').tab('show');
+        //     app.viewModel.deactivateAllLayers();
+        //     app.viewModel.closeAllThemes();
+        //     // $('#pageGuideMessage').height(120);
+        // } else 
         if ($(this).data('idx') === 0) {
-            app.viewModel.showLayers(true);
-            $('#dataTab').tab('show');
-            app.viewModel.deactivateAllLayers();
-            app.viewModel.closeAllThemes();
-            $('#pageGuideMessage').height(120);
-        } else if ($(this).data('idx') === 1) {
             app.viewModel.showLayers(true);
             $('#dataTab').tab('show');
             app.viewModel.closeAllThemes();
@@ -108,20 +115,20 @@ var defaultGuideOverrides = {
                     });
                 }
             }
-            $('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 2) {
+            // $('#pageGuideMessage').height(150);
+        } else if ($(this).data('idx') === 1) {
             app.viewModel.showLayers(true);
             $('#activeTab').tab('show');
-            $('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 3) {
+            // $('#pageGuideMessage').height(150);
+        } else if ($(this).data('idx') === 2) {
             app.viewModel.showLayers(true);
             $('#legendTab').tab('show');
-            $('#pageGuideMessage').height(150);
+            // $('#pageGuideMessage').height(150);
         } else {
             //app.viewModel.showLayers(true);
             //$('#dataTab').tab('show');
             //$('#basemaps').addClass('open');
-            $('#pageGuideMessage').height(150);
+            // $('#pageGuideMessage').height(150);
         }
       }
     }
@@ -239,7 +246,13 @@ var activeGuide = {
       target: '.opacity-button',
       content: $('#help-text-active-tour-opacity-button').html(),
       direction: 'top',
-      arrow: {offsetX: 25, offsetY: 0}
+      arrow: {offsetX: 15, offsetY: 0}
+    },
+    {
+      target: '.deactivate-button',
+      content: $('#help-text-active-tour-deactivate-button').html(),
+      direction: 'right',
+      arrow: {offsetX: 0, offsetY: 10}
     },
     {
       target: '.ui-sortable',

@@ -422,11 +422,11 @@
                                         {% endif %}
                                     </a>
                                     <h3 class="pull-right" data-bind="visible: mapTitle, text: mapTitle"></h3>
-                                    <i class="icon-minus icon-large" data-bind="click: minimizeLeftPanel" style="cursor: pointer; position: absolute; top: 5px; right: 12px;"></i>
+                                    <i id="minimize-icon" class="icon-minus icon-large" data-bind="click: minimizeLeftPanel" style="cursor: pointer; position: absolute; top: 5px; right: 12px;"></i>
                                 </div>
                                 <div>
                                     <span style="position: absolute; bottom: 12px; left: 12px; z-index: 1;" class="btn-group">
-                                      <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Take a Tour</a>
+                                      <a id="help-button" class="btn" style="outline: none; margin-top: 10px;" href="#help-modal" data-toggle="modal">Tutorial</a>
                                     </span>
                                     {% if user.is_staff %}
                                     <span style="position: absolute; bottom: 12px; right: 12px; z-index: 1;" class="btn-group">
@@ -607,7 +607,7 @@
                                                         <span ><i class="icon-large check" data-bind="css: { 'icon-check': visible(), 'icon-check-empty': ! visible() }"></i></span>
                                                     </a>
                                                     <a class="btn opacity-button" data-bind="click: $parent.showOpacity"><i class="icon-adjust icon-large"></i></a>
-                                                    <button class="btn" data-bind="click: toggleActive">
+                                                    <button class="btn deactivate-button" data-bind="click: toggleActive">
                                                         <i class="icon-remove">
                                                         </i>
                                                     </button>
