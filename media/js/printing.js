@@ -134,7 +134,7 @@
 			// save the old value and adjust the steps
 			$('.ui-spinner-input').each(function (i, input) {
 				var $input = $(input), val = $input.val();
-				console.log(val);
+				// console.log(val);
 				$input.spinner('option', { 'step': steps});
 				$input.val(val);
 			});
@@ -254,7 +254,7 @@
 	
 	$(document).on('map-ready', function () {
 		app.map.events.register('changebaselayer', null, function (event) {
-			console.log('base layer changed');
+			// console.log('base layer changed');
 			app.viewModel.printing.isGoogle(/Google/.test(event.layer.name));
 		});
 
