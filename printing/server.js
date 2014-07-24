@@ -84,8 +84,8 @@ io.sockets.on('connection', function(socket) {
     if (data.borderless === true) {
       hash = hash + "&borderless=true";
     }
-    console.dir(data);
-    console.log(targetUrl + hash);
+    // console.dir(data);
+    // console.log(targetUrl + hash);
     webshot(targetUrl + hash, staticDir + filename + '.png', options, function(err) {
       var original = staticDir + filename + '.png',
           target =  staticDir + filename,
@@ -110,10 +110,10 @@ io.sockets.on('connection', function(socket) {
             archive.add(filename + '.tfw', new Buffer(worldString, "utf8"));
             archive.add(filename + '.prj', new Buffer(prjFileString, "utf8"));
 
-            console.dir(worldString);
+            // console.dir(worldString);
             archive.addFiles([{ name: filename + data.format, path: target + data.format }],
               function (err) {
-                console.dir(err);
+                // console.dir(err);
                 fs.writeFile(staticDir + filename+ '.zip', archive.toBuffer(), function () {
                   cb('.zip')
                 });
@@ -137,7 +137,7 @@ io.sockets.on('connection', function(socket) {
           gm(original).resize(350, 350)
             .write(staticDir +'thumb-' + filename + '.png', function (err) {
             if (err) {
-              console.log(err);
+              // console.log(err);
             }
             if (data.format === '.tiff') {
               zipTiff(done); 

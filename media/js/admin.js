@@ -91,7 +91,7 @@ var adminModel = function() {
 
 				},
 				error: function() {
-					console.log('error');
+					// console.log('error');
 				}
 			});
 		};

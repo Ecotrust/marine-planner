@@ -826,7 +826,7 @@
 
             var signInCallback = function (result) {
               if (result.error) {
-                  console.log('An error happened:', result.error);
+                  // console.log('An error happened:', result.error);
               } else if (result['g-oauth-window']) {
                   $('#code').attr('value', result.code);
                   $('#at').attr('value', result.access_token);
