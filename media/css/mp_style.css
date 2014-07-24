@@ -864,6 +864,7 @@ img + h3 {
 
 #basemaps .btn i {
     width: 20px;
+    display: inline-block;
 }
 
 #map.zoomBox { 

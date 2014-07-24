@@ -13,6 +13,16 @@
 	color: #00446D; /* 0, 68, 109 */
 }
 
+.ofr #login-buttons a {
+	color: #00446D;
+	background:	rgba(255,255,255,.95);
+}
+
+.ofr #login-buttons a:hover {
+	color: #EF3824;
+	background:	rgba(255,255,255,.95);
+}
+
 /*.ofr a:hover, .ofr a:focus {
 	color: #EF3824; 
 	text-decoration: none;
@@ -99,21 +109,37 @@
   	background: rgba(0, 68, 109, 0.5);
 }
 
+.ofr .SimpleLayerSwitcher {
+	background:	rgba(255,255,255,.95);
+	right: 167px;
+	top: 62px;
+	border-radius: 4px;
+
+}
+
+.ofr .SimpleLayerSwitcher a {
+	color: #00446D;
+}
+
+.ofr .SimpleLayerSwitcher a:hover {
+	background: rgba(255,255,255,0);
+	color: #EF3824;
+}
+
+.ofr div.olControlZoom {
+	background: rgba(255,255,255,0);
+}
+
 .ofr div.olControlZoom a {
 	background: #00446D;  /* for IE */
 	background: rgba(0, 68, 109, 0.5);
+	background: rgba(255,255,255, 0.95);
+	color: #00446D;
 }
 
-.ofr #feedback-tab {
-	bottom: -2px;
-	background: #00446D;  /* for IE */
-	background: rgba(0, 68, 109, .5);
-	margin-left: 50%;
-	margin-right: 50%;
-}
-
-#feedback-modal form {
-	margin-bottom: 0px;
+.ofr div.olControlZoom a:hover {
+	background: rgba(255,255,255, 0.95);
+	color: #EF3824;
 }
 
 .ofr .olControlAttribution {
@@ -130,9 +156,62 @@
 	background: rgba(0, 68, 109, .65);
 }
 
-#basemaps a span:first {
+/*.ofr #basemaps {
+	background: rgba(255, 255,255, .4);
+	padding: 3px;
+}
+
+.ofr #basemaps a:hover {
+	background: rgba(0, 60, 136, 0.7);
+}
+
+.ofr #basemaps a span:first {
 	position: absolute;
 	left: 35px;
+}*/
+
+.ofr #basemaps {
+	background-color: white;
+	opacity: .95;	
+	padding: 0px;
+	margin: 6px;
+}
+
+.ofr #basemaps a {
+	background: rgba(255,255,255,0);
+	color: #00446D;
+}
+
+.ofr #basemaps a:hover {
+	background: rgba(255,255,255,0);
+	color: #EF3824;
+}
+
+.ofr #feedback-tab {
+	border-color: rgba(255,255,255,.4);
+	border-width: 3px;
+	border-bottom-width: 0px;
+	bottom: -2px;
+	background: #00446D;  /* for IE */
+	background: rgba(0, 68, 109, .5);
+	background: rgba(70,104,138,.7);
+	margin-left: 50%;
+	margin-right: 50%;
+	border-color: rgba(255,255,255,0);
+	background: rgba(255,255,255,.95);
+}
+
+.ofr #feedback-tab a {
+	color: #00446D;
+}
+
+.ofr #feedback-tab a:hover {
+	background: rgba(255,255,255,0);
+	color: #EF3824;
+}
+
+#feedback-modal form {
+	margin-bottom: 0px;
 }
 
 .ofr #project-logo {
@@ -145,14 +224,24 @@
 	/* color: #00446D; */
 }
 
+.ofr #map .olControlScaleBar {
+	background: rgba(255,255,255,.95);
+	border-radius: 4px;
+	padding-top: 20px;
+	padding-bottom: 3px;
+	bottom: 15px;
+	right: 60px;
+}
+
+.ofr .olControlMousePosition {
+	right: 115px;
+	bottom: 51px;
+}
+
 .ofr .olControlScaleBarWrapper {
 	font-size: 16px;
 }
 
-.ofr .olControlMousePosition {
-	bottom: 55px;
-	right: 65px;
-}
 
 @font-face {
     font-family: 'bebas_neueregular';
