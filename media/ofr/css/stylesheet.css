@@ -212,6 +212,12 @@
 	border-color: rgba(255,255,255,0);
 	background: white;  /* for IE */
 	background: rgba(255,255,255,.95);
+	/* attemting to fix problem in which IE8 continues to rotate feedback button */
+	/*-webkit-transform: rotate(0deg);	
+	-moz-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);*/
 }
 
 .ofr #feedback-tab a {
