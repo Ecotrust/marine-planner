@@ -15,11 +15,13 @@
 
 .ofr #login-buttons a {
 	color: #00446D;
+	background: white;  /* for IE */
 	background:	rgba(255,255,255,.95);
 }
 
 .ofr #login-buttons a:hover {
 	color: #EF3824;
+	background: white;  /* for IE */
 	background:	rgba(255,255,255,.95);
 }
 
@@ -37,6 +39,7 @@
 }
 
 .ofr .btn-primary {
+	background: #10767D;  /* for IE */
 	background: rgba(16,118,125,1);
 	color: white;
 }
@@ -110,6 +113,7 @@
 }
 
 .ofr .SimpleLayerSwitcher {
+	background: white; /* for IE8 */
 	background:	rgba(255,255,255,.95);
 	right: 167px;
 	top: 62px;
@@ -122,22 +126,26 @@
 }
 
 .ofr .SimpleLayerSwitcher a:hover {
+	background: transparent\9; /* for IE8 ? */
 	background: rgba(255,255,255,0);
 	color: #EF3824;
 }
 
 .ofr div.olControlZoom {
+	background: transparent\9; /* for IE8 ? */
 	background: rgba(255,255,255,0);
 }
 
 .ofr div.olControlZoom a {
-	background: #00446D;  /* for IE */
-	background: rgba(0, 68, 109, 0.5);
+	/*background: #00446D;  
+	background: rgba(0, 68, 109, 0.5);*/	
+	background: white; /* for IE8 */
 	background: rgba(255,255,255, 0.95);
 	color: #00446D;
 }
 
-.ofr div.olControlZoom a:hover {
+.ofr div.olControlZoom a:hover {	
+	background: white; /* for IE8 */
 	background: rgba(255,255,255, 0.95);
 	color: #EF3824;
 }
@@ -178,26 +186,31 @@
 }
 
 .ofr #basemaps a {
+	background: transparent/9; /* for IE8 */
 	background: rgba(255,255,255,0);
 	color: #00446D;
 }
 
 .ofr #basemaps a:hover {
+	background: transparent/9; /* for IE8 */
 	background: rgba(255,255,255,0);
 	color: #EF3824;
 }
 
 .ofr #feedback-tab {
-	border-color: rgba(255,255,255,.4);
+	/*border-color: white; 
+	border-color: rgba(255,255,255,.4);*/
 	border-width: 3px;
 	border-bottom-width: 0px;
 	bottom: -2px;
-	background: #00446D;  /* for IE */
+	/*background: #00446D;  
 	background: rgba(0, 68, 109, .5);
-	background: rgba(70,104,138,.7);
+	background: rgba(70,104,138,.7);*/
 	margin-left: 50%;
 	margin-right: 50%;
+	border-color: transparent/9;  /* for IE ? */
 	border-color: rgba(255,255,255,0);
+	background: white;  /* for IE */
 	background: rgba(255,255,255,.95);
 }
 
@@ -206,6 +219,7 @@
 }
 
 .ofr #feedback-tab a:hover {
+	background: transparent\9;  /* for IE */
 	background: rgba(255,255,255,0);
 	color: #EF3824;
 }
@@ -225,6 +239,7 @@
 }
 
 .ofr #map .olControlScaleBar {
+	background: white;  /* for IE */
 	background: rgba(255,255,255,.95);
 	border-radius: 4px;
 	padding-top: 20px;
