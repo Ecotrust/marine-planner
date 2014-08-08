@@ -12,7 +12,7 @@ var webshot = require('./lib/webshot/lib/webshot.js'),
   port = argv.port || 8989,
   targetUrl = argv.appurl || "http://localhost/visualize",
   socketUrl = argv.socketurl + ':' + port || "http://localhost:" + port,
-  staticDir = "shots/",
+  staticDir = __dirname + "/shots/",
   phantomPath = argv.phantomjs || "/usr/bin/phantomjs";
 
   constraints = {
