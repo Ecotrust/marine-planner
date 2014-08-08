@@ -774,7 +774,7 @@
         {% if SOCKET_URL %}
         <script src="{{SOCKET_URL}}/socket.io/socket.io.js"></script>
         <script>
-            app.socketUrl: "{{ SOCKET_URL }}";
+            app.socketUrl = "{{ SOCKET_URL }}";
         </script>
         {% endif %}
         
