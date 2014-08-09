@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-FEEDBACK_RECIPIENT = ["edwin@pointnineseven.com", "jenny@pointnineseven.com"]
+FEEDBACK_RECIPIENT = ["scott@pointnineseven.com", "jenny@pointnineseven.com"]
 FEEDBACK_SUBJECT = "Our Florida Reefs/Marine Planner Feedback"
 
 
@@ -59,8 +59,8 @@ ADMINS = (
 # DEFAULT_FROM_EMAIL = "Marine Planning Team <mp-team@marineplanner.org>"
 
 # url for socket.io printing
-# SOCKET_URL = 'http://ofr.marineplanner.io:8080'
-SOCKET_URL = False
+SOCKET_URL = 'http://ofr.marineplanner.io:8080'
+# SOCKET_URL = False
 
 # Change the following line to True,
 # to display the 'under maintenance' template
