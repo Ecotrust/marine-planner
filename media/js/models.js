@@ -945,6 +945,8 @@ function viewModel() {
 
     self.mapLinks = new mapLinksModel();
 
+    self.enableDrawing = ko.observable(false);   
+
     // text for tooltip popup
     self.layerToolTipText = ko.observable();
 

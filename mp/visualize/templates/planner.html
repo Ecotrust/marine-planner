@@ -492,9 +492,9 @@
                                 <a href="#data" data-toggle="tab" id="dataTab">Data</a>
                             </li>
                             {% if user.is_authenticated %}
-                            <!-- <li data-tab="designs" >
+                            <li data-tab="designs" data-bind="visible: enableDrawing()">
                                 <a href="#designs" data-toggle="tab" id="designsTab">Designs</a>
-                            </li> -->
+                            </li>
                             {% endif %}
                             <li data-tab="active" >
                                 <a href="#active" data-toggle="tab" id="activeTab">Active  
@@ -813,6 +813,7 @@
                 project_logo: "{{project_logo}}",
                 project_icon: "{{project_icon}}",
                 project_home_page: "{{project_home_page}}",
+                enable_drawing: "{{enable_drawing}}",
                 bitly_registered_domain: "{{bitly_registered_domain}}",
                 bitly_username: "{{bitly_username}}",
                 bitly_api_key: "{{bitly_api_key}}"

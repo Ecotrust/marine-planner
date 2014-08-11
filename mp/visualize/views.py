@@ -50,17 +50,20 @@ def show_planner(request, project=None, template='planner.html'):
         except ValidationError, e:
             project_icon = os.path.join(settings.MEDIA_URL, project_icon)
         project_home_page = mp_settings.project_home_page
+        enable_drawing = mp_settings.enable_drawing
         bitly_registered_domain = mp_settings.bitly_registered_domain
         bitly_username = mp_settings.bitly_username
         bitly_api_key = mp_settings.bitly_api_key
     except:
         project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
         latitude = longitude = zoom = min_zoom = max_zoom = None
+        enable_drawing = False
     context = {
         'MEDIA_URL': settings.MEDIA_URL, 'SOCKET_URL': socket_url, 'login': 'true',
         'project_name': project_name, 'latitude': latitude, 'longitude': longitude, 'zoom': zoom,
         'default_hash': default_hash, 'min_zoom': min_zoom, 'max_zoom': max_zoom,
         'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page,
+        'enable_drawing': enable_drawing,
         'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
     }
     if request.user.is_authenticated:

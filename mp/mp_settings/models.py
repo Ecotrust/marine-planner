@@ -17,6 +17,7 @@ class MarinePlannerSettings(models.Model):
     project_logo = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
     project_icon = models.CharField(max_length=255, blank=True, null=True, help_text='Either a relative path within your media directory or a valid URL.')
     project_home_page = models.URLField(max_length=255, blank=True, null=True, help_text='The Project Name or Project Logo will link to this page.')
+    enable_drawing = models.BooleanField(default=False, help_text='Click to enable the Designs tab with Drawing for authenticated users.')
     bitly_registered_domain = models.URLField(max_length=255, blank=True, null=True)
     bitly_username = models.CharField(max_length=75, blank=True, null=True)
     bitly_api_key = models.CharField(max_length=75, blank=True, null=True)

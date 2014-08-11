@@ -139,6 +139,10 @@ $(document).ready(function() {
   $('.form-search').find('.btn').on('click', function(event) {
      $(event.target).closest('form').find('input').val(null).focus();
   });
+
+  if(app.MPSettings.enable_drawing === "True") {
+    app.viewModel.enableDrawing(true);
+  }
   
 
   //fixes a problem in which the data accordion scrollbar was reinitialized before the app switched back to the data tab
