@@ -945,6 +945,8 @@ function viewModel() {
 
     self.mapLinks = new mapLinksModel();
 
+    self.enableDrawing = ko.observable(false);   
+
     // text for tooltip popup
     self.layerToolTipText = ko.observable();
 
@@ -1030,6 +1032,9 @@ function viewModel() {
     */
     // hide tours for smaller screens
     self.hideTours = ko.observable(false);
+
+    // show/hide bottom buttons (Tour and Add Layer)
+    self.showBottomButtons = ko.observable(true);
 
     // set the error type
     // can be one of:

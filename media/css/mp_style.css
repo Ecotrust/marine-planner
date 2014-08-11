@@ -370,6 +370,10 @@ input + i.icon-remove-sign {
   margin-left: -15px;
 }
 
+#design-list .btn-layer > div {
+	padding-left: 3px;
+}
+
 #wind-design-form {
     width: 99% !important;
     padding: 5px 0px 5px 0px !important;
@@ -953,6 +957,7 @@ img + h3 {
 
 #printing-popover {
 	width: 460px;
+	max-width: 460px;
 }
 #printing-popover .arrow {
 	display: none;

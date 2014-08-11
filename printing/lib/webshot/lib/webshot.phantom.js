@@ -12,6 +12,7 @@ var args = {};
 , 'shotHeight'
 , 'userAgent'
 , 'script'
+, 'session'
 
 ].forEach(function(name, i) {
   args[name] = system.args[i + 1];
@@ -30,6 +31,14 @@ page.viewportSize = {
 // Set the user agent string
 if (args.userAgent) {
   page.settings.userAgent = args.userAgent;
+}
+
+if (args.session) {
+  phantom.addCookie({
+      'name'  : 'sessionid',
+      'value' : args.session,
+      'domain': 'localhost'
+  });  
 }
 
 page.open(args.site, function(status) {
