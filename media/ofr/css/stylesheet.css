@@ -197,6 +197,11 @@
 	color: #EF3824;
 }
 
+.ofr #printing-popover {
+	width: 460px;
+	max-width: 460px;
+}
+
 .ofr #feedback-tab {
 	/*border-color: white; 
 	border-color: rgba(255,255,255,.4);*/
