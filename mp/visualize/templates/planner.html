@@ -238,7 +238,7 @@
                                     <!-- Aggregated Attribution Overlay -->
                                     
                                     <div data-bind="visible: showFeatureAttribution">
-                                        <div id="aggregated-attribute-overlay" style="display: none; top: 225px; right: 10px;" class="scrollpane" data-bind="visible: aggregatedAttributes, style: {width: aggregatedAttributesWidth}">
+                                        <div id="aggregated-attribute-overlay" style="display: none" class="scrollpane" data-bind="visible: aggregatedAttributes, style: {width: aggregatedAttributesWidth}">
                                             <div id="aggregated-attribute-content" class="accordion">
                                                 <div data-bind="foreach: attributeLayers()">
                                                     <div class="accordion-group">
@@ -309,7 +309,7 @@
                                         </div>
                                     </div> 
                                     
-                                    <div id="overview-overlay" class="row-fluid" style="display: none; top: 225px; right: 10px; height: 300px; width: 350px; border-radius: 4px;" data-bind="visible: showOverview()" >
+                                    <div id="overview-overlay" class="row-fluid" style="display: none" data-bind="visible: showOverview()" >
                                         <div id="overview-overlay-content" class="span12">
                                             <div id="overview-overlay-header" >
                                                 <span class="btn-group" data-bind="visible: activeInfoLayer() && activeInfoLayer().subLayers && activeInfoLayer().subLayers.length !== 0">

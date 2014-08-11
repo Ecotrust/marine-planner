@@ -155,13 +155,31 @@
 }
 
 .ofr #overview-overlay {
-	background: #00446D;  /* for IE */
-	background: rgba(0, 68, 109, .65);
+	background: white; /* for IE8 */
+	background: rgba(255,255,255, 0.95);
+	color: #00446D;
+	top: 250px;
+	right: 12px;
+	height: 300px; 
+	width: 350px; 
+	border-radius: 4px;
+}
+
+.ofr #overview-overlay-content {
+	color: #00446D;
+}
+
+.ofr #aggregated-attribute-overlay {
+	background: white; /* for IE8 */
+	background: rgba(255,255,255, 0.95);
+	color: #00446D;
+	top: 250px; 
+	right: 12px;
 }
 
 .ofr #aggregated-attribute-overlay > div {
-	background: #00446D;  /* for IE */
-	background: rgba(0, 68, 109, .65);
+	background: white; /* for IE8 */
+	background: rgba(255,255,255, 0.95);
 }
 
 /*.ofr #basemaps {

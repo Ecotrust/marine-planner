@@ -76,6 +76,7 @@
   max-height: 250px;
   font-size: 14px;
   color: white;  
+  border-radius: 4px;
 }
 
 #aggregated-attribute-overlay .accordion-group {
@@ -106,10 +107,12 @@
   margin-top: 10px;
 }
 
-#aggregated-attribute-overlay h4 {
+/* REMOVING for OFR */
+/*#aggregated-attribute-overlay h4 {
   color: white !important;
   margin-bottom: 2px !important;
-}
+}*/
+
 
 #aggregated-attribute-overlay dl {
   margin-top: 0px !important;
