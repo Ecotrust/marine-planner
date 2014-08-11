@@ -42,7 +42,7 @@
                     "my": "right top",
                     "at": "left middle",
                     "of": self.$button,
-                    offset: "0px -30px"
+                    offset: "-200px"
                 });
             }
 		};
