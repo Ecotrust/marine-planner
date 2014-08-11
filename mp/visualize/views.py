@@ -63,6 +63,8 @@ def show_planner(request, project=None, template='planner.html'):
         'project_logo': project_logo, 'project_icon': project_icon, 'project_home_page': project_home_page,
         'bitly_registered_domain': bitly_registered_domain, 'bitly_username': bitly_username, 'bitly_api_key': bitly_api_key
     }
+    if request.user.is_authenticated:
+        context['session'] = request.session._session_key
     if request.user.is_authenticated() and request.user.social_auth.all().count() > 0:
         context['picture'] = request.user.social_auth.all()[0].extra_data.get('picture')
     if settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY:

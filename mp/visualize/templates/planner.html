@@ -786,6 +786,7 @@
             var app = {};
             {% if user.is_authenticated %}
             app.is_authenticated = true;
+            app.session = "{{ session }}";
             {% else %}
             app.is_authenticated = false;
             {% endif %}
