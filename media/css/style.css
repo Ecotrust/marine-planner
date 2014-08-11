@@ -139,6 +139,7 @@
 #aggregated-attribute-content {
   max-height: 250px;
   padding-bottom: 0px;
+  margin-bottom: -8px !important;
 }
 
 #aggregated-attribute-content .mCSB_container {
