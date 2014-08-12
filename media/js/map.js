@@ -139,7 +139,15 @@ app.init = function() {
         // numDigits: 2,
         emptyString: '',
         formatOutput: function( lonLat ) {
-            return 'Lat/Lng: (' + lonLat.lat.toFixed(3) + ', ' + lonLat.lon.toFixed(3) + ')';
+            // console.log(lonLat);
+            // console.log(lonLat.lat);
+            // console.log(lonLat.lon);
+            // return 'Lat/Lng: (' + lonLat.lat.toFixed(3) + ', ' + lonLat.lon.toFixed(3) + ')';
+            var degreesLat = Math.floor(lonLat.lat);
+            var minutesLat = (lonLat.lat - degreesLat) * 60;
+            var degreesLon = Math.floor(lonLat.lon);
+            var minutesLon = (lonLat.lon - degreesLon) * 60;
+            return degreesLat + "&deg; " + minutesLat.toFixed(3) + "\' N &nbsp;&nbsp;" + degreesLon + "&deg; " + minutesLon.toFixed(3) + "\' W";
         }
     });
     map.addControl(map.coordsControl);
