@@ -71,6 +71,21 @@ def aoi_analysis(request, aoi_id):
     # Create your views here.
 
 '''
+'''    
+def get_attributes(request, uid):
+    try:
+        scenario_obj = get_feature_by_uid(uid)
+    except Scenario.DoesNotExist:
+        raise Http404
+    
+    #check permissions
+    viewable, response = scenario_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    
+    return HttpResponse(dumps(scenario_obj.serialize_attributes))    
+
+'''
 '''
 # def wind_analysis(request, wind_id):
 #     from wind_analysis import display_wind_analysis
