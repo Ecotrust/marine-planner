@@ -16,20 +16,26 @@ var defaultGuide = {
     {
       target: '#dataTab',
       content: $('#help-text-dataTab').html(),
-      direction: 'top',
-      arrow: {offsetX: 45, offsetY: 10}
+      direction: 'bottom',
+      arrow: {offsetX: 25, offsetY: -15}
+    },
+    {
+      target: '.search-form',
+      content: $('#help-text-data-tour-form-search').html(),
+      direction: 'right',
+      arrow: {offsetX: -65, offsetY: 15}
     },
     {
       target: '#activeTab',
       content: $('#help-text-activeTab').html(),
-      direction: 'top',
-      arrow: {offsetX: 65, offsetY: 10}
+      direction: 'bottom',
+      arrow: {offsetX: 30, offsetY: -15}
     },
     {
       target: '#legendTab',
       content: $('#help-text-legendTab').html(),
-      direction: 'top',
-      arrow: {offsetX: 65, offsetY: 10}
+      direction: 'bottom',
+      arrow: {offsetX: 25, offsetY: -15}
     },
     {
       target: '.olControlZoom',
@@ -122,11 +128,11 @@ var defaultGuideOverrides = {
                 }
             }
             // $('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 1) {
+        } else if ($(this).data('idx') === 2) {
             app.viewModel.showLayers(true);
             $('#activeTab').tab('show');
             // $('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 2) {
+        } else if ($(this).data('idx') === 3) {
             app.viewModel.showLayers(true);
             $('#legendTab').tab('show');
             // $('#pageGuideMessage').height(150);
@@ -153,12 +159,6 @@ var dataGuide = {
       content: $('#help-text-data-tour-dataTab').html(),
       direction: 'right',
       arrow: {offsetX: 0, offsetY: 0}
-    },
-    {
-      target: '.search-form',
-      content: $('#help-text-data-tour-form-search').html(),
-      direction: 'top',
-      arrow: {offsetX: 180, offsetY: 0}
     },
     {
       target: '.accordion-heading',
