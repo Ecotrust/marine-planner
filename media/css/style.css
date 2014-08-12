@@ -72,6 +72,7 @@
   top: 180px;
   left: 10px;*/
   z-index: 950; 
+  min-width: 190px;
   width: 280px;
   max-height: 250px;
   font-size: 14px;
