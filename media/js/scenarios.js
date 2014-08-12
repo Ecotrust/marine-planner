@@ -1884,7 +1884,7 @@ function scenariosModel(options) {
                     
                     //get attributes
                     $.ajax( {
-                        url: '/scenario/get_attributes/' + scenarioId + '/', 
+                        url: '/drawing/get_attributes/' + scenarioId + '/', 
                         type: 'GET',
                         dataType: 'json',
                         success: function(result) {
