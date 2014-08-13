@@ -44,6 +44,12 @@
 	color: white;
 }
 
+.ofr #create-new-button {
+	background-color: #10767D;  /* for IE */
+	background-color: rgba(16,118,125,1);
+	color: white;
+}
+
 .ofr .form-search input {
 	width: 75%;
 }
