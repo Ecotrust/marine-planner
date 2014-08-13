@@ -35,6 +35,7 @@ portal/wordpress/.htaccess
 portal/wordpress/wp-config.php
 printing/shots/*
 /media/data_manager/utfgrid
+/media/crop/*
 scripts/cookbooks/node_*.json
 
 mp/data_manager/fixtures/datadump_2013_11_20.json
