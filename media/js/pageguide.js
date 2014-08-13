@@ -252,7 +252,7 @@ var activeGuide = {
       target: '#active .btn-layer',
       content: $('#help-text-active-tour-layer-button').html(),
       direction: 'top',
-      arrow: {offsetX: 15, offsetY: 0}
+      arrow: {offsetX: 155, offsetY: 0}
     },
     {
       target: '#active .opacity-button',
