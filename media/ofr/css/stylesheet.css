@@ -296,6 +296,10 @@
 	font-size: 16px;
 }
 
+.ofr #pageGuideShadow {
+	z-index: 751 !important;
+}
+
 
 @font-face {
     font-family: 'bebas_neueregular';

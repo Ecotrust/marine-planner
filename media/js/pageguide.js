@@ -249,19 +249,25 @@ var activeGuide = {
       arrow: {offsetX: 50, offsetY: 0}
     },
     {
-      target: '.opacity-button',
+      target: '#active .btn-layer',
+      content: $('#help-text-active-tour-layer-button').html(),
+      direction: 'top',
+      arrow: {offsetX: 15, offsetY: 0}
+    },
+    {
+      target: '#active .opacity-button',
       content: $('#help-text-active-tour-opacity-button').html(),
       direction: 'top',
       arrow: {offsetX: 15, offsetY: 0}
     },
     {
-      target: '.deactivate-button',
+      target: '#active .deactivate-button',
       content: $('#help-text-active-tour-deactivate-button').html(),
       direction: 'right',
       arrow: {offsetX: 0, offsetY: 10}
     },
     {
-      target: '.ui-sortable',
+      target: '#active .ui-sortable',
       content: $('#help-text-active-tour-ui-sortable').html(),
       direction: 'bottom',
       arrow: {offsetX: 120, offsetY: 0}
@@ -283,10 +289,10 @@ var activeGuideOverrides = {
       select: function() {
         if ($(this).data('idx') === 0) {
             $('#activeTab').tab('show');
-        } else if ($(this).data('idx') === 1) {
+        } else if ($(this).data('idx') === 2) {
             $('#activeTab').tab('show');
             $('.opacity-button:first').click();
-        } else if ($(this).data('idx') === 2) {
+        } else if ($(this).data('idx') === 3) {
             $('#activeTab').tab('show');
         }
       }
