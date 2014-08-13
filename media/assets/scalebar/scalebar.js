@@ -115,9 +115,12 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
      */
     measurementProperties: {
         english: {
-            units: ['miles', 'feet', 'inches'],
-            abbr: ['mi', 'ft', 'in'],
-            inches: [63360, 12, 1]
+            // units: ['miles', 'feet', 'inches'],
+            // abbr: ['mi', 'ft', 'in'],
+            // inches: [63360, 12, 1]
+            units: ['miles'],
+            abbr: ['mi'],
+            inches: [63360]
         },
         metric: {
             units: ['kilometers', 'meters', 'centimeters'],
