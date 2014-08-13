@@ -137,6 +137,10 @@
 	color: #EF3824;
 }
 
+.ofr .SimpleLayerSwitcher a.basey-on {
+	color: #EF3824;
+}
+
 .ofr div.olControlZoom {
 	background: transparent\9; /* for IE8 ? */
 	background: rgba(255,255,255,0);
