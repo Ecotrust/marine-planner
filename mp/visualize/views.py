@@ -55,7 +55,7 @@ def show_planner(request, project=None, template='planner.html'):
         bitly_username = mp_settings.bitly_username
         bitly_api_key = mp_settings.bitly_api_key
     except:
-        project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = ""
+        project_name = project_logo = project_icon = project_home_page = bitly_registered_domain = bitly_username = bitly_api_key = default_hash = ""
         latitude = longitude = zoom = min_zoom = max_zoom = None
         enable_drawing = False
     context = {
