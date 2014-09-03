@@ -37,6 +37,7 @@ printing/shots/*
 /media/data_manager/utfgrid
 /media/crop/*
 scripts/cookbooks/node_*.json
+/media/crop/*
 
 mp/data_manager/fixtures/datadump_2013_11_20.json
 
