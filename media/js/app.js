@@ -288,27 +288,27 @@ $(document).ready(function() {
     } else if ( $(e.relatedTarget).hasClass('basey') ) { //handler for ff
         $('#basemaps').addClass('open');
     } else {
-        $('#SimpleLayerSwitcher_28').hide();
+        $('.SimpleLayerSwitcher').hide();
     }
   });
 
   //hide basemaps drop-down on mouseout
-  $('#SimpleLayerSwitcher_28').mouseleave( function() {
-    $('#SimpleLayerSwitcher_28').hide();
+  $('.SimpleLayerSwitcher').mouseleave( function() {
+    $('.SimpleLayerSwitcher').hide();
     if (!app.pageguide.preventBasemapsClose) {
         $('#basemaps').removeClass('open');
     }
   });
 
   //hide basemaps drop-down on mouseout
-  $('#SimpleLayerSwitcher_28').mousedown( function() {
+  $('.SimpleLayerSwitcher').mousedown( function() {
     if (!app.pageguide.preventBasemapsClose) {
         $('#basemaps').removeClass('open');
     }
   });
 
   //hide basemaps drop-down on mouseout
-  $('#SimpleLayerSwitcher_28').mouseenter( function() {
+  $('.SimpleLayerSwitcher').mouseenter( function() {
     $('#basemaps').addClass('open');
   });
 
@@ -409,7 +409,7 @@ $(document).mousedown(function(e) {
   }
 
   //ensure layer switcher is removed
-  $('#SimpleLayerSwitcher_28').hide();
+  $('.SimpleLayerSwitcher').hide();
 
   //removing layer tooltip popover from view
   var layer_pvr_event = $(e.target).closest(".layer-popover").length;

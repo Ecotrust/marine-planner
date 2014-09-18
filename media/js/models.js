@@ -1060,7 +1060,7 @@ function viewModel() {
 
     //show/hide the list of basemaps
     self.showBasemaps = function(self, event) {
-        var $layerSwitcher = $('#SimpleLayerSwitcher_28'),
+        var $layerSwitcher = $('.SimpleLayerSwitcher'),
             $button = $('#basemaps'); //$(event.target).closest('.btn');
         if ($layerSwitcher.is(":visible")) {
             $layerSwitcher.hide();
