@@ -89,7 +89,10 @@ app.init = function() {
     map.addControl(new OpenLayers.Control.TouchNavigation());
     map.addControl(new OpenLayers.Control.PinchZoom());
 
-    map.addControl(new OpenLayersWindowsPinchZoom());
+    // adding the following for IE10 touch events
+    // obtained from the following blog post
+    // http://dotnetbyexample.blogspot.com/2013/03/enabling-basic-openlayers-pinch-zooming.html
+    map.addControl(new OpenLayersWindowsPinchZoom()); 
 
     //Scale Bar
     var scalebar = new OpenLayers.Control.ScaleBar({
