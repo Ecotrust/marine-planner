@@ -86,6 +86,8 @@ app.init = function() {
     esriOcean.setZIndex(100);
 
     map.addControl(new SimpleLayerSwitcher());
+    map.addControl(new OpenLayers.Control.TouchNavigation());
+    map.addControl(new OpenLayers.Control.PinchZoom());
 
     //Scale Bar
     var scalebar = new OpenLayers.Control.ScaleBar({
