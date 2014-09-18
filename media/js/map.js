@@ -87,6 +87,8 @@ app.init = function() {
 
     map.addControl(new SimpleLayerSwitcher());
 
+    map.addControl(new OpenLayersWindowsPinchZoom());
+
     //Scale Bar
     var scalebar = new OpenLayers.Control.ScaleBar({
         displaySystem: "english",
