@@ -301,7 +301,7 @@ $(document).ready(function() {
   });
 
   //hide basemap list and icon buttons on click/select (and hopefully touchend)
-  $('.SimpleLayerSwitcher').mouseup( function() {
+  $('.SimpleLayerSwitcher').on( "touchend mouseup", function() {
     $('.SimpleLayerSwitcher').hide();
     if (!app.pageguide.preventBasemapsClose) {
         $('#basemaps').removeClass('open');
