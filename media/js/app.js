@@ -292,7 +292,7 @@ $(document).ready(function() {
     }
   });
 
-  //hide basemaps drop-down on mouseout
+  //hide icon butons on mouseleave
   $('.SimpleLayerSwitcher').mouseleave( function() {
     $('.SimpleLayerSwitcher').hide();
     if (!app.pageguide.preventBasemapsClose) {
@@ -300,14 +300,22 @@ $(document).ready(function() {
     }
   });
 
-  //hide basemaps drop-down on mouseout
-  $('.SimpleLayerSwitcher').mousedown( function() {
+  //hide basemap list and icon buttons on click/select (and hopefully touchend)
+  $('.SimpleLayerSwitcher').mouseup( function() {
+    $('.SimpleLayerSwitcher').hide();
     if (!app.pageguide.preventBasemapsClose) {
         $('#basemaps').removeClass('open');
     }
   });
 
-  //hide basemaps drop-down on mouseout
+  //hide icon buttons on mousedown
+  $('.SimpleLayerSwitcher').mousedown( function() {
+      if (!app.pageguide.preventBasemapsClose) {
+          $('#basemaps').removeClass('open');
+      }
+  });
+
+  //show icon buttons on mouseenter
   $('.SimpleLayerSwitcher').mouseenter( function() {
     $('#basemaps').addClass('open');
   });

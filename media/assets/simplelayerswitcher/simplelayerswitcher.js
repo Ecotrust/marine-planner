@@ -128,8 +128,11 @@ var SimpleLayerSwitcher = OpenLayers.Class(OpenLayers.Control, {
         } else {
             this.layer.setVisibility(!this.layer.getVisibility());
         }
-        OpenLayers.Event.stop(e);
-        //$('#SimpleLayerSwitcher_28').hide();
+        // replacing the following stop() call with preventDefault 9-19-2014
+        // OpenLayers.Event.stop(e) calls preventDefault as well as stopPropagation
+        // OpenLayers.Event.stop(e);
+        e.preventDefault();
+
         $('#basemaps').show();
     },
 
@@ -174,7 +177,7 @@ var SimpleLayerSwitcher = OpenLayers.Class(OpenLayers.Control, {
     mouseUp: function(evt) {
         if (this.isMouseDown) {
             this.isMouseDown = false;
-            this.ignoreEvent(evt);
+            this.ignoreEvent(evt);            
         }
     },
 
