@@ -150,10 +150,20 @@ app.init = function() {
             // console.log(lonLat.lat);
             // console.log(lonLat.lon);
             // return 'Lat/Lng: (' + lonLat.lat.toFixed(3) + ', ' + lonLat.lon.toFixed(3) + ')';
-            var degreesLat = Math.floor(lonLat.lat);
+            if (lonLat.lat > 0) {
+                var degreesLat = Math.floor(lonLat.lat);
+            } else {
+                var degreesLat = Math.ceil(lonLat.lat);
+            }
             var minutesLat = (lonLat.lat - degreesLat) * 60;
-            var degreesLon = Math.floor(lonLat.lon);
+
+            if (lonLat.lon > 0) {
+                var degreesLon = Math.floor(lonLat.lon);
+            } else {
+                var degreesLon = Math.ceil(lonLat.lon);
+            }            
             var minutesLon = (lonLat.lon - degreesLon) * 60;
+
             return degreesLat + "&deg; " + minutesLat.toFixed(3) + "\' N &nbsp;&nbsp;" + degreesLon + "&deg; " + minutesLon.toFixed(3) + "\' W";
         }
     });
