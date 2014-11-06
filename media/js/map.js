@@ -14,13 +14,13 @@ app.init = function() {
     } else {
         max_zoom = 13;
     }
-    esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean","http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
-        sphericalMercator: true,
-        isBaseLayer: true,
-        numZoomLevels: max_zoom,
-        attribution: "Sources: Esri, GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, Geonames.org, and others",
-        buffer: 3
-    });
+    // esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean","http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
+    //     sphericalMercator: true,
+    //     isBaseLayer: true,
+    //     numZoomLevels: max_zoom,
+    //     attribution: "Sources: Esri, GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, Geonames.org, and others",
+    //     buffer: 3
+    // });
     // esriOcean = new OpenLayers.Layer.WMTS({
     //     name: "ESRI Ocean",
     //     url: "http://services.arcgisonline.com/arcgis/rest/services/Ocean_Basemap/MapServer/0",
@@ -35,24 +35,46 @@ app.init = function() {
     });
     // openStreetMap = new OpenLayers.Layer.OSM();
     
-    googleStreet = new OpenLayers.Layer.Google("Google Streets", {
+    // googleStreet = new OpenLayers.Layer.Google("Google Streets", {
+    //     sphericalMercator: true,
+    //     isBaseLayer: true,
+    //     numZoomLevels: max_zoom,
+    //     buffer: 3
+    // });
+    // googleTerrain = new OpenLayers.Layer.Google("Google Physical", {
+    //     type: google.maps.MapTypeId.TERRAIN,
+    //     sphericalMercator: true,
+    //     isBaseLayer: true,
+    //     numZoomLevels: max_zoom,
+    //     buffer: 3
+    // });
+    // googleSatellite = new OpenLayers.Layer.Google("Google Satellite", {
+    //     type: google.maps.MapTypeId.SATELLITE,
+    //     sphericalMercator: true,
+    //     isBaseLayer: true,
+    //     numZoomLevels: max_zoom,
+    //     buffer: 3
+    // });
+
+    esriStreets = new OpenLayers.Layer.XYZ("ESRI Streets", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}", {
         sphericalMercator: true,
         isBaseLayer: true,
         numZoomLevels: max_zoom,
+        attribution: "Sources: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, METI, TomTom, and others",
         buffer: 3
     });
-    googleTerrain = new OpenLayers.Layer.Google("Google Physical", {
-        type: google.maps.MapTypeId.TERRAIN,
+    esriTopo = new OpenLayers.Layer.XYZ("ESRI Physical", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}", {
         sphericalMercator: true,
         isBaseLayer: true,
         numZoomLevels: max_zoom,
+        attribution: "Sources: Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, and others",
         buffer: 3
     });
-    googleSatellite = new OpenLayers.Layer.Google("Google Satellite", {
-        type: google.maps.MapTypeId.SATELLITE,
+    esriImagery = new OpenLayers.Layer.XYZ("ESRI Satellite", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}", {
         sphericalMercator: true,
         isBaseLayer: true,
         numZoomLevels: max_zoom,
+        attribution: "Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and others",
         buffer: 3
     });
 
@@ -80,10 +102,10 @@ app.init = function() {
         buffer: 3
     });
 
-    map.addLayers([esriOcean, openStreetMap, googleStreet, googleTerrain, googleSatellite, nauticalCharts]);
+    map.addLayers([esriImagery, esriTopo, esriStreets, openStreetMap, nauticalCharts]);
 
     //map.addLayers([esriOcean]);
-    esriOcean.setZIndex(100);
+    // esriOcean.setZIndex(100);
 
     map.addControl(new SimpleLayerSwitcher());
     map.addControl(new OpenLayers.Control.TouchNavigation());
