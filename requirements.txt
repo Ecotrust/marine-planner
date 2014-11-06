@@ -21,7 +21,7 @@ wsgiref>=0.1.2
 
 django-tastypie==0.9.16
 django-extensions==1.3.3
--e git://github.com/point97/madrona@no-mapnik#egg=madrona
+-e git://github.com/point97/madrona@no-mapnik-postgis-2#egg=madrona
 simplejson
 django-redis
 querystring-parser
