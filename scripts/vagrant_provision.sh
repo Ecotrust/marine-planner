@@ -63,6 +63,7 @@ echo "workon $PROJECT_NAME" >> /home/vagrant/.bashrc
 su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py syncdb"
 su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py migrate --noinput"
 su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py install_media"
+su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py enable_sharing"
 
 # Add a couple of aliases to manage.py into .bashrc
 cat << EOF >> /home/vagrant/.bashrc
