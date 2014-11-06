@@ -230,6 +230,11 @@
 	max-width: 460px;
 }
 
+.ofr #design-list .btn-group-layer .btn-layer > div {
+	max-width: 83%;
+	display: inline;
+}
+
 .ofr #feedback-tab {
 	/*border-color: white; 
 	border-color: rgba(255,255,255,.4);*/

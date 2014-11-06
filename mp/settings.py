@@ -27,6 +27,7 @@ ADMIN_MEDIA_PATH = "/usr/local/venv/marine-planner/lib/python2.7/site-packages/d
 INSTALLED_APPS += ('django_extensions',
                    'social.apps.django_app.default',
                    'general',
+                   'scenarios',
                    'data_manager',
                    'mp_settings',
                    'drawing',
