@@ -165,7 +165,7 @@ $(document).ready(function() {
   $('#designsTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.showBottomButtons(false);
     app.viewModel.updateAllScrollBars();
-    setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000);
+    setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover', container: 'body'});}, 2000);
   });
   $('#legendTab[data-toggle="tab"]').on('shown', function(e) {
     app.viewModel.showBottomButtons(true);
@@ -174,7 +174,7 @@ $(document).ready(function() {
   });
 
   //the following appears to handle the bookmark sharing, while the earlier popover activation handles the design sharing
-  setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover'});}, 2000);
+  setTimeout(function() {$('.group-members-popover').popover({html: true, trigger: 'hover', container: 'body'});}, 2000);
 
   //format the legend scrollbar
   //setTimeout(function() { $('#legend-content').jScrollPane(); }, 500);
