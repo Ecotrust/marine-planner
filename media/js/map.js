@@ -104,12 +104,12 @@ app.init = function() {
 
     map.addLayers([esriImagery, esriTopo, esriStreets, openStreetMap, nauticalCharts]);
 
-    //map.addLayers([esriOcean]);
+    // map.addLayers([esriOcean]);
     // esriOcean.setZIndex(100);
 
     map.addControl(new SimpleLayerSwitcher());
-    map.addControl(new OpenLayers.Control.TouchNavigation());
-    map.addControl(new OpenLayers.Control.PinchZoom());
+    // map.addControl(new OpenLayers.Control.TouchNavigation());
+    // map.addControl(new OpenLayers.Control.PinchZoom());
 
     // adding the following for IE10 touch events
     // obtained from the following blog post
@@ -130,7 +130,6 @@ app.init = function() {
     map.zoomBox = new OpenLayers.Control.ZoomBox({
         //enables zooming to a given extent on the map by holding down shift key while dragging the mouse
     });
-
     map.addControl(map.zoomBox);
 
     // only allow onetime zooming with box
