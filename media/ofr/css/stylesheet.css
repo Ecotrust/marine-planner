@@ -25,6 +25,10 @@
 	background:	rgba(255,255,255,.95);
 }
 
+.ofr .modal.fade.in {
+	top: 20%;
+}
+
 /*.ofr a:hover, .ofr a:focus {
 	color: #EF3824; 
 	text-decoration: none;
