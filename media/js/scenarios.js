@@ -1069,8 +1069,8 @@ function scenariosModel(options) {
         var scenarioId,
             opacity = .8,
             stroke = 1,
-            fillColor = "#2F6A6C",
-            strokeColor = "#1F4A4C",
+            fillColor = "#00A29B",
+            strokeColor = "#00827B",
             zoomTo = (options && options.zoomTo) || false;
         
         if ( scenario ) {
@@ -1109,11 +1109,6 @@ function scenariosModel(options) {
                 if ( isDrawingModel ) {
                     fillColor = "#C9BE62";
                     strokeColor = "#A99E42";
-                    //fillColor = "#EBE486";
-                    //strokeColor = "#CBC466";
-                } else if ( isSelectionModel ) {
-                    fillColor = "#00467F";
-                    strokeColor = "#00265F";
                 } 
                 var layer = new OpenLayers.Layer.Vector(
                     scenarioId,
