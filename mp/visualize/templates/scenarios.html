@@ -118,6 +118,7 @@
                         <!-- end drawings -->
                         
                         <!-- GRID FILTERING -->
+                        {% if user.is_staff %}
                         <div>
                             <div class="accordion-group">
                                 <div class="accordion-heading" data-bind="click: toggleScenariosOpen, css: { 'active': isScenariosOpen() }">
@@ -183,7 +184,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end wind sitings -->
+                        {% endif %}
+                        <!-- end grid filtering -->
                         
                     </div>
                 </div>
