@@ -234,9 +234,22 @@
 	max-width: 460px;
 }
 
+.ofr #design-list .btn-group-layer .btn-layer {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: rgba(0, 0, 0, 0.0980392);
+}
+
 .ofr #design-list .btn-group-layer .btn-layer > div {
 	max-width: 83%;
 	display: inline;
+}
+
+.ofr #designs .slidervalue {
+	width: 50px;
+	font-weight: bold;
+	font-size: 16px;
+	height: 16px;
 }
 
 .ofr #scenario-form {
