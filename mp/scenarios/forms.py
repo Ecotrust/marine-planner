@@ -66,8 +66,9 @@ class ScenarioForm(FeatureForm):
 
     shore_distance = forms.BooleanField(label="Distance to Shore", required=False, help_text="Distance to Shore", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     shore_distance_min = forms.FloatField(required=False, initial=2000, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-    shore_distance_max = forms.FloatField(required=False, initial=10000, widget=TextInputWithUnit(attrs={'class':'slidervalue'}))
-    shore_distance_input = forms.FloatField(widget=DualSliderWidget('coast_avg_min', 'coast_avg_max', min=0, max=12000, step=1000))
+    # shore_distance_max = forms.FloatField(required=False, initial=10000, widget=TextInputWithUnit(attrs={'class':'slidervalue'}, unit='meters'))
+    shore_distance_max = forms.FloatField(required=False, initial=10000, widget=forms.TextInput(attrs={'class':'slidervalue'}))
+    shore_distance_input = forms.FloatField(widget=DualSliderWidget('shore_distance_min', 'shore_distance_max', min=0, max=12000, step=1000))
 
     fish_abundance = forms.BooleanField(label="Fish Abundance", required=False, help_text="Fish Abundance", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     fish_abundance_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=500, step=10))
