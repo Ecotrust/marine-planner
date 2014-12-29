@@ -8,7 +8,18 @@ from general.utils import meters_to_feet
 from models import *
 from simplejson import dumps
 
-   
+
+'''
+'''
+def sdc_analysis(request, sdc_id):
+    from sdc_analysis import display_sdc_analysis
+    sdc_obj = get_object_or_404(Scenario, pk=sdc_id)
+    #check permissions
+    viewable, response = sdc_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    return display_sdc_analysis(request, sdc_obj)
+    
 '''
 '''
 def copy_design(request, uid):
@@ -90,8 +101,75 @@ def get_scenarios(request):
             })
         
     return HttpResponse(dumps(json))
-   
- 
+
+'''
+'''    
+def get_selections(request):
+    json = []
+    selections = LeaseBlockSelection.objects.filter(user=request.user).order_by('date_created')
+    for selection in selections:
+        sharing_groups = [group.name for group in selection.sharing_groups.all()]
+        json.append({
+            'id': selection.id,
+            'uid': selection.uid,
+            'name': selection.name,
+            'description': selection.description,
+            'attributes': selection.serialize_attributes,
+            'sharing_groups': sharing_groups
+        })
+        
+    shared_selections = LeaseBlockSelection.objects.shared_with_user(request.user)
+    for selection in shared_selections:
+        if selection not in selections:
+            username = selection.user.username
+            actual_name = selection.user.first_name + ' ' + selection.user.last_name
+            json.append({
+                'id': selection.id,
+                'uid': selection.uid,
+                'name': selection.name,
+                'description': selection.description,
+                'attributes': selection.serialize_attributes,
+                'shared': True,
+                'shared_by_username': username,
+                'shared_by_name': actual_name
+            })
+        
+    return HttpResponse(dumps(json))    
+    
+'''
+'''    
+def get_leaseblock_features(request):
+    from madrona.common.jsonutils import get_properties_json, get_feature_json, srid_to_urn, srid_to_proj
+    srid = settings.GEOJSON_SRID
+    leaseblock_ids = request.GET.getlist('leaseblock_ids[]')
+    leaseblocks = LeaseBlock.objects.filter(prot_numb__in=leaseblock_ids)
+    feature_jsons = []
+    for leaseblock in leaseblocks:
+        try:
+            geom = leaseblock.geometry.transform(srid, clone=True).json
+        except:
+            srid = settings.GEOJSON_SRID_BACKUP
+            geom = leaseblock.geometry.transform(srid, clone=True).json
+        feature_jsons.append(get_feature_json(geom, json.dumps('')))#json.dumps(props)))
+        #feature_jsons.append(leaseblock.geometry.transform(srid, clone=True).json)
+        '''
+        geojson = """{ 
+          "type": "Feature",
+          "geometry": %s,
+          "properties": {}
+        }""" %leaseblock.geometry.transform(settings.GEOJSON_SRID, clone=True).json
+        '''
+        #json.append({'type': "Feature", 'geometry': leaseblock.geometry.geojson, 'properties': {}})
+    #return HttpResponse(dumps(json[0]))
+    geojson = """{ 
+      "type": "FeatureCollection",
+      "crs": { "type": "name", "properties": {"name": "%s"}},
+      "features": [ 
+      %s 
+      ]
+    }""" % (srid_to_urn(srid), ', \n'.join(feature_jsons),)
+    return HttpResponse(geojson)
+    
 '''
 '''    
 def get_attributes(request, uid):
@@ -149,3 +227,21 @@ def share_design(request):
     design.share_with(groups, append=False)
     return HttpResponse("", status=200)
     
+'''
+'''
+#@cache_page(60 * 60 * 24, key_prefix="scenarios_get_leaseblocks")
+def get_leaseblocks(request):
+    json = []
+    for grid_cell in GridCell.objects.all():
+        json.append({
+            'id': grid_cell.id,
+            'fish_abundance': grid_cell.fish_abundance,
+            'fish_richness': grid_cell.fish_richness,
+            'coral_richness': grid_cell.coral_richness,
+            'coral_density': grid_cell.coral_density,
+            'coral_size': grid_cell.coral_size,
+            'inlet_distance': grid_cell.inlet_distance,
+            'shore_distance': grid_cell.shore_distance
+        })
+    return HttpResponse(dumps(json))
+

@@ -59,7 +59,7 @@
 }
 
 .ofr .form-search > div {
-	padding-left: 10px;
+	padding-left: 22px;
 }
 
 .ofr .nav-tabs > li a {
@@ -239,6 +239,10 @@
 	display: inline;
 }
 
+.ofr #scenario-form {
+	margin-top: -15px;
+}
+
 .ofr #feedback-tab {
 	/*border-color: white; 
 	border-color: rgba(255,255,255,.4);*/
@@ -278,7 +282,7 @@
 
 .ofr #project-logo {
 	margin-top: 10px;
-	margin-left: 42px;
+	margin-left: 55px;
 }
 
 .ofr .legend-title {

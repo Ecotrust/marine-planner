@@ -1,5 +1,5 @@
 pillow
-django==1.5.8
+django<1.6
 
 # copied from https://github.com/point97/madrona/blob/master/requirements.txt
 boto>=2.3.0

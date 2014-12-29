@@ -546,9 +546,62 @@ a.disabled-link:hover {
     padding: 4px 8px;
 }
 
+#designs .form-container {
+  margin-top: -5px;
+}
+
+#designs-data {
+  margin-top: 5px;
+}
+
+#design-list {
+  margin-left: -10px;
+}
+
+#design-list .accordion-group {
+  border-radius: 0;
+}
+
+#designs-accordion {
+  width: 370px;
+}
+
 #designs-accordion  ul.unstyled {
   margin-bottom: 0px; 
-  padding-bottom: 0px;
+  padding: 0px;
+}
+
+#designs-accordion li {
+  padding-bottom: 10px;
+}
+
+#designs-accordion .dropdown-menu {
+  margin-top: 0;
+  position: absolute;
+  left: 244px;
+  min-width: 100px;
+}
+
+#designs-accordion .dropdown-menu li {
+  padding-bottom: 0;
+}
+
+#designs-accordion .accordion-toggle {
+  width: 280px; 
+  display: inline-block;
+}
+
+.create-new-button {
+  cursor: pointer;
+  display: inline-block;
+  width: 16px;
+  padding: 9px 10px 5px 12px;
+  margin-bottom: 0px;
+}
+
+.create-new-button:hover {
+  background: #e6e6e6;
+  text-decoration: none;
 }
 
 #data-accordion, #designs-accordion, #sharing-groups, #bookmark-sharing-groups {

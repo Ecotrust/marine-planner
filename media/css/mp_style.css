@@ -363,6 +363,7 @@ input + i.icon-remove-sign {
 }
 
 #designs {
+	margin-top: 20px;
     padding: 0 10px;
 }
 
@@ -380,7 +381,7 @@ input + i.icon-remove-sign {
 }
 #wind-design-form .jspContainer {
     width: 98% !important;
-    height: 100% !important;
+    height: 300px !important;
 }
 #wind-design-form .jspPane {
     border-radius: 10px;
@@ -578,7 +579,7 @@ img + h3 {
 	font-size: 13px;
 }
 .sidebar-nav .btn-group-layer .btn-layer  {
-  width: 78%;
+  width: 85%;
   text-align: left;
   overflow: hidden;
   border-left: 0px;

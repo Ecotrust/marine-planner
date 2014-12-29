@@ -55,3 +55,7 @@ mp/data_manager/fixtures/data_manager_wcodp-md-staging.json
 mp/mp_settings/fixtures/mp_settings_wcodp-md-staging.json
 
 scripts/cookbooks/python/recipes/pip-orig.rb
+
+media/data_manager/geojson/ofr_planning_grid.json
+
+ofr_planning_grid.sql

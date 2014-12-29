@@ -4,9 +4,11 @@
     "model": "mp_settings.marineplannersettings", 
     "fields": {
         "bitly_username": "", 
+        "default_hash": "#x=-80.13&y=26.48&z=9&logo=false&dls%5B%5D=true&dls%5B%5D=1&dls%5B%5D=352&dls%5B%5D=true&dls%5B%5D=0.75&dls%5B%5D=282&basemap=Google+Satellite&tab=data&legends=false&layers=true", 
         "project_name": "Our Florida Reefs", 
         "table_of_contents": 6, 
-        "project_icon": "", 
+        "project_icon": "/media/ico/favicon.ico", 
+        "bitly_api_key": "", 
         "bitly_registered_domain": "", 
         "max_zoom": 16, 
         "zoom": 9, 
@@ -16,7 +18,7 @@
         "slug_name": "our-florida-reefs", 
         "project_logo": "/media/ofr/img/ofr-logo.png", 
         "active": true, 
-        "bitly_api_key": "", 
+        "enable_drawing": true, 
         "project_home_page": "http://ourfloridareefs.org/"
     }
 }

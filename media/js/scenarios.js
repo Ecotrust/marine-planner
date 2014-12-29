@@ -104,10 +104,39 @@ var madrona = {
     }
 }; // end madrona init
 
-/*
+
 function scenarioFormModel(options) {
     var self = this;
     
+    //Parameters    
+    self.fish_abundance = ko.observable(false);
+    self.fish_abundance_min = ko.observable(0);
+    self.fish_abundance_max = ko.observable(0);
+    
+    self.fish_richness = ko.observable(false);
+    self.fish_richness_min = ko.observable(0);
+    self.fish_richness_max = ko.observable(0);
+    
+    self.coral_richness = ko.observable(false);
+    self.coral_richness_min = ko.observable(0);
+    self.coral_richness_max = ko.observable(0);
+
+    self.coral_density = ko.observable(false);
+    self.coral_density_min = ko.observable(0);
+    self.coral_density_max = ko.observable(0);
+
+    self.coral_size = ko.observable(false);
+    self.coral_size_min = ko.observable(0);
+    self.coral_size_max = ko.observable(0);
+
+    self.inlet_distance = ko.observable(false);
+    self.inlet_distance_min = ko.observable(0);
+    self.inlet_distance_max = ko.observable(0);
+
+    self.shore_distance = ko.observable(false);
+    self.shore_distance_min = ko.observable(0);
+    self.shore_distance_max = ko.observable(0);
+
     var initial_leaseblocks_left = app.viewModel.scenarios.leaseblockList.length || 3426;
     self.leaseblocksLeft = ko.observable(initial_leaseblocks_left);
     self.showLeaseblockSpinner = ko.observable(false);
@@ -120,11 +149,7 @@ function scenarioFormModel(options) {
             self.hideLeaseblockLayer();
         }
     });
-    //self.isLeaseblockButtonActivated = ko.observable(false);
-    
-    //not sure how best to tie the width of the show/hide leaseblocks button to the width of the form...
-    //self.showLeaseblockButtonWidth = ko.observable($('#scenario-form').width());
-    
+        
     self.activateLeaseblockLayer = function() {
         self.isLeaseblockLayerVisible(true);
         //self.showRemainingBlocks();
@@ -140,435 +165,179 @@ function scenarioFormModel(options) {
     
     self.lastChange = (new Date()).getTime();
     
-    //Parameters
-    self.windSpeedParameter = ko.observable(false);
-    self.distanceToShoreParameter = ko.observable(false);
-    self.depthRangeParameter = ko.observable(false);
-    self.distanceToSubstationParameter = ko.observable(false);
-    self.distanceToAWCParameter = ko.observable(false);
-    self.distanceToShippingParameter = ko.observable(false);
-    self.shipTrafficDensityParameter = ko.observable(false);
-    self.uxoParameter = ko.observable(false);
-    
-    self.toggleWindSpeedWidget = function() {
-        if ( self.windSpeedParameter() ) {
-            self.windSpeedParameter(false);
-            $('#id_input_parameter_wind_speed').removeAttr('checked');
-            $('#wind_speed_widget').css('display', 'none');
-        } else {
-            var value = $('#id_input_avg_wind_speed')[0].value;
-            $('#id_input_parameter_wind_speed').attr('checked', 'checked');
-            self.windSpeedParameter(true);
-            self.change_wind_message(value);
-            $('#wind_speed_widget').css('display', 'block');
+    /** Toggle an input div. */
+    self.toggleParameter = function(param) {
+        var param_bool = self[param];
+        var param_element = $('#id_' + param);
+        var param_widget = $('#' + param + '_widget');
+        
+        if (param_bool()) {
+            param_bool(false);
+            param_element.removeAttr('checked');
+            param_widget.css('display', 'none');
+            self.removeFilter(param);
         }
-        //update scrollbar
+        else {
+            var min;
+            var max;
+            var param_element_min = $('#id_' + param + '_min')[0];
+            if (param_element_min) {
+                min = param_element_min.value;
+            }
+            var param_element_max = $('#id_' + param + '_max')[0];
+            if (param_element_max) {
+                max = param_element_max.value;
+            }
+            
+            param_bool(true);
+            param_element.attr('checked', 'checked');
+            param_widget.css('display', 'block');
+            
+            self.updateFilters(param, min, max);
+        }
+        
         self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
         self.updateFiltersAndLeaseBlocks();
         self.updateRemainingBlocks();
     };
     
-    self.toggleDistanceToShoreWidget = function() {
-        if ( self.distanceToShoreParameter() ) {
-            self.distanceToShoreParameter(false);
-            $('#id_input_parameter_distance_to_shore').removeAttr('checked');
-            $('#distance_to_shore_widget').css('display', 'none');
-        } else {
-            var minValue = $('#id_input_min_distance_to_shore')[0].value,
-                maxValue = $('#id_input_max_distance_to_shore')[0].value;
-            $('#id_input_parameter_distance_to_shore').attr('checked', 'checked');
-            self.distanceToShoreParameter(true);
-            $('#distance_to_shore_widget').css('display', 'block');
+    /** Returns a partial function which calls toggleParameter.
+        var fn = parameterToggler('wind');
+        fn();
+     */
+    self.parameterToggler = function(param) {
+        return function() {
+            self.toggleParameter(param);
         }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleDepthWidget = function() {
-        if ( self.depthRangeParameter() ) {
-            self.depthRangeParameter(false);
-            $('#id_input_parameter_depth').removeAttr('checked');
-            $('#depth_widget').css('display', 'none');
-        } else {
-            var minValue = $('#id_input_min_depth')[0].value,
-                maxValue = $('#id_input_max_depth')[0].value;
-            $('#id_input_parameter_depth').attr('checked', 'checked');
-            self.depthRangeParameter(true);
-            $('#depth_widget').css('display', 'block');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleSubstationWidget = function() {
-        if ( self.distanceToSubstationParameter() ) {
-            $('#id_input_parameter_distance_to_substation').removeAttr('checked');
-            self.distanceToSubstationParameter(false);
-            $('#distance_to_substation_widget').css('display', 'none');
-        } else {
-            var value = $('#id_input_distance_to_substation')[0].value;
-            $('#id_input_parameter_distance_to_substation').attr('checked', 'checked');
-            self.distanceToSubstationParameter(true);
-            $('#distance_to_substation_widget').css('display', 'block');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleAWCWidget = function() {
-        if ( self.distanceToAWCParameter() ) {
-            $('#id_input_parameter_distance_to_awc').removeAttr('checked');
-            self.distanceToAWCParameter(false);
-            $('#distance_to_awc_widget').css('display', 'none');
-        } else {
-            var value = $('#id_input_distance_to_awc')[0].value;
-            $('#id_input_parameter_distance_to_awc').attr('checked', 'checked');
-            self.distanceToAWCParameter(true);
-            $('#distance_to_awc_widget').css('display', 'block');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleShippingLanesWidget = function() {
-        if ( self.distanceToShippingParameter() ) {
-            $('#id_input_filter_distance_to_shipping').removeAttr('checked');
-            self.distanceToShippingParameter(false);
-            $('#distance_to_shipping_widget').css('display', 'none');
-        } else {
-            var value = $('#id_input_distance_to_shipping')[0].value;
-            $('#id_input_filter_distance_to_shipping').attr('checked', 'checked');
-            self.distanceToShippingParameter(true);
-            $('#distance_to_shipping_widget').css('display', 'block');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleShipTrafficWidget = function() {
-        if ( self.shipTrafficDensityParameter() ) {
-            self.shipTrafficDensityParameter(false);
-            $('#id_input_filter_ais_density').removeAttr('checked');
-        } else {
-            var value = 1;
-            self.shipTrafficDensityParameter(true);
-            $('#id_input_filter_ais_density').attr('checked', 'checked');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.toggleUXOWidget = function() {
-        if ( self.uxoParameter() ) {
-            self.uxoParameter(false);
-            $('#id_input_filter_uxo').removeAttr('checked');
-        } else {
-            self.uxoParameter(true);
-            $('#id_input_filter_uxo').attr('checked', 'checked');
-        }
-        //update scrollbar
-        self.updateDesignScrollBar();
-        //Update Remaining Leaseblocks 
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    self.change_wind_message = function(value) {
-        var $text = $('#wind_speed_text'),
-            $label = $text.closest('.label');
-            $label.css('color', 'black');
-        if (value < 7.0) {
-            $text.html('Fair');
-            $label.css('background', "#377EB8");
-        } else if (value < 7.25) {
-            $text.html('Good');
-            $label.css('background', "#377EB8");
-        } else if (value < 7.5) {
-            $text.html('Good');
-            $label.css('background', "#377EB8");
-        } else if (value < 7.75) {
-            $text.html('Excellent');
-            $label.css('background', "#40B3A7");
-        } else if (value < 8.0) {
-            $text.html('Excellent');
-            $label.css('background', "#45B06C");
-        } else if (value < 8.25) {
-            $text.html('Outstanding');
-            $label.css('background', "#84D439");
-        } else if (value < 8.5) {
-            $text.html('Outstanding');
-            $label.css('background', "#CCED26");
-        } else if (value < 8.75) {
-            $text.html('Outstanding');
-            $label.css('background', "#FFFF12");
-        } else if (value < 9.0) {
-            $text.html('Superb');
-            $label.css('background', "#FFE712");
-        } else if (value < 9.25) {
-            $text.html('Superb');
-            $label.css('background', "#FCA326");
-        } else if (value < 9.5) {
-            $text.html('Superb');
-            $label.css('background', "#F07224");
-        } else {
-            $text.html('Superb');
-            $label.css('background', "#E35539");
-        }
-        //Poor       < 12.5      (< 5.6)     ffff00
-        //Fair       14.3-15.7   (6.4-7.0)   ff0000
-        //Good       15.7-16.8   (7.0-7.5)   ff0077
-        //Excellent  16.8-17.9   (7.5-8.0)   ff00ff
-        //Oustanding 17.9-19.7   (8.0-8.8)   7700ff
-        //Superb     > 19.7      (> 8.8)     0000ff
     }
     
     self.filters = {};
+    self.masterFilter = new OpenLayers.Filter.Logical({
+        type: OpenLayers.Filter.Logical.AND,
+        filters: []
+    });
     
-    self.updateFilters = function(object) {
-        self.filters[object.key] = object.value;
-        //self.isLeaseblockButtonActivated(true);
-    };
+    /** Add a filter. 
+    Filters are value name (e.g., bathy_avg), the min value (e.g., 30), and 
+    the max value (e.g., 130). 
+    If you want a one-sided relation of value greater than min (param > min), 
+    then pass null for max 
+    If you want a one-sided relation of value less than max (param < max), 
+    then pass null for min 
+    */
+    self.updateFilters = function(param_name, min, max) {
+        var filter; 
+        
+        if (Number(min) != min) {
+            min = null; 
+        }
+        else {
+            min = Number(min);
+        }
+        if (Number(max) != max) {
+            max = null;
+        }
+        else {
+            max = Number(max);
+        }
+
+        // exclude checkbox, == 0
+        if (min == null && max == null) {
+            filter = new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                property: param_name,
+                value: 0
+            });
+        }
+        // less than filter
+        else if (min == null) {
+            filter = new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LESS_THAN,
+                property: param_name,
+                value: max
+            });
+        }
+        // greater than filter
+        else if (max == null) {
+            filter = new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.GREATER_THAN,
+                property: param_name,
+                value: min
+            });
+        }
+        // between filter
+        else {
+            filter = new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.BETWEEN,
+                property: param_name,
+                lowerBoundary: min,
+                upperBoundary: max,
+            });
+        }
+
+        self.filters[param_name] = filter;
+    }
+
     self.removeFilter = function(key) {
         delete self.filters[key];
-        //if ( $.isEmptyObject(self.filters) ) {
-        //    self.isLeaseblockButtonActivated(false);
-        //}
     };
     
     self.updateFiltersAndLeaseBlocks = function() {
-        if ( self.depthRangeParameter() ) {
-            self.updateFilters({'key': 'min_depth', 'value': $('#id_input_min_depth')[0].value});
-            self.updateFilters({'key': 'max_depth', 'value': $('#id_input_max_depth')[0].value});
-        } else {
-            self.removeFilter('min_depth');
-            self.removeFilter('max_depth');
-        }
-        if ( self.windSpeedParameter() ) {
-            self.updateFilters({'key': 'wind', 'value': $('#id_input_avg_wind_speed')[0].value});
-        } else {
-            self.removeFilter('wind');
-        }
-        if ( self.distanceToShoreParameter() ) {
-            self.updateFilters({'key': 'min_distance', 'value': $('#id_input_min_distance_to_shore')[0].value});
-            self.updateFilters({'key': 'max_distance', 'value': $('#id_input_max_distance_to_shore')[0].value});
-        } else {
-            self.removeFilter('min_distance');
-            self.removeFilter('max_distance');
-        }
-        if ( self.distanceToSubstationParameter() ) {
-            self.updateFilters({'key': 'substation', 'value': $('#id_input_distance_to_substation')[0].value});
-        } else {
-            self.removeFilter('substation');
-        }
-        if ( self.distanceToAWCParameter() ) {
-            self.updateFilters({'key': 'awc', 'value': $('#id_input_distance_to_awc')[0].value});
-        } else {
-            self.removeFilter('awc');
-        }
-        if ( self.distanceToShippingParameter() ) {
-            self.updateFilters({'key': 'tsz', 'value': $('#id_input_distance_to_shipping')[0].value});
-        } else {
-            self.removeFilter('tsz');
-        }
-        if ( self.shipTrafficDensityParameter() ) {
-            self.updateFilters({'key': 'ais', 'value': 1});
-        } else {
-            self.removeFilter('ais');
-        }
-        if ( self.uxoParameter() ) {
-            self.updateFilters({'key': 'uxo', 'value': 1});
-        } else {
-            self.removeFilter('uxo');
-        }
+        return;
         self.updateLeaseblocksLeft();
     
     };
     
     self.updateLeaseblocksLeft = function() {
-        //self.leaseblocksLeft(23);
-        var list = app.viewModel.scenarios.leaseblockList,
-            count = 0;
-            
-        for ( var i=0; i<list.length; i++ ) {
-            var addOne = true;
-            if (self.filters['wind'] && list[i].min_wind_speed < self.filters['wind'] ) {
-                addOne = false;
+        return;
+        var list = app.viewModel.scenarios.leaseblockList;
+        var count = 0;
+        
+        self.masterFilter.filters = [];
+        for (var f in self.filters) {
+            self.masterFilter.filters.push(self.filters[f].clone());
+        }
+        
+        for (var i = 0; i < list.length; i++) {
+            if (self.masterFilter.evaluate(list[i])) {
+                count++;
             }
-            if (self.filters['max_distance'] && list[i].avg_distance > self.filters['max_distance'] || 
-                self.filters['min_distance'] && list[i].avg_distance < self.filters['min_distance'] ) {
-                addOne = false;
-            } 
-            if (self.filters['max_depth'] && list[i].avg_depth > self.filters['max_depth'] || 
-                self.filters['min_depth'] && list[i].avg_depth < self.filters['min_depth'] ) {
-                addOne = false;
-            } 
-            if (self.filters['substation'] && 
-                (list[i].substation_min_distance > self.filters['substation'] || list[i].substation_min_distance === null) ) {
-                addOne = false;
-            } 
-            if (self.filters['awc'] && list[i].awc_min_distance > self.filters['awc'] || 
-                list[i].awc_min_distance === null ) {
-                addOne = false;
-            } 
-            if (self.filters['tsz'] && list[i].tsz_min_distance < self.filters['tsz'] ) {
-                addOne = false;
-            }
-            if (self.filters['ais'] && list[i].ais_mean_density > 1 ) {
-                addOne = false;
-            } 
-            if (self.filters['uxo'] && list[i].uxo !== 0 ) {
-                addOne = false;
-            } 
-            if (addOne) {
-                count += 1;
-            }
-        }     
+        }
+
         self.leaseblocksLeft(count);
-        //self.showRemainingBlocks();
     };
     
     self.updateRemainingBlocks = function() {
+        return;
         self.lastChange = (new Date()).getTime(); 
         setTimeout(function() {
             var newTime = (new Date()).getTime();
             if ( newTime - self.lastChange > 100 ) {
-                //console.log('showRemainingBlocks');
                 self.showRemainingBlocks();
             }
         }, 200);
     };
     
     self.showRemainingBlocks = function() {
+        return;
         if ( self.isLeaseblockLayerVisible() ) {
-            //console.log('showing remaining blocks');
             self.showLeaseblockSpinner(true);
-            //var blockLayer = app.map.getLayersByName('OCS Test')[0];
             if ( ! app.viewModel.scenarios.leaseblockLayer()) {
                 app.viewModel.scenarios.loadLeaseblockLayer();
             } 
             var blockLayer = app.viewModel.scenarios.leaseblockLayer();
-            var filter = new OpenLayers.Filter.Logical({
-                type: OpenLayers.Filter.Logical.AND,
-                filters: []
-            });
-            if ( self.windSpeedParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if WINDREV_MI >= self.filters['wind']
-                        type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-                        property: "WINDREV_MI", 
-                        value: self.filters['wind']
-                    })
-                );
-            }
-            if ( self.distanceToShoreParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if MI_MAX >= self.filters['min_distance']
-                        type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-                        property: "MI_MEAN", 
-                        value: self.filters['min_distance']
-                    }),
-                    new OpenLayers.Filter.Comparison({ // if MI_MAX <= self.filters['max_distance']
-                        type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-                        property: "MI_MEAN", 
-                        value: self.filters['max_distance']
-                    })
-                );
-            }
-            if ( self.depthRangeParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if DEPTHM_MAX >= self.filters['min_distance']
-                        type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-                        property: "DEPTH_MEAN", 
-                        value: (-self.filters['min_depth'])
-                    }),
-                    new OpenLayers.Filter.Comparison({ // if DEPTHM_MIN <= self.filters['max_distance']
-                        type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-                        property: "DEPTH_MEAN", 
-                        value: (-self.filters['max_depth'])
-                    })
-                );
-            }
-            if ( self.distanceToSubstationParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if SUBSTAMIN <= self.filters['substation']
-                        type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-                        property: "SUBSTAMIN", 
-                        value: self.filters['substation']
-                    }),
-                    new OpenLayers.Filter.Comparison({ // if SUBSTAMIN <= self.filters['substation']
-                        type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
-                        property: "SUBSTAMIN", 
-                        value: 0
-                    })
-                );
-            }
-            if ( self.distanceToAWCParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if AWCMI_MIN <= self.filters['awc']
-                        type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-                        property: "AWCMI_MIN", 
-                        value: self.filters['awc']
-                    })
-                );
-            }
-            if ( self.distanceToShippingParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if TRSEP_MIN >= self.filters['tsz']
-                        type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-                        property: "TRAFFCMIN", 
-                        value: self.filters['tsz']
-                    })
-                );
-            }
-            if ( self.shipTrafficDensityParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if AIS7_MEAN <= 1
-                        type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-                        property: "ALLVES_MAJ", 
-                        value: "1"
-                    })
-                );
-            }
-            if ( self.uxoParameter() ) {
-                filter.filters.push(
-                    new OpenLayers.Filter.Comparison({ // if UXO == 0
-                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                        property: "UXO", 
-                        value: 0
-                    })
-                );
-            }
+            
             blockLayer.styleMap.styles['default'].rules[0] = new OpenLayers.Rule({
-                filter: filter, 
+                filter: self.masterFilter, 
                 symbolizer: { strokeColor: '#fff' } 
             });
-            //console.log(blockLayer);
             
             self.showLeaseblockLayer(blockLayer);
         }
-        
     };
     
     self.showLeaseblockLayer = function(layer) {
+        return;
         if ( ! app.map.getLayersByName(app.viewModel.scenarios.leaseblockLayer().name).length ) {
             app.map.addLayer(app.viewModel.scenarios.leaseblockLayer());
         }
@@ -580,6 +349,7 @@ function scenarioFormModel(options) {
     }
     
     self.hideLeaseblockLayer = function() {
+        return;
         app.viewModel.scenarios.leaseblockLayer().setVisibility(false);
         //if ( app.map.getLayersByName(app.viewModel.scenarios.leaseblockLayer().name).length ) {
         //    app.map.removeLayer(app.viewModel.scenarios.leaseblockLayer());
@@ -598,473 +368,8 @@ function scenarioFormModel(options) {
         }
     };
     
-    self.windSpeedLayer = app.viewModel.getLayerById(7);
-    self.toggleWindSpeedLayer = function(formModel, event) {
-        if ( self.windSpeedLayer.active() ) {
-            self.windSpeedLayer.deactivateLayer();
-        } else {
-            self.windSpeedLayer.activateLayer();
-        }
-        return true;
-    };
-    self.toggleWindSpeedDescription = function(formModel) {
-        if ( self.windSpeedLayer.infoActive() ) {
-            self.windSpeedLayer.hideDescription(self.windSpeedLayer);
-        } else {
-            self.windSpeedLayer.showDescription(self.windSpeedLayer);
-        }
-        return true;
-    };
-    
-    self.awcLayer = app.viewModel.getLayerById(65);
-    self.toggleAWCLayer = function(formModel, event) {
-        if ( self.awcLayer.active() ) {
-            self.awcLayer.deactivateLayer();
-        } else {
-            self.awcLayer.activateLayer();
-        }
-        return true;
-    };
-    self.toggleAWCDescription = function(formModel) {
-        if ( self.awcLayer.infoActive() ) {
-            self.awcLayer.hideDescription(self.awcLayer);
-        } else {
-            self.awcLayer.showDescription(self.awcLayer);
-        }
-        return true;
-    };
-    
-    self.depthZonesLayer = app.viewModel.getLayerById(96);
-    self.toggleDepthZonesLayer = function(formModel, event) {
-        if ( self.depthZonesLayer.active() ) {
-            self.depthZonesLayer.deactivateLayer();
-        } else {
-            self.depthZonesLayer.activateLayer();
-        }
-        return true;
-    };
-    self.toggleDepthZonesDescription = function(formModel) {
-        if ( self.depthZonesLayer.infoActive() ) {
-            self.depthZonesLayer.hideDescription(self.depthZonesLayer);
-        } else {
-            self.depthZonesLayer.showDescription(self.depthZonesLayer);
-        }
-        return true;
-    };
-    
-    self.shippingLanesLayer = app.viewModel.getLayerById(64); // original shipping lanes layer (geojson)
-    //self.shippingLanesLayer = app.viewModel.getLayerById(103); // mmc (wms) shipping lanes layer
-    self.toggleShippingLanesLayer = function(formModel, event) {
-        if ( self.shippingLanesLayer.active() ) {
-            self.shippingLanesLayer.deactivateLayer();
-        } else {
-            self.shippingLanesLayer.activateLayer();
-        }
-        return true;
-    };
-    self.toggleShippingLanesDescription = function(formModel) {
-        if ( self.shippingLanesLayer.infoActive() ) {
-            self.shippingLanesLayer.hideDescription(self.shippingLanesLayer);
-        } else {
-            self.shippingLanesLayer.showDescription(self.shippingLanesLayer);
-        }
-        return true;
-    };
-    
     return self;
 } // end scenarioFormModel
-*/
-
-/*
-function selectionModel(options) {
-    var self = this;
-    
-    self.name = 'Selected Lease Blocks';
-    
-    var ret = scenarioModel.apply(this, arguments);
-    
-    self.isSelectionModel = true;
-        
-    self.editSelection = function() {
-        var selection = this;
-        app.viewModel.scenarios.zoomToScenario(selection);
-        return $.ajax({
-            url: '/features/leaseblockselection/' + selection.uid + '/form/', 
-            success: function(data) {
-                app.viewModel.scenarios.selectionForm(true);
-                $('#selection-form').html(data);
-                if ($.browser.msie && $.browser.version < 9) {
-                    app.viewModel.scenarios.selectionFormModel = new IESelectionFormModel();
-                } else {
-                    app.viewModel.scenarios.selectionFormModel = new selectionFormModel(); 
-                }
-                ko.applyBindings(app.viewModel.scenarios.selectionFormModel, document.getElementById('selection-form'));
-                //particular for paintbrush selection form
-                app.viewModel.scenarios.selectionFormModel.edit = true;
-                app.viewModel.scenarios.selectionFormModel.selection = selection;
-                app.viewModel.scenarios.selectionFormModel.selectedLeaseBlocks($('#id_leaseblock_ids').val().split(','));
-                //particular for IE selection form, another ajax call to retrieve the leaseblocks
-                //app.viewModel.scenarios.selectionFormModel.selectedLeaseBlocks($('#id_leaseblock_ids').val().split(','));
-                //app.viewModel.scenarios.scenarioFormModel.updateFiltersAndLeaseBlocks();
-            },
-            error: function (result) { 
-                //debugger; 
-            }
-        });
-    }; 
-        
-    self.createCopySelection = function() {
-        var selection = this;
-    
-        //create a copy of this shape to be owned by the user
-        $.ajax({
-            url: '/scenario/copy_design/' + selection.uid + '/',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-                //app.viewModel.scenarios.loadSelectionsFromServer();
-                app.viewModel.scenarios.addScenarioToMap(null, {uid: data[0].uid});
-            },
-            error: function (result) {
-                //debugger;
-            }
-        })
-    };
-            
-    self.deleteSelection = function() {
-        var selection = this;
-        
-        //first deactivate the layer 
-        selection.deactivateLayer();
-        
-        //remove from activeLayers
-        app.viewModel.activeLayers.remove(selection);
-        //remove from app.map
-        if (selection.layer) {
-            app.map.removeLayer(selection.layer);
-        }
-        //remove from selectionList
-        app.viewModel.scenarios.selectionList.remove(selection);
-        //update scrollbar
-        app.viewModel.scenarios.updateDesignsScrollBar();
-        
-        //remove from server-side db (this should provide error message to the user on fail)
-        $.ajax({
-            url: '/scenario/delete_design/' + selection.uid + '/',
-            type: 'POST',
-            error: function (result) {
-                //debugger;
-            }
-        })
-    };
-    
-    return ret;
-} // end selectionModel
-*/
-
-/*
-function selectionFormModel(options) {
-    var self = this;
-    
-    self.IE = false;    
-    
-    self.leaseBlockLayer = app.viewModel.getLayerById(6);
-    if (self.leaseBlockLayer.active()) {
-        self.leaseBlockLayerWasActive = true;
-        if ( !self.leaseBlockLayer.visible() ) {
-            self.leaseBlockLayer.setVisible();
-        }
-    } else {
-        self.leaseBlockLayer.activateLayer();
-    }
-    
-    
-    self.leaseBlockSelectionLayer = new layerModel({
-        name: 'Selectable OCS Lease Blocks Layer',
-        type: 'Vector',
-        url: '/media/data_manager/geojson/OCSBlocks20130920.json',
-        opacity: .5
-    });
-    
-    self.leaseBlockSelectionLayerIsLoaded = false;
-    
-    self.selectingLeaseBlocks = ko.observable(false);
-    
-    self.selectedLeaseBlocksLayerName = 'Selected Lease Blocks';
-    
-    self.selectedLeaseBlocks = ko.observableArray();
-    
-    self.loadLeaseBlockSelectionLayer = function() {
-        var defaultStyle = new OpenLayers.Style({
-            //display: 'none'
-            fillOpacity: 0,
-            strokeColor: '#000',
-            strokeOpacity: 0
-        });
-        var selectStyle = new OpenLayers.Style({
-            strokeColor: '#00467F',
-            strokeOpacity: .8
-        });
-        var styleMap = new OpenLayers.StyleMap( {
-            'default': defaultStyle,
-            'select': selectStyle
-        });
-        
-        self.leaseBlockSelectionLayer.layer = new OpenLayers.Layer.Vector(
-            self.leaseBlockSelectionLayer.name,
-            {
-                projection: new OpenLayers.Projection('EPSG:3857'),
-                displayInLayerSwitcher: false,
-                strategies: [new OpenLayers.Strategy.Fixed()],
-                protocol: new OpenLayers.Protocol.HTTP({
-                    url: self.leaseBlockSelectionLayer.url,
-                    format: new OpenLayers.Format.GeoJSON()
-                }),
-                styleMap: styleMap,                    
-                layerModel: self.leaseBlockSelectionLayer
-            }
-        ); 
-        app.map.addLayer(self.leaseBlockSelectionLayer.layer);
-        
-        
-        // PAINTBRUSH CONTROLS
-        
-        self.leaseBlockSelectionLayerBrushControl = new OpenLayers.Control.SelectFeature(
-            self.leaseBlockSelectionLayer.layer, {
-                multiple: true,
-                hover: true,
-                callbacks: {
-                    out: function(event){}
-                }
-            }
-        );
-        app.map.addControl(self.leaseBlockSelectionLayerBrushControl);
-
-        self.leaseBlockSelectionLayerClickControl = new OpenLayers.Control.SelectFeature(
-            self.leaseBlockSelectionLayer.layer, {
-                multiple: true,
-                toggle: true,
-            }
-        );
-        app.map.addControl(self.leaseBlockSelectionLayerClickControl);
-        
-        self.navigationControl = app.map.getControlsByClass('OpenLayers.Control.Navigation')[0];
-        
-        $('#map').mousedown( function() {
-            if (self.selectingLeaseBlocks()) {
-                //self.navigationControl.deactivate();
-                self.leaseBlockSelectionLayerClickControl.deactivate();
-                self.leaseBlockSelectionLayerBrushControl.activate();
-            }
-        });
-
-        $('#map').mouseup( function() {
-            if (self.selectingLeaseBlocks()) {
-                //self.navigationControl.activate();
-                self.leaseBlockSelectionLayerClickControl.activate();
-                self.leaseBlockSelectionLayerBrushControl.deactivate();
-            }
-        });
-
-        // END PAINTBRUSH CONTROLS 
-        
-        self.leaseBlockSelectionLayerIsLoaded = true;
-    }
-    
-    self.toggleSelectionProcess = function() {
-        if ( ! self.selectingLeaseBlocks() ) { // if not currently in the selection process, enable selection process
-            self.enableSelectionProcess();
-        } else { // otherwise, disable selection process
-            self.disableSelectionProcess();
-        }  
-    };
-    
-    self.enableSelectionProcess = function() {
-        // if lease block selection layer has not yet been loaded...
-        if ( ! self.leaseBlockSelectionLayerIsLoaded ) { 
-            self.loadLeaseBlockSelectionLayer();
-        } else {
-            self.leaseBlockSelectionLayer.layer.setVisibility(true);
-            self.selectedLeaseBlocksLayer.removeAllFeatures();
-        }
-        
-        if (self.edit) {
-            self.selection.deactivateLayer();
-            self.leaseBlockSelectionLayer.layer.events.register("loadend", self.leaseBlockSelectionLayer.layer, function() {
-                for (var i=0; i<self.leaseBlockSelectionLayer.layer.features.length; i+=1) {
-                    var id = self.leaseBlockSelectionLayer.layer.features[i].data['PROT_NUMB'];
-                    for (var j=0; j<self.selectedLeaseBlocks().length; j+=1) {
-                        if (id === self.selectedLeaseBlocks()[j]) {
-                            self.leaseBlockSelectionLayerClickControl.select(self.leaseBlockSelectionLayer.layer.features[i]);
-                        }
-                    }
-                }
-            });
-        }
-        
-        self.navigationControl.deactivate();
-        //activate the lease block feature selection 
-        self.leaseBlockSelectionLayerClickControl.activate();
-        //app.addUtfLayerToMap(self.leaseBlockLayer);
-        //disable feature attribution
-        app.viewModel.disableFeatureAttribution();
-        //change button text
-        self.selectingLeaseBlocks(true);
-    };
-    
-    self.disableSelectionProcess = function() {
-        self.navigationControl.activate();
-        //deactivate lease block feature selection
-        self.leaseBlockSelectionLayerClickControl.deactivate();
-        //enable feature attribution
-        app.viewModel.enableFeatureAttribution();
-        //change button text
-        self.selectingLeaseBlocks(false);
-        
-        //re-create selectedLeaseBlocksLayer
-        if ( self.selectedLeaseBlocksLayer && app.map.getLayer(self.selectedLeaseBlocksLayer.id) ) {
-            app.map.removeLayer(self.selectedLeaseBlocksLayer);
-        }
-        self.selectedLeaseBlocksLayer = new OpenLayers.Layer.Vector( 
-            "Selected Lease Blocks Layer", {
-                projection: new OpenLayers.Projection('EPSG:3857'),
-                styleMap: new OpenLayers.StyleMap({
-                    fillColor: '#00467F',
-                    strokeColor: '#888888'
-                })
-            }
-        );
-        self.leaseBlockSelectionLayer.layer.setVisibility(false);
-        for (var i=0; i<self.leaseBlockSelectionLayer.layer.selectedFeatures.length; i+=1) {
-            self.selectedLeaseBlocksLayer.addFeatures([self.leaseBlockSelectionLayer.layer.selectedFeatures[i].clone()]);
-        }
-        app.map.addLayer(self.selectedLeaseBlocksLayer);
-        
-        //assign leaseblock ids to hidden leaseblock ids form field
-        self.selectedLeaseBlocks([]);
-        for (var i=0; i<self.selectedLeaseBlocksLayer.features.length; i++) {
-            self.selectedLeaseBlocks().push(self.selectedLeaseBlocksLayer.features[i].data.PROT_NUMB);
-        }
-        $('#id_leaseblock_ids').val(self.selectedLeaseBlocks().join(","));
-        
-    };
-    
-    self.toggleLeaseBlockLayer = function(formModel, event) {
-        if ( event.target.type === "checkbox" ) {
-            if ($('#lease-blocks-layer-toggle input').is(":checked")) {
-                self.leaseBlockLayer.activateLayer();
-            } else {
-                self.leaseBlockLayer.deactivateLayer();
-            }
-        }
-        return true;
-    };
-    
-    return self;
-}; // end selectionFormModel
-*/
-
-/*
-function IESelectionFormModel(options) {
-    var self = this;
-    
-    self.IE = true;
-    
-    self.leaseBlockLayer = app.viewModel.getLayerById(6);
-    if (self.leaseBlockLayer.active()) {
-        self.leaseBlockLayerWasActive = true;
-    }
-    self.leaseBlockLayer.activateLayer();
-    self.leaseBlockLayer.setVisible();
-    
-    self.leaseBlockLayerUtfGrid = self.leaseBlockLayer.utfgrid;
-        
-    self.selectingLeaseBlocks = ko.observable(false);
-    
-    self.selectedLeaseBlocksLayerName = 'Selected Lease Blocks';
-    
-    self.selectedLeaseBlocks = ko.observableArray();
-    self.selectedLeaseBlocks.subscribe(function(test) {
-        if (self.selectedLeaseBlocksLayer) {
-            app.map.removeLayer(self.selectedLeaseBlocksLayer);
-        }
-        $.ajax({
-            url: '/scenario/get_leaseblock_features',
-            type: 'GET',
-            dataType: 'json',
-            data: { leaseblock_ids: test },
-            success: function (feature) {
-                var layer = new OpenLayers.Layer.Vector(
-                    self.selectedLeaseBlocksLayerName,
-                    {
-                        projection: new OpenLayers.Projection('EPSG:3857'),
-                        displayInLayerSwitcher: false,
-                        styleMap: new OpenLayers.StyleMap({
-                            strokeColor: '#ff0',
-                            strokeOpacity: .8,
-                            fillOpacity: 0
-                        })//,     
-                        //scenarioModel: new selectionModel()
-                    }
-                );
-                
-                //assign leaseblock ids to hidden leaseblock ids form field
-                $('#id_leaseblock_ids').val(self.selectedLeaseBlocks().join(","));
-                
-                layer.addFeatures(new OpenLayers.Format.GeoJSON().read(feature));
-                self.selectedLeaseBlocksLayer = layer;
-                app.map.addLayer(self.selectedLeaseBlocksLayer);
-            },
-            error: function (result) {
-                //debugger;
-            }
-        })
-    });
-    
-    self.toggleSelectionProcess = function() {
-        if ( ! self.selectingLeaseBlocks() ) { // if not currently in the selection process, enable selection process
-            self.enableSelectionProcess();
-        } else { // otherwise, disable selection process
-            self.disableSelectionProcess();
-        }  
-    };
-    
-    self.enableSelectionProcess = function() {
-        //disable feature attribution
-        app.viewModel.disableFeatureAttribution();
-        //ensure lease blocks are visible
-        self.leaseBlockLayer.activateLayer();
-        self.leaseBlockLayer.setVisible();
-        //disable Show Lease Blocks checkbox 
-        $('#lease-blocks-layer-checkbox').prop('checked', true);
-        $('#lease-blocks-layer-checkbox').attr('disabled', 'disabled');
-        //change button text
-        self.selectingLeaseBlocks(true);
-    };
-    
-    self.disableSelectionProcess = function() {
-        //enable feature attribution
-        app.viewModel.enableFeatureAttribution();
-        //re-enable Show Lease Blocks checkbox
-        $('#lease-blocks-layer-checkbox').removeAttr('disabled');
-        //change button text
-        self.selectingLeaseBlocks(false);
-    };
-    
-    self.toggleLeaseBlockLayer = function(formModel, event) {
-        if ( event.target.type === "checkbox" ) {
-            if ($('#lease-blocks-layer-toggle input').is(":checked")) {
-                self.leaseBlockLayer.setVisible();
-            } else {
-                self.leaseBlockLayer.setInvisible();
-            }
-        }
-        return true;
-    };
-    
-    return self;
-}; // end IESelectionFormModel
-*/
 
 
 function scenarioModel(options) {
@@ -1224,52 +529,41 @@ function scenarioModel(options) {
         // }
         
     };
-    /*
+    
     self.editScenario = function() {
         var scenario = this;
         return $.ajax({
-            url: '/features/scenario/' + scenario.uid + '/form/', 
+            url: '/features/scenario/' + scenario.uid + '/form/',
             success: function(data) {
                 //$('#scenario-form').append(data);
                 app.viewModel.scenarios.scenarioForm(true);
                 $('#scenario-form').html(data);
                 app.viewModel.scenarios.scenarioFormModel = new scenarioFormModel();
-                ko.applyBindings(app.viewModel.scenarios.scenarioFormModel, document.getElementById('scenario-form'));
-                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndLeaseBlocks();
+                var model = app.viewModel.scenarios.scenarioFormModel;
                 
-                if ($('#id_input_parameter_wind_speed').is(':checked')) {
-                    //app.viewModel.scenarios.scenarioFormModel.windSpeedParameter(true);
-                    app.viewModel.scenarios.scenarioFormModel.toggleWindSpeedWidget();
-                } 
-                if ($('#id_input_parameter_depth').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleDepthWidget();
-                } 
-                if ($('#id_input_parameter_distance_to_shore').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleDistanceToShoreWidget();
-                } 
-                if ($('#id_input_parameter_distance_to_substation').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleSubstationWidget();
-                } 
-                if ($('#id_input_parameter_distance_to_awc').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleAWCWidget();
-                } 
-                if ($('#id_input_filter_distance_to_shipping').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleShippingLanesWidget();
-                } 
-                if ($('#id_input_filter_ais_density').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleShipTrafficWidget();
-                } 
-                if ($('#id_input_filter_uxo').is(':checked')) {
-                    app.viewModel.scenarios.scenarioFormModel.toggleUXOWidget();
-                } 
-                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndLeaseBlocks();
+                ko.applyBindings(model, document.getElementById('scenario-form'));
+
+                var parameters = [
+                    'fish_abundance', 'fish_richness', 'coral_richness', 'coral_density', 
+                    'coral_size', 'inlet_distance', 'shore_distance'
+                ];
+
+                for (var i = 0; i < parameters.length; i++) {
+                    var id = '#id_' + parameters[i];
+                    
+                    if ($(id).is(':checked')) {
+                        model.toggleParameter(parameters[i]);
+                    }
+                }
+
+                model.updateFiltersAndLeaseBlocks();
             },
-            error: function (result) { 
-                //debugger; 
+            error: function (result) {
+                //debugger;
             }
         });
-    }; 
-    */
+    };
+
     self.createCopyScenario = function() {
         var scenario = this;
     
@@ -2122,7 +1416,7 @@ function scenariosModel(options) {
                 strategies: [new OpenLayers.Strategy.Fixed()],
                 protocol: new OpenLayers.Protocol.HTTP({
                     //url: '/media/data_manager/geojson/LeaseBlockWindSpeedOnlySimplifiedNoDecimal.json',
-                    url: '/media/data_manager/geojson/OCSBlocks20130920.json',
+                    url: '/media/data_manager/geojson/ofr_planning_grid.json',
                     format: new OpenLayers.Format.GeoJSON()
                 }),
                 //styleMap: new OpenLayers.StyleMap( { 
@@ -2181,7 +1475,7 @@ $('#designsTab').on('show', function (e) {
     // if ( !app.viewModel.scenarios.scenariosLoaded || !app.viewModel.scenarios.selectionsLoaded) {
     if ( !app.viewModel.scenarios.drawingsLoaded ) {
         // load the scenarios
-        // app.viewModel.scenarios.loadScenariosFromServer();
+        app.viewModel.scenarios.loadScenariosFromServer();
         
         // load the selections
         // app.viewModel.scenarios.loadSelectionsFromServer();
