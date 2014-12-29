@@ -87,19 +87,33 @@ class Scenario(Analysis):
         from general.utils import format
         attributes = []
 
-        # if self.bathy_avg:
-        #     attributes.append(dict(title='Depth Range', 
-        #                            data='%s - %s meters' % (int(self.bathy_avg_min), 
-        #                                                     int(self.bathy_avg_max))))
-        
-        # if self.wind_avg:
-        #     attributes.append(dict(title='Minimum Wind Potential', 
-        #                            data='%s W/m²' % (int(self.wind_avg_min))))
-         
-        # if self.coast_avg:
-        #     attributes.append(dict(title='Distance to Shore', 
-        #                            data='%s - %s km' % (int(self.coast_avg_min), 
-        #                                                 int(self.coast_avg_max))))
+        if self.inlet_distance:
+        	attributes.append({ 'title': 'Maximum Distance to Coastal Inlet',
+        						'data':  str(int(self.inlet_distance_max)/1000) + ' km'})
+
+        if self.shore_distance:
+        	attributes.append({ 'title': 'Distance to Shore',
+        						'data':  str(int(self.shore_distance_min)/1000) + ' to ' + str(int(self.shore_distance_max)/1000) + ' km'})
+
+        if self.fish_abundance: 
+        	attributes.append({ 'title': 'Maximum Fish Abundance',
+        						'data':  str(int(self.fish_abundance_max)) + ' units'})
+
+        if self.fish_richness: 
+        	attributes.append({ 'title': 'Maximum Fish Richness',
+        						'data':  str(int(self.fish_richness_max)) + ' units'})
+
+        if self.coral_density: 
+        	attributes.append({ 'title': 'Maximum Coral Density',
+        						'data':  str(int(self.coral_density_max)) + ' units'})
+
+        if self.coral_richness: 
+        	attributes.append({ 'title': 'Maximum Coral Richness',
+        						'data':  str(int(self.coral_richness_max)) + ' units'})
+
+        if self.coral_size: 
+        	attributes.append({ 'title': 'Maximum Coral Size',
+        						'data':  str(int(self.coral_size_max)) + ' units'})
 
         # if self.coral_p or self.subveg_p or self.protarea_p:
         #     exclusions = ''
@@ -133,6 +147,12 @@ class Scenario(Analysis):
         #     query = query.filter(bathy_avg__range=(self.bathy_avg_min, 
         #                                            self.bathy_avg_max))
         
+        if self.inlet_distance:
+            query = query.filter(inlet_distance__gte=self.inlet_distance_max)
+        
+        if self.shore_distance:
+            query = query.filter(shore_distance__range=(self.shore_distance_min, self.shore_distance_max))
+
         if self.fish_abundance:
             query = query.filter(fish_abundance__gte=self.fish_abundance_max)
         
@@ -148,18 +168,15 @@ class Scenario(Analysis):
         if self.coral_size:
             query = query.filter(coral_size__gte=self.coral_size_max)
         
-        if self.inlet_distance:
-            query = query.filter(inlet_distance__gte=self.inlet_distance_max)
-        
-        if self.shore_distance:
-            query = query.filter(shore_distance__gte=self.shore_distance_max)       
-
         # if self.mangrove_p:
         #     query = query.filter(mangrove_p=0)
         
-        
-        dissolved_geom = query.aggregate(Union('geometry'))
-        if dissolved_geom:
+        if len(query) == 0:
+        	self.satisfied = False;
+        	# raise Exception("No lease blocks available with the current filters.")       
+
+        dissolved_geom = query.aggregate(Union('geometry'))        
+        if dissolved_geom['geometry__union']:
             dissolved_geom = dissolved_geom['geometry__union']
         else:
             raise Exception("No lease blocks available with the current filters.")
