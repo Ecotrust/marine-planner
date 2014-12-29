@@ -127,7 +127,7 @@ class Scenario(Analysis):
         #     attributes.append(dict(title='Areas containing the following were excluded', data=exclusions))        
 
         attributes.append({'title': 'Number of Grid Cells', 
-                           'data': self.grid_cells.count(',')+1})
+                           'data': '{:,}'.format(self.grid_cells.count(',')+1)})
         return { 'event': 'click', 'attributes': attributes }
     
     
