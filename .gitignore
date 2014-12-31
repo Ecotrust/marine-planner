@@ -4,6 +4,7 @@ proxy/cache_data
 proxy/mapproxy.yaml
 *.pyc
 mp/settings_local.py
+deps/*
 logs/*
 mediaroot/*
 deploy/*

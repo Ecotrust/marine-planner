@@ -391,7 +391,7 @@ class GridCell(models.Model):
     prev_impact = models.TextField(null=True, blank=True)
     acropora_pa = models.TextField(null=True, blank=True)
     
-    objects = models.GeoManager()
+    centroid = models.PointField(null=True, blank=True)
 
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, 
                                     null=True, blank=True, 
