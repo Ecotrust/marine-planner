@@ -26,6 +26,7 @@ function drawingModel(options) {
                 app.viewModel.scenarios.drawingFormModel = new polygonFormModel();
                 //app.viewModel.scenarios.drawingFormModel.replacePolygonLayer(self.drawing.layer);
                 var oldLayer = app.viewModel.scenarios.drawingFormModel.polygonLayer;
+
                 app.viewModel.scenarios.drawingFormModel.originalDrawing = self.drawing;
                 app.viewModel.scenarios.drawingFormModel.polygonLayer = self.drawing.layer;
                 //debugger;
@@ -117,6 +118,23 @@ function polygonFormModel(options) {
         self.polygonLayer, 
         function(e) { 
             self.completeSketch(); 
+            
+            // var format = new OpenLayers.Format.WKT();
+            // var wkt = format.write(self.polygonLayer.features[0]);
+            // $.ajax({
+            //     url: '/drawing/clip_to_grid',
+            //     type: 'POST',
+            //     // data: {'target_shape': self.polygonLayer},
+            //     data: { target_shape: wkt },
+            //     // dataType: json
+            //     success: function(data) {
+            //         debugger;
+            //     },
+            //     error: function (result) {
+            //         debugger;
+            //     }
+            // });
+
             self.showEdit(true);
         }
     );

@@ -1380,7 +1380,7 @@ function scenariosModel(options) {
             }
         });
     };
-    //populates selectionList
+    //populates drawingList
     self.loadDrawings = function (drawings) {
         self.drawingList.removeAll();
         $.each(drawings, function (i, drawing) {
