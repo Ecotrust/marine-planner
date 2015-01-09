@@ -28,6 +28,10 @@
 
         function wizard(action) {
             if (step == 1 && action == 'next') {
+                if (app.viewModel.scenarios.drawingFormModel.isEditing()) {
+                    // do nothing, button is / should be disabled
+                    return; 
+                }
                 if (validate(step)) {
                     step += 1;
                     app.viewModel.scenarios.drawingFormModel.completeEdit();
@@ -84,6 +88,7 @@
             return false;
         });
         */
+        $('#click-to-begin-drawing').effect("highlight", {}, 1000);
     });
 </script>
 
@@ -101,46 +106,59 @@
     {% endfor %}
     <div id="error_bar"></div>
 
-    <div id="step1" class="step" style="padding-bottom: 40px;">
+    <div id="step1" class="step">
         <p class="step-text"><i>Step 1 of 2 </i>
-        <div data-bind="visible: ! showEdit()">
-            <p id="click-to-begin-drawing" class="instructions">Click the button below to begin drawing your polygon.</p>
+        <div data-bind="visible: ! isDrawing() && ! showEdit()">
+            <p id="click-to-begin-drawing" class="well instructions">Click the <b>Draw Shape</b> button below to begin drawing your polygon.</p>
             <a class="btn" style="margin-top: 10px" data-bind="click: startSketch, css: { disabled: isDrawing() }">
                 <span>Draw Shape</span>
             </a>
         </div>
-        <div data-bind="visible: isDrawing()" style="padding-top: 20px" >
-            <div class="well">
+        <div data-bind="visible: isDrawing()">
+            <div id="drawing-instructions" class="well">
                 <div>
-                    Click on the map to add the points that make up your polygon.
+                    <b>Click on the map</b> to add the points that make up your polygon.
                 </div>
                 <div id="double-click-instructions" style="padding-top: 10px">
-                    Double-click to finish drawing.
+                    <b>Double-click</b> to finish drawing.
                 </div>
             </div>
         </div>
         <div data-bind="visible: showEdit()">
-            <p class="instructions">Click <b>Next</b> if you are satisfied with your shape.</p>
-            <p class="instructions">Click <b>Edit Shape</b> if you would like to make changes to your shape.</p>
-            <a class="btn" style="margin-top: 10px" data-bind="click: startEdit, css: { disabled: isEditing() }">
-                <span>Edit Shape</span>
-            </a>
-            <p class="instructions">
-                Click and drag the handles or vertices of the shape.                 
-            </p>
-            <p class="instructions">
-                When you are done, click <b>Done Editing</b> below.                 
-            </p>
-            <a class="btn" style="margin-top: 10px" data-bind="click: completeEdit">
-                <span>Done Editing</span>
-            </a>
+            <div id="drawing-step-1" data-bind="visible: ! isEditing()">
+                <div id="step-1-instructions" class="well">
+                    <p class="instructions">Click <b>Next</b> if you are satisfied with your drawing.</p>
+                    <p class="instructions" style="margin-top: 10px;">Click <b>Edit Shape</b> to make changes to your drawing.</p>
+                </div>
+                <a class="btn" style="margin-top: 10px" data-bind="click: startEdit, css: { disabled: isEditing() }">
+                    <span>Edit Shape</span>
+                </a>
+            </div>
+            <div id="draw-editing" data-bind="visible: isEditing()">
+                <div id="editing-instructions" class="well">
+                    <p class="instructions">
+                        <b>Click and drag</b> the handles or vertices of the drawing.                 
+                    </p>
+                    <p class="instructions">
+                        When you are done, click <b>Done Editing</b> below.                 
+                    </p>
+                </div>
+                <a class="btn" style="margin-top: 10px" data-bind="click: clipToGrid">
+                    <span>Done Editing</span>
+                </a>
+            </div>
+            <div id="clip-failed-alert" style="margin-top: 25px;">
+                <p class="alert alert-danger" data-bind="visible: clipAttemptFailed()">
+                    Your drawing does not overlap with the planning grid.  Maybe edit your shape so that it overlaps with nearshore ocean space...?
+                </p>
+            </div>
         </div>
         <div id="PanelGeometry"></div>
     </div>
      
     <div class="step" id="step2">
         <p class="step-text"><i>Step 2 of 2 </i></p>
-        <p class="instructions">Provide a <b>Name</b> to identify your Drawing </p>
+        <p class="instructions" style="margin-top: 10px">Provide a <b>Name</b> to identify your Drawing </p>
         <div class="step3-inputs">
             <div class="step3-param">
                 {{ form.name.errors }}
@@ -162,7 +180,7 @@
 <div class="wizard_nav" style="width:100%">
     <div class="btn-group pull-right">
         <a href="#" class="button btn" onclick="this.blur(); return false;" id="button_prev"><span>&lt; Previous</span></a>
-        <a href="#" class="button btn button-next"  onclick="this.blur(); return false;" id="button_next"><span>Next &gt;</span></a>
+        <a href="#" class="button btn button-next"  onclick="this.blur(); return false;" id="button_next" data-bind="css: { disabled: isEditing() || !showEdit() }"><span>Next &gt;</span></a>
         <a href="#" class="submit_button button btn" onclick="this.blur(); return false;"><span>Save</span></a>
     </div>
 </div>
@@ -187,20 +205,17 @@
 
 div .field > label { font-size: 12px; display: inline; }
 div .step { 
-    -moz-box-shadow: 5px 5px 5px #ddd;
-    -webkit-box-shadow: 5px 5px 5px #ddd;
-    box-shadow: 5px 5px 5px #ddd; 
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     -khtml-border-radius: 6px;
     border-radius: 6px;
-    border: 1px #ddd solid;
+    border: 1px #bbb solid;
     padding: 6px;
     margin-top: 4px;
     margin-bottom: 8px;
     background-color: white; 
     background-repeat: no-repeat;
-    min-height: 240px;
+    min-height: 285px;
 }
 span.form-image { float: left; margin-left: -66px; }
 span.form-image > img { width:46px; height:46px; }
@@ -222,13 +237,23 @@ p.step-text {
 }
 p.instructions {
     margin: 0px; 
-    margin-top: 10px;
     margin-bottom: 0px;
     text-align: left;
     color: #47556C;
     font-size: 14px;
     font-weight: normal;
     font-family: sans-serif;
+    padding-left: 0px;
+}
+#step1 .well {
+    margin-top: 10px;
+}
+.step .well {
+    margin-bottom: 0px;
+    padding: 15px;
+}
+#editing-instructions {
+    margin-bottom: 0px;
 }
 
 </style>

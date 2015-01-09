@@ -2,7 +2,9 @@ from django.db import models
 from django.utils.html import escape
 from madrona.features import register
 from madrona.features.models import PolygonFeature
+from madrona.common.utils import LargestPolyFromMulti
 from general.utils import sq_meters_to_sq_miles
+from ofr_manipulators import clip_to_grid
 
 @register
 class AOI(PolygonFeature):
@@ -33,18 +35,13 @@ class AOI(PolygonFeature):
     def outline_color(self):
         return '776BAEFD'    
 
-    def clipToGrid(self):        
-        print 'clipping...'
-
-        from scenarios.models import GridCell
-        from django.contrib.gis.db.models.aggregates import Union
+    def clip_to_grid(self): 
         geom = self.geometry_orig
-        intersection = GridCell.objects.filter(centroid__intersects=geom)
-        new_shape = intersection.aggregate(Union('geometry'))
-        return new_shape['geometry__union']
+        clipped_shape = clip_to_grid(geom)
+        return LargestPolyFromMulti(clipped_shape)
 
     def save(self, *args, **kwargs):
-        self.geometry_final = self.clipToGrid()
+        self.geometry_final = self.clip_to_grid()
         # if self.geometry_final:
         #     self.geometry_final = clean_geometry(self.geometry_final)
         super(AOI, self).save(*args, **kwargs) # Call the "real" save() method   

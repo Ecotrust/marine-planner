@@ -1,9 +1,14 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.contrib.gis.geos import GEOSGeometry
 from madrona.features.models import Feature
 from madrona.features import get_feature_by_uid
+from madrona.common.utils import LargestPolyFromMulti
+from scenarios.models import GridCell
 from models import *
+from ofr_manipulators import clip_to_grid
 from simplejson import dumps
+    
 
 
 '''
@@ -60,26 +65,27 @@ def delete_drawing(request, uid):
 
 '''
 '''
-def clip_to_grid(request):
-    import pdb
-    pdb.set_trace()
+def get_clipped_shape(request):
+    zero = .01
 
-    return HttpResponse("", status=200)
-    
-    geom = GEOSGeometry(self.target_shape, srid=3857)
-    intersection = GridCell.objects.filter(centroid__intersects=geom)
+    if not (request.POST and request.POST['target_shape']):
+        return HTTPResponse("No shape submitted", status=400)
 
-    if len(intersection) == 1:
-        clipped_shape = intersection[0].geometry.envelope
-    else:
-        new_shape = intersection.aggregate(Union('geometry'))        
-        clipped_shape = new_shape['geometry__union'];
+    target_shape = request.POST['target_shape']    
+    geom = GEOSGeometry(target_shape, srid=3857)
+
+    clipped_shape = clip_to_grid(geom)
 
     # return new_shape['geometry__union']
-    if clipped_shape and clipped_shape.area <= self.zero:
-        largest_poly = None
-    else: #there was overlap
+    if clipped_shape and clipped_shape.area >= zero: #there was overlap
         largest_poly = LargestPolyFromMulti(clipped_shape)
+        wkt = largest_poly.wkt
+        return HttpResponse(dumps({"clipped_wkt": wkt}), status=200)
+    else: 
+        return HttpResponse("Submitted Shape is outside Grid Cell Boundaries (no overlap).", status=400)
+
+    # return HttpResponse(dumps({"clipped_wkt": wkt}), status=200)    
+    
 
 '''
 '''
@@ -107,6 +113,23 @@ def get_attributes(request, uid):
         return response
     
     return HttpResponse(dumps(scenario_obj.serialize_attributes))    
+
+'''
+'''
+def get_geometry_orig(request, uid):
+    try:
+        scenario_obj = get_feature_by_uid(uid)
+        wkt = scenario_obj.geometry_orig.wkt
+    except Scenario.DoesNotExist:
+        raise Http404
+    
+    #check permissions
+    viewable, response = scenario_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    
+    return HttpResponse(dumps({"geometry_orig": wkt}), status=200)
+
 
 '''
 '''

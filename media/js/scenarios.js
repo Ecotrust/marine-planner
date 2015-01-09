@@ -1109,6 +1109,21 @@ function scenariosModel(options) {
                 if ( isDrawingModel ) {
                     fillColor = "#C9BE62";
                     strokeColor = "#A99E42";
+
+                    $.ajax( {
+                        url: '/drawing/get_geometry_orig/' + scenarioId + '/',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            var format = new OpenLayers.Format.WKT(),
+                                wkt = data.geometry_orig,
+                                feature = format.read(wkt);
+                            scenario.geometry_orig = feature;
+                        }, 
+                        error: function(result) {
+                            debugger;
+                        }
+                    });
                 } 
                 var layer = new OpenLayers.Layer.Vector(
                     scenarioId,

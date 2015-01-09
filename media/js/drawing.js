@@ -27,9 +27,13 @@ function drawingModel(options) {
                 //app.viewModel.scenarios.drawingFormModel.replacePolygonLayer(self.drawing.layer);
                 var oldLayer = app.viewModel.scenarios.drawingFormModel.polygonLayer;
 
-                app.viewModel.scenarios.drawingFormModel.originalDrawing = self.drawing;
+                app.viewModel.scenarios.drawingFormModel.originalDrawing = self.drawing; 
                 app.viewModel.scenarios.drawingFormModel.polygonLayer = self.drawing.layer;
-                //debugger;
+
+                if (self.geometry_orig) {
+                    app.viewModel.scenarios.drawingFormModel.polygonLayer.removeAllFeatures();
+                    app.viewModel.scenarios.drawingFormModel.polygonLayer.addFeatures(self.geometry_orig);
+                }
                 
                 app.map.zoomToExtent(self.drawing.layer.getDataExtent());
                 app.map.zoomOut();
@@ -100,6 +104,7 @@ function polygonFormModel(options) {
     self.showEdit = ko.observable(false);
     self.isEditing = ko.observable(false);
     self.hasShape = ko.observable(false);
+    self.clipAttemptFailed = ko.observable(false);
     
     self.polygonLayer = new OpenLayers.Layer.Vector(self.newPolygonLayerName);
     app.map.addLayer(self.polygonLayer);
@@ -117,27 +122,47 @@ function polygonFormModel(options) {
         'featureadded', 
         self.polygonLayer, 
         function(e) { 
-            self.completeSketch(); 
-            
-            // var format = new OpenLayers.Format.WKT();
-            // var wkt = format.write(self.polygonLayer.features[0]);
-            // $.ajax({
-            //     url: '/drawing/clip_to_grid',
-            //     type: 'POST',
-            //     // data: {'target_shape': self.polygonLayer},
-            //     data: { target_shape: wkt },
-            //     // dataType: json
-            //     success: function(data) {
-            //         debugger;
-            //     },
-            //     error: function (result) {
-            //         debugger;
-            //     }
-            // });
-
+            self.completeSketch();        
             self.showEdit(true);
+            self.clipToGrid();     
         }
     );
+
+    self.clipToGrid = function() {
+        var format = new OpenLayers.Format.WKT();
+        var wkt = format.write(self.polygonLayer.features[0]);
+        $.ajax({
+            url: '/drawing/clip_to_grid',
+            type: 'POST',
+            // data: {'target_shape': self.polygonLayer},
+            data: { target_shape: wkt },
+            // dataType: json
+            success: function(data) {
+                var data_obj = JSON.parse(data),
+                    format = new OpenLayers.Format.WKT(),
+                    wkt = data_obj.clipped_wkt,
+                    feature = format.read(wkt);
+
+                self.completeEdit();
+
+                self.clipAttemptFailed(false);
+                self.polygonLayer.setVisibility(false);
+                if (!self.clippedDrawing) {
+                    self.clippedDrawing = new OpenLayers.Layer.Vector("Clipped Drawing");
+                } 
+                self.clippedDrawing.removeAllFeatures();                
+                self.clippedDrawing.addFeatures(feature);
+                app.map.addLayer(self.clippedDrawing);
+                $('#step-1-instructions').effect("highlight", {}, 1000);
+            },
+            error: function (result) {
+                // clip was unsuccessful (e.g. no overlap with planning grid)
+                self.clipAttemptFailed(true);
+                self.startEdit();
+                $('#clip-failed-alert').effect("highlight", {}, 1000);
+            }
+        });
+    };
        
     self.startEdit = function() {
         self.isEditing(true);
@@ -145,8 +170,16 @@ function polygonFormModel(options) {
         self.editControl.activate();
         //disable feature attribution
         app.viewModel.disableFeatureAttribution();
+
+        if (self.clippedDrawing && app.map.getLayer(self.clippedDrawing.id)) {
+            app.map.removeLayer(self.clippedDrawing);
+        }
+
+        self.polygonLayer.setVisibility(true);
         //select polygon
         self.editControl.selectFeature(self.polygonLayer.features[0]);
+
+        $('#editing-instructions').effect("highlight", {}, 1000);
     };
          
     self.completeEdit = function() {
@@ -155,8 +188,12 @@ function polygonFormModel(options) {
         self.editControl.deactivate();
         //re-enable feature attribution
         app.viewModel.enableFeatureAttribution();
+
+        $('#editing-instructions').effect("highlight", {}, 1000);
+        
+        // self.clipToGrid();     
         //advance form (in case this was called clicking Done Editing button
-        $('#button_next').click();
+        // $('#button_next').click();
     };
        
     self.completeSketch = function() {
@@ -174,6 +211,8 @@ function polygonFormModel(options) {
         self.polygonControl.activate();
         //disable feature attribution
         app.viewModel.disableFeatureAttribution();
+
+        $('#drawing-instructions').effect("highlight", {}, 1000);
     };
     /*
     self.replacePolygonLayer = function(newLayer) {
@@ -193,6 +232,11 @@ function polygonFormModel(options) {
         //BETTER YET -- just remove all app.map.layer items that match the name New Polygon Layer
         //might make the name slightly more cryptic for this...
         app.map.removeLayerByName(self.newPolygonLayerName);
+        // app.map.removeLayer(self.polygonLayer);
+        if (self.clippedDrawing) {
+            app.map.removeLayerByName("Clipped Drawing");
+        }
+        
     };
     
     return self;
