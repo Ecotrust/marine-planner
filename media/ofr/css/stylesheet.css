@@ -193,7 +193,7 @@
 
 .ofr #aggregated-attribute-overlay > div {
 	background: white; /* for IE8 */
-	background: rgba(255,255,255, 0.95);
+	background: rgba(255,255,255, 0.99);
 }
 
 /*.ofr #basemaps {

@@ -114,6 +114,16 @@ function polygonFormModel(options) {
     
     self.editControl = new OpenLayers.Control.ModifyFeature(self.polygonLayer);
     app.map.addControl(self.editControl);
+
+    self.planningGridLayer = app.viewModel.getLayerById(373);
+    if (self.planningGridLayer.active()) {
+        self.planningGridLayerWasActive = true;
+        if ( !self.planningGridLayer.visible() ) {
+            self.planningGridLayer.setVisible();
+        }
+    } else {
+        self.planningGridLayer.activateLayer();
+    }
     
     //self.selectFeature = new OpenLayers.Control.SelectFeature(self.polygonLayer);
     //app.map.addControl(self.selectFeature);
@@ -236,7 +246,24 @@ function polygonFormModel(options) {
         if (self.clippedDrawing) {
             app.map.removeLayerByName("Clipped Drawing");
         }
+
+        if ( ! self.planningGridLayerWasActive ) {
+            if ( self.planningGridLayer.active() ) {
+                self.planningGridLayer.deactivateLayer();
+            }
+        }
         
+    };
+
+    self.togglePlanningGridLayer = function(formModel, event) {
+        if ( event.target.type === "checkbox" ) {
+            if ($('#planning-grid-layer-toggle input').is(":checked")) {
+                self.planningGridLayer.activateLayer();
+            } else {
+                self.planningGridLayer.deactivateLayer();
+            }
+        }
+        return true;
     };
     
     return self;

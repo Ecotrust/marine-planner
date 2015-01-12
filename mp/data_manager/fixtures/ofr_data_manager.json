@@ -114,6 +114,7 @@
         "layers": [
             358, 
             360, 
+            373, 
             304, 
             305, 
             306, 
@@ -3160,6 +3161,195 @@
         "attribute_title": "", 
         "utfjsonp": false, 
         "wms_slug": ""
+    }
+},
+{
+    "pk": 373, 
+    "model": "data_manager.layer", 
+    "fields": {
+        "layer_type": "XYZ", 
+        "themes": [], 
+        "is_sublayer": false, 
+        "compress_display": false, 
+        "map_tiles": "", 
+        "legend_subtitle": "", 
+        "filterable": false, 
+        "vector_graphic": "", 
+        "kml": "", 
+        "source": "", 
+        "lookup_table": [], 
+        "proj": "", 
+        "utfurl": "http://util.point97.io/tiles/OFR_Planning_Grid_2/${z}/${x}/${y}.grid.json", 
+        "data_download": "", 
+        "metadata": "", 
+        "opacity": 0.5, 
+        "vector_color": "", 
+        "attribute_event": "click", 
+        "description": "", 
+        "attribute_fields": [
+            128, 
+            129, 
+            131, 
+            132, 
+            133, 
+            134, 
+            135, 
+            136, 
+            137, 
+            124, 
+            125, 
+            126, 
+            127
+        ], 
+        "vector_fill": null, 
+        "data_overview": "", 
+        "slug_name": "planning-grid", 
+        "summarize_to_grid": false, 
+        "lookup_field": "", 
+        "legend": "", 
+        "shareable_url": true, 
+        "data_source": "", 
+        "data_notes": "", 
+        "name": "Planning Grid", 
+        "sublayers": [], 
+        "url": "http://util.point97.io/tiles/OFR_Planning_Grid_2/${z}/${x}/${y}.png", 
+        "proxy_url": false, 
+        "arcgis_layers": "", 
+        "bookmark": "", 
+        "legend_title": "", 
+        "attribute_title": "", 
+        "utfjsonp": true, 
+        "wms_slug": ""
+    }
+},
+{
+    "pk": 124, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Type", 
+        "display_name": "Habitat Type", 
+        "precision": null, 
+        "order": 2
+    }
+},
+{
+    "pk": 125, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Region", 
+        "display_name": "Region", 
+        "precision": null, 
+        "order": 12
+    }
+},
+{
+    "pk": 126, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "County", 
+        "display_name": "County", 
+        "precision": null, 
+        "order": 13
+    }
+},
+{
+    "pk": 127, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Habitat", 
+        "display_name": "Habitat", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 128, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Modifier", 
+        "display_name": "Habitat Modifier", 
+        "precision": null, 
+        "order": 3
+    }
+},
+{
+    "pk": 129, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "FishRich", 
+        "display_name": "Fish Richness", 
+        "precision": null, 
+        "order": 6
+    }
+},
+{
+    "pk": 131, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralRich", 
+        "display_name": "Coral Richness", 
+        "precision": null, 
+        "order": 7
+    }
+},
+{
+    "pk": 132, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralSize", 
+        "display_name": "Coral Size", 
+        "precision": null, 
+        "order": 8
+    }
+},
+{
+    "pk": 133, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralDen", 
+        "display_name": "Coral Density", 
+        "precision": null, 
+        "order": 9
+    }
+},
+{
+    "pk": 134, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "PrevImpact", 
+        "display_name": "Previous Impact", 
+        "precision": null, 
+        "order": 10
+    }
+},
+{
+    "pk": 135, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "AcroporaPA", 
+        "display_name": "Acropora Presence/Absence", 
+        "precision": null, 
+        "order": 11
+    }
+},
+{
+    "pk": 136, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "ShoreDIst", 
+        "display_name": "Distance to Shore", 
+        "precision": null, 
+        "order": 4
+    }
+},
+{
+    "pk": 137, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "InletDist", 
+        "display_name": "Distance to Coastal Inlet", 
+        "precision": null, 
+        "order": 5
     }
 }
 ]
