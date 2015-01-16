@@ -39,6 +39,7 @@ printing/shots/*
 /media/crop/*
 scripts/cookbooks/node_*.json
 /media/crop/*
+deps/
 
 mp/data_manager/fixtures/datadump_2013_11_20.json
 
@@ -48,6 +49,14 @@ mp/data_manager/fixtures/archive
 mp/data_manager/archived_migrations
 media/assets/font-awesome-orig
 media/wcodp
+
+mp/build/pip-delete-this-directory.txt
+
+mp/data_manager/fixtures/data_manager_wcodp-md-staging.json
+
+mp/mp_settings/fixtures/mp_settings_wcodp-md-staging.json
+
+scripts/cookbooks/python/recipes/pip-orig.rb
 
 mp/build/pip-delete-this-directory.txt
 
