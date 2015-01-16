@@ -60,3 +60,9 @@ scripts/cookbooks/python/recipes/pip-orig.rb
 media/data_manager/geojson/ofr_planning_grid.json
 
 ofr_planning_grid.sql
+
+cronjobs/test.json
+
+media/data_manager/geojson/survey_results_3857.json
+
+media/data_manager/geojson/survey_results.json
