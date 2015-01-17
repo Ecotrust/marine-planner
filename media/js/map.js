@@ -205,81 +205,67 @@ app.init = function() {
 
     app.map.utfGridClickHandling = function(infoLookup, lonlat, xy) {
         var clickAttributes = [];
-        // we should probably use another loop here to avoid the jshint on the next line
+
+        // identify which grid layers were clicked
+        var gridLayersHit = [];
         for (var idx in infoLookup) {
-            $.each(app.viewModel.visibleLayers(), function(layer_index, potential_layer) {
-                if (potential_layer.type !== 'Vector') {
-                    var new_attributes,
-                        info = infoLookup[idx];
-                    if (info && info.data) {
-                        var newmsg = '',
-                            hasAllAttributes = true,
-                            parentHasAllAttributes = false;
-                        // if info.data has all the attributes we're looking for
-                        // we'll accept this layer as the attribution layer
-                        //if ( ! potential_layer.attributes.length ) {
-                        hasAllAttributes = false;
-                        //}
-                        $.each(potential_layer.attributes, function(attr_index, attr_obj) {
-                            if (attr_obj.field in info.data) {
-                                hasAllAttributes = true;
-                            }
-                        });
-                        if (!hasAllAttributes && potential_layer.parent) {
-                            parentHasAllAttributes = true;
-                            if (!potential_layer.parent.attributes.length) {
-                                parentHasAllAttributes = false;
-                            }
-                            $.each(potential_layer.parent.attributes, function(attr_index, attr_obj) {
-                                if (!(attr_obj.field in info.data)) {
-                                    parentHasAllAttributes = false;
-                                }
-                            });
-                        }
-                        if (hasAllAttributes) {
-                            new_attributes = potential_layer.attributes;
-                        } else if (parentHasAllAttributes) {
-                            new_attributes = potential_layer.parent.attributes;
-                        }
-                        if (new_attributes) {
-                            var attribute_objs = [];
-                            $.each(new_attributes, function(index, obj) {
-                                if (potential_layer.compress_attributes) {
-                                    var display = obj.display + ': ' + info.data[obj.field];
-                                    attribute_objs.push({
-                                        'display': display,
-                                        'data': ''
-                                    });
-                                } else {
-                                    var value = info.data[obj.field];
-                                    try {
-                                        //set the precision and add any necessary commas
-                                        value = value.toFixed(obj.precision).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                    } catch (e) {
-                                        //keep on keeping on
-                                    }
-                                    attribute_objs.push({
-                                        'display': obj.display,
-                                        'data': value
-                                    });
-                                }
-                            });
-                            var title = potential_layer.name,
-                                text = attribute_objs;
-                            if (title === 'Wind Speed') {
-                                text = app.viewModel.getWindSpeedAttributes(title, info.data);
-                            }
-                            clickAttributes[title] = text;
-                            //app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
-                        }
-                    }
+            var info = infoLookup[idx];
+            if (info && info.data) {
+                var gridLayer = map.layers[idx];
+                if (gridLayer && gridLayer.layerModel && gridLayer.layerModel.name) {
+                    gridLayersHit[gridLayer.layerModel.name] = info;
                 }
-            });
+            }
+        }
+
+        // loop through visible layers and show attributes for any visible layers that match the grid layers that were clicked
+        $.each(app.viewModel.visibleLayers(), function(layer_index, potential_layer) {
+            var gridLayerInfo = gridLayersHit[potential_layer.name];
+            if (gridLayerInfo) {
+                var attributes = undefined;
+                var attribute_objs = [];
+
+                if (potential_layer.attributes) {
+                    attributes = potential_layer.attributes;
+                } else if (potential_layer.parent && potential_layer.parent.attributes) {
+                    attributes = potential_layer.parent.attributes;
+                }
+
+                if (attributes) {
+                    $.each(attributes, function(index, obj) {
+                        if (potential_layer.compress_attributes) {
+                            var display = obj.display + ': ' + gridLayerInfo.data[obj.field];
+                            attribute_objs.push({
+                                'display': display,
+                                'data': ''
+                            });
+                        } else {
+                            var value = gridLayerInfo.data[obj.field];
+                            try {
+                                //set the precision and add any necessary commas
+                                value = value.toFixed(obj.precision).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } catch (e) {
+                                //keep on keeping on
+                            }
+                            attribute_objs.push({
+                                'display': obj.display,
+                                'data': value
+                            });
+                        }
+                    });
+                    var title = potential_layer.name,
+                        text = attribute_objs;
+                    if ( title === 'Planning Grid' ) {
+                        // text = app.viewModel.getGridAttributes(gridLayerInfo.data);
+                    } 
+                    clickAttributes[title] = text;
+                }
+            }
             $.extend(app.map.clickOutput.attributes, clickAttributes);
             app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
-        }
+        });
+
         app.viewModel.updateMarker(lonlat);
-        //app.marker.display(true);
 
     }; //end utfGridClickHandling
 
