@@ -18,9 +18,9 @@ app.getState = function () {
         dls: layers.reverse(),
         basemap: app.map.baseLayer.name,
         themes: {ids: app.viewModel.getOpenThemeIDs()},
-        tab: $('#myTab').find('li.active').data('tab'),
-        legends: app.viewModel.showLegend() ? 'true': 'false',
-        layers: app.viewModel.showLayers() ? 'true': 'false'
+        tab: $('#myTab').find('li.active').data('tab')
+        // legends: app.viewModel.showLegend() ? 'true': 'false',
+        // layers: app.viewModel.showLayers() ? 'true': 'false'
         //and active tab
     };
 };
@@ -84,7 +84,9 @@ app.loadCompressedState = function(state) {
        }
        if ( unloadedDesigns.length ) {
             app.viewModel.unloadedDesigns = unloadedDesigns;
-            $('#designsTab').tab('show'); //to activate the loading of designs
+            // $('#designsTab').tab('show'); //to activate the loading of designs
+            // better yet...
+            app.viewModel.scenarios.loadDesigns(); 
        }
     }
 
@@ -131,14 +133,15 @@ app.loadCompressedState = function(state) {
     // active tab -- the following prevents theme and data layers from loading in either tab (not sure why...disbling for now)
     // it appears the dataTab show in state.themes above was causing the problem...?
     // timeout worked, but then realized that removing datatab show from above worked as well...
-    // now reinstating the timeout which seems to fix the toggling between tours issue (toggling to ActiveTour while already in ActiveTab)
+    // Reinstating the timeout which seems to fix the toggling between tours issue (toggling to ActiveTour while already in ActiveTab)
     if (state.tab && state.tab === "active") {
-        //$('#activeTab').tab('show');
-        setTimeout( function() { $('#activeTab').tab('show'); }, 200 );
+        setTimeout( function() { $('#activeTab').tab('show'); }, 300 );
     } else if (state.tab && state.tab === "designs") {
-        setTimeout( function() { $('#designsTab').tab('show'); }, 200 );
+        setTimeout( function() { $('#designsTab').tab('show'); }, 300 );
+    } else if (state.tab && state.tab === "legend") {
+        setTimeout( function() { $('#legendTab').tab('show'); }, 300 );
     } else {
-        setTimeout( function() { $('#dataTab').tab('show'); }, 200 );
+        setTimeout( function() { $('#dataTab').tab('show'); }, 300 );
     }
 
     if ( state.legends && state.legends === 'true' ) {

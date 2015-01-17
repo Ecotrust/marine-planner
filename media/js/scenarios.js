@@ -1471,6 +1471,32 @@ function scenariosModel(options) {
             }
         });
     };
+
+    self.loadDesigns = function() {
+
+        if ( !self.drawingsLoaded ) {
+            // load the scenarios
+            self.loadScenariosFromServer();
+
+            // load the drawing
+            self.loadDrawingsFromServer();
+            
+            $.ajax({
+                url: '/scenario/get_sharing_groups',
+                type: 'GET',
+                dataType: 'json',
+                success: function (groups) {
+                    app.viewModel.scenarios.sharingGroups(groups);
+                    if (groups.length) {
+                        app.viewModel.scenarios.hasSharingGroups(true);
+                    }
+                },
+                error: function (result) {
+                    //debugger;
+                }
+            });
+        }
+    }
     
     return self;
 } // end scenariosModel
@@ -1479,46 +1505,5 @@ function scenariosModel(options) {
 app.viewModel.scenarios = new scenariosModel();
 
 $('#designsTab').on('show', function (e) {
-    //if ( app.viewModel.scenarios.reports && app.viewModel.scenarios.reports.showingReport() ) {
-    //    app.viewModel.scenarios.reports.updateChart();
-    //}
-    // if ( !app.viewModel.scenarios.scenariosLoaded || !app.viewModel.scenarios.selectionsLoaded) {
-    if ( !app.viewModel.scenarios.drawingsLoaded ) {
-        // load the scenarios
-        app.viewModel.scenarios.loadScenariosFromServer();
-        
-        // load the selections
-        // app.viewModel.scenarios.loadSelectionsFromServer();
-
-        // load the drawing
-        app.viewModel.scenarios.loadDrawingsFromServer();
-        
-        // load the leaseblocks
-        // $.ajax({
-        //     url: '/scenario/get_leaseblocks',
-        //     type: 'GET',
-        //     dataType: 'json',
-        //     success: function (ocsblocks) {
-        //         app.viewModel.scenarios.loadLeaseblocks(ocsblocks);
-        //     },
-        //     error: function (result) {
-        //         //debugger;
-        //     }
-        // });
-        
-        $.ajax({
-            url: '/scenario/get_sharing_groups',
-            type: 'GET',
-            dataType: 'json',
-            success: function (groups) {
-                app.viewModel.scenarios.sharingGroups(groups);
-                if (groups.length) {
-                    app.viewModel.scenarios.hasSharingGroups(true);
-                }
-            },
-            error: function (result) {
-                //debugger;
-            }
-        });
-    }
+    app.viewModel.scenarios.loadDesigns();    
 });
