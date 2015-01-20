@@ -24,6 +24,9 @@
         <link href="{{MEDIA_URL}}/assets/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.mCustomScrollbar.css" rel="stylesheet">
         <link href="{{MEDIA_URL}}/assets/jquery/jquery.jscrollpane.css" rel="stylesheet">
+
+        <link href="{{MEDIA_URL}}/ofr/css/ofr.css" rel="stylesheet">
+
         <link rel="shortcut icon" href="{{MEDIA_URL}}mp/ico/favicon.ico">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -79,6 +82,15 @@
         </script>
         
         <style type="text/css">
+
+            .embed #aggregated-attribute-overlay {
+                bottom: 2px;
+                top: auto;
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+                border-bottom-left-radius: 0px;
+            }
             
             #aggregated-attribute-overlay {
                 position: absolute;
@@ -135,7 +147,7 @@
         
     </head>
     
-    <body style="margin: 0px; padding: 0px; height: 100%;">
+    <body class="ofr embed" style="margin: 0px; padding: 0px; height: 100%;">
         
         <div class="container-fluid" id="primary-content" style="height: 100%; padding: 0px">
             <div id="loading" style="position: absolute; top: 12px; left: 12px;">
@@ -287,6 +299,7 @@
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.ui.touch-punch.min.js"></script>
         <script src="{{MEDIA_URL}}/assets/jquery/jquery.jscrollpane.min.js"></script>
         <script src="{{MEDIA_URL}}/assets/date/date.js"></script>
+        <script src="{{MEDIA_URL}}/assets/underscore/underscore-min.js"></script>
 
 
         <script src="{{MEDIA_URL}}/js/fixtures.js"></script>
@@ -316,12 +329,44 @@
             });
         
             $(document).ready( function() {
-                app.map.getLayersByName('ESRI Ocean')[0]['attribution'] = "Basemap Attribution";
-                $('.olControlAttribution').text("Basemap Attribution");
-                $('.olControlAttribution').width("112px");
-                $('.olControlAttribution').attr('rel',"tooltip");
+                // app.map.getLayersByName('ESRI Satellite')[0]['attribution'] = "Basemap Attribution";
                 //$('.olControlAttribution').attr('title',"The Ocean Basemap was created with data from the General Bathymetric Chart of the Oceans (GEBCO), IHO-IOC GEBCO Gazetteer of Undersea Feature Names, NOAA, Seafloor Mapping Lab of the California State University Monterey Bay, National Geographic, DeLorme, and Esri.");
-                $('.olControlAttribution').attr('title',"The ESRI Ocean Basemap was was built using data provided by ESRI, GEBCO, NOAA, Canadian Hydrographic Service (CHS), California State University at Monterey Bay (CSUMB), National Geographic, DeLorme, and NAVTEQ.");
+                var updatedAttribution = false;
+                var updateBasemapAttribution = function(done) {
+                    if (!updatedAttribution) {
+                        $('.olControlAttribution').text("Basemap Attribution");
+                        $('.olControlAttribution').width("112px");
+                        $('.olControlAttribution').attr('rel',"tooltip");
+                        if (app.map.baseLayer.name === 'ESRI Satellite') {
+                            app.map.getLayersByName('ESRI Satellite')[0]['attribution'] = "Basemap Attribution";
+                            $('.olControlAttribution').attr('title',"This ESRI Satellite basemap was built using data provided by Esri, DigitalGlobe, Earthstar Geographics, CNES/Airbus DS, GeoEye, USDA FSA, USGS, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community.");
+                        } else if (app.map.baseLayer.name === 'ESRI Physical') {
+                            app.map.getLayersByName('ESRI Physical')[0]['attribution'] = "Basemap Attribution";
+                            $('.olControlAttribution').attr('title',"This ESRI Physical basemap was built using data provided by the U.S. National Park Service.");
+                        } else if (app.map.baseLayer.name === 'ESRI Streets') {
+                            app.map.getLayersByName('ESRI Streets')[0]['attribution'] = "Basemap Attribution";
+                            $('.olControlAttribution').attr('title',"This ESRI Streets basemap was built using data provided by Esri, HERE, DeLorme, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), MapmyIndia, TomTom, © OpenStreetMap contributors, and the GIS User Community.");
+                        } else if (app.map.baseLayer.name === 'Nautical Charts') {
+                            app.map.getLayersByName('Nautical Charts')[0]['attribution'] = "Basemap Attribution";
+                            $('.olControlAttribution').attr('title',"The NOAA_RNC MapService provides a seamless collarless mosaic of the NOAA Raster Nautical Charts. Source charts are updated by the 10th of each month. This map service is not to be used for navigation.");
+                        } else if (app.map.baseLayer.name === 'OpenStreetMap') {
+                            app.map.getLayersByName('OpenStreetMap')[0]['attribution'] = "Basemap Attribution";
+                            $('.olControlAttribution').attr('title',"Basemap provided by © OpenStreetMap contributors.");
+                        }
+                        if (done) {
+                            // console.log(app.map.baseLayer.name);
+                            // console.log('done');
+                            updatedAttribution = true;
+                        } else {
+                            // console.log(app.map.baseLayer.name);
+                            // console.log('not done');
+                        }
+                    }
+                };
+                updateBasemapAttribution();
+                var finalBasemapAttributionUpdate = _.partial(updateBasemapAttribution, true);
+                // $('.olControlAttribution').attr('title',"The ESRI Ocean Basemap was was built using data provided by ESRI, GEBCO, NOAA, Canadian Hydrographic Service (CHS), California State University at Monterey Bay (CSUMB), National Geographic, DeLorme, and NAVTEQ.");
+                window.onhashchange = finalBasemapAttributionUpdate;
             });
             
             $(function () { 

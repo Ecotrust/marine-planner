@@ -1731,6 +1731,7 @@ function viewModel() {
         $('.olControlAttribution').show();
         if ( app.embeddedMap ) {
             $('.olControlZoom').show();
+            $('.olControlMousePosition').show();
         }
     };
     self.hideMapAttribution = function() {
@@ -1738,6 +1739,7 @@ function viewModel() {
         $('.olControlAttribution').hide();
         if ( app.embeddedMap ) {
             $('.olControlZoom').hide();
+            $('.olControlMousePosition').hide();
         }
     };
 

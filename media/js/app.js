@@ -144,7 +144,7 @@ $(document).ready(function() {
      $(event.target).closest('form').find('input').val(null).focus();
   });
 
-  if(app.MPSettings.enable_drawing === "True") {
+  if(app.MPSettings && app.MPSettings.enable_drawing === "True") {
     app.viewModel.enableDrawing(true);
   }
   
