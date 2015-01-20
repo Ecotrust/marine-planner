@@ -12,7 +12,7 @@ app.init = function() {
     if (app.MPSettings && app.MPSettings.max_zoom) {
         max_zoom = app.MPSettings.max_zoom + 1;
     } else {
-        max_zoom = 13;
+        max_zoom = 15;
     }
     // esriOcean = new OpenLayers.Layer.XYZ("ESRI Ocean","http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/${z}/${y}/${x}", {
     //     sphericalMercator: true,
@@ -27,7 +27,7 @@ app.init = function() {
     //     layer: 0
     // });
 
-    openStreetMap = new OpenLayers.Layer.OSM("Open Street Map", "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png", {
+    openStreetMap = new OpenLayers.Layer.OSM("OpenStreetMap", "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png", {
         sphericalMercator: true,
         isBaseLayer: true,
         numZoomLevels: max_zoom,

@@ -59,7 +59,7 @@
 }
 
 .ofr .form-search > div {
-	padding-left: 10px;
+	padding-left: 22px;
 }
 
 .ofr .nav-tabs > li a {
@@ -193,7 +193,7 @@
 
 .ofr #aggregated-attribute-overlay > div {
 	background: white; /* for IE8 */
-	background: rgba(255,255,255, 0.95);
+	background: rgba(255,255,255, 0.99);
 }
 
 /*.ofr #basemaps {
@@ -234,9 +234,26 @@
 	max-width: 460px;
 }
 
+.ofr #design-list .btn-group-layer .btn-layer {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: rgba(0, 0, 0, 0.0980392);
+}
+
 .ofr #design-list .btn-group-layer .btn-layer > div {
 	max-width: 83%;
 	display: inline;
+}
+
+.ofr #designs .slidervalue {
+	width: 50px;
+	font-weight: bold;
+	font-size: 16px;
+	height: 16px;
+}
+
+.ofr #scenario-form {
+	margin-top: -15px;
 }
 
 .ofr #feedback-tab {
@@ -278,7 +295,7 @@
 
 .ofr #project-logo {
 	margin-top: 10px;
-	margin-left: 42px;
+	margin-left: 55px;
 }
 
 .ofr .legend-title {
