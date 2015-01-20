@@ -196,6 +196,10 @@
 	background: rgba(255,255,255, 0.99);
 }
 
+.ofr #aggregated-attribute-overlay .mCSB_dragger_bar {
+	background: #20767D;
+}
+
 /*.ofr #basemaps {
 	background: rgba(255, 255,255, .4);
 	padding: 3px;
