@@ -202,11 +202,6 @@ var dataGuideOverrides = {
             //app.viewModel.closeAllThemes();
             //$('#pageGuideMessage').height(150);
         } else if ($(this).data('idx') === 1) {
-            app.viewModel.closeDescription();
-            app.viewModel.deactivateAllLayers();
-            //app.viewModel.closeAllThemes();
-            //$('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 2) {
             //alert("Step 2");
             app.viewModel.closeDescription();
             app.viewModel.deactivateAllLayers();
@@ -214,7 +209,7 @@ var dataGuideOverrides = {
             app.viewModel.themes()[0].setOpenTheme();
             //$('#pageGuideMessage').css //can we adjust the height of the tour background as well as that of the description overlay?
             //$('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 3) {
+        } else if ($(this).data('idx') === 2) {
             //alert("Step 3");
             app.viewModel.closeDescription();
             app.viewModel.closeAllThemes();
@@ -222,7 +217,7 @@ var dataGuideOverrides = {
             var layer = app.viewModel.themes()[0].layers()[0];
             layer.activateLayer();
             //$('#pageGuideMessage').height(150);
-        } else if ($(this).data('idx') === 4) {
+        } else if ($(this).data('idx') === 3) {
             //$('#pageGuideMessage').height(150);
             app.viewModel.closeAllThemes();
             app.viewModel.themes()[0].setOpenTheme();
