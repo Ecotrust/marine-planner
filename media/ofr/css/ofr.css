@@ -165,7 +165,7 @@
 }
 
 .ofr .olControlAttribution {
-	width: 40%;
+	width: 46%;
 }
 
 .ofr #overview-overlay {
@@ -254,6 +254,10 @@
 	font-weight: bold;
 	font-size: 16px;
 	height: 16px;
+}
+
+.ofr .step3-param {
+	padding-left: 5px;
 }
 
 .ofr #scenario-form {
