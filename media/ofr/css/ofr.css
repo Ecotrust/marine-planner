@@ -200,6 +200,10 @@
 	background: #20767D;
 }
 
+.ofr #overview-overlay .mCSB_dragger_bar {
+	background: #20767D;
+}
+
 /*.ofr #basemaps {
 	background: rgba(255, 255,255, .4);
 	padding: 3px;
