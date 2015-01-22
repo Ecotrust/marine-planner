@@ -222,7 +222,59 @@ function scenarioFormModel(options) {
         type: OpenLayers.Filter.Logical.AND,
         filters: []
     });
+
+    // Toggle Data Layers and Layer Info
+
+    self.toggleLayerInfo = function(layerID) {
+        var layer = app.viewModel.getLayerById(layerID);
+        if (layer) {
+            if ( layer.infoActive() ) {
+                layer.hideDescription(layer);
+            } else {
+                layer.showDescription(layer);
+            }
+            return true;
+        }
+        return false;
+    };
     
+    self.isLayerInfoActive = function(layerID) {
+        var layer = app.viewModel.getLayerById(layerID);
+        if (layer) {
+            return layer.infoActive();
+        }
+        return false;
+    };
+
+    self.isLayerActive = function(layerID) {
+        var layer = app.viewModel.getLayerById(layerID);
+        if (layer) {
+            return layer.active();
+        }
+        return false;
+    };
+
+    self.isLayerVisible = function(layerID) {
+        var layer = app.viewModel.getLayerById(layerID);
+        if (layer) {
+            return layer.visible();
+        }
+        return false;
+    };
+
+    self.toggleLayer = function(layerID) {
+        var layer = app.viewModel.getLayerById(layerID);
+        if (layer) {
+            if ( layer.active() ) {
+                layer.deactivateLayer();
+            } else {
+                layer.activateLayer();
+            }
+            return true;
+        }
+        return false;
+    };
+
     /** Add a filter. 
     Filters are value name (e.g., bathy_avg), the min value (e.g., 30), and 
     the max value (e.g., 130). 
