@@ -74,8 +74,8 @@ class ScenarioForm(FeatureForm):
     acropora_pa_input = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'parameters'}), choices=(('A', 'Absence'), ('P', 'Presence')), initial='A')
     # Giving up on RadioSelect, it refused to return anything other than the last choice as the selection to the server...Select widget seems to work fine through...
 
-    fish_abundance = forms.BooleanField(label="Fish Abundance", required=False, help_text="Fish Abundance", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    fish_abundance_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue', 'layer_id': '311', 'layer_title': 'Number of Fish Species'}, min=0, max=500, step=10))
+    fish_abundance = forms.BooleanField(label="Fish Abundance", required=False, help_text="Estimated number of organisms per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    fish_abundance_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Minimum # of organisms', 'layer_id': '311', 'layer_title': 'Show Number of Fish Species'}, min=0, max=500, step=10))
 
     fish_richness = forms.BooleanField(label="Fish Richness", required=False, help_text="Fish Richness", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     fish_richness_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=50, step=5))
