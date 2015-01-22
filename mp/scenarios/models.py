@@ -68,9 +68,11 @@ class Scenario(Analysis):
     shore_distance_min = models.FloatField(null=True, blank=True)
     shore_distance_max = models.FloatField(null=True, blank=True)
 
-    prev_impact = models.TextField(null=True, blank=True)
-    acropora_pa = models.TextField(null=True, blank=True)
+    acropora_pa = models.BooleanField()
+    acropora_pa_input = models.TextField(null=True, blank=True)
     
+    prev_impact = models.TextField(null=True, blank=True)
+
     description = models.TextField(null=True, blank=True)
     satisfied = models.BooleanField(default=True, help_text="Am I satisfied?")
     active = models.BooleanField(default=True)
@@ -94,6 +96,14 @@ class Scenario(Analysis):
         if self.shore_distance:
         	attributes.append({ 'title': 'Distance to Shore',
         						'data':  str(int(self.shore_distance_min)/1000) + ' to ' + str(int(self.shore_distance_max)/1000) + ' km'})
+
+        if self.acropora_pa:
+            if self.acropora_pa_input == 'P':
+                choice = 'Presence'
+            else:
+                choice = 'Absence'
+            attributes.append({ 'title': 'Acropora',
+                                'data':  'Filtering on ' + choice})
 
         if self.fish_abundance: 
         	attributes.append({ 'title': 'Maximum Fish Abundance',
@@ -147,11 +157,15 @@ class Scenario(Analysis):
         #     query = query.filter(bathy_avg__range=(self.bathy_avg_min, 
         #                                            self.bathy_avg_max))
         
+
+        if self.shore_distance:
+            query = query.filter(shore_distance__range=(self.shore_distance_min, self.shore_distance_max))
+
         if self.inlet_distance:
             query = query.filter(inlet_distance__gte=self.inlet_distance_max)
         
-        if self.shore_distance:
-            query = query.filter(shore_distance__range=(self.shore_distance_min, self.shore_distance_max))
+        if self.acropora_pa:
+            query = query.filter(acropora_pa=self.acropora_pa_input)
 
         if self.fish_abundance:
             query = query.filter(fish_abundance__gte=self.fish_abundance_max)

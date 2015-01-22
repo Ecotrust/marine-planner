@@ -261,16 +261,17 @@ madrona.onShow(function(){
                         {% if field_min or field_max or field_input %}
                         <div id="{{ field.html_name }}_widget" class="inputfield accordion-body collapse" data-bind="css: {'in': {{ field.html_name }}()}">
                             <div class="accordion-inner">
-                                <div>
-                                {{ field.help_text }}
+                                <div>      
                                 {% if field_min %}
+                                    {{ field_min.field.widget.attrs.pre_text }}    
                                     {{ field_min.as_widget }}
                                 {% endif %}
                                 {% if field_max %}
-                                    {% if field_min %}to{% endif %}
-                                    {{ field_max.as_widget }} {% if field_max.field.widget.unit %} {{ field_max.field.widget.unit }} {% endif %}
+                                    {{ field_max.field.widget.attrs.pre_text }}
+                                    {{ field_max.as_widget }} 
                                 {% endif %}
                                 {% if field_input %}
+                                    {{ field_input.field.widget.attrs.pre_text }}
                                     {{ field_input.as_widget }}
                                 {% endif %}
                                 {{ field.errors }}
@@ -524,6 +525,9 @@ form ul {
     margin-top: 5px;
     margin-bottom: 0px;
     padding-left: 20px;
+}
+#scenario-form li {
+    list-style:none;
 }
 li label {   
     font-weight: normal !important;

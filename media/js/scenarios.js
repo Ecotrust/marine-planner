@@ -108,7 +108,20 @@ var madrona = {
 function scenarioFormModel(options) {
     var self = this;
     
-    //Parameters    
+    // Step 1 Parameters    
+    self.shore_distance = ko.observable(false);
+    self.shore_distance_min = ko.observable(0);
+    self.shore_distance_max = ko.observable(0);
+
+    self.inlet_distance = ko.observable(false);
+    self.inlet_distance_min = ko.observable(0);
+    self.inlet_distance_max = ko.observable(0);
+
+    self.acropora_pa = ko.observable(false);
+    self.acropora_presence = ko.observable(false);
+    self.acropora_absence = ko.observable(false);
+
+    // Step 2 Parameters
     self.fish_abundance = ko.observable(false);
     self.fish_abundance_min = ko.observable(0);
     self.fish_abundance_max = ko.observable(0);
@@ -129,13 +142,6 @@ function scenarioFormModel(options) {
     self.coral_size_min = ko.observable(0);
     self.coral_size_max = ko.observable(0);
 
-    self.inlet_distance = ko.observable(false);
-    self.inlet_distance_min = ko.observable(0);
-    self.inlet_distance_max = ko.observable(0);
-
-    self.shore_distance = ko.observable(false);
-    self.shore_distance_min = ko.observable(0);
-    self.shore_distance_max = ko.observable(0);
 
     var initial_leaseblocks_left = app.viewModel.scenarios.leaseblockList.length || 3426;
     self.leaseblocksLeft = ko.observable(initial_leaseblocks_left);
@@ -545,7 +551,7 @@ function scenarioModel(options) {
 
                 var parameters = [
                     'fish_abundance', 'fish_richness', 'coral_richness', 'coral_density', 
-                    'coral_size', 'inlet_distance', 'shore_distance'
+                    'coral_size', 'inlet_distance', 'shore_distance', 'acropora_pa'
                 ];
 
                 for (var i = 0; i < parameters.length; i++) {

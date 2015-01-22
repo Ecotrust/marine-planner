@@ -61,14 +61,20 @@ class ScenarioForm(FeatureForm):
     # bathy_avg_max = forms.FloatField(required=False, initial=50, widget=TextInputWithUnit(attrs={'class':'slidervalue'}))
     # bathy_avg_input = forms.FloatField(widget=DualSliderWidget('bathy_avg_min', 'bathy_avg_max', min=1, max=300, step=1))
 
-    inlet_distance = forms.BooleanField(label="Distance to Coastal Inlet", required=False, help_text="Maximum distance to Nearest Inlet", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    inlet_distance_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=15000, step=1000))
-
     shore_distance = forms.BooleanField(label="Distance to Shore", required=False, help_text="Distance to Shore", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    shore_distance_min = forms.FloatField(required=False, initial=2000, widget=forms.TextInput(attrs={'class':'slidervalue'}))
+    shore_distance_min = forms.FloatField(required=False, initial=2000, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters'}))
+    shore_distance_max = forms.FloatField(required=False, initial=10000, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'to'}))
     # shore_distance_max = forms.FloatField(required=False, initial=10000, widget=TextInputWithUnit(attrs={'class':'slidervalue'}, unit='meters'))
-    shore_distance_max = forms.FloatField(required=False, initial=10000, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     shore_distance_input = forms.FloatField(widget=DualSliderWidget('shore_distance_min', 'shore_distance_max', min=0, max=12000, step=1000))
+
+    inlet_distance = forms.BooleanField(label="Distance to Coastal Inlet", required=False, help_text="Maximum distance to Nearest Inlet", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    inlet_distance_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters', 'post_text': 'meters'}, min=0, max=15000, step=1000))
+
+    acropora_pa = forms.BooleanField(label="Acropora Presence / Absence", required=False, help_text="Select cells based on Presence or Absence", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    # acropora_presence = forms.BooleanField(label="Presence", required=False, help_text="Filters on Presence", widget=CheckboxInput(attrs={'class': 'parameters'}))
+    # acropora_absence = forms.BooleanField(label="Absence", required=False, help_text="Filters on Absence", widget=CheckboxInput(attrs={'class': 'parameters'}))
+    acropora_pa_input = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'parameters'}), choices=(('A', 'Absence'), ('P', 'Presence')), initial='A')
+    # Giving up on RadioSelect, it refused to return anything other than the last choice as the selection to the server...Select widget seems to work fine through...
 
     fish_abundance = forms.BooleanField(label="Fish Abundance", required=False, help_text="Fish Abundance", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     fish_abundance_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=500, step=10))
@@ -96,8 +102,9 @@ class ScenarioForm(FeatureForm):
             (parameter to test, user-min or user-selection, user-max, user-input)
         where each parameter except the first is optional. 
         """
-        names = (('inlet_distance', None, 'inlet_distance_max'), 
-                ('shore_distance', 'shore_distance_min', 'shore_distance_max', 'shore_distance_input'))
+        names = (('shore_distance', 'shore_distance_min', 'shore_distance_max', 'shore_distance_input'),
+                ('inlet_distance', None, 'inlet_distance_max'), 
+                ('acropora_pa', None, None, 'acropora_pa_input'))
 
         return self._get_fields(names)
 
