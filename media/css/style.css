@@ -297,10 +297,6 @@ div.olLayerGooglePoweredBy
   outline: 0;
 }
 
-.btn .badge {
-  margin-top: -5px !important;
-}
-
 .alert {
   margin-bottom: 0px;
 }
@@ -544,10 +540,6 @@ a.disabled-link:hover {
 
 .layer .btn-info-sign {
     padding: 4px 8px;
-}
-
-#designs .form-container {
-  margin-top: -5px;
 }
 
 #designs-data {

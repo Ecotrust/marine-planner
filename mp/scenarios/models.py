@@ -14,24 +14,23 @@ from madrona.analysistools.models import Analysis
 from general.utils import miles_to_meters, feet_to_meters, meters_to_feet, mph_to_mps, mps_to_mph, format
 from django.contrib.gis.geos import MultiPolygon
 from django.contrib.gis.db.models.aggregates import Union
+from django.forms.models import model_to_dict
+
 
 @register
 class Scenario(Analysis):
-    # depth = models.BooleanField()
-    # depth_avg = models.IntegerField(null=True, blank=True)
-    # depth_min = models.IntegerField(null=True, blank=True)
-    # depth_max = models.IntegerField(null=True, blank=True)
 
-    # rugosity = models.BooleanField()
-    # rugosity_avg = models.IntegerField(null=True, blank=True)
-    # rugosity_min = models.IntegerField(null=True, blank=True)
-    # rugosity_max = models.IntegerField(null=True, blank=True)
+    shore_distance = models.BooleanField()
+    shore_distance_min = models.FloatField(null=True, blank=True)
+    shore_distance_max = models.FloatField(null=True, blank=True)
 
-    # slope = models.BooleanField()
-    # slope_avg = models.IntegerField(null=True, blank=True)
-    # slope_min = models.IntegerField(null=True, blank=True)
-    # slope_max = models.IntegerField(null=True, blank=True)
+    inlet_distance = models.BooleanField()
+    inlet_distance_min = models.FloatField(null=True, blank=True)
+    inlet_distance_max = models.FloatField(null=True, blank=True)
 
+    acropora_pa = models.BooleanField()
+    acropora_pa_input = models.TextField(null=True, blank=True)
+    
     region = models.TextField(null=True, blank=True)
     county = models.TextField(null=True, blank=True)
 
@@ -60,17 +59,6 @@ class Scenario(Analysis):
     coral_size_min = models.FloatField(null=True, blank=True)
     coral_size_max = models.FloatField(null=True, blank=True)
 
-    inlet_distance = models.BooleanField()
-    inlet_distance_min = models.FloatField(null=True, blank=True)
-    inlet_distance_max = models.FloatField(null=True, blank=True)
-
-    shore_distance = models.BooleanField()
-    shore_distance_min = models.FloatField(null=True, blank=True)
-    shore_distance_max = models.FloatField(null=True, blank=True)
-
-    acropora_pa = models.BooleanField()
-    acropora_pa_input = models.TextField(null=True, blank=True)
-    
     prev_impact = models.TextField(null=True, blank=True)
 
     description = models.TextField(null=True, blank=True)
@@ -147,47 +135,15 @@ class Scenario(Analysis):
         json_geom = self.geometry_dissolved.transform(srid, clone=True).json
         return get_feature_json(json_geom, json.dumps(props))
     
-    def run(self):
-        query = GridCell.objects.all()
-        
-        # TODO: This would be nicer if it generically knew how to filter fields
-        # by name, and what kinds of filters they were. For now, hard code. 
-        
-        # if self.bathy_avg:
-        #     query = query.filter(bathy_avg__range=(self.bathy_avg_min, 
-        #                                            self.bathy_avg_max))
-        
 
-        if self.shore_distance:
-            query = query.filter(shore_distance__range=(self.shore_distance_min, self.shore_distance_max))
+    def run(self):        
+        # placing this import here to avoid circular dependency with views.py
+        from views import run_filter_query
+        query = run_filter_query(model_to_dict(self))
 
-        if self.inlet_distance:
-            query = query.filter(inlet_distance__gte=self.inlet_distance_max)
-        
-        if self.acropora_pa:
-            query = query.filter(acropora_pa=self.acropora_pa_input)
-
-        if self.fish_abundance:
-            query = query.filter(fish_abundance__gte=self.fish_abundance_max)
-        
-        if self.fish_richness:
-            query = query.filter(fish_richness__gte=self.fish_richness_max)
-
-        if self.coral_richness:
-            query = query.filter(coral_richness__gte=self.coral_richness_max)
-        
-        if self.coral_density:
-            query = query.filter(coral_density__gte=self.coral_density_max)
-        
-        if self.coral_size:
-            query = query.filter(coral_size__gte=self.coral_size_max)
-        
-        # if self.mangrove_p:
-        #     query = query.filter(mangrove_p=0)
-        
         if len(query) == 0:
-        	self.satisfied = False;
-        	# raise Exception("No lease blocks available with the current filters.")       
+            self.satisfied = False;
+            # raise Exception("No lease blocks available with the current filters.")       
 
         dissolved_geom = query.aggregate(Union('geometry'))        
         if dissolved_geom['geometry__union']:
@@ -199,15 +155,18 @@ class Scenario(Analysis):
             self.geometry_dissolved = dissolved_geom
         else:
             self.geometry_dissolved = MultiPolygon(dissolved_geom, srid=dissolved_geom.srid)
-        self.active = True
+
+        self.active = True # ??
         
-        import datetime;start=datetime.datetime.now()
+        # import datetime
+        # start=datetime.datetime.now()
+        
         self.geometry_final_area = self.geometry_dissolved.area
         
         self.grid_cells = ','.join(str(i) 
                                      for i in query.values_list('id', flat=True))
         
-        print("Elapsed:", datetime.datetime.now() - start)
+        # print("Elapsed:", datetime.datetime.now() - start)
                
         if self.grid_cells == '':
             self.satisfied = False

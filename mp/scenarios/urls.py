@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'share_design$', share_design),
     url(r'copy_design/(?P<uid>[\w_]+)/$', copy_design),
     url(r'get_selections$', get_selections),
-    url(r'get_leaseblock_features$', get_leaseblock_features)
+    url(r'get_leaseblock_features$', get_leaseblock_features),
+    url(r'get_filter_count$', get_filter_count),
+    url(r'get_filter_results$', get_filter_results)
 )

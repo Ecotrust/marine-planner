@@ -1,0 +1,258 @@
+
+
+#designs .form-container {
+  margin-top: -5px;
+  margin-right: -5px;
+}
+
+#wind-design-form {
+    border-top-width: 0px;
+    /*width: 99% !important;*/
+    width: 371px;
+    padding: 5px 0px 5px 0px !important;
+    border-radius: 0px;
+    border-right: 0;
+    border-left: 0;
+    margin-right: -10px;
+    margin-bottom: 14px;
+}
+#wind-design-form i {
+    display: inline-block;
+}
+#wind-design-form i.check {
+    top: 7px;
+}
+#wind-design-form .accordion-toggle i.check {
+    left: -3px;
+}
+#wind-design-form i.icon-check-empty {
+    opacity: .4;
+    /* for IE */
+    filter: alpha(opacity=40);
+}
+#wind-design-form label:hover i.icon-check-empty {
+    opacity: .8;
+    /* for IE */
+    filter: alpha(opacity=80);
+}
+#wind-design-form ul {
+    margin-left: 20px;
+    width: 90%;
+}
+#wind-design-form .parameter-label {
+    font-size: 14px;
+}
+#wind-design-form .show-layer-btn-group {
+    width: 80%; 
+    margin: 15px 0px 5px 0px;
+}
+#wind-design-form .show-layer-btn {
+    width: 82%;
+    height: 16px; 
+    line-height: 16px;
+    padding-left: 15px;
+}
+#wind-design-form .accordion-heading .accordion-toggle {
+    padding: 4px 15px;
+}
+#wind-design-form .accordion-body {
+    border-left: 0px !important;
+}
+#wind-design-form .accordion-inner {
+    padding: 5px 0px;
+    border-top: 0px;
+    font-weight: normal;
+}
+#wind-design-form input.hidden_checkbox {
+    display:none;
+}
+#wind-design-form .inputfield {
+    margin: 0px 0px 0px 20px;
+}
+#wind-design-form .btn-info-sign {
+    padding: 4px 6px;
+}
+#wind-design-form .slider {
+    width: 80%;
+}
+#wind-design-form .jspVerticalBar {
+    right: 20px;
+    height: 90%;
+}
+#wind-design-form .jspTrack {
+    border-radius: 4px;
+    height: 300px !important;
+}
+#wind-design-form .jspContainer {
+    width: 100% !important;
+    height: 300px !important;
+    padding-right: 10px;
+    margin-left: 10px;
+}
+#wind-design-form .jspPane {
+    border-radius: 10px;
+    padding: 5px 0px 0px;
+    top: 0px;
+    width: 370px;
+}
+
+.show-blocks-btn {
+    position: relative;
+    float: right;
+    margin-top: -33px;
+    margin-right: 14px;
+
+}
+.show-blocks-btn a {
+    height: 16px; 
+    line-height: 16px;
+}
+.show-blocks-btn span {
+    display: inline-block;
+    font-size: 13px;
+}
+.show-blocks.btn i {
+    position: absolute
+    top: 10px;
+    right: 5px;
+    display: inline-block;
+
+}
+.show-blocks-btn i.icon-check-empty {
+    opacity: .4;
+    /* for IE */
+    filter: alpha(opacity=40);
+}
+.show-blocks-btn:hover i.icon-check-empty {
+    opacity: .8;
+    /* for IE */
+    filter: alpha(opacity=80);
+}
+.show-blocks-btn .badge {
+    margin-right: 5px;
+    margin-left: -5px;
+    float: left;
+}
+
+
+
+div .field > label { 
+    font-size: 12px; 
+    display: inline; 
+}
+div.param-checkboxes {
+    padding-left: 10px !important;
+}
+span.potential {
+    font-weight:bold; !important;
+}
+span.traffic {
+    font-weight:bold; !important;
+}
+span.form-image { 
+    float: left; 
+    margin-left: -66px; 
+}
+span.form-image > img { 
+    width:46px; 
+    height:46px; 
+}
+
+.traffic {
+    margin-top: 5px;
+}
+.traffic_widget {
+    margin-top: 15px;
+}
+
+
+p.step-text {
+    margin: 0px;
+    text-align:left;
+}
+p.instructions {
+    margin: 0px; 
+    margin-top: 10px;
+    margin-bottom: 0px;
+    text-align: left;
+    color: #47556C;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: sans-serif;
+}
+form ul {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    padding-left: 20px;
+}
+#scenario-form {
+    margin-left: -10px;
+    margin-top: -10px;
+}
+#scenario-form li {
+    list-style:none;
+}
+li label {   
+    font-weight: normal !important;
+    margin-bottom: 0px !important;
+}
+form ul.parameters {
+    list-style-type: none;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+    width: 90%;
+}
+
+form ul.parameters i.info-icon {
+    margin-left: 0px !important; 
+    color: #666;
+}
+form ul.parameters i.info-icon:hover {
+    color: #333;
+}
+
+label.step-header {
+    margin-top: 5px;
+    font-weight: bold;
+    padding-left: 5px !important;
+}
+label.step3-header {
+    font-weight: bold;
+    padding-left: 5px !important;
+    padding-bottom: 10px !important;
+}
+label.param {
+    font-weight: normal !important;
+    padding-left: 0px !important;
+}
+img.info {
+    display: inline !important;
+}
+
+/* design stuff */
+
+.panel form {
+    /*background: none repeat scroll 0 0 #DDDDDD;*/
+    border: 1px solid #BBBBBB;
+    border-radius: 10px 10px 10px 10px;
+    height: 60%;
+    width: 99%;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.panel > form textarea,
+.panel > form input[name="name"] {
+    width: 90%;
+}
+
+.errorlist {
+    color: red;
+}
+
+form {
+    outline: none;
+}

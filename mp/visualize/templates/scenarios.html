@@ -20,7 +20,7 @@
     </div>
     
     <div class="form-container" data-bind="visible: ! (loadingMessage() || errorMessage())">
-        <div id="designs-data" data-bind="visible: !scenarioForm() && !selectionForm() && !reportsVisible() && !drawingForm()">
+        <div id="designs-data" data-bind="visible: !scenarioForm() && !drawingForm()">
             <!-- <div class="row-fluid">
                 <div class="span12">
                     <div id="create-new-design" class="btn-group pull-left" style="padding-bottom: 10px;">
@@ -196,12 +196,6 @@
         <div style="height: 100%" data-bind="visible: scenarioForm">   
             <div id="scenario-form" class="panel-container"></div>   
         </div>
-        
-        {% comment %}
-        <div style="height: 100%" data-bind="visible: selectionForm">   
-            <div id="selection-form" class="panel-container"></div>   
-        </div>
-        {% endcomment %}
         
         <div style="height: 100%" data-bind="visible: drawingForm">   
             <div id="drawing-form" class="panel-container"></div> 

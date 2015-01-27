@@ -7,6 +7,7 @@ from madrona.features import get_feature_by_uid
 from general.utils import meters_to_feet
 from models import *
 from simplejson import dumps
+from django.contrib.gis.db.models.aggregates import Union
 
 
 '''
@@ -227,6 +228,77 @@ def share_design(request):
     design.share_with(groups, append=False)
     return HttpResponse("", status=200)
     
+'''
+'''
+def run_filter_query(filters):
+    # TODO: This would be nicer if it generically knew how to filter fields
+    # by name, and what kinds of filters they were. For now, hard code. 
+    query = GridCell.objects.all() 
+
+    if 'shore_distance' in filters.keys() and filters['shore_distance']:
+        query = query.filter(shore_distance__range=(filters['shore_distance_min'], filters['shore_distance_max']))
+
+    if 'inlet_distance' in filters.keys() and filters['inlet_distance']:
+        query = query.filter(inlet_distance__gte=filters['inlet_distance_max'])
+    
+    if 'acropora_pa' in filters.keys() and filters['acropora_pa']:
+        query = query.filter(acropora_pa=filters['acropora_pa_input'])
+
+    if 'fish_abundance' in filters.keys() and filters['fish_abundance']:
+        query = query.filter(fish_abundance__gte=filters['fish_abundance_max'])
+    
+    if 'fish_richness' in filters.keys() and filters['fish_richness']:
+        query = query.filter(fish_richness__gte=filters['fish_richness_max'])
+
+    if 'coral_richness' in filters.keys() and filters['coral_richness']:
+        query = query.filter(coral_richness__gte=filters['coral_richness_max'])
+    
+    if 'coral_density' in filters.keys() and filters['coral_density']:
+        query = query.filter(coral_density__gte=filters['coral_density_max'])
+    
+    if 'coral_size' in filters.keys() and filters['coral_size']:
+        query = query.filter(coral_size__gte=filters['coral_size_max'])
+    
+    return query
+
+'''
+'''
+def get_filter_count(request):
+    filter_dict = dict(request.POST.iteritems())
+    query = run_filter_query(filter_dict)
+    return HttpResponse(len(query), status=200)
+
+
+'''
+'''
+def get_filter_results(request):
+    filter_dict = dict(request.POST.iteritems())
+    query = run_filter_query(filter_dict)
+
+    json = []
+    if len(query) == 0:
+        json = [{
+            'count': 0,
+            'wkt': None
+        }]
+    else:
+        dissolved_geom = query.aggregate(Union('geometry'))        
+        if dissolved_geom['geometry__union']:
+            dissolved_geom = dissolved_geom['geometry__union']
+        else:
+            raise Exception("No lease blocks available with the current filters.")
+        json = [{
+            'count': len(query),
+            'wkt': dissolved_geom.wkt
+        }]
+        # if type(dissolved_geom) == MultiPolygon:
+        #     self.geometry_dissolved = dissolved_geom
+        # else:
+        #     self.geometry_dissolved = MultiPolygon(dissolved_geom, srid=dissolved_geom.srid)
+
+    # return # of grid cells and dissolved geometry in geojson
+    return HttpResponse(dumps(json))
+
 '''
 '''
 #@cache_page(60 * 60 * 24, key_prefix="scenarios_get_leaseblocks")

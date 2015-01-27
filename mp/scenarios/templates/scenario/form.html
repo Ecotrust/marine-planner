@@ -4,53 +4,14 @@
 {% load flatblock_tags %}
 
 <script type="text/javascript" charset="utf-8">
-function updateRemaininLeaseBlocks() {
-    app.viewModel.scenarios.scenarioFormModel.updateLeaseblocksLeft();
-    app.viewModel.scenarios.scenarioFormModel.updateRemainingBlocks();
-}
+
 madrona.onShow(function(){
     madrona.setupForm($('#wind-design-form'));
     
     var step = 1;
     var max_step = 3;
 
-    $('.inputfield').each(function() {
-        $(this).hide();
-    });
-    
-    updateDesignScrollBar();
-    
     function validate(step) {
-        if (step == 1) {/*
-            parameter_selections = 0;
-            var all_params = $('input.parameters');
-            //NOTE:  This will also examine parameters in Step 2...might call those 'filters' to prevent this problem?
-            //       This means the user could select a param in step 1, proceed to step 2, select param there, 
-            //       return to step 1 and deselect all params there, and then proceed back to step 2 with no parameters selected
-            //       or maybe call them parameters_step2...?
-            $.each(all_params, function(index, param) {
-                if (param.checked) {
-                    parameter_selections += 1;
-                }
-            });
-            if (parameter_selections == 0) {
-                alert("Select at least 1 Criteria.");
-                return false;
-            } else {
-                if ($('#id_input_parameter_wea').is(':checked')) {
-                    wea_selections = 0;
-                    $.each($('.wea_checkboxes'), function(index, checkbox) {
-                        if (checkbox.checked) {
-                            wea_selections += 1;
-                        }
-                    });
-                    if (wea_selections == 0) {
-                        alert("Select at least 1 Wind Energy Area or de-activate the Wind Energy Areas criteria.");
-                        return false;
-                    }
-                }
-            }*/
-        } 
         return true;
     }; 
 
@@ -104,84 +65,23 @@ madrona.onShow(function(){
             setTimeout(function() {designsWizardScrollpane.reinitialise();},200);
         }
     }
-    
-    // DISTANCE TO SHORE UPDATED
-    //Update Remaining Leaseblocks 
-    $('#slider-input_coast_distance').bind( "slide slidechange", function(event, ui) {
-        if (app.viewModel.scenarios.scenarioFormModel) { //this condition prevents error thrown at form creation time
-            app.viewModel.scenarios.scenarioFormModel.updateFilters({'key': 'min_distance', 'value': parseInt(ui.values[0])*1000});
-            app.viewModel.scenarios.scenarioFormModel.updateFilters({'key': 'max_distance', 'value': parseInt(ui.values[1])*1000});
-            //Update Remaining Leaseblocks 
-            updateRemaininLeaseBlocks();
-        }
-    });  
+
+    updateDesignScrollBar();
+    wizard();
+
+    $('.inputfield').each(function() {
+        $(this).hide();
+    });    
 
     $('#button_prev').click( function() { wizard('prev'); });
     $('#button_next').click( function() { wizard('next'); });
-    wizard();
     
     $('ul.errorlist').each( function() {
         step = 3;
         wizard();
     });
     
-    //not sure this is used any more...
-    /*
-    $('img.info').each( function() {
-        var id = $(this).attr('id');
-        var text = "none";
-        topMiddle = false;
-        topLeft = false;
-        topRight = false;
-        switch(id) {
-            //Step 1 Categories
-            case 'info_wind_speed':
-                topRight = true;
-                text = $('#info_wind_speed_content').html();
-                break;   
-            case 'info_wind_speed_widget':
-                topLeft = true;
-                text = $('#info_wind_speed_widget_content').html();
-                break;                        
-            default:
-                $(this).hide();
-        }
-        if (text != 'none') {                
-            var my_configuration_object = {
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' } 
-                },
-                position: { corner: {} },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    name: 'blue' 
-                }
-            };
-            if (topMiddle) {
-                my_configuration_object.position.corner.target = 'topMiddle';
-                my_configuration_object.position.corner.tooltip = 'bottomMiddle';
-                my_configuration_object.style.width = 320;
-            } else if (topLeft) {
-                my_configuration_object.position.corner.target = 'topRight';
-                my_configuration_object.position.corner.tooltip = 'bottomRight';
-                my_configuration_object.style.width = 270;            
-            } else if (topRight) {
-                my_configuration_object.position.corner.target = 'topLeft';
-                my_configuration_object.position.corner.tooltip = 'bottomLeft';
-                my_configuration_object.style.width = 270;
-            } else {
-                my_configuration_object.position.corner.target = 'rightMiddle';
-                my_configuration_object.position.corner.tooltip = 'leftMiddle';
-                my_configuration_object.style.width = 270;
-            }
-            //$(this).qtip(my_configuration_object);
-        }
-    }); 
-    */
-
-     
+ 
     if ($("input[type='color']").length) {
         $.getScript("media/marco/js/mColorPicker.js");
     }   
@@ -216,12 +116,33 @@ madrona.onShow(function(){
             $('.popover').hide();
         }
     });
+    $('.disabled-grid-button').popover({
+        trigger: 'hover',
+        template: '<div class="popover layer-popover"><div class="arrow"></div><div class="popover-inner layer-tooltip"><div class="popover-content"><p></p></div></div></div>'
+        // html: 'true'
+    });
 });
 </script>
 
 {% if form.media %} {{ form.media }} {% endif %}
-<h4>Grid Filtering</h4>
-<form id="wind-design-form" action="{{action}}" method="post" name="wind-design-form">
+<h4 style="margin-left: 15px">Grid Filtering</h4>
+<div class="show-blocks-btn">
+    <!-- ko if: enableUpdateButton() -->
+    <a class="button btn enabled-grid-button" style="padding: 4px 9px" data-bind="click: showFilteringResults">
+        <span>Show Grid Cells</span> 
+        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="text: gridCellsRemaining()"></span> 
+        <i class="icon-large icon-check-empty" style="margin-left: 5px;"></i>
+    </a>
+    <!-- /ko -->
+    <!-- ko if: !enableUpdateButton() -->
+    <span class="button btn disabled disabled-grid-button" style="padding: 2px 9px" rel="popover" data-content="Too many grid cells to show" data-placement="right" data-container="body">
+        <span>Show Grid Cells</span> 
+        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="text: gridCellsRemaining()"></span> 
+        <i class="icon-large icon-check-empty" style="margin-left: 5px;"></i>
+    </span>
+    <!-- /ko -->
+</div>
+<form id="wind-design-form" action="{{action}}" method="post" name="wind-design-form" style="padding: 5px 0px 5px 0px;">
     {% for hidden in form.hidden_fields %}
         <div style="display:none;">
             {{ hidden.errors }}
@@ -231,7 +152,7 @@ madrona.onShow(function(){
         
     {% for step in form.get_steps %}
     <div id="step{{ forloop.counter }}" class="step">
-        <p class="step-text"><i>Step {{ forloop.counter }} of 3 </i></p>
+        <p class="step-text"><i>Step {{ forloop.counter }} of 3 </i></p>        
         <!-- <p class="instructions">Select 1 or more criteria for this sector </p> -->
         {% if forloop.counter == 1 %}
         <!-- <label class="step-header">Wind Energy</label> -->
@@ -245,13 +166,14 @@ madrona.onShow(function(){
                 {% for field, field_min, field_max, field_input in step %}
                 <li>
                     <div class="accordion" id="{{ field.html_name }}_accordion">
-                        <div class="accordion-heading" data-bind="click: parameterToggler('{{ field.html_name }}')">
+                        <div class="accordion-heading" data-bind="click: function() { toggleParameter('{{ field.html_name }}'); }">
                             <label class="accordion-toggle">
                                 {{ field.as_widget }}
                                 <i class="check icon-large icon-check" data-bind="visible: {{ field.html_name }}()"></i>
                                 <i class="check icon-large icon-check-empty"></i>
                                 <span class="parameter-label" style="margin-left: 5px">{{ field.label }}</span> 
-                                <i class="info-icon icon-info-sign" rel="popover" 
+                                <i class="info-icon icon-info-sign" 
+                                   rel="popover" 
                                    data-content="{{ field.help_text }}"
                                    data-placement="right"
                                    data-container="body">
@@ -303,28 +225,31 @@ madrona.onShow(function(){
                                     {{ field.errors }}
                                     
                                     <script type="text/javascript">
-                                    {% if field_min and not field_max %}
+                                        {% if field_min and not field_max %}
                                         $('#slider-{{ field_min.html_name }}').bind( "slide slidechange", function(event, ui) {
                                             if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFilters('{{ field.html_name }}', ui.value, null);
-                                                updateRemaininLeaseBlocks();
+                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                             }
                                         });  
-                                    {% elif field_max and not field_min %}
+                                        {% elif field_max and not field_min %}
                                         $('#slider-{{ field_max.html_name }}').bind( "slide slidechange", function(event, ui) {
                                             if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFilters('{{ field.html_name }}', null, ui.value);
-                                                updateRemaininLeaseBlocks();
+                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                             }
                                         });  
-                                    {% elif field_min and field_max %}
+                                        {% elif field_min and field_max %}
                                         $('#slider-{{ field_input.html_name }}').bind( "slide slidechange", function(event, ui) {
                                             if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFilters('{{ field.html_name }}', ui.values[0], ui.values[1]);
-                                                updateRemaininLeaseBlocks();
+                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                             }
                                         });  
-                                    {% endif %}
+                                        {% else %}
+                                        $('#id_{{ field_input.html_name }}').change( function() {
+                                            if (app.viewModel.scenarios.scenarioFormModel) {
+                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
+                                            }
+                                        });                                      
+                                        {% endif %}
                                     </script>
                                 </div>
                             </div>
@@ -355,40 +280,15 @@ madrona.onShow(function(){
                 {{ form.description.errors }}
                 {{ form.description }}            
             </div>
-            <div id="scenario-cp">
-                <!--<input type="color" value="#ff0667" data-text="hidden" style="height:20px;width:20px;" />-->
-            </div>
         </div>
     </div>
 
     <p><button type="submit" value="submit" class="btn-submit btn">submit</button></p>
 </form>
 
-<!-- <div class="show-blocks-btn" data-bind="visible: app.viewModel.modernBrowser()">
-    <span data-bind="visible: !isLeaseblockLayerVisible()">
-        <a class="button btn" data-bind="click: activateLeaseblockLayer">
-            <span class="badge" style="margin-right: 5px; margin-left: -5px;" 
-                  data-bind="text: leaseblocksLeft"></span> Grid Cells Remaining 
-            <i class="icon-large icon-check-empty" 
-               style="margin-right: -5px; margin-left: 5px;"></i>
-        </a>
-    </span>
-    <span data-bind="visible: isLeaseblockLayerVisible()">
-        <a class="button btn" data-bind="click: deactivateLeaseblockLayer">
-            <span class="badge" style="margin-right: 5px; margin-left: -5px;" 
-                  data-bind="text: leaseblocksLeft"></span> Grid Cells Remaining 
-            <i class="icon-large icon-check"
-               style="margin-right: -5px; margin-left: 5px;"></i>
-        </a>
-    </span>
-</div> -->
-
-<!-- <div class="show-blocks-btn" style="padding-right: 1px; color: #333333" data-bind="visible: ! app.viewModel.modernBrowser()">
-    <label>Grid Cells Remaining: <span data-bind="text: leaseblocksLeft"></span></label>
-</div> -->
 
 <div class="wizard_nav" style="width:100%">
-    <div class="btn-group pull-right">
+    <div class="btn-group pull-right" style="margin-right: 14px">
         <a href="#" class="button btn" onclick="this.blur(); return false;" id="button_prev"><span>&lt; Previous</span></a>
         <a href="#" class="button btn"  onclick="this.blur(); return false;" id="button_next"><span>Next &gt;</span></a>
         <a href="#" class="submit_button button btn" onclick="this.blur(); return false;"><span>Save</span></a>
@@ -396,7 +296,7 @@ madrona.onShow(function(){
 </div>
 
 <div>
-    <div class="btn-group pull-left">
+    <div class="btn-group pull-left" style="margin-left: 14px">
         <a href="#" class="cancel_button button red btn"><span>Cancel</span></a>
         
     </div>
@@ -406,223 +306,6 @@ madrona.onShow(function(){
 <!-- TODO: clean up the following (much of it is not being used) after we've made some progress -->
 <style type="text/css">
 
-input.hidden_checkbox {
-    display:none;
-}
-
-#id_input_parameter_wind_speed {
-    display: none;
-}
-#id_input_parameter_distance_to_shore {
-    display: none;
-}
-#id_input_parameter_depth {
-    display: none;
-}
-#id_input_parameter_distance_to_substation {
-    display: none;
-}
-#id_input_parameter_distance_to_awc {
-    display: none;
-}
-#id_input_filter_distance_to_shipping {
-    display: none;
-}
-#id_input_filter_ais_density {
-    display: none;
-}
-#id_input_filter_uxo {
-    display: none;
-}
-
-
-#wind-design-form i.check {
-    top: 7px;
-}
-#wind-design-form .accordion-toggle i.check {
-    left: -3px;
-}
-#wind-design-form i.icon-check-empty {
-    display: block !important;
-    opacity: .4;
-    /* for IE */
-    filter: alpha(opacity=40);
-}
-#wind-design-form label:hover i.icon-check-empty {
-    display: block !important;
-    opacity: .8;
-    /* for IE */
-    filter: alpha(opacity=80);
-}
-#wind-design-form .parameter-label {
-    font-size: 14px;
-}
-#wind-design-form .show-layer-btn {
-    height: 16px; 
-    line-height: 16px;
-    padding-left: 15px;
-}
-#wind-design-form .show-layer-btn-group {
-    width: 80%; 
-    margin: 15px 0px 5px 0px;
-}
-#wind-design-form .show-layer-btn {
-    width: 98%;
-}
-.show-blocks-btn a{
-    height: 16px; 
-    line-height: 16px;
-}
-.show-blocks-btn i.icon-check-empty {
-    opacity: .4;
-    /* for IE */
-    filter: alpha(opacity=40);
-}
-.show-blocks-btn:hover i.icon-check-empty {
-    opacity: .8;
-    /* for IE */
-    filter: alpha(opacity=80);
-}
-#wind-design-form .accordion-heading .accordion-toggle {
-    padding: 4px 15px;
-}
-#wind-design-form .accordion-body {
-    border-left: 0px !important;
-}
-#wind-design-form .accordion-inner {
-    padding: 5px 0px;
-    border-top: 0px;
-    font-weight: normal;
-}
-#wind-design-form .inputfield {
-    margin: 0px 20px;
-}
-#wind-design-form .btn-info-sign {
-    padding: 4px 6px;
-}
-.show-blocks-btn {
-    margin-top: -10px;
-    padding-bottom: 10px;
-}
-
-
-
-div .field > label { 
-    font-size: 12px; 
-    display: inline; 
-}
-div.param-checkboxes {
-    padding-left: 10px !important;
-}
-span.potential {
-    font-weight:bold; !important;
-}
-span.traffic {
-    font-weight:bold; !important;
-}
-span.form-image { 
-    float: left; 
-    margin-left: -66px; 
-}
-span.form-image > img { 
-    width:46px; 
-    height:46px; 
-}
-
-.traffic {
-    margin-top: 5px;
-}
-.traffic_widget {
-    margin-top: 15px;
-}
-
-
-p.step-text {
-    margin: 0px;
-    text-align:left;
-}
-p.instructions {
-    margin: 0px; 
-    margin-top: 10px;
-    margin-bottom: 0px;
-    text-align: left;
-    color: #47556C;
-    font-size: 14px;
-    font-weight: normal;
-    font-family: sans-serif;
-}
-form ul {
-    margin-top: 5px;
-    margin-bottom: 0px;
-    padding-left: 20px;
-}
-#scenario-form li {
-    list-style:none;
-}
-li label {   
-    font-weight: normal !important;
-    margin-bottom: 0px !important;
-}
-form ul.parameters {
-    list-style-type: none;
-    margin-top: 5px;
-    margin-bottom: 0px;
-    padding-left: 0px;
-    width: 90%;
-}
-
-form ul.parameters i.info-icon {
-    margin-left: 0px !important; 
-    color: #666;
-}
-form ul.parameters i.info-icon:hover {
-    color: #333;
-}
-
-label.step-header {
-    margin-top: 5px;
-    font-weight: bold;
-    padding-left: 5px !important;
-}
-label.step3-header {
-    font-weight: bold;
-    padding-left: 5px !important;
-    padding-bottom: 10px !important;
-}
-label.param {
-    font-weight: normal !important;
-    padding-left: 0px !important;
-}
-img.info {
-    display: inline !important;
-}
-
-/* design stuff */
-
-.panel form {
-    /*background: none repeat scroll 0 0 #DDDDDD;*/
-    border: 1px solid #BBBBBB;
-    border-radius: 10px 10px 10px 10px;
-    height: 60%;
-    width: 99%;
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-
-.panel > form textarea,
-.panel > form input[name="name"] {
-    width: 90%;
-}
-
-.errorlist {
-    color: red;
-}
-
-form {
-    outline: none;
-}
 </style>
 
 {% endblock %}

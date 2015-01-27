@@ -110,66 +110,36 @@ function scenarioFormModel(options) {
     
     // Step 1 Parameters    
     self.shore_distance = ko.observable(false);
-    self.shore_distance_min = ko.observable(0);
-    self.shore_distance_max = ko.observable(0);
-
     self.inlet_distance = ko.observable(false);
-    self.inlet_distance_min = ko.observable(0);
-    self.inlet_distance_max = ko.observable(0);
-
     self.acropora_pa = ko.observable(false);
-    self.acropora_presence = ko.observable(false);
-    self.acropora_absence = ko.observable(false);
 
     // Step 2 Parameters
     self.fish_abundance = ko.observable(false);
-    self.fish_abundance_min = ko.observable(0);
-    self.fish_abundance_max = ko.observable(0);
-    
     self.fish_richness = ko.observable(false);
-    self.fish_richness_min = ko.observable(0);
-    self.fish_richness_max = ko.observable(0);
-    
     self.coral_richness = ko.observable(false);
-    self.coral_richness_min = ko.observable(0);
-    self.coral_richness_max = ko.observable(0);
-
     self.coral_density = ko.observable(false);
-    self.coral_density_min = ko.observable(0);
-    self.coral_density_max = ko.observable(0);
-
     self.coral_size = ko.observable(false);
-    self.coral_size_min = ko.observable(0);
-    self.coral_size_max = ko.observable(0);
-
-
-    var initial_leaseblocks_left = app.viewModel.scenarios.leaseblockList.length || 3426;
-    self.leaseblocksLeft = ko.observable(initial_leaseblocks_left);
-    self.showLeaseblockSpinner = ko.observable(false);
-    
-    self.isLeaseblockLayerVisible = ko.observable(false);
-    self.isLeaseblockLayerVisible.subscribe( function() {
-        if ( self.isLeaseblockLayerVisible() ) {
-            self.showRemainingBlocks();
-        } else {
-            self.hideLeaseblockLayer();
-        }
-    });
-        
-    self.activateLeaseblockLayer = function() {
-        self.isLeaseblockLayerVisible(true);
-        //self.showRemainingBlocks();
-    };
-    
-    self.deactivateLeaseblockLayer = function() {
-        self.isLeaseblockLayerVisible(false);
-        //remove from attribute list (if it's there)
-        app.viewModel.removeFromAggregatedAttributes(app.viewModel.scenarios.scenarioLeaseBlocksLayerName);
-        app.viewModel.updateAggregatedAttributesOverlayWidthAndScrollbar();
-        //self.hideLeaseblockLayer();
-    };
     
     self.lastChange = (new Date()).getTime();
+
+    var defaultStyle = new OpenLayers.Style({
+        //display: 'none'
+        fillColor: '#ee9900',
+        fillOpacity: .5,
+        strokeColor: '#DDDDDD',
+        strokeOpacity: .6,
+        strokeWidth: 1
+    });
+    var styleMap = new OpenLayers.StyleMap( {
+        'default': defaultStyle
+    });
+    
+    self.updatedFilterResultsLayer = new OpenLayers.Layer.Vector('Current Filter Results', {
+        projection: new OpenLayers.Projection('EPSG:3857'),
+        displayInLayerSwitcher: false,
+        styleMap: styleMap
+    }); 
+    app.map.addLayer(self.updatedFilterResultsLayer);
     
     /** Toggle an input div. */
     self.toggleParameter = function(param) {
@@ -182,46 +152,18 @@ function scenarioFormModel(options) {
             param_element.removeAttr('checked');
             param_widget.css('display', 'none');
             self.removeFilter(param);
-        }
-        else {
-            var min;
-            var max;
-            var param_element_min = $('#id_' + param + '_min')[0];
-            if (param_element_min) {
-                min = param_element_min.value;
-            }
-            var param_element_max = $('#id_' + param + '_max')[0];
-            if (param_element_max) {
-                max = param_element_max.value;
-            }
-            
+        } else {
             param_bool(true);
             param_element.attr('checked', 'checked');
             param_widget.css('display', 'block');
-            
-            self.updateFilters(param, min, max);
+            self.updateFilters(param);
         }
         
         self.updateDesignScrollBar();
-        self.updateFiltersAndLeaseBlocks();
-        self.updateRemainingBlocks();
-    };
-    
-    /** Returns a partial function which calls toggleParameter.
-        var fn = parameterToggler('wind');
-        fn();
-     */
-    self.parameterToggler = function(param) {
-        return function() {
-            self.toggleParameter(param);
-        }
-    }
+        self.updateFilterCount(param);
+    };    
     
     self.filters = {};
-    self.masterFilter = new OpenLayers.Filter.Logical({
-        type: OpenLayers.Filter.Logical.AND,
-        filters: []
-    });
 
     // Toggle Data Layers and Layer Info
 
@@ -275,147 +217,119 @@ function scenarioFormModel(options) {
         return false;
     };
 
-    /** Add a filter. 
-    Filters are value name (e.g., bathy_avg), the min value (e.g., 30), and 
-    the max value (e.g., 130). 
-    If you want a one-sided relation of value greater than min (param > min), 
-    then pass null for max 
-    If you want a one-sided relation of value less than max (param < max), 
-    then pass null for min 
-    */
-    self.updateFilters = function(param_name, min, max) {
-        var filter; 
-        
-        if (Number(min) != min) {
-            min = null; 
-        }
-        else {
-            min = Number(min);
-        }
-        if (Number(max) != max) {
-            max = null;
-        }
-        else {
-            max = Number(max);
-        }
+    // Updating Dynamic Display
 
-        // exclude checkbox, == 0
-        if (min == null && max == null) {
-            filter = new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                property: param_name,
-                value: 0
-            });
-        }
-        // less than filter
-        else if (min == null) {
-            filter = new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.LESS_THAN,
-                property: param_name,
-                value: max
-            });
-        }
-        // greater than filter
-        else if (max == null) {
-            filter = new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.GREATER_THAN,
-                property: param_name,
-                value: min
-            });
-        }
-        // between filter
-        else {
-            filter = new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.BETWEEN,
-                property: param_name,
-                lowerBoundary: min,
-                upperBoundary: max,
-            });
-        }
+    self.enableUpdateButton = ko.observable(true);
+    self.gridCellsRemaining = ko.observable(false);
 
-        self.filters[param_name] = filter;
+    self.showFilteringResults = function() {
+        self.getUpdatedFilterResults();
+    };
+
+    self.updateFiltersAndCount = function(param) {
+        self.updateFilters(param);
+        self.updateFilterCount(param);
+    };
+
+    self.updateFilterCount = function(param) {
+        if (self.updateTimeout) {
+            clearTimeout(self.updateTimeout);
+        }                
+        self.updatedFilterResultsLayer.removeAllFeatures();
+        self.lastChange = (new Date()).getTime();
+        self.updateTimeout = setTimeout(function() {
+            var newTime = (new Date()).getTime();
+            if ( newTime - self.lastChange > 1000 ) {
+                console.log(newTime - self.lastChange);
+                self.getUpdatedFilterCount();
+                self.getUpdatedFilterResults();
+            }
+        }, 1200);
+    };
+
+    // TODO: CHANGE TO A GET
+    self.getUpdatedFilterCount = function() {
+        $.ajax({
+            url: '/scenario/get_filter_count',
+            type: 'POST', 
+            data: self.filters,
+            dataType: 'json',
+            success: function(data) {
+                self.gridCellsRemaining(data);
+            }, 
+            error: function(result) {
+                debugger;
+            }
+        });
+    };
+
+    // TODO: CHANGE TO A GET
+    self.getUpdatedFilterResults = function() {  
+        $.ajax({
+            url: '/scenario/get_filter_results',
+            type: 'POST',
+            data: self.filters,
+            dataType: 'json',
+            success: function(data) {
+                var format = new OpenLayers.Format.WKT(),
+                    wkt = data[0].wkt,
+                    feature = format.read(wkt); 
+                self.updatedFilterResultsLayer.addFeatures([feature])
+                /*
+                Step 1. Create persistent Vector layer with no features (persistent during Scenario Form process)
+                Step 2. When updating, 
+                    A. Remove current feature(s) from persistent Vector layer if they exist
+                    B. Add returned feature(s) to persistent Vector layer 
+                Step 3. Remove persistent Vector layer when 
+                */
+            }, 
+            error: function(result) {
+                debugger;
+            }
+        });
+    };
+
+    self.updateFilters = function(param) {
+        var min, max, input,
+            param_element_min = $('#id_' + param + '_min')[0],
+            param_element_max = $('#id_' + param + '_max')[0],
+            param_element_input = $('#id_' + param + '_input')[0];
+
+        if (param_element_min) {
+            min = param_element_min.value;
+        }
+        if (param_element_max) {
+            max = param_element_max.value;
+        }
+        if (param_element_input) {
+            input = param_element_input.value;
+        }
+        self.updateFilter(param, min, max, input);
     }
+
+    self.updateFilter = function(param, min, max, input) {
+        var key;
+        self.filters[param] = true;
+        if (min) {
+            key = param + '_min';
+            self.filters[key] = min;
+        } 
+        if (max) {
+            key = param + '_max';
+            self.filters[key] = max;
+        }
+        if (input) {
+            key = param + '_input';
+            self.filters[key] = input;
+        }
+    };
 
     self.removeFilter = function(key) {
         delete self.filters[key];
+        delete self.filters[key+'_min'];
+        delete self.filters[key+'_max'];
+        delete self.filters[key+'_input'];
     };
-    
-    self.updateFiltersAndLeaseBlocks = function() {
-        return;
-        self.updateLeaseblocksLeft();
-    
-    };
-    
-    self.updateLeaseblocksLeft = function() {
-        return;
-        var list = app.viewModel.scenarios.leaseblockList;
-        var count = 0;
-        
-        self.masterFilter.filters = [];
-        for (var f in self.filters) {
-            self.masterFilter.filters.push(self.filters[f].clone());
-        }
-        
-        for (var i = 0; i < list.length; i++) {
-            if (self.masterFilter.evaluate(list[i])) {
-                count++;
-            }
-        }
-
-        self.leaseblocksLeft(count);
-    };
-    
-    self.updateRemainingBlocks = function() {
-        return;
-        self.lastChange = (new Date()).getTime(); 
-        setTimeout(function() {
-            var newTime = (new Date()).getTime();
-            if ( newTime - self.lastChange > 100 ) {
-                self.showRemainingBlocks();
-            }
-        }, 200);
-    };
-    
-    self.showRemainingBlocks = function() {
-        return;
-        if ( self.isLeaseblockLayerVisible() ) {
-            self.showLeaseblockSpinner(true);
-            if ( ! app.viewModel.scenarios.leaseblockLayer()) {
-                app.viewModel.scenarios.loadLeaseblockLayer();
-            } 
-            var blockLayer = app.viewModel.scenarios.leaseblockLayer();
-            
-            blockLayer.styleMap.styles['default'].rules[0] = new OpenLayers.Rule({
-                filter: self.masterFilter, 
-                symbolizer: { strokeColor: '#fff' } 
-            });
-            
-            self.showLeaseblockLayer(blockLayer);
-        }
-    };
-    
-    self.showLeaseblockLayer = function(layer) {
-        return;
-        if ( ! app.map.getLayersByName(app.viewModel.scenarios.leaseblockLayer().name).length ) {
-            app.map.addLayer(app.viewModel.scenarios.leaseblockLayer());
-        }
-        //layer.layerModel.setVisible();
-        layer.setVisibility(true);
-        app.viewModel.updateAttributeLayers();
-        //layer.refresh();
-        layer.redraw();
-    }
-    
-    self.hideLeaseblockLayer = function() {
-        return;
-        app.viewModel.scenarios.leaseblockLayer().setVisibility(false);
-        //if ( app.map.getLayersByName(app.viewModel.scenarios.leaseblockLayer().name).length ) {
-        //    app.map.removeLayer(app.viewModel.scenarios.leaseblockLayer());
-        //}
-        //remove the key/value pair from aggregatedAttributes
-        app.viewModel.removeFromAggregatedAttributes(app.viewModel.scenarios.leaseblockLayer().name);
-        app.viewModel.updateAttributeLayers();
-    }
     
     self.updateDesignScrollBar = function() {
         var designsWizardScrollpane = $('#wind-design-form').data('jsp');
@@ -547,18 +461,7 @@ function scenarioModel(options) {
     
     self.activateLayer = function() {
         var scenario = this;
-        app.viewModel.scenarios.addScenarioToMap(scenario);
-        if (scenario.isDrawingModel ) {
-            
-        } else if ( scenario.isSelectionModel ) {
-            for (var i=0; i < app.viewModel.scenarios.activeSelections().length; i=i+1) {
-                if(app.viewModel.scenarios.activeSelections()[i].id === scenario.id) { 
-                    app.viewModel.scenarios.activeSelections().splice(i,1);
-                    i = i-1;
-                }
-            }
-            app.viewModel.scenarios.activeSelections().push(scenario);
-        }
+        app.viewModel.scenarios.addScenarioToMap(scenario);        
     };
     
     self.deactivateLayer = function() {
@@ -566,13 +469,7 @@ function scenarioModel(options) {
         
         scenario.active(false);
         scenario.visible(false);
-        
-        if ( scenario.isSelectionModel ) {
-            var index = app.viewModel.scenarios.activeSelections().indexOf(scenario);
-            app.viewModel.scenarios.activeSelections().splice(index, 1);
-            app.viewModel.scenarios.reports.updateChart();
-        }
-        
+                
         scenario.opacity(scenario.defaultOpacity);
         app.setLayerVisibility(scenario, false);
         app.viewModel.activeLayers.remove(scenario);
@@ -614,7 +511,7 @@ function scenarioModel(options) {
                     }
                 }
 
-                model.updateFiltersAndLeaseBlocks();
+                // model.updateFiltersAndLeaseBlocks();
             },
             error: function (result) {
                 //debugger;
@@ -730,52 +627,10 @@ function scenariosModel(options) {
     self.scenarioList = ko.observableArray();    
     self.scenarioForm = ko.observable(false);
     
-    self.activeSelections = ko.observableArray();
-    self.selectionList = ko.observableArray(); 
-    self.selectionForm = ko.observable(false);
-    
     self.drawingList = ko.observableArray();
     self.drawingForm = ko.observable(false);
-    
-    self.getSelectionById = function(id) {
-        var selections = self.selectionList();
-        for (var i=0; i<selections.length; i++) {
-            if ( selections[i].id === id ) {
-                return selections[i];
-            }
-        }
-        return false;
-    };
-    
-        
-    self.reportsVisible = ko.observable(false);
-    self.showComparisonReports = function() {
-        setTimeout(function() {
-            $('#designs-slide').hide('slide', {direction: 'left'}, 300);
-        }, 100);
-        setTimeout(function() {
-            self.reportsVisible(true);
-            $('#designs-slide').show('slide', {direction: 'right'}, 300);
-            if (self.activeSelections().length > 0) {
-                self.reports.noActiveCollections(false);
-                app.viewModel.scenarios.reports.updateChart();
-            } else { 
-                self.reports.noActiveCollections(true);
-            }
-        }, 420);
-    };
-    
-    self.returnToDesigns = function() {
-        setTimeout(function() {
-            $('#designs-slide').hide('slide', {direction: 'right'}, 300);
-        }, 100);
-        setTimeout(function() {
-            app.viewModel.scenarios.reportsVisible(false);
-            $('#designs-slide').show('slide', {direction: 'left'}, 300);
-            self.updateDesignsScrollBar();
-        }, 420);
-    };
-    
+                
+    self.reportsVisible = ko.observable(false);    
     
     self.leaseblockLayer = ko.observable(false);
 
@@ -875,10 +730,7 @@ function scenariosModel(options) {
                 scenario.activateLayer();
             }
             app.map.zoomToExtent(layer.getDataExtent());
-            if (scenario.uid.indexOf('leaseblockselection') !== -1) {
-                app.map.zoomOut();
-                app.map.zoomOut();
-            } else if (scenario.uid.indexOf('drawing') !== -1) {
+            if (scenario.uid.indexOf('drawing') !== -1) {
                 app.map.zoomOut();
                 app.map.zoomOut();
             } 
@@ -910,7 +762,6 @@ function scenariosModel(options) {
     
     // scenariosLoaded will be set to true after they have been loaded
     self.scenariosLoaded = false;
-    self.selectionsLoaded = false;
     
     self.isScenariosOpen = ko.observable(false);
     self.toggleScenariosOpen = function(force) {
@@ -983,12 +834,8 @@ function scenariosModel(options) {
         
         //clean up scenario form
         if (self.scenarioForm() || self.scenarioFormModel) {
+            app.map.removeLayer(self.scenarioFormModel.updatedFilterResultsLayer);
             self.removeScenarioForm();
-        }
-        
-        //clean up selection form
-        if (self.selectionForm() || self.selectionFormModel) {
-            self.removeSelectionForm(obj);
         }
         
         //clean up drawing form
@@ -1017,41 +864,7 @@ function scenariosModel(options) {
         delete self.drawingFormModel;
     };
     
-    self.removeSelectionForm = function(obj) {
-        self.selectionForm(false);
-        var selectionForm = document.getElementById('selection-form');
-        $(selectionForm).empty();
-        ko.cleanNode(selectionForm); 
-        if (self.selectionFormModel.IE) {
-            if (self.selectionFormModel.selectedLeaseBlocksLayer) {
-                app.map.removeLayer(self.selectionFormModel.selectedLeaseBlocksLayer);
-            }
-        } else {
-            app.map.removeControl(self.selectionFormModel.leaseBlockSelectionLayerClickControl); 
-            app.map.removeControl(self.selectionFormModel.leaseBlockSelectionLayerBrushControl); 
-            if (self.selectionFormModel.selectedLeaseBlocksLayer) {
-                app.map.removeLayer(self.selectionFormModel.selectedLeaseBlocksLayer); 
-            }
-            if (self.selectionFormModel.leaseBlockSelectionLayer.layer) {
-                app.map.removeLayer(self.selectionFormModel.leaseBlockSelectionLayer.layer);   
-            }
-            if (self.selectionFormModel.navigationControl) {
-                self.selectionFormModel.navigationControl.activate();
-            }
-        }
-        if ( ! self.selectionFormModel.leaseBlockLayerWasActive ) {
-            if ( self.selectionFormModel.leaseBlockLayer.active() ) {
-                self.selectionFormModel.leaseBlockLayer.deactivateLayer();
-            }
-        }
-        if ( (obj && obj.cancel) && self.selectionFormModel.selection && !self.selectionFormModel.selection.active() ) {
-            self.selectionFormModel.selection.activateLayer();
-        }
-        delete self.selectionFormModel;
-        app.viewModel.enableFeatureAttribution();
-    };
-    
-    self.removeScenarioForm = function() {
+    self.removeScenarioForm = function() {        
         self.scenarioForm(false);
         var scenarioForm = document.getElementById('scenario-form');
         $(scenarioForm).empty();
@@ -1082,25 +895,6 @@ function scenariosModel(options) {
             }
         });
     };    
-
-    self.createSelectionDesign = function() {
-        return $.ajax({
-            url: '/features/leaseblockselection/form/',
-            success: function(data) {
-                self.selectionForm(true);
-                $('#selection-form').html(data);
-                if ($.browser.msie && $.browser.version < 9) {
-                    self.selectionFormModel = new IESelectionFormModel(); 
-                } else {
-                    self.selectionFormModel = new selectionFormModel(); 
-                }
-                ko.applyBindings(self.selectionFormModel, document.getElementById('selection-form'));
-            },
-            error: function (result) { 
-                //debugger; 
-            }
-        });
-    };   
 
     self.createPolygonDesign = function() {
         return $.ajax({
@@ -1140,19 +934,13 @@ function scenariosModel(options) {
         }
         
         var isDrawingModel = false,
-            isSelectionModel = false,
             isScenarioModel = false;
         if (scenarioId.indexOf('drawing') !== -1) {
             isDrawingModel = true;
-        }
-        else if (scenarioId.indexOf('leaseblockselection') !== -1) {
-            isSelectionModel = true;
         } else {
             isScenarioModel = true;
         }
-        if (self.scenarioFormModel) {
-            self.scenarioFormModel.isLeaseblockLayerVisible(false);
-        }
+        
         //perhaps much of this is not necessary once a scenario has been added to app.map.layers initially...?
         //(add check for scenario.layer, reset the style and move on?)
         $.ajax( {
@@ -1218,16 +1006,6 @@ function scenariosModel(options) {
                         });
                         self.toggleDrawingsOpen('open');
                         self.zoomToScenario(scenario);
-                    } else if (isSelectionModel) {
-                        scenario = new selectionModel({
-                            id: properties.uid,
-                            uid: properties.uid,
-                            name: properties.name, 
-                            description: properties.description,
-                            features: layer.features
-                        });
-                        self.toggleCollectionsOpen('open');
-                        self.zoomToScenario(scenario);
                     } else {
                         scenario = new scenarioModel({
                             id: properties.uid,
@@ -1250,10 +1028,7 @@ function scenariosModel(options) {
                         type: 'GET',
                         dataType: 'json',
                         success: function(result) {
-                            scenario.scenarioAttributes = result.attributes;
-                            if (isSelectionModel) {
-                                scenario.scenarioReportValues = result.report_values;
-                            }
+                            scenario.scenarioAttributes = result.attributes;                            
                         },
                         error: function (result) {
                             //debugger;
@@ -1274,17 +1049,6 @@ function scenariosModel(options) {
                             self.drawingList.push(scenario);
                         }
                         self.drawingList.sort(self.alphabetizeByName);
-                    } else if ( isSelectionModel ) {
-                        var previousSelection = ko.utils.arrayFirst(self.selectionList(), function(oldSelection) {
-                            return oldSelection.uid === scenario.uid;
-                        });
-                        if ( previousSelection ) {
-                            self.selectionList.replace( previousSelection, scenario );
-                        } else {
-                            self.selectionList.push(scenario);
-                        }
-                        self.activeSelections().push(scenario);
-                        self.selectionList.sort(self.alphabetizeByName);
                     } else {
                         var previousScenario = ko.utils.arrayFirst(self.scenarioList(), function(oldScenario) {
                             return oldScenario.uid === scenario.uid;
@@ -1401,43 +1165,7 @@ function scenariosModel(options) {
         });
         self.scenarioList.sort(self.alphabetizeByName);
     };
-    
-    self.loadSelectionsFromServer = function() {
-        $.ajax({
-            url: '/scenario/get_selections',
-            type: 'GET',
-            dataType: 'json',
-            success: function (selections) {
-                self.loadSelections(selections);
-                self.selectionsLoaded = true;
-                self.showUnloadedDesigns();
-            },
-            error: function (result) {
-                //debugger;
-            }
-        });
-    };
-    //populates selectionList
-    self.loadSelections = function (selections) {
-        self.selectionList.removeAll();
-        $.each(selections, function (i, selection) {
-            var selectionViewModel = new selectionModel({
-                id: selection.uid,
-                uid: selection.uid,
-                name: selection.name,
-                description: selection.description,
-                attributes: selection.attributes,
-                shared: selection.shared,
-                sharedByUsername: selection.shared_by_username,
-                sharedByName: selection.shared_by_name,
-                sharingGroups: selection.sharing_groups
-            });
-            self.selectionList.push(selectionViewModel);
-            app.viewModel.layerIndex[selection.uid] = selectionViewModel;
-        });
-        self.selectionList.sort(self.alphabetizeByName);
-    };
-    
+        
     self.loadDrawingsFromServer = function() {
         $.ajax({
             url: '/drawing/get_drawings',
