@@ -130,8 +130,10 @@ madrona.onShow(function(){
     <!-- ko if: enableUpdateButton() -->
     <a class="button btn enabled-grid-button" style="padding: 4px 9px" data-bind="click: showFilteringResults">
         <span>Show Grid Cells</span> 
-        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="text: gridCellsRemaining()"></span> 
-        <i class="icon-large icon-check-empty" style="margin-left: 5px;"></i>
+        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="visible: gridCellsRemaining(), text: gridCellsRemaining()"></span> 
+        <i class="icon-large icon-check-empty" style="margin-left: 5px;" data-bind="visible: ! showingFilteringResults()"></i>
+        <i class="icon-large icon-check" style="margin-left: 5px;" data-bind="visible: showingFilteringResults() && !showButtonSpinner()"></i>
+        <i class="icon-large icon-refresh icon-spin" style="margin-left: 5px; height: 5px" data-bind="visible: showingFilteringResults() && showButtonSpinner()"></i>
     </a>
     <!-- /ko -->
     <!-- ko if: !enableUpdateButton() -->

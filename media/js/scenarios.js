@@ -221,9 +221,28 @@ function scenarioFormModel(options) {
 
     self.enableUpdateButton = ko.observable(true);
     self.gridCellsRemaining = ko.observable(false);
+    self.showingFilteringResults = ko.observable(false);
+    self.inputsHaveChanged = ko.observable(true);
+    self.showButtonSpinner = ko.observable(false);
 
     self.showFilteringResults = function() {
-        self.getUpdatedFilterResults();
+        if (self.showingFilteringResults()) {
+            self.stopShowingFilteringResults();
+        } else {
+            self.showingFilteringResults(true);
+            self.updatedFilterResultsLayer.setVisibility(true);
+            if (self.inputsHaveChanged()) {                
+                self.inputsHaveChanged(false);
+                self.getUpdatedFilterResults();
+            }
+        }
+    };
+
+    self.stopShowingFilteringResults = function() {
+        self.showingFilteringResults(false);
+        // app.map.removeLayer(self.scenarioFormModel.updatedFilterResultsLayer);
+        // self.updatedFilterResultsLayer.removeAllFeatures();
+        self.updatedFilterResultsLayer.setVisibility(false);
     };
 
     self.updateFiltersAndCount = function(param) {
@@ -234,17 +253,26 @@ function scenarioFormModel(options) {
     self.updateFilterCount = function(param) {
         if (self.updateTimeout) {
             clearTimeout(self.updateTimeout);
-        }                
+        }          
+        self.inputsHaveChanged(true);
+        // console.log('inputs have changed');
+        if (self.showingFilteringResults()) {
+            self.showButtonSpinner(true);
+        }        
+        self.gridCellsRemaining('...');
         self.updatedFilterResultsLayer.removeAllFeatures();
         self.lastChange = (new Date()).getTime();
         self.updateTimeout = setTimeout(function() {
             var newTime = (new Date()).getTime();
-            if ( newTime - self.lastChange > 1000 ) {
-                console.log(newTime - self.lastChange);
-                self.getUpdatedFilterCount();
-                self.getUpdatedFilterResults();
+            if ( newTime - self.lastChange > 4000 ) {
+                // console.log(newTime - self.lastChange);
+                if (self.showingFilteringResults()) {
+                    self.getUpdatedFilterResults();
+                } else {
+                    self.getUpdatedFilterCount();
+                }            
             }
-        }, 1200);
+        }, 4200);
     };
 
     // TODO: CHANGE TO A GET
@@ -262,9 +290,15 @@ function scenarioFormModel(options) {
             }
         });
     };
+    // call now to get initial count
+    // self.getUpdatedFilterCount();    
 
     // TODO: CHANGE TO A GET
     self.getUpdatedFilterResults = function() {  
+        self.updatedFilterResultsLayer.setVisibility(false);
+        self.showButtonSpinner(true);
+        var startTime = (new Date()).getTime();
+        // self.gridCellsRemaining('...');
         $.ajax({
             url: '/scenario/get_filter_results',
             type: 'POST',
@@ -273,8 +307,14 @@ function scenarioFormModel(options) {
             success: function(data) {
                 var format = new OpenLayers.Format.WKT(),
                     wkt = data[0].wkt,
-                    feature = format.read(wkt); 
-                self.updatedFilterResultsLayer.addFeatures([feature])
+                    feature = format.read(wkt),
+                    featureCount = data[0].count; 
+                var endTime = (new Date()).getTime();
+                self.updatedFilterResultsLayer.removeAllFeatures();
+                self.updatedFilterResultsLayer.setVisibility(true);
+                self.updatedFilterResultsLayer.addFeatures([feature]);
+                self.gridCellsRemaining(featureCount);
+                self.showButtonSpinner(false);
                 /*
                 Step 1. Create persistent Vector layer with no features (persistent during Scenario Form process)
                 Step 2. When updating, 
@@ -284,6 +324,8 @@ function scenarioFormModel(options) {
                 */
             }, 
             error: function(result) {
+                self.showButtonSpinner(false);
+                self.showingFilteringResults(false);
                 debugger;
             }
         });
@@ -305,7 +347,7 @@ function scenarioFormModel(options) {
             input = param_element_input.value;
         }
         self.updateFilter(param, min, max, input);
-    }
+    };
 
     self.updateFilter = function(param, min, max, input) {
         var key;

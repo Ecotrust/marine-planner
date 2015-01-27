@@ -875,9 +875,9 @@ function viewModel() {
 
     self.updateAttributeLayers = function() {
         var attributeLayersList = [];
-        if (self.scenarios && self.scenarios.scenarioFormModel && self.scenarios.scenarioFormModel.isLeaseblockLayerVisible()) {
-            attributeLayersList.push(self.scenarios.leaseblockLayer().layerModel);
-        }
+        // if (self.scenarios && self.scenarios.scenarioFormModel && self.scenarios.scenarioFormModel.isLeaseblockLayerVisible()) {
+        //     attributeLayersList.push(self.scenarios.leaseblockLayer().layerModel);
+        // }
 
         $.each(self.visibleLayers(), function(index, layer) {
             attributeLayersList.push(layer);
