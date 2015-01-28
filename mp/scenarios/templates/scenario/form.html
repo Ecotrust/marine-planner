@@ -94,6 +94,15 @@ madrona.onShow(function(){
             $('#invalid-name-message').hide();
         }
     });
+    var slidervalueElements = document.getElementsByClassName('slidervalue');
+    for (var i=0; i<slidervalueElements.length; i+=1) {
+        slidervalueElements[i].addEventListener('keypress', function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                $(event.currentTarget).blur();
+            }
+        });
+    }
     /*
     $('#scenario-form .submit_button').click( function() {
         var name = $('#id_name').val();
