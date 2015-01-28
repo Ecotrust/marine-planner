@@ -224,6 +224,7 @@ function scenarioFormModel(options) {
     self.showingFilteringResults = ko.observable(false);
     self.inputsHaveChanged = ko.observable(true);
     self.showButtonSpinner = ko.observable(false);
+    self.lastChange = (new Date()).getTime();
 
     self.showFilteringResults = function() {
         if (self.showingFilteringResults()) {
@@ -261,18 +262,28 @@ function scenarioFormModel(options) {
         }        
         self.gridCellsRemaining('...');
         self.updatedFilterResultsLayer.removeAllFeatures();
+        
+        var newTime = (new Date()).getTime();
+        if (newTime - self.lastChange > 4000) {
+            self.updateFilterResults();  
+        } else {
+            self.updateTimeout = setTimeout(function() {
+                var newTime = (new Date()).getTime();
+                if ( newTime - self.lastChange > 4000 ) {
+                    // console.log(newTime - self.lastChange);
+                    self.updateFilterResults();     
+                }
+            }, 4200);
+        }
         self.lastChange = (new Date()).getTime();
-        self.updateTimeout = setTimeout(function() {
-            var newTime = (new Date()).getTime();
-            if ( newTime - self.lastChange > 4000 ) {
-                // console.log(newTime - self.lastChange);
-                if (self.showingFilteringResults()) {
-                    self.getUpdatedFilterResults();
-                } else {
-                    self.getUpdatedFilterCount();
-                }            
-            }
-        }, 4200);
+    };
+
+    self.updateFilterResults = function() {
+        if (self.showingFilteringResults()) {
+            self.getUpdatedFilterResults();
+        } else {
+            self.getUpdatedFilterCount();
+        }  
     };
 
     // TODO: CHANGE TO A GET
@@ -297,7 +308,6 @@ function scenarioFormModel(options) {
     self.getUpdatedFilterResults = function() {  
         self.updatedFilterResultsLayer.setVisibility(false);
         self.showButtonSpinner(true);
-        var startTime = (new Date()).getTime();
         // self.gridCellsRemaining('...');
         $.ajax({
             url: '/scenario/get_filter_results',
@@ -309,7 +319,6 @@ function scenarioFormModel(options) {
                     wkt = data[0].wkt,
                     feature = format.read(wkt),
                     featureCount = data[0].count; 
-                var endTime = (new Date()).getTime();
                 self.updatedFilterResultsLayer.removeAllFeatures();
                 self.updatedFilterResultsLayer.setVisibility(true);
                 self.updatedFilterResultsLayer.addFeatures([feature]);
