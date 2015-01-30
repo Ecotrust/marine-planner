@@ -4,17 +4,32 @@
   margin-top: -5px;
   margin-right: -5px;
 }
+#scenario-form h4, #drawing-form h4 {
+    margin-left: 15px;
+}
+#scenario-form form {
+    padding-left: 15px;
+}
 
-#wind-design-form {
+#polygon-design-form .step {    
+    width: 310px;
+    height: 290px;
+    padding-right: 10px;
+    border-radius: 10px;    
+    padding-left: 15px;
+    top: 0px;
+    /*width: 355px !important;*/
+}
+
+#wind-design-form, #polygon-design-form {
     border-top-width: 0px;
-    /*width: 99% !important;*/
-    width: 371px;
-    padding: 5px 0px 5px 0px !important;
+    width: 370px !important;
     border-radius: 0px;
     border-right: 0;
     border-left: 0;
     margin-right: -10px;
     margin-bottom: 14px;
+    padding: 0px;
 }
 #wind-design-form i {
     display: inline-block;
@@ -36,7 +51,7 @@
     filter: alpha(opacity=80);
 }
 #wind-design-form ul {
-    margin-left: 20px;
+    margin-left: 15px;
     width: 90%;
 }
 #wind-design-form .parameter-label {
@@ -75,8 +90,14 @@
 #wind-design-form .slider {
     width: 80%;
 }
+#wind-design-form .slidervalue {
+    width: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    height: 16px;
+}
 #wind-design-form .jspVerticalBar {
-    right: 20px;
+    right: 10px;
     height: 90%;
 }
 #wind-design-form .jspTrack {
@@ -84,16 +105,16 @@
     height: 300px !important;
 }
 #wind-design-form .jspContainer {
-    width: 100% !important;
-    height: 300px !important;
+    /*width: 97% !important;*/
+    width: 370px !important;
+    height: 308px !important;
     padding-right: 10px;
-    margin-left: 10px;
 }
 #wind-design-form .jspPane {
-    border-radius: 10px;
-    padding: 5px 0px 0px;
+    border-radius: 10px;    
+    padding-left: 15px;
     top: 0px;
-    width: 370px;
+    width: 355px !important;
 }
 
 .show-blocks-btn {
@@ -186,7 +207,6 @@ form ul {
     padding-left: 20px;
 }
 #scenario-form {
-    margin-left: -10px;
     margin-top: -10px;
 }
 #scenario-form li {
@@ -230,7 +250,6 @@ img.info {
     display: inline !important;
 }
 
-/* design stuff */
 
 .panel form {
     /*background: none repeat scroll 0 0 #DDDDDD;*/
@@ -255,4 +274,68 @@ img.info {
 
 form {
     outline: none;
+}
+
+#drawing-form .button-next {
+    border-radius: 4px;
+}
+
+#drawing-form textarea,
+#drawing-form input[name="name"] {
+    width: 90%;
+}
+
+#drawing-form div .step {
+    padding-right: 15px;
+}
+
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 270px;
+}
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+
+
+label {
+    clear: both;
+    color: #344E63;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0 0 5px;
+    padding: 0;
+    text-shadow: 0 1px 0 #FCFAFF;
+}
+p.step-text {
+    padding-left: 0px;
+    margin: 0px;
+    text-align:left;
+}
+p.instructions {
+    margin: 5px 0px 0px 0px; 
+    text-align: left;
+    color: #47556C;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: sans-serif;
+    padding-left: 0px;
+}
+#step1 .well {
+    margin-top: 10px;
+}
+.step .well {
+    margin-bottom: 0px;
+    padding: 15px;
+}
+#editing-instructions {
+    margin-bottom: 0px;
 }

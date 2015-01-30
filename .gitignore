@@ -75,3 +75,9 @@ cronjobs/test.json
 media/data_manager/geojson/survey_results_3857.json
 
 media/data_manager/geojson/survey_results.json
+
+cronjobs/survey_results_3857.json
+
+media/data_manager/geojson/ofr_planning_grid_orig.json
+
+media/data_manager/geojson/survey_results_3857_new.json

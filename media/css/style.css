@@ -546,10 +546,6 @@ a.disabled-link:hover {
   margin-top: 5px;
 }
 
-#design-list {
-  margin-left: -10px;
-}
-
 #design-list .accordion-group {
   border-radius: 0;
 }

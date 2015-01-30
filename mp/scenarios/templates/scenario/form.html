@@ -64,7 +64,7 @@ madrona.onShow(function(){
         } else {
             setTimeout(function() {designsWizardScrollpane.reinitialise();},200);
         }
-    }
+    };
 
     updateDesignScrollBar();
     wizard();
@@ -134,7 +134,7 @@ madrona.onShow(function(){
 </script>
 
 {% if form.media %} {{ form.media }} {% endif %}
-<h4 style="margin-left: 15px">Grid Filtering</h4>
+<h4>Grid Filtering</h4>
 <div class="show-blocks-btn">
     <!-- ko if: enableUpdateButton() -->
     <a class="button btn enabled-grid-button" style="padding: 4px 9px" data-bind="click: showFilteringResults">
@@ -153,7 +153,7 @@ madrona.onShow(function(){
     </span>
     <!-- /ko -->
 </div>
-<form id="wind-design-form" action="{{action}}" method="post" name="wind-design-form" style="padding: 5px 0px 5px 0px;">
+<form id="wind-design-form" action="{{action}}" method="post" name="wind-design-form">
     {% for hidden in form.hidden_fields %}
         <div style="display:none;">
             {{ hidden.errors }}

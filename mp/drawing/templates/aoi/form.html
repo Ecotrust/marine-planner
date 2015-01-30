@@ -60,7 +60,7 @@
                 $('.submit_button').hide();
             }
         };
-        
+
         $('#button_prev').click( function() { wizard('prev'); });
         $('#button_next').click( function() { wizard('next'); });
         step = 1;
@@ -147,9 +147,9 @@
                     <span>Done Editing</span>
                 </a>
             </div>
-            <div id="clip-failed-alert" style="margin-top: 25px;">
+            <div id="clip-failed-alert" style="margin-top: 10px;">
                 <p class="alert alert-danger" data-bind="visible: clipAttemptFailed()">
-                    Your drawing does not overlap with the planning grid.  Maybe edit your shape so that it overlaps with nearshore ocean space...?
+                    Make sure your drawing overlaps with the planning grid...
                 </p>
             </div>
         </div>
@@ -184,7 +184,7 @@
 
 
 <div class="wizard_nav" style="width:100%">
-    <div class="btn-group pull-right">
+    <div class="btn-group pull-right" style="margin-right: 19px">
         <a href="#" class="button btn" onclick="this.blur(); return false;" id="button_prev"><span>&lt; Previous</span></a>
         <a href="#" class="button btn button-next"  onclick="this.blur(); return false;" id="button_next" data-bind="css: { disabled: isEditing() || !showEdit() }"><span>Next &gt;</span></a>
         <a href="#" class="submit_button button btn" onclick="this.blur(); return false;"><span>Save</span></a>
@@ -192,75 +192,13 @@
 </div>
 
 <div>
-    <div class="btn-group pull-left">
+    <div class="btn-group pull-left" style="margin-left: 14px">
         <a href="#" class="cancel_button button red btn"><span>Cancel</span></a>
         
     </div>
 </div>
    
 <style type="text/css">
-
-#drawing-form .button-next {
-    border-radius: 4px;
-}
-
-#drawing-form textarea,
-#drawing-form input[name="name"] {
-    width: 90%;
-}
-
-div .field > label { font-size: 12px; display: inline; }
-div .step { 
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -khtml-border-radius: 6px;
-    border-radius: 6px;
-    border: 1px #bbb solid;
-    padding: 6px;
-    margin-top: 4px;
-    margin-bottom: 8px;
-    background-color: white; 
-    background-repeat: no-repeat;
-    min-height: 285px;
-}
-span.form-image { float: left; margin-left: -66px; }
-span.form-image > img { width:46px; height:46px; }
-
-
-label {
-    clear: both;
-    color: #344E63;
-    display: block;
-    font-size: 12px;
-    font-weight: normal;
-    margin: 0 0 5px;
-    padding: 0;
-    text-shadow: 0 1px 0 #FCFAFF;
-}
-p.step-text {
-    margin: 0px;
-    text-align:left;
-}
-p.instructions {
-    margin: 0px; 
-    margin-bottom: 0px;
-    text-align: left;
-    color: #47556C;
-    font-size: 14px;
-    font-weight: normal;
-    font-family: sans-serif;
-    padding-left: 0px;
-}
-#step1 .well {
-    margin-top: 10px;
-}
-.step .well {
-    margin-bottom: 0px;
-    padding: 15px;
-}
-#editing-instructions {
-    margin-bottom: 0px;
-}
 
 </style>
 
