@@ -85,7 +85,7 @@
     margin: 0px 0px 0px 20px;
 }
 #wind-design-form .btn-info-sign {
-    padding: 4px 6px;
+    padding: 4px 4px;
 }
 #wind-design-form .slider {
     width: 80%;
@@ -237,7 +237,7 @@ label.step-header {
     font-weight: bold;
     padding-left: 5px !important;
 }
-label.step3-header {
+label.step4-header {
     font-weight: bold;
     padding-left: 5px !important;
     padding-bottom: 10px !important;

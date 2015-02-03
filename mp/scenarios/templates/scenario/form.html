@@ -9,7 +9,7 @@ madrona.onShow(function(){
     madrona.setupForm($('#wind-design-form'));
     
     var step = 1;
-    var max_step = 3;
+    var max_step = 4;
 
     function validate(step) {
         return true;
@@ -163,15 +163,10 @@ madrona.onShow(function(){
         
     {% for step in form.get_steps %}
     <div id="step{{ forloop.counter }}" class="step">
-        <p class="step-text"><i>Step {{ forloop.counter }} of 3 </i></p>        
+        <p class="step-text"><i>Step {{ forloop.counter }} of 4 </i></p>        
         <!-- <p class="instructions">Select 1 or more criteria for this sector </p> -->
-        {% if forloop.counter == 1 %}
         <!-- <label class="step-header">Wind Energy</label> -->
-        <p class="instructions"><b>Select</b> one or more criteria from the list below</p>
-        {% elif forloop.counter == 2 %}
-        <!-- <label class="step-header">Step Two</label> -->
-        <p class="instructions"><b>Exclude</b> areas that contain any of the following</p>
-        {% endif %}
+        <p class="instructions"><b>Select</b> criteria to filter your results</p>        
         <div id="step{{ forloop.counter }}_inputs">
             <ul class="parameters">
                 {% for field, field_min, field_max, field_input in step %}
@@ -207,26 +202,26 @@ madrona.onShow(function(){
                                         {{ field_input.as_widget }}
                                     {% endif %}
 
-                                    {% if field_max.field.widget.attrs.layer_id and field_max.field.widget.attrs.layer_title %}
+                                    {% if field.field.widget.attrs.layer_id and field.field.widget.attrs.layer_title %}
                                     <div class="btn-group btn-group-layer show-layer-btn-group">
                                         <a  class="btn btn-info-sign" 
                                             style="height: 16px; line-height: 16px" 
-                                            data-bind="click: function() { toggleLayerInfo( {{ field_max.field.widget.attrs.layer_id }} ); }, css: { 'active': isLayerInfoActive( {{ field_max.field.widget.attrs.layer_id }} ) }">
+                                            data-bind="click: function() { toggleLayerInfo( {{ field.field.widget.attrs.layer_id }} ); }, css: { 'active': isLayerInfoActive( {{ field.field.widget.attrs.layer_id }} ) }">
                                             <i class="icon-info-sign icon-large"></i>
                                         </a>
 
                                         <a  class="btn btn-layer show-layer-btn" 
                                             style="height: 16px; line-height: 16px" 
-                                            data-bind="css: { 'active': isLayerActive(), 'not-active': ! isLayerActive( {{ field_max.field.widget.attrs.layer_id }} ) }, click: function() { toggleLayer( {{ field_max.field.widget.attrs.layer_id }} ); }">
+                                            data-bind="css: { 'active': isLayerActive(), 'not-active': ! isLayerActive( {{ field.field.widget.attrs.layer_id }} ) }, click: function() { toggleLayer( {{ field.field.widget.attrs.layer_id }} ); }">
                                             <div style="font-weight: normal">
-                                                <span>{{ field_max.field.widget.attrs.layer_title }}</span>
+                                                <span>{{ field.field.widget.attrs.layer_title }}</span>
                                                 <i  class="check icon-large icon-check" 
                                                     style="top: 8px" 
-                                                    data-bind="visible: isLayerActive( {{ field_max.field.widget.attrs.layer_id }} ) && isLayerVisible( {{ field_max.field.widget.attrs.layer_id }} )">
+                                                    data-bind="visible: isLayerActive( {{ field.field.widget.attrs.layer_id }} ) && isLayerVisible( {{ field.field.widget.attrs.layer_id }} )">
                                                 </i>
                                                 <i  class="check icon-large icon-check-empty" 
                                                     style="top: 8px" 
-                                                    data-bind="visible: ! isLayerActive( {{ field_max.field.widget.attrs.layer_id }} ) || ! isLayerVisible( {{ field_max.field.widget.attrs.layer_id }} )">
+                                                    data-bind="visible: ! isLayerActive( {{ field.field.widget.attrs.layer_id }} ) || ! isLayerVisible( {{ field.field.widget.attrs.layer_id }} )">
                                                 </i>
                                             </div>
                                         </a>
@@ -275,11 +270,11 @@ madrona.onShow(function(){
     {% endfor %}
     
     
-    <div id="step3" class="step">
-        <p class="step-text"><i>Step 3 of 3 </i>
+    <div id="step4" class="step">
+        <p class="step-text"><i>Step 4 of 4 </i>
         <p class="instructions">Provide a <b>Name</b> to identify your Grid Filtering design </p>
-        <div class="step3-inputs">
-            <div class="step3-param">
+        <div class="step4-inputs">
+            <div class="step4-param">
                 {{ form.name.errors }}
                 {{ form.name }} 
                 <div id="invalid-name-message" class="control-group error" style="display: none; margin-top: -10px; margin-left: -5px;">
@@ -287,7 +282,7 @@ madrona.onShow(function(){
                 </div>           
             </div>
             <p class="instructions">Optionally, you may add a <b>Description</b> <!--and/or attach a file--> </p>
-            <div class="step3-param">
+            <div class="step4-param">
                 {{ form.description.errors }}
                 {{ form.description }}            
             </div>

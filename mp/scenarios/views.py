@@ -238,14 +238,43 @@ def run_filter_query(filters):
     if 'shore_distance' in filters.keys() and filters['shore_distance']:
         query = query.filter(shore_distance__range=(filters['shore_distance_min'], filters['shore_distance_max']))
 
+    if 'pier_distance' in filters.keys() and filters['pier_distance']:
+        query = query.filter(pier_distance__range=(filters['pier_distance_min'], filters['pier_distance_max']))
+
     if 'inlet_distance' in filters.keys() and filters['inlet_distance']:
-        query = query.filter(inlet_distance__gte=filters['inlet_distance_max'])
+        query = query.filter(inlet_distance__gte=filters['inlet_distance_min'])
+    
+    if 'outfall_distance' in filters.keys() and filters['outfall_distance']:
+        query = query.filter(outfall_distance__gte=filters['outfall_distance_min'])
+    
+    if 'depth' in filters.keys() and filters['depth']:
+        # query = query.filter(depth_mean__range=(filters['depth_min'], filters['depth_max']))
+        query = query.filter(depth_min__gte=filters['depth_min'])
+        query = query.filter(depth_max__lte=filters['depth_max'])
     
     if 'acropora_pa' in filters.keys() and filters['acropora_pa']:
         query = query.filter(acropora_pa=filters['acropora_pa_input'])
 
-    if 'fish_abundance' in filters.keys() and filters['fish_abundance']:
-        query = query.filter(fish_abundance__gte=filters['fish_abundance_max'])
+    if 'injury_site' in filters.keys() and filters['injury_site']:
+        query = query.filter(injury_site=filters['injury_site_input'])
+
+    if 'large_live_coral' in filters.keys() and filters['large_live_coral']:
+        query = query.filter(large_live_coral=filters['large_live_coral_input'])
+
+    if 'acerv_area' in filters.keys() and filters['acerv_area']:
+        query = query.filter(acerv_area__gte=filters['acerv_area_min'])
+    
+    if 'reef_area' in filters.keys() and filters['reef_area']:
+        query = query.filter(reef_area__gte=filters['reef_area_min'])
+    
+    if 'sg_area' in filters.keys() and filters['sg_area']:
+        query = query.filter(sg_area__gte=filters['sg_area_min'])
+    
+    if 'sand_area' in filters.keys() and filters['sand_area']:
+        query = query.filter(sand_area__gte=filters['sand_area_min'])
+    
+    if 'art_area' in filters.keys() and filters['art_area']:
+        query = query.filter(art_area__gte=filters['art_area_min'])
     
     if 'fish_richness' in filters.keys() and filters['fish_richness']:
         query = query.filter(fish_richness__gte=filters['fish_richness_max'])
@@ -307,13 +336,14 @@ def get_leaseblocks(request):
     for grid_cell in GridCell.objects.all():
         json.append({
             'id': grid_cell.id,
-            'fish_abundance': grid_cell.fish_abundance,
+            'shore_distance': grid_cell.shore_distance,
+            'pier_distance': grid_cell.pier_distance,
+            'inlet_distance': grid_cell.inlet_distance,
+            'outfall_distance': grid_cell.outfall_distance,
             'fish_richness': grid_cell.fish_richness,
             'coral_richness': grid_cell.coral_richness,
             'coral_density': grid_cell.coral_density,
-            'coral_size': grid_cell.coral_size,
-            'inlet_distance': grid_cell.inlet_distance,
-            'shore_distance': grid_cell.shore_distance
+            'coral_size': grid_cell.coral_size
         })
     return HttpResponse(dumps(json))
 

@@ -4,7 +4,8 @@ import sys
 import os
 import json
 
-remoteJSON = 'http://portal.midatlanticocean.org/media/data_manager/geojson/ArtificialReefsNoDecimals.json'
+# remoteJSON = 'http://portal.midatlanticocean.org/media/data_manager/geojson/ArtificialReefsNoDecimals.json'
+remoteJSON = 'http://ofr-coastal-use.point97.io/reports/geojson/ofr-mapping-with-counts/q4'
 localFile = '/Users/sfletcher/dev/ofr-mp/cronjobs/test.json'
 
 # Download JSON, extract the GeoJSON, save as local file, re-project to spherical mercator

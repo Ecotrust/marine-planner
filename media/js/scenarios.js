@@ -110,11 +110,20 @@ function scenarioFormModel(options) {
     
     // Step 1 Parameters    
     self.shore_distance = ko.observable(false);
+    self.pier_distance = ko.observable(false);
     self.inlet_distance = ko.observable(false);
+    self.outfall_distance = ko.observable(false);
+    self.depth = ko.observable(false);
     self.acropora_pa = ko.observable(false);
+    self.injury_site = ko.observable(false);
+    self.large_live_coral = ko.observable(false);
+    self.acerv_area = ko.observable(false);
+    self.reef_area = ko.observable(false);
+    self.sg_area = ko.observable(false);
+    self.sand_area = ko.observable(false);
+    self.art_area = ko.observable(false);
 
     // Step 2 Parameters
-    self.fish_abundance = ko.observable(false);
     self.fish_richness = ko.observable(false);
     self.coral_richness = ko.observable(false);
     self.coral_density = ko.observable(false);
@@ -550,8 +559,10 @@ function scenarioModel(options) {
                 ko.applyBindings(model, document.getElementById('scenario-form'));
 
                 var parameters = [
-                    'fish_abundance', 'fish_richness', 'coral_richness', 'coral_density', 
-                    'coral_size', 'inlet_distance', 'shore_distance', 'acropora_pa'
+                    'shore_distance', 'pier_distance', 'inlet_distance', 'outfall_distance', 'depth',
+                    'acropora_pa', 'injury_site', 'large_live_coral', 
+                    'acerv_area', 'reef_area', 'sg_area', 'sand_area', 'art_area',
+                    'fish_richness', 'coral_richness', 'coral_density', 'coral_size'
                 ];
 
                 for (var i = 0; i < parameters.length; i++) {
