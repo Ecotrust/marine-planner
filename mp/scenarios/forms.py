@@ -58,15 +58,15 @@ class ScenarioForm(FeatureForm):
     # shore_distance_max = forms.FloatField(required=False, initial=10000, widget=TextInputWithUnit(attrs={'class':'slidervalue'}, unit='meters'))
     shore_distance_input = forms.FloatField(widget=DualSliderWidget('shore_distance_min', 'shore_distance_max', min=0, max=13000, step=1000))
 
-    pier_distance = forms.BooleanField(label="Distance to Pier", required=False, help_text="Distance to Nearest Pier", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    pier_distance = forms.BooleanField(label="Distance to Pier", required=False, help_text="Distance to Nearest Pier", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 326, 'layer_title': 'Show Pier Locations'}))
     pier_distance_min = forms.FloatField(required=False, initial=5000, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters'}))
     pier_distance_max = forms.FloatField(required=False, initial=20000, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'to'}))
     pier_distance_input = forms.FloatField(widget=DualSliderWidget('pier_distance_min', 'pier_distance_max', min=0, max=35000, step=1000))
 
-    inlet_distance = forms.BooleanField(label="Distance to Coastal Inlet", required=False, help_text="Minimum distance to Nearest Inlet", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    inlet_distance = forms.BooleanField(label="Distance to Coastal Inlet", required=False, help_text="Minimum distance to Nearest Inlet", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 339, 'layer_title': 'Show Inlets and Passes'}))
     inlet_distance_min = forms.FloatField(required=False, initial=3000, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters', 'post_text': 'meters'}, min=0, max=16000, step=1000))
 
-    outfall_distance = forms.BooleanField(label="Distance to Outfall", required=False, help_text="Minimum distance to Nearest Outfall", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    outfall_distance = forms.BooleanField(label="Distance to Outfall", required=False, help_text="Minimum distance to Nearest Outfall", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 350, 'layer_title': 'Show Outfall Locations'}))
     outfall_distance_min = forms.FloatField(required=False, initial=3000, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters', 'post_text': 'meters'}, min=0, max=10000, step=1000))
 
     # Depth Range (meters, avg: 0m - 212m)
@@ -83,7 +83,7 @@ class ScenarioForm(FeatureForm):
     # acropora_pa_input = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'parameters'}), choices=(('A', 'Absence'), ('P', 'Presence')), initial='A')
     # Giving up on RadioSelect, it refused to return anything other than the last choice as the selection to the server...Select widget seems to work fine through...
 
-    injury_site = forms.BooleanField(label="Injury Site Yes/No", required=False, help_text="Whether a cell contains at least one recorded grounding or anchoring event in the DEP database", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    injury_site = forms.BooleanField(label="Injury Site Yes/No", required=False, help_text="Whether a cell contains at least one recorded grounding or anchoring event in the DEP database", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': '328', 'layer_title': 'Reef Injury Site'}))
     injury_site_input = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'parameters', 'layer_id': '918', 'layer_title': 'Reef Injury Site'}), choices=(('Y', 'Yes'), ('N', 'No')), initial='Y')
 
     large_live_coral = forms.BooleanField(label="Large Live Coral Yes/No", required=False, help_text="Whether a cell contains at least one known live coral greater than 2 meters in width", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
@@ -101,7 +101,7 @@ class ScenarioForm(FeatureForm):
     sand_area = forms.BooleanField(label="Area of Sand Habitat", required=False, help_text="Area of Sand habitat in m²", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     sand_area_min = forms.FloatField(required=False, initial=1000, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Area in meters sq', 'post_text': 'meters'}, min=0, max=4000, step=100))
 
-    art_area = forms.BooleanField(label="Area of Artificial Habitats", required=False, help_text="Area of Artificial habitats (Sand borrow areas, artificial reefs, inlets , jettys, channels,) in m²", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    art_area = forms.BooleanField(label="Area of Artificial Habitats", required=False, help_text="Area of Artificial habitats (Sand borrow areas, artificial reefs, inlets , jettys, channels,) in m²", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': '316', 'layer_title': 'Artificial Reefs'}))
     art_area_min = forms.FloatField(required=False, initial=1000, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Area in meters sq', 'post_text': 'meters'}, min=0, max=4000, step=100))
 
     fish_richness = forms.BooleanField(label="Fish Richness", required=False, help_text="Estimated # of species per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
