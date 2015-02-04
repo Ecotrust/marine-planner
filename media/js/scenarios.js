@@ -233,6 +233,8 @@ function scenarioFormModel(options) {
     self.showingFilteringResults = ko.observable(false);
     self.inputsHaveChanged = ko.observable(true);
     self.showButtonSpinner = ko.observable(false);
+    self.currentCountRequest = ko.observable(false);
+    self.currentGridRequest = ko.observable(false);
     self.lastChange = (new Date()).getTime();
 
     self.showFilteringResults = function() {
@@ -271,20 +273,9 @@ function scenarioFormModel(options) {
         }        
         self.gridCellsRemaining('...');
         self.updatedFilterResultsLayer.removeAllFeatures();
+
+        self.updateFilterResults();
         
-        var newTime = (new Date()).getTime();
-        if (newTime - self.lastChange > 4000) {
-            self.updateFilterResults();  
-        } else {
-            self.updateTimeout = setTimeout(function() {
-                var newTime = (new Date()).getTime();
-                if ( newTime - self.lastChange > 4000 ) {
-                    // console.log(newTime - self.lastChange);
-                    self.updateFilterResults();     
-                }
-            }, 4200);
-        }
-        self.lastChange = (new Date()).getTime();
     };
 
     self.updateFilterResults = function() {
@@ -297,56 +288,59 @@ function scenarioFormModel(options) {
 
     // TODO: CHANGE TO A GET
     self.getUpdatedFilterCount = function() {
-        $.ajax({
-            url: '/scenario/get_filter_count',
-            type: 'POST', 
-            data: self.filters,
-            dataType: 'json',
-            success: function(data) {
-                self.gridCellsRemaining(data);
-            }, 
-            error: function(result) {
-                debugger;
-            }
-        });
-    };
-    // call now to get initial count
-    // self.getUpdatedFilterCount();    
+        (function() {
+            var request = $.ajax({
+                url: '/scenario/get_filter_count',
+                type: 'POST', 
+                data: self.filters,
+                dataType: 'json',
+                success: function(data) {
+                    if (self.currentCountRequest() === request) {
+                        self.gridCellsRemaining(data);
+                    }
+                }, 
+                error: function(error) {
+                    console.log('error in getUpdatedFilterCount: ' + error);
+                }
+            });
+            self.currentCountRequest(request);
+            var request = request;
+        })();
+    };  
 
     // TODO: CHANGE TO A GET
     self.getUpdatedFilterResults = function() {  
         self.updatedFilterResultsLayer.setVisibility(false);
         self.showButtonSpinner(true);
-        // self.gridCellsRemaining('...');
-        $.ajax({
-            url: '/scenario/get_filter_results',
-            type: 'POST',
-            data: self.filters,
-            dataType: 'json',
-            success: function(data) {
-                var format = new OpenLayers.Format.WKT(),
-                    wkt = data[0].wkt,
-                    feature = format.read(wkt),
-                    featureCount = data[0].count; 
-                self.updatedFilterResultsLayer.removeAllFeatures();
-                self.updatedFilterResultsLayer.setVisibility(true);
-                self.updatedFilterResultsLayer.addFeatures([feature]);
-                self.gridCellsRemaining(featureCount);
-                self.showButtonSpinner(false);
-                /*
-                Step 1. Create persistent Vector layer with no features (persistent during Scenario Form process)
-                Step 2. When updating, 
-                    A. Remove current feature(s) from persistent Vector layer if they exist
-                    B. Add returned feature(s) to persistent Vector layer 
-                Step 3. Remove persistent Vector layer when 
-                */
-            }, 
-            error: function(result) {
-                self.showButtonSpinner(false);
-                self.showingFilteringResults(false);
-                debugger;
-            }
-        });
+        
+        (function() {
+            var request = $.ajax({
+                url: '/scenario/get_filter_results',
+                type: 'POST',
+                data: self.filters,
+                dataType: 'json',
+                success: function(data) {
+                    if (self.currentGridRequest() === request) {
+                        var format = new OpenLayers.Format.WKT(),
+                            wkt = data[0].wkt,
+                            feature = format.read(wkt),
+                            featureCount = data[0].count; 
+                        self.updatedFilterResultsLayer.removeAllFeatures();
+                        self.updatedFilterResultsLayer.setVisibility(true);
+                        self.updatedFilterResultsLayer.addFeatures([feature]);
+                        self.gridCellsRemaining(featureCount);
+                        self.showButtonSpinner(false);        
+                    }      
+                }, 
+                error: function(result) {
+                    self.showButtonSpinner(false);
+                    self.showingFilteringResults(false);
+                    console.log('error in getUpdatedFilterResults: ' + error);
+                }
+            });
+            self.currentGridRequest(request);
+            var request = request;
+        })();
     };
 
     self.updateFilters = function(param) {
