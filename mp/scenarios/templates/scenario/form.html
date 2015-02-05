@@ -25,6 +25,11 @@ madrona.onShow(function(){
         } else if (step > 1 && action == 'prev') {
             step -= 1;
         }
+        if (step === max_step) {
+            if ( app.viewModel.scenarios.scenarioFormModel.gridCellsRemaining() === 0) {
+                $('#empty-results-warning').effect("highlight", {}, 1000);
+            } 
+        } 
         $('div.step').each(function(index) {
             $(this).hide();
         });
@@ -46,7 +51,9 @@ madrona.onShow(function(){
 
         if (step == max_step) {
             $('#button_next').hide();
-            $('.submit_button').show();
+            if ( app.viewModel.scenarios.scenarioFormModel.gridCellsRemaining() != 0 ) {
+                $('.submit_button').show();
+            }
         } else {
             $('#button_next').show();
             $('.submit_button').hide();
@@ -136,22 +143,13 @@ madrona.onShow(function(){
 {% if form.media %} {{ form.media }} {% endif %}
 <h4>Grid Filtering</h4>
 <div class="show-blocks-btn">
-    <!-- ko if: enableUpdateButton() -->
-    <a class="button btn enabled-grid-button" style="padding: 4px 9px" data-bind="click: showFilteringResults">
+    <a class="button btn enabled-grid-button" style="padding: 4px 9px; margin-right: 10px;" data-bind="click: showFilteringResults">
         <span>Show Grid Cells</span> 
-        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="visible: gridCellsRemaining(), text: gridCellsRemaining()"></span> 
+        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="text: gridCellsRemaining()"></span> 
         <i class="icon-large icon-check-empty" style="margin-left: 5px;" data-bind="visible: ! showingFilteringResults()"></i>
         <i class="icon-large icon-check" style="margin-left: 5px;" data-bind="visible: showingFilteringResults() && !showButtonSpinner()"></i>
         <i class="icon-large icon-refresh icon-spin" style="margin-left: 5px; height: 5px" data-bind="visible: showingFilteringResults() && showButtonSpinner()"></i>
-    </a>
-    <!-- /ko -->
-    <!-- ko if: !enableUpdateButton() -->
-    <span class="button btn disabled disabled-grid-button" style="padding: 2px 9px" rel="popover" data-content="Too many grid cells to show" data-placement="right" data-container="body">
-        <span>Show Grid Cells</span> 
-        <span class="badge" style="margin-right: 5px; margin-left: -5px;" data-bind="text: gridCellsRemaining()"></span> 
-        <i class="icon-large icon-check-empty" style="margin-left: 5px;"></i>
-    </span>
-    <!-- /ko -->
+    </a>    
 </div>
 <form id="wind-design-form" action="{{action}}" method="post" name="wind-design-form">
     {% for hidden in form.hidden_fields %}
@@ -272,20 +270,25 @@ madrona.onShow(function(){
     
     <div id="step4" class="step">
         <p class="step-text"><i>Step 4 of 4 </i>
-        <p class="instructions">Provide a <b>Name</b> to identify your Grid Filtering design </p>
-        <div class="step4-inputs">
-            <div class="step4-param">
-                {{ form.name.errors }}
-                {{ form.name }} 
-                <div id="invalid-name-message" class="control-group error" style="display: none; margin-top: -10px; margin-left: -5px;">
-                    <span class="help-inline">The <b>Name</b> field is required.</span>
-                </div>           
+        <div data-bind="css: { 'disabled': gridCellsRemaining()==0 }">
+            <p class="instructions">Provide a <b>Name</b> to identify your Grid Filtering design </p>
+            <div class="step4-inputs">
+                <div class="step4-param">
+                    {{ form.name.errors }}
+                    {{ form.name }} 
+                    <div id="invalid-name-message" class="control-group error" style="display: none; margin-top: -10px; margin-left: -5px;">
+                        <span class="help-inline">The <b>Name</b> field is required.</span>
+                    </div>           
+                </div>
+                <p class="instructions">Optionally, you may add a <b>Description</b> <!--and/or attach a file--> </p>
+                <div class="step4-param">
+                    {{ form.description.errors }}
+                    {{ form.description }}            
+                </div>
             </div>
-            <p class="instructions">Optionally, you may add a <b>Description</b> <!--and/or attach a file--> </p>
-            <div class="step4-param">
-                {{ form.description.errors }}
-                {{ form.description }}            
-            </div>
+        </div>
+        <div id="empty-results-warning" data-bind="visible: gridCellsRemaining()==0" class="well text-error">
+            <p><i class="icon-large icon-warning-sign"></i> Wait!  Your filtering results are empty!</p>
         </div>
     </div>
 

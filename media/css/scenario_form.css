@@ -155,7 +155,21 @@
     float: left;
 }
 
-
+div.disabled p {
+    color: #999;
+}
+div.disabled input {
+    background: #f5f5f5;
+}
+div.disabled textarea {
+    background: #f5f5f5;
+}
+#empty-results-warning {
+    margin-right: 20px;
+}
+#empty-results-warning p {
+    margin-bottom: 0px;
+}
 
 div .field > label { 
     font-size: 12px; 
@@ -190,16 +204,6 @@ span.form-image > img {
 p.step-text {
     margin: 0px;
     text-align:left;
-}
-p.instructions {
-    margin: 0px; 
-    margin-top: 10px;
-    margin-bottom: 0px;
-    text-align: left;
-    color: #47556C;
-    font-size: 14px;
-    font-weight: normal;
-    font-family: sans-serif;
 }
 form ul {
     margin-top: 5px;
@@ -323,7 +327,7 @@ p.step-text {
 p.instructions {
     margin: 5px 0px 0px 0px; 
     text-align: left;
-    color: #47556C;
+    /*color: #47556C;*/
     font-size: 14px;
     font-weight: normal;
     font-family: sans-serif;
