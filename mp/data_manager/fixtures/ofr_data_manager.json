@@ -6,10 +6,10 @@
         "themes": [
             21, 
             22, 
-            23, 
             24, 
             25, 
-            26
+            26, 
+            23
         ], 
         "name": "Our Florida Reefs"
     }
@@ -51,6 +51,7 @@
     "model": "data_manager.toctheme", 
     "fields": {
         "layers": [
+            374, 
             346, 
             347, 
             348, 
@@ -3179,7 +3180,7 @@
         "source": "", 
         "lookup_table": [], 
         "proj": "", 
-        "utfurl": "http://util.point97.io/tiles/OFR_Planning_Grid_2/${z}/${x}/${y}.grid.json", 
+        "utfurl": "http://util.point97.io/tiles/OFR_Planning_Grid_20150129/${z}/${x}/${y}.grid.json", 
         "data_download": "", 
         "metadata": "", 
         "opacity": 0.5, 
@@ -3191,15 +3192,40 @@
             129, 
             131, 
             132, 
-            133, 
-            134, 
             135, 
             136, 
             137, 
+            140, 
+            141, 
+            142, 
+            143, 
+            144, 
+            145, 
+            146, 
+            147, 
+            148, 
+            149, 
+            150, 
+            151, 
+            152, 
+            153, 
+            154, 
+            155, 
+            156, 
+            157, 
+            158, 
+            159, 
+            160, 
+            161, 
+            162, 
+            163, 
+            164, 
+            165, 
+            166, 
+            167, 
             124, 
             125, 
-            126, 
-            127
+            126
         ], 
         "vector_fill": null, 
         "data_overview": "", 
@@ -3212,7 +3238,7 @@
         "data_notes": "", 
         "name": "Planning Grid", 
         "sublayers": [], 
-        "url": "http://util.point97.io/tiles/OFR_Planning_Grid_2/${z}/${x}/${y}.png", 
+        "url": "http://util.point97.io/tiles/OFR_Planning_Grid_20150129/${z}/${x}/${y}.png", 
         "proxy_url": false, 
         "arcgis_layers": "", 
         "bookmark": "", 
@@ -3223,13 +3249,68 @@
     }
 },
 {
+    "pk": 374, 
+    "model": "data_manager.layer", 
+    "fields": {
+        "layer_type": "Vector", 
+        "themes": [], 
+        "is_sublayer": false, 
+        "compress_display": false, 
+        "map_tiles": "", 
+        "legend_subtitle": "", 
+        "filterable": false, 
+        "vector_graphic": "", 
+        "kml": "", 
+        "source": "", 
+        "lookup_table": [
+            1, 
+            4, 
+            5, 
+            6, 
+            3, 
+            2
+        ], 
+        "proj": "", 
+        "utfurl": "", 
+        "data_download": "", 
+        "metadata": "", 
+        "opacity": 1.0, 
+        "vector_color": "#FF0000", 
+        "attribute_event": "click", 
+        "description": "", 
+        "attribute_fields": [
+            138, 
+            139
+        ], 
+        "vector_fill": null, 
+        "data_overview": "", 
+        "slug_name": "survey-results", 
+        "summarize_to_grid": false, 
+        "lookup_field": "count", 
+        "legend": "", 
+        "shareable_url": true, 
+        "data_source": "", 
+        "data_notes": "", 
+        "name": "Survey Results", 
+        "sublayers": [], 
+        "url": "/media/data_manager/geojson/survey_results_3857_new.json", 
+        "proxy_url": false, 
+        "arcgis_layers": "", 
+        "bookmark": "", 
+        "legend_title": "", 
+        "attribute_title": "", 
+        "utfjsonp": false, 
+        "wms_slug": ""
+    }
+},
+{
     "pk": 124, 
     "model": "data_manager.attributeinfo", 
     "fields": {
         "field_name": "Type", 
         "display_name": "Habitat Type", 
         "precision": null, 
-        "order": 2
+        "order": 1
     }
 },
 {
@@ -3239,7 +3320,7 @@
         "field_name": "Region", 
         "display_name": "Region", 
         "precision": null, 
-        "order": 12
+        "order": 1
     }
 },
 {
@@ -3248,16 +3329,6 @@
     "fields": {
         "field_name": "County", 
         "display_name": "County", 
-        "precision": null, 
-        "order": 13
-    }
-},
-{
-    "pk": 127, 
-    "model": "data_manager.attributeinfo", 
-    "fields": {
-        "field_name": "Habitat", 
-        "display_name": "Habitat", 
         "precision": null, 
         "order": 1
     }
@@ -3269,7 +3340,7 @@
         "field_name": "Modifier", 
         "display_name": "Habitat Modifier", 
         "precision": null, 
-        "order": 3
+        "order": 1
     }
 },
 {
@@ -3279,7 +3350,7 @@
         "field_name": "FishRich", 
         "display_name": "Fish Richness", 
         "precision": null, 
-        "order": 6
+        "order": 1
     }
 },
 {
@@ -3289,7 +3360,7 @@
         "field_name": "CoralRich", 
         "display_name": "Coral Richness", 
         "precision": null, 
-        "order": 7
+        "order": 1
     }
 },
 {
@@ -3299,27 +3370,7 @@
         "field_name": "CoralSize", 
         "display_name": "Coral Size", 
         "precision": null, 
-        "order": 8
-    }
-},
-{
-    "pk": 133, 
-    "model": "data_manager.attributeinfo", 
-    "fields": {
-        "field_name": "CoralDen", 
-        "display_name": "Coral Density", 
-        "precision": null, 
-        "order": 9
-    }
-},
-{
-    "pk": 134, 
-    "model": "data_manager.attributeinfo", 
-    "fields": {
-        "field_name": "PrevImpact", 
-        "display_name": "Previous Impact", 
-        "precision": null, 
-        "order": 10
+        "order": 1
     }
 },
 {
@@ -3329,27 +3380,393 @@
         "field_name": "AcroporaPA", 
         "display_name": "Acropora Presence/Absence", 
         "precision": null, 
-        "order": 11
+        "order": 1
     }
 },
 {
     "pk": 136, 
     "model": "data_manager.attributeinfo", 
     "fields": {
-        "field_name": "ShoreDIst", 
+        "field_name": "ShoreDis_m", 
         "display_name": "Distance to Shore", 
         "precision": null, 
-        "order": 4
+        "order": 1
     }
 },
 {
     "pk": 137, 
     "model": "data_manager.attributeinfo", 
     "fields": {
-        "field_name": "InletDist", 
+        "field_name": "InletDist_m", 
         "display_name": "Distance to Coastal Inlet", 
         "precision": null, 
-        "order": 5
+        "order": 1
+    }
+},
+{
+    "pk": 138, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "count", 
+        "display_name": "Count", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 139, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "categories", 
+        "display_name": "Categories", 
+        "precision": null, 
+        "order": 2
+    }
+},
+{
+    "pk": 140, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "PierDis_m", 
+        "display_name": "Distance to Pier", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 141, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "OutflDis_m", 
+        "display_name": "Distance to Outfall", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 142, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "InjurySite", 
+        "display_name": "Injury Site", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 143, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "LgLiveCorl", 
+        "display_name": "Large Live Coral", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 144, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "SurfArea_f", 
+        "display_name": "Surface Area", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 145, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "ReefArea_m", 
+        "display_name": "Reef Area", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 146, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "AcervAreaM", 
+        "display_name": "Area of Acropora Cervicornis", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 147, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "SGarea_m", 
+        "display_name": "Area of Seagrass", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 148, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "SandArea_m", 
+        "display_name": "Area of Sand Habitat", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 149, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "ArtAreaM", 
+        "display_name": "Area of Artifical Habitats", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 150, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "MinDpth_ft", 
+        "display_name": "Minimum Depth", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 151, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "MaxDpth_ft", 
+        "display_name": "Maximum Depth", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 152, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "MeanDpth_f", 
+        "display_name": "Mean Depth", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 153, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "BoatUse", 
+        "display_name": "Boat Use", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 154, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralBlch", 
+        "display_name": "Coral Bleach", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 155, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralCov", 
+        "display_name": "Coral Cover", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 156, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralDen", 
+        "display_name": "Coral Density", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 157, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "CoralDiv", 
+        "display_name": "Coral Diversity", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 158, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "DendroPr", 
+        "display_name": "DendroPr", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 159, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "DiveUse", 
+        "display_name": "Dive Use", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 160, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "ESAspp", 
+        "display_name": "ESAspp", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 161, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "FishDen", 
+        "display_name": "Fish Density", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 162, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "FishDiv", 
+        "display_name": "Fish Diversity", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 163, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "FishUse", 
+        "display_name": "Fish Use", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 164, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Lionfish", 
+        "display_name": "Lionfish", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 165, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "RecUse", 
+        "display_name": "Recreation Use", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 166, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Rugosity", 
+        "display_name": "Rugosity", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 167, 
+    "model": "data_manager.attributeinfo", 
+    "fields": {
+        "field_name": "Type2", 
+        "display_name": "Type2", 
+        "precision": null, 
+        "order": 1
+    }
+},
+{
+    "pk": 1, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#330000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "1", 
+        "fill": true
+    }
+},
+{
+    "pk": 2, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#550000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "2", 
+        "fill": true
+    }
+},
+{
+    "pk": 3, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#770000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "3", 
+        "fill": true
+    }
+},
+{
+    "pk": 4, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#990000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "4", 
+        "fill": true
+    }
+},
+{
+    "pk": 5, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#bb0000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "5", 
+        "fill": true
+    }
+},
+{
+    "pk": 6, 
+    "model": "data_manager.lookupinfo", 
+    "fields": {
+        "color": "#dd0000", 
+        "dashstyle": "solid", 
+        "graphic": "", 
+        "value": "6", 
+        "fill": true
     }
 }
 ]
