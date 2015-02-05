@@ -454,7 +454,7 @@ class GridCell(models.Model):
     
     unique_id = models.IntegerField(null=True, blank=True)
 
-    centroid = models.PointField(null=True, blank=True)
+    centroid = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True)
 
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, 
                                     null=True, blank=True, 
