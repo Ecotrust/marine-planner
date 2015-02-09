@@ -305,7 +305,8 @@ def get_filter_results(request):
     query = run_filter_query(filter_dict)
 
     json = []
-    if len(query) == 0:
+    count = query.count()
+    if count == 0:
         json = [{
             'count': 0,
             'wkt': None
@@ -317,14 +318,14 @@ def get_filter_results(request):
         else:
             raise Exception("No lease blocks available with the current filters.")
         json = [{
-            'count': len(query),
+            'count': count,
             'wkt': dissolved_geom.wkt
         }]
         # if type(dissolved_geom) == MultiPolygon:
         #     self.geometry_dissolved = dissolved_geom
         # else:
         #     self.geometry_dissolved = MultiPolygon(dissolved_geom, srid=dissolved_geom.srid)
-
+    
     # return # of grid cells and dissolved geometry in geojson
     return HttpResponse(dumps(json))
 
