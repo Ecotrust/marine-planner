@@ -37,6 +37,7 @@ portal/wordpress/.htaccess
 portal/wordpress/wp-config.php
 printing/shots/*
 /media/data_manager/utfgrid
+/media/data_manager/geojson/archive
 /media/crop/*
 scripts/cookbooks/node_*.json
 /media/crop/*
@@ -56,6 +57,7 @@ mp/build/pip-delete-this-directory.txt
 mp/data_manager/fixtures/data_manager_wcodp-md-staging.json
 
 mp/mp_settings/fixtures/mp_settings_wcodp-md-staging.json
+mp/mp_settings/fixtures/archive
 
 scripts/cookbooks/python/recipes/pip-orig.rb
 
@@ -82,3 +84,8 @@ cronjobs/survey_results_3857.json
 media/data_manager/geojson/ofr_planning_grid_orig.json
 
 media/data_manager/geojson/survey_results_3857_new.json
+
+mp/scenarios/fixtures/grid_cells.json.zip
+mp/scenarios/fixtures/grid_cells.json
+
+media/data_manager/geojson/survey_results_4326.json

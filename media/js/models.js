@@ -40,6 +40,19 @@ function layerModel(options, parent) {
         self.featureAttributionName = 'Party & Charter Boat Trips';
     }
 
+    if (self.name === 'Survey Results') {
+        if (!self.legend) {
+            self.legend = {'colors': []};
+            self.legend.colors.push({'color': '#F8FAB9', 'label': '1 - 3'});
+            self.legend.colors.push({'color': '#F6DB87', 'label': '4 - 6'});
+            self.legend.colors.push({'color': '#F5BC64', 'label': '7 - 9'});
+            self.legend.colors.push({'color': '#F49E5A', 'label': '10 - 12'});
+            self.legend.colors.push({'color': '#F16B4B', 'label': '13 - 15'});
+            self.legend.colors.push({'color': '#DC4041', 'label': '16 - 18'});
+            self.legend.colors.push({'color': '#B52B4B', 'label': '19 - 21'});
+        }
+    }
+
     // if legend is not provided, try using legend from web services
     if ( !self.legend && self.url && (self.arcgislayers !== -1) ) {
         $.ajax({
@@ -1866,59 +1879,7 @@ function viewModel() {
     self.turnOffUsernameError = function() {
         self.usernameError(false);
     };
-
-    // Placeholder in case we want to cusomize the Planning Grid feature attributes
-    self.getGridAttributes = function (data) {
-        attrs = [];
-                
-        //Wind Speed
-        if ('wind_min' in data && 'wind_max' in data) {
-            attrs.push({'display': 'Estimated Wind Potential', 'data': data['wind_min'].toFixed(1) + ' to ' + data['wind_max'].toFixed(1) + ' W/m&sup2;'});
-        }
-        //Depth Range
-        if ('bathy_min' in data && 'bathy_max' in data) {
-            attrs.push({'display': 'Depth Range', 'data': data['bathy_min'].toFixed(1) + ' to ' + data['bathy_max'].toFixed(1) + ' meters'});
-        }
-        //Distance to Coastal Substations
-        if ('subs_avgd' in data) {
-            // attrs.push({'display': 'Minimum Distance to Coastal Substation', 'data': (data['SubS_MinD']/1000).toFixed(1) + ' km'});
-            attrs.push({'display': 'Average Distance to Coastal Substation', 'data': (data['subs_avgd']).toFixed(1) + ' km'});
-        }
-        //Distance to Shore
-        if ('coast_avg' in data) {
-            // attrs.push({'display': 'Minimum Distance to Shore', 'data': (data['Coast_Min']/1000).toFixed(1) + ' km'});
-            attrs.push({'display': 'Average Distance to Shore', 'data': (data['coast_avg']).toFixed(1) + ' km'});
-        }
-        //Coral Percentage
-        if ('coral_p' in data) {
-            attrs.push({'display': 'Coral coverage', 'data': data['coral_p'].toFixed(1) + '%'});
-        }
-        //Mangrove Percentage
-        if ('mangrove_p' in data) {
-            attrs.push({'display': 'Mangrove coverage', 'data': data['mangrove_p'].toFixed(1) + '%'});
-        }
-        //Submerged Vegetation Percentage
-        if ('subveg_p' in data) {
-            attrs.push({'display': 'Submerged Vegetation coverage', 'data': data['subveg_p'].toFixed(1) + '%'});
-        }
-        //Protected Area Percentage
-        if ('protarea_p' in data) {
-            attrs.push({'display': 'Protected Area coverage', 'data': data['protarea_p'].toFixed(1) + '%'});
-        }
-        //Presence/Absence of Conservation Priority Area 
-        if ('pr_apc_p' in data && 'vi_apc_p' in data) {
-            var total_percentage = data['pr_apc_p'] + data['vi_apc_p'];
-            attrs.push({'display': 'Conservation Priority Area coverage', 'data': total_percentage.toFixed(1) + '%'});
-        } 
-        // Presence/Absence of Special Planning Area
-        if ('pr_ape_p' in data) {
-            attrs.push({'display': 'Special Planning Area coverage', 'data': data['pr_ape_p'].toFixed(1) + '%'});
-        } 
-
-        
-        return attrs;
-    };
-
+    
     return self;
 } //end viewModel
 
