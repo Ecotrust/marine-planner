@@ -22,22 +22,19 @@ def wget():
         import traceback
         logging.exception('Exception thrown in update_survey_json: ' + traceback.format_exc())
     else:
-        import pdb
-        pdb.set_trace()
         geojson = getGeoJSON(data)
         summarizeActivities(geojson)
         output = open(local4326,'wb')
         output.write(json.dumps(geojson, indent=4))
         output.close()
         transformGeometry(geojson, '4326', '3857')
-        # Re-Project from 4326 to 3857
-        # ogr2ogr -f "GeoJSON" survey_results_2.json -t_srs "EPSG:3857" survey_results.json
-        # Question can we re-project in place or do we need a temp file name (localFile and localTempFile)?
 
 def getGeoJSON(data):
     return data['geoJson']
 
 def transformGeometry(geojson, s_srs, t_srs):
+    # Re-Project from 4326 to 3857
+    # ogr2ogr -f "GeoJSON" survey_results_2.json -t_srs "EPSG:3857" survey_results.json
     import os
     command = "ogr2ogr -f \"GeoJSON\" " + local3857 + " -t_srs \"EPSG:" + t_srs + "\" " + local4326
     os.system(command)

@@ -1,31 +1,46 @@
 
 app.clickAttributes = (function() {
 
-	var getSurveyAttributes = function(data) {
+	var getSurveyAttributes = function(data, activity) {
 		attrs = [];
-		for (var key in data) {
-		  	if (data.hasOwnProperty(key) && data[key]) {
-		  		if (key !== 'Total Activity Days' && key !== 'Other') {
-		  			if (data[key] === 1) {
-		    			attrs.push({'display': key, 'data': data[key] + ' day'});
-		  			} else {
-		    			attrs.push({'display': key, 'data': data[key] + ' days'});
-		  			}
-		  		}
-		  	}
-		}
-		// alphabetize and then put Total at top (or bottom)
-		attrs = _.sortBy(attrs, function(obj){ return obj['display']; });
-		if (data['Other']) {
-			if (data['Other'] === 1) {
-				attrs.push({'display': 'Other', 'data': data['Other'] + ' day'});
-			} else {
-				attrs.push({'display': 'Other', 'data': data['Other'] + ' days'});
+		if (activity !== 'All Activities') {
+			for (var key in data) {
+			  	if (data.hasOwnProperty(key) && data[key]) {
+			  		if (key === activity) {
+			  			if (data[key] === 1) {
+			    			attrs.push({'display': key, 'data': data[key] + ' day'});
+			  			} else {
+			    			attrs.push({'display': key, 'data': data[key] + ' days'});
+			  			}
+			  		}
+			  	}
 			}
+			attrs.push({'display': 'Total Activity Days (All Activities)', 'data': data['Total Activity Days']});
+		} else {
+			for (var key in data) {
+			  	if (data.hasOwnProperty(key) && data[key]) {
+			  		if (key !== 'Total Activity Days' && key !== 'Other') {
+			  			if (data[key] === 1) {
+			    			attrs.push({'display': key, 'data': data[key] + ' day'});
+			  			} else {
+			    			attrs.push({'display': key, 'data': data[key] + ' days'});
+			  			}
+			  		}
+			  	}
+			}
+			// alphabetize and then put Total at top (or bottom)
+			attrs = _.sortBy(attrs, function(obj){ return obj['display']; });
+			if (data['Other']) {
+				if (data['Other'] === 1) {
+					attrs.push({'display': 'Other', 'data': data['Other'] + ' day'});
+				} else {
+					attrs.push({'display': 'Other', 'data': data['Other'] + ' days'});
+				}
+			}
+			attrs.unshift({'display': 'Total Activity Days (All Activities)', 'data': data['Total Activity Days']});
 		}
-		attrs.unshift({'display': 'Total Number of Activity Days', 'data': data['Total Activity Days']});
 		return attrs;
-	}
+	};
 	
 	// Placeholder in case we want to cusomize the Planning Grid feature attributes
     var getGridAttributes = function (data) {

@@ -284,8 +284,8 @@ app.init = function() {
                         'data': attrs[i].data
                     });
                 }
-            } else if (layer.id === 374) { // special case for Survey Results 
-                text = app.clickAttributes.getSurveyAttributes(e.feature.data);
+            } else if (layer.id === 374 || layer.id === 375 || layer.id === 377 || layer.id === 378) { // special case for Survey Results 
+                text = app.clickAttributes.getSurveyAttributes(e.feature.data, layer.name);
             } else if (layer.attributes.length) {
                 attrs = layer.attributes;
 
@@ -715,11 +715,11 @@ app.addGridSummaryLayerToMap = function(layer) {
     return app.grid.grid_b_layer;
 };
 
-app.getSurveyStylingRules = function() {
+app.getSurveyStylingRules = function(property) {
     var first = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 1,
             upperBoundary: 3
         }),
@@ -732,7 +732,7 @@ app.getSurveyStylingRules = function() {
     var second = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 4,
             upperBoundary: 6
         }),
@@ -745,7 +745,7 @@ app.getSurveyStylingRules = function() {
     var third = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 7,
             upperBoundary: 9
         }),
@@ -758,7 +758,7 @@ app.getSurveyStylingRules = function() {
     var fourth = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 10,
             upperBoundary: 12
         }),
@@ -771,7 +771,7 @@ app.getSurveyStylingRules = function() {
     var fifth = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 13,
             upperBoundary: 15
         }),
@@ -784,7 +784,7 @@ app.getSurveyStylingRules = function() {
     var sixth = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: "Total Activity Days",
+            property: property,
             lowerBoundary: 16,
             upperBoundary: 18
         }),
@@ -797,7 +797,7 @@ app.getSurveyStylingRules = function() {
     var seventh = new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-            property: "Total Activity Days",
+            property: property,
             value: 19
         }),
         symbolizer: {
@@ -838,8 +838,11 @@ app.addVectorLayerToMap = function(layer) {
         url = '/proxy/layer/' + layer.id;
     }
 
-    if (layer.name === 'Survey Results') { // is Survey Results layer
-        var surveyStylingRules = app.getSurveyStylingRules();
+    if (layer.name === 'All Activities') { // is Survey Results layer
+        var surveyStylingRules = app.getSurveyStylingRules('Total Activity Days');
+        styleMap.styles['default'].addRules(surveyStylingRules);
+    } else if (layer.name === 'Boating' || layer.name === 'Commercial fishing' || layer.name === 'Watersports') { // is Survey Results layer
+        var surveyStylingRules = app.getSurveyStylingRules(layer.name);
         styleMap.styles['default'].addRules(surveyStylingRules);
     } else if (layer.lookupField) {
         var mylookup = {};

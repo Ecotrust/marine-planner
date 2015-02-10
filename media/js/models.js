@@ -40,7 +40,7 @@ function layerModel(options, parent) {
         self.featureAttributionName = 'Party & Charter Boat Trips';
     }
 
-    if (self.name === 'Survey Results') {
+    if (self.name === 'All Activities' || self.name === 'Boating' || self.name === 'Commercial fishing' || self.name === 'Watersports') {
         if (!self.legend) {
             self.legend = {'colors': []};
             self.legend.colors.push({'color': '#F8FAB9', 'label': '1 - 3'});
