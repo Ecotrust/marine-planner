@@ -46,9 +46,79 @@
                 <div id="designs-accordion" class="designs">
                     <div class="accordion" style="">                    
                         
+                        <!-- GRID FILTERING -->
+                        {% if user.is_staff %}
+                        <div>
+                            <div class="accordion-group" style="border: 1px solid #e5e5e5;">
+                                <div class="accordion-heading" data-bind="click: toggleScenariosOpen, css: { 'active': isScenariosOpen() }">
+                                    <a class="accordion-toggle">
+                                        <span>Grid Filtering</span>
+                                    </a>
+                                    <a class="create-new-button" data-bind="click: createWindScenario, clickBubble: false">
+                                        <i class="icon-plus icon-large"></i>
+                                    </a>
+                                </div>
+                                <div class="accordion-body collapse" data-bind="css: { 'in': isScenariosOpen() }">
+                                    <div class="accordion-inner">
+                                    
+                                        <div data-bind="visible: !scenarioList().length" style="font-weight: normal">
+                                            <div style="padding: 10px;">
+                                                <p>
+                                                    You currently have no Grid Filter Designs. 
+                                                </p>
+                                                <p>
+                                                    Click the plus sign (<i class="icon-plus icon-large" style="color: #064669"></i>) above to create a Grid Filter Designs.
+                                                </p>
+                                                <p>
+                                                    Note:  You may, at any time, edit, share, or remove any of the sitings that you have created.  
+                                                    Any sitings shared with you can be copied so that they too can be edited, shared, or removed.
+                                                </p>
+                                            </div>
+                                        </div> 
+                                        
+                                        <ul class="unstyled list" data-bind="foreach: scenarioList ">
+                                            <li class="layer">
+                                                <div class="btn-group btn-group-layer">
+                                                    <!-- <a class="btn btn-info-sign" data-bind="click: toggleDescription, css: { 'active': infoActive() }">
+                                                        <i class="icon-info-sign icon-large"></i>
+                                                    </a> -->
+                                                    <a style="font-weight: normal" class="btn btn-layer" data-bind="css: { 'active': active(), 'not-active': ! active() }, click: toggleActive">
+                                                        <div data-bind="text: name" style="display: inline"></div>
+                                                        <span rel="tooltip" data-bind="attr: {title: sharedBy}">
+                                                            <i class="icon-signin" data-bind="visible: shared" style="padding-left: 10px"></i>
+                                                        </span>
+                                                        <span rel="tooltip" data-bind="attr: {title: sharedWith}">
+                                                            <i class="icon-signout" data-bind="visible: selectedGroups().length" style="padding-left: 10px"></i>
+                                                        </span>
+                                                        <i class="check icon-large icon-check" data-bind="visible: visible()"></i>
+                                                        <i class="check icon-large icon-check-empty" data-bind="visible: active() && ! visible()"></i>
+                                                    </a>
+                                                    <a class="btn btn-group dropdown-toggle"data-toggle="dropdown" href="#">
+                                                        <span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a data-bind="visible: ! shared(), click: editScenario">Edit</a></li>
+                                                        <!--<li><a id="share-option" href="#share-modal" data-toggle="modal">Share</a></li>-->
+                                                        <li><a id="share-option" data-bind="visible: ! shared() && $parent.hasSharingGroups, click: $parent.showSharingModal">Share</a></li>
+                                                        <li><a data-bind="click: $parent.zoomToScenario">Zoom To</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a data-bind="visible: ! shared(), click: deleteScenario">Delete</a></li>
+                                                        <li><a data-bind="visible: shared, click: createCopyScenario">Create Copy</a></li>
+                                                    </ul>
+                                                    <!-- style="height: 20px; padding: 4px 12px; border-left-width: 0px" -->
+                                                </div>
+                                            </li>  
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- end grid filtering -->
+                        
                         <!-- DRAWINGS -->
                         <div>
-                            <div class="accordion-group">
+                            <div class="accordion-group" style="margin-bottom: 110px;">
                                 <div class="collections-header">
                                     <div id="drawings-header" class="accordion-heading" data-bind="click: toggleDrawingsOpen, css: { 'active': isDrawingsOpen() }">
                                         <div>
@@ -116,76 +186,6 @@
                             </div>
                         </div>
                         <!-- end drawings -->
-                        
-                        <!-- GRID FILTERING -->
-                        {% if user.is_staff %}
-                        <div>
-                            <div class="accordion-group" style="border: 1px solid #e5e5e5; margin-bottom: 110px;">
-                                <div class="accordion-heading" data-bind="click: toggleScenariosOpen, css: { 'active': isScenariosOpen() }">
-                                    <a class="accordion-toggle">
-                                        <span>Grid Filtering</span>
-                                    </a>
-                                    <a class="create-new-button" data-bind="click: createWindScenario, clickBubble: false">
-                                        <i class="icon-plus icon-large"></i>
-                                    </a>
-                                </div>
-                                <div class="accordion-body collapse" data-bind="css: { 'in': isScenariosOpen() }">
-                                    <div class="accordion-inner">
-                                    
-                                        <div data-bind="visible: !scenarioList().length" style="font-weight: normal">
-                                            <div style="padding: 10px;">
-                                                <p>
-                                                    You currently have no Grid Filter Designs. 
-                                                </p>
-                                                <p>
-                                                    Click the plus sign (<i class="icon-plus icon-large" style="color: #064669"></i>) above to create a Grid Filter Designs.
-                                                </p>
-                                                <p>
-                                                    Note:  You may, at any time, edit, share, or remove any of the sitings that you have created.  
-                                                    Any sitings shared with you can be copied so that they too can be edited, shared, or removed.
-                                                </p>
-                                            </div>
-                                        </div> 
-                                        
-                                        <ul class="unstyled list" data-bind="foreach: scenarioList ">
-                                            <li class="layer">
-                                                <div class="btn-group btn-group-layer">
-                                                    <!-- <a class="btn btn-info-sign" data-bind="click: toggleDescription, css: { 'active': infoActive() }">
-                                                        <i class="icon-info-sign icon-large"></i>
-                                                    </a> -->
-                                                    <a style="font-weight: normal" class="btn btn-layer" data-bind="css: { 'active': active(), 'not-active': ! active() }, click: toggleActive">
-                                                        <div data-bind="text: name" style="display: inline"></div>
-                                                        <span rel="tooltip" data-bind="attr: {title: sharedBy}">
-                                                            <i class="icon-signin" data-bind="visible: shared" style="padding-left: 10px"></i>
-                                                        </span>
-                                                        <span rel="tooltip" data-bind="attr: {title: sharedWith}">
-                                                            <i class="icon-signout" data-bind="visible: selectedGroups().length" style="padding-left: 10px"></i>
-                                                        </span>
-                                                        <i class="check icon-large icon-check" data-bind="visible: visible()"></i>
-                                                        <i class="check icon-large icon-check-empty" data-bind="visible: active() && ! visible()"></i>
-                                                    </a>
-                                                    <a class="btn btn-group dropdown-toggle"data-toggle="dropdown" href="#">
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a data-bind="visible: ! shared(), click: editScenario">Edit</a></li>
-                                                        <!--<li><a id="share-option" href="#share-modal" data-toggle="modal">Share</a></li>-->
-                                                        <li><a id="share-option" data-bind="visible: ! shared() && $parent.hasSharingGroups, click: $parent.showSharingModal">Share</a></li>
-                                                        <li><a data-bind="click: $parent.zoomToScenario">Zoom To</a></li>
-                                                        <li class="divider"></li>
-                                                        <li><a data-bind="visible: ! shared(), click: deleteScenario">Delete</a></li>
-                                                        <li><a data-bind="visible: shared, click: createCopyScenario">Create Copy</a></li>
-                                                    </ul>
-                                                    <!-- style="height: 20px; padding: 4px 12px; border-left-width: 0px" -->
-                                                </div>
-                                            </li>  
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                        <!-- end grid filtering -->
                         
                     </div>
                 </div>
