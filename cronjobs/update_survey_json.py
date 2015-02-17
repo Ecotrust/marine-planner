@@ -25,8 +25,14 @@ def wget():
         geojson = getGeoJSON(data)
         summarizeActivities(geojson)
         # remove existing files (GeoJSON driver does not overwrite existing files)
-        os.remove(local4326);
-        os.remove(local3857);
+        try:
+            os.remove(local4326)
+        except OSError:
+            pass
+        try:
+            os.remove(local3857)
+        except OSError:
+            pass
         output = open(local4326,'wb')
         output.write(json.dumps(geojson, indent=4))
         output.close()
