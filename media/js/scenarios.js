@@ -114,14 +114,19 @@ function scenarioFormModel(options) {
     self.inlet_distance = ko.observable(false);
     self.outfall_distance = ko.observable(false);
     self.depth = ko.observable(false);
-    self.acropora_pa = ko.observable(false);
+
     self.injury_site = ko.observable(false);
     self.large_live_coral = ko.observable(false);
-    self.acerv_area = ko.observable(false);
-    self.reef_area = ko.observable(false);
-    self.sg_area = ko.observable(false);
-    self.sand_area = ko.observable(false);
-    self.art_area = ko.observable(false);
+    self.pillar_presence = ko.observable(false);
+    self.anchorage = ko.observable(false);
+    self.mooring_buoy = ko.observable(false);
+    self.impacted = ko.observable(false);
+    self.acropora_pa = ko.observable(false);
+    
+    self.prcnt_sg = ko.observable(false);
+    self.prcnt_reef = ko.observable(false);
+    self.prcnt_sand = ko.observable(false);
+    self.prcnt_art = ko.observable(false);
 
     // Step 2 Parameters
     self.fish_richness = ko.observable(false);
@@ -161,10 +166,17 @@ function scenarioFormModel(options) {
             param_element.removeAttr('checked');
             param_widget.css('display', 'none');
             self.removeFilter(param);
-        } else {
+        } else {           
+            if (param_widget) {
+                var input = param_widget.find('input');
+                var range = input.attr('range');
+                if (range) {
+                    param_widget.find('.slider').first().slider('option', 'range', 'max');
+                }
+            }
             param_bool(true);
             param_element.attr('checked', 'checked');
-            param_widget.css('display', 'block');
+            param_widget.css('display', 'block'); 
             self.updateFilters(param);
         }
         
@@ -290,7 +302,7 @@ function scenarioFormModel(options) {
         (function() {
             var request = $.ajax({
                 url: '/scenario/get_filter_count',
-                type: 'POST', 
+                type: 'GET', 
                 data: self.filters,
                 dataType: 'json',
                 success: function(data) {
@@ -315,20 +327,22 @@ function scenarioFormModel(options) {
         (function() {
             var request = $.ajax({
                 url: '/scenario/get_filter_results',
-                type: 'POST',
+                type: 'GET',
                 data: self.filters,
                 dataType: 'json',
                 success: function(data) {
                     if (self.currentGridRequest() === request) {
-                        var format = new OpenLayers.Format.WKT(),
-                            wkt = data[0].wkt,
-                            feature = format.read(wkt),
-                            featureCount = data[0].count; 
+                        var wkt = data[0].wkt,
+                            featureCount = data[0].count;
                         self.updatedFilterResultsLayer.removeAllFeatures();
+                        if (featureCount) {
+                            var format = new OpenLayers.Format.WKT()
+                                feature = format.read(wkt); 
+                            self.updatedFilterResultsLayer.addFeatures([feature]);
+                        }
                         self.updatedFilterResultsLayer.setVisibility(true);
-                        self.updatedFilterResultsLayer.addFeatures([feature]);
                         self.gridCellsRemaining(featureCount);
-                        self.showButtonSpinner(false);        
+                        self.showButtonSpinner(false);                               
                     }      
                 }, 
                 error: function(result) {
@@ -553,8 +567,9 @@ function scenarioModel(options) {
 
                 var parameters = [
                     'shore_distance', 'pier_distance', 'inlet_distance', 'outfall_distance', 'depth',
-                    'acropora_pa', 'injury_site', 'large_live_coral', 
-                    'acerv_area', 'reef_area', 'sg_area', 'sand_area', 'art_area',
+                    'injury_site', 'large_live_coral', 'pillar_presence', 
+                    'anchorage', 'mooring_buoy', 'impacted', 'acropora_pa', 
+                    'prcnt_sg', 'prcnt_reef', 'prcnt_sand', 'prcnt_art',
                     'fish_richness', 'coral_richness', 'coral_density', 'coral_size'
                 ];
 

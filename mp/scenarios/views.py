@@ -252,8 +252,6 @@ def run_filter_query(filters):
         query = query.filter(depth_min__gte=filters['depth_min'])
         query = query.filter(depth_max__lte=filters['depth_max'])
     
-    if 'acropora_pa' in filters.keys() and filters['acropora_pa']:
-        query = query.filter(acropora_pa=filters['acropora_pa_input'])
 
     if 'injury_site' in filters.keys() and filters['injury_site']:
         query = query.filter(injury_site=filters['injury_site_input'])
@@ -261,21 +259,35 @@ def run_filter_query(filters):
     if 'large_live_coral' in filters.keys() and filters['large_live_coral']:
         query = query.filter(large_live_coral=filters['large_live_coral_input'])
 
-    if 'acerv_area' in filters.keys() and filters['acerv_area']:
-        query = query.filter(acerv_area__gte=filters['acerv_area_min'])
-    
-    if 'reef_area' in filters.keys() and filters['reef_area']:
-        query = query.filter(reef_area__gte=filters['reef_area_min'])
-    
-    if 'sg_area' in filters.keys() and filters['sg_area']:
-        query = query.filter(sg_area__gte=filters['sg_area_min'])
-    
-    if 'sand_area' in filters.keys() and filters['sand_area']:
-        query = query.filter(sand_area__gte=filters['sand_area_min'])
-    
-    if 'art_area' in filters.keys() and filters['art_area']:
-        query = query.filter(art_area__gte=filters['art_area_min'])
-    
+    if 'pillar_presence'in filters.keys() and filters['pillar_presence']:
+        query = query.filter(pillar_presence=filters['pillar_presence_input'])
+
+    if 'anchorage' in filters.keys() and filters['anchorage']:
+        query = query.filter(anchorage=filters['anchorage_input'])
+
+    if 'mooring_buoy' in filters.keys() and filters['mooring_buoy']:
+        query = query.filter(mooring_buoy=filters['mooring_buoy_input'])
+
+    if 'impacted' in filters.keys() and filters['impacted']:
+        query = query.filter(impacted=filters['impacted_input'])
+
+    if 'acropora_pa' in filters.keys() and filters['acropora_pa']:
+        query = query.filter(acropora_pa=filters['acropora_pa_input'])
+
+
+    if 'prcnt_sg' in filters.keys() and filters['prcnt_sg']:
+        query = query.filter(prcnt_sg__gte=filters['prcnt_sg_min'])
+
+    if 'prcnt_reef' in filters.keys() and filters['prcnt_reef']:
+        query = query.filter(prcnt_reef__gte=filters['prcnt_reef_min'])
+
+    if 'prcnt_sand' in filters.keys() and filters['prcnt_sand']:
+        query = query.filter(prcnt_sand__gte=filters['prcnt_sand_min'])
+
+    if 'prcnt_art' in filters.keys() and filters['prcnt_art']:
+        query = query.filter(prcnt_art__gte=filters['prcnt_art_min'])
+
+
     if 'fish_richness' in filters.keys() and filters['fish_richness']:
         query = query.filter(fish_richness__gte=filters['fish_richness_max'])
 
@@ -292,16 +304,18 @@ def run_filter_query(filters):
 
 '''
 '''
+@cache_page(60 * 60) # 1 hour of caching
 def get_filter_count(request):
-    filter_dict = dict(request.POST.iteritems())
+    filter_dict = dict(request.GET.iteritems())
     query = run_filter_query(filter_dict)
-    return HttpResponse(len(query), status=200)
+    return HttpResponse(query.count(), status=200)
 
 
 '''
 '''
+@cache_page(60 * 60) # 1 hour of caching
 def get_filter_results(request):
-    filter_dict = dict(request.POST.iteritems())
+    filter_dict = dict(request.GET.iteritems())
     query = run_filter_query(filter_dict)
 
     json = []

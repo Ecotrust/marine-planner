@@ -9,7 +9,7 @@ madrona.onShow(function(){
     madrona.setupForm($('#wind-design-form'));
     
     var step = 1;
-    var max_step = 4;
+    var max_step = 5;
 
     function validate(step) {
         return true;
@@ -84,7 +84,7 @@ madrona.onShow(function(){
     $('#button_next').click( function() { wizard('next'); });
     
     $('ul.errorlist').each( function() {
-        step = 3;
+        step = 4;
         wizard();
     });
     
@@ -161,7 +161,7 @@ madrona.onShow(function(){
         
     {% for step in form.get_steps %}
     <div id="step{{ forloop.counter }}" class="step">
-        <p class="step-text"><i>Step {{ forloop.counter }} of 4 </i></p>        
+        <p class="step-text"><i>Step {{ forloop.counter }} of 5 </i></p>        
         <!-- <p class="instructions">Select 1 or more criteria for this sector </p> -->
         <!-- <label class="step-header">Wind Energy</label> -->
         <p class="instructions"><b>Select</b> criteria to filter your results</p>        
@@ -230,29 +230,44 @@ madrona.onShow(function(){
                                     
                                     <script type="text/javascript">
                                         {% if field_min and not field_max %}
-                                        $('#slider-{{ field_min.html_name }}').bind( "slidestop", function(event, ui) {
-                                            if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
-                                            }
-                                        });  
+                                            $('#slider-{{ field_min.html_name }}').bind( "slidestop", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
+                                                }
+                                            });  
+                                            $('#slider-{{ field_min.html_name }}').bind( "slide slidechange", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.gridCellsRemaining('...');
+                                                }
+                                            });  
                                         {% elif field_max and not field_min %}
-                                        $('#slider-{{ field_max.html_name }}').bind( "slidestop", function(event, ui) {
-                                            if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
-                                            }
-                                        });  
+                                            $('#slider-{{ field_max.html_name }}').bind( "slidestop", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
+                                                }
+                                            });   
+                                            $('#slider-{{ field_min.html_name }}').bind( "slide slidechange", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.gridCellsRemaining('...');
+                                                }
+                                            });  
                                         {% elif field_min and field_max %}
-                                        $('#slider-{{ field_input.html_name }}').bind( "slidestop", function(event, ui) {
-                                            if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
-                                            }
-                                        });  
+                                            $('#slider-{{ field_input.html_name }}').bind( "slidestop", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
+                                                }
+                                            });   
+                                            $('#slider-{{ field_min.html_name }}').bind( "slide slidechange", function(event, ui) {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.gridCellsRemaining('...');
+                                                }
+                                            });  
                                         {% else %}
-                                        $('#id_{{ field_input.html_name }}').change( function() {
-                                            if (app.viewModel.scenarios.scenarioFormModel) {
-                                                app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
-                                            }
-                                        });                                      
+                                            $('#id_{{ field_input.html_name }}').change( function() {
+                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                    app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
+                                                }
+                                            });                                      
                                         {% endif %}
                                     </script>
                                 </div>
@@ -268,12 +283,12 @@ madrona.onShow(function(){
     {% endfor %}
     
     
-    <div id="step4" class="step">
-        <p class="step-text"><i>Step 4 of 4 </i>
+    <div id="step5" class="step">
+        <p class="step-text"><i>Step 5 of 5 </i>
         <div data-bind="css: { 'disabled': gridCellsRemaining()==0 }">
             <p class="instructions">Provide a <b>Name</b> to identify your Grid Filtering design </p>
-            <div class="step4-inputs">
-                <div class="step4-param">
+            <div class="step5-inputs">
+                <div class="step5-param">
                     {{ form.name.errors }}
                     {{ form.name }} 
                     <div id="invalid-name-message" class="control-group error" style="display: none; margin-top: -10px; margin-left: -5px;">
@@ -281,7 +296,7 @@ madrona.onShow(function(){
                     </div>           
                 </div>
                 <p class="instructions">Optionally, you may add a <b>Description</b> <!--and/or attach a file--> </p>
-                <div class="step4-param">
+                <div class="step5-param">
                     {{ form.description.errors }}
                     {{ form.description }}            
                 </div>
