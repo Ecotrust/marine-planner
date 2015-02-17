@@ -46,50 +46,167 @@ app.clickAttributes = (function() {
     var getGridAttributes = function (data) {
         attrs = [];
                 
-        //Wind Speed
-        if ('wind_min' in data && 'wind_max' in data) {
-            attrs.push({'display': 'Estimated Wind Potential', 'data': data['wind_min'].toFixed(1) + ' to ' + data['wind_max'].toFixed(1) + ' W/m&sup2;'});
+        // Area of mapped Dense Acropora cervicornis patches in m²
+        if ('AcervAreaM' in data) {
+            attrs.push({'display': 'Mapped Dense Acropora cervicornis', 'data': data['AcervAreaM'].toLocaleString() + ' m&sup2;'});
         }
-        //Depth Range
-        if ('bathy_min' in data && 'bathy_max' in data) {
-            attrs.push({'display': 'Depth Range', 'data': data['bathy_min'].toFixed(1) + ' to ' + data['bathy_max'].toFixed(1) + ' meters'});
+        // Whether a cell intersects witha designated anchorage
+        if ('Anchorage' in data) {
+            attrs.push({'display': 'Intersects with a designated anchorage', 'data': data['Anchorage']});
         }
-        //Distance to Coastal Substations
-        if ('subs_avgd' in data) {
-            // attrs.push({'display': 'Minimum Distance to Coastal Substation', 'data': (data['SubS_MinD']/1000).toFixed(1) + ' km'});
-            attrs.push({'display': 'Average Distance to Coastal Substation', 'data': (data['subs_avgd']).toFixed(1) + ' km'});
+        // Area of Artificial habitats (Sand borrow areas, artificial reefs, inlets , jettys, channels,) in m²
+        if ('ArtAreaM' in data) {
+            attrs.push({'display': 'Artificial Habitats', 'data': data['ArtAreaM'] + ' m&sup2;'});
         }
-        //Distance to Shore
-        if ('coast_avg' in data) {
-            // attrs.push({'display': 'Minimum Distance to Shore', 'data': (data['Coast_Min']/1000).toFixed(1) + ' km'});
-            attrs.push({'display': 'Average Distance to Shore', 'data': (data['coast_avg']).toFixed(1) + ' km'});
+        // 
+        if ('BoatUse' in data) {
+            attrs.push({'display': 'Boat Use', 'data': data['BoatUse']});
         }
-        //Coral Percentage
-        if ('coral_p' in data) {
-            attrs.push({'display': 'Coral coverage', 'data': data['coral_p'].toFixed(1) + '%'});
+        // 
+        if ('CoralBlch' in data) {
+            attrs.push({'display': 'Coral Bleach', 'data': data['CoralBlch']});
         }
-        //Mangrove Percentage
-        if ('mangrove_p' in data) {
-            attrs.push({'display': 'Mangrove coverage', 'data': data['mangrove_p'].toFixed(1) + '%'});
+        // 
+        if ('CoralCov' in data) {
+            attrs.push({'display': 'Coral Cover', 'data': data['CoralCov']});
         }
-        //Submerged Vegetation Percentage
-        if ('subveg_p' in data) {
-            attrs.push({'display': 'Submerged Vegetation coverage', 'data': data['subveg_p'].toFixed(1) + '%'});
+        // Estimated # of organisms per sq meter
+        if ('CoralDen' in data) {
+            attrs.push({'display': 'Coral Density', 'data': data['CoralDen']});
         }
-        //Protected Area Percentage
-        if ('protarea_p' in data) {
-            attrs.push({'display': 'Protected Area coverage', 'data': data['protarea_p'].toFixed(1) + '%'});
+        // Estimated # of species per survey area
+        if ('CoralRich' in data) {
+            attrs.push({'display': 'Coral Richness', 'data': data['CoralRich']});
         }
-        //Presence/Absence of Conservation Priority Area 
-        if ('pr_apc_p' in data && 'vi_apc_p' in data) {
-            var total_percentage = data['pr_apc_p'] + data['vi_apc_p'];
-            attrs.push({'display': 'Conservation Priority Area coverage', 'data': total_percentage.toFixed(1) + '%'});
-        } 
-        // Presence/Absence of Special Planning Area
-        if ('pr_ape_p' in data) {
-            attrs.push({'display': 'Special Planning Area coverage', 'data': data['pr_ape_p'].toFixed(1) + '%'});
-        } 
-        
+        // 
+        if ('CoralSize' in data) {
+            attrs.push({'display': 'Coral Size', 'data': data['CoralSize']});
+        }
+        // 
+        if ('County' in data) {
+            attrs.push({'display': 'County', 'data': data['County']});
+        }
+        // 
+        if ('DiveUse' in data) {
+            attrs.push({'display': 'Dive Use', 'data': data['DiveUse']});
+        }
+        // Whether a cell intersects with at least one known dense Acropora patches
+        if ('DnsAcrpPA' in data) {
+            attrs.push({'display': 'Dense Acropora Presence', 'data': data['DnsAcrpPA']});
+        }
+        // 
+        if ('ESAspp' in data) {
+            attrs.push({'display': 'ESA Species', 'data': data['ESAspp']});
+        }
+        // Estimated # of organisms per sq meter
+        if ('FishDen' in data) {
+            attrs.push({'display': 'Fish Density', 'data': data['FishDen']});
+        }
+        // 
+        if ('FishDiv' in data) {
+            attrs.push({'display': 'Fish Diversity', 'data': data['FishDiv']});
+        }
+        // Estimated # of species per survey area
+        if ('FishRich' in data) {
+            attrs.push({'display': 'Fish Richness', 'data': data['FishDen']});
+        }
+        // 
+        if ('FishUse' in data) {
+            attrs.push({'display': 'Fish Use', 'data': data['FishUse']});
+        }
+        // Whether a cell intersected with a mapped impact source (artificial reefs, dredged areas, cables, reef injuries, anchorages, burials, etc.)
+        if ('Impacted' in data) {
+            attrs.push({'display': 'Mapped Impact Source', 'data': data['Impacted']});
+        }
+        // Whether a cell contains at least one recorded grounding or anchoring event in the DEP database
+        if ('InjurySite' in data) {
+            attrs.push({'display': 'Recorded Grounding or Anchoring Event', 'data': data['InjurySite']});
+        }
+        // The distance to the nearest inlet in kilometers
+        if ('InletDisKM' in data) {
+            attrs.push({'display': 'Distance to Nearest Inlet', 'data': data['InletDisKM'].toFixed(1) + ' km'});
+        }
+        // Whether a cell contains at least one known live coral greater than 2 meters in width
+        if ('LgLiveCorl' in data) {
+            attrs.push({'display': 'Large Live Coral', 'data': data['LgLiveCorl']});
+        }
+        // 
+        if ('Lionfish' in data) {
+            attrs.push({'display': 'Lionfish', 'data': data['Lionfish']});
+        }
+        // 
+        if ('MajorHab' in data) {
+            attrs.push({'display': 'Majority Habitat', 'data': data['MajorHab']});
+        }
+        // Depth Range
+        if ('MaxDpth_ft' in data && 'MinDpth_ft' in data) {
+            attrs.push({'display': 'Depth Range', 'data': data['MinDpth_ft'] + ' to ' + data['MaxDpth_ft'] + ' feet'});
+        }
+        // Average Depth
+        if ('MeanDpth_f' in data) {
+            attrs.push({'display': 'Average Depth', 'data': data['MeanDpth_f']});
+        }
+        // Whether a cell contains at least one Mooring buoy
+        if ('MoorngBuoy' in data) {
+            attrs.push({'display': 'Mooring Buoy', 'data': data['MoorngBuoy']});
+        }
+        // The distance to the nearest sewage outfall discharge location in  kilometers
+        if ('OutflDisKM' in data) {
+            attrs.push({'display': 'Distance to Nearest Outfall', 'data': data['OutflDisKM'].toFixed(1) + ' km'});
+        }
+        // The distance to the nearest pier in  kilometers
+        if ('PierDisKM' in data) {
+            attrs.push({'display': 'Distance to Nearest Pier', 'data': data['PierDisKM'].toFixed(1) + ' km'});
+        }
+        // Whether a cell contains at least one recorded Pillar Coral
+        if ('PillarPres' in data) {
+            attrs.push({'display': 'Pillar Coral Presence', 'data': data['PillarPres']});
+        }
+        // Percent Artificial substrate (including dump sites, sand borrow areas, outfall pipes and designated artificial reefs) in each planning unit
+        if ('PrcntArt' in data) {
+            attrs.push({'display': 'Percent Artificial Habitat', 'data': data['PrcntArt']});
+        }
+        // Percent Reef in each planning unit
+        if ('PrcntReef' in data) {
+            attrs.push({'display': 'Percent Reef', 'data': data['PrcntReef']});
+        }
+        // Percent Seagrass in each planning unit
+        if ('PrcntSG' in data) {
+            attrs.push({'display': 'Percent Seagrass', 'data': data['PrcntSG']});
+        }
+        // Percent Sand in each planning unit
+        if ('PrcntSand' in data) {
+            attrs.push({'display': 'Percent Sand', 'data': data['PrcntSand']});
+        }
+        // 
+        if ('RecUse' in data) {
+            attrs.push({'display': 'Recreational Use', 'data': data['RecUse']});
+        }
+        // Area of Coral Reef and Colonized hardbottom habitats in m²
+        if ('ReefArea_m' in data) {
+            attrs.push({'display': 'Reef Area', 'data': data['ReefArea_m'].toLocaleString() + ' m&sup2;'});
+        }
+        // 
+        if ('Region' in data) {
+            attrs.push({'display': 'Region', 'data': data['Region']});
+        }
+        // Area of Seagrass habitats in m²
+        if ('SGarea_m' in data) {
+            attrs.push({'display': 'Seagrass Area', 'data': data['SGarea_m'].toLocaleString() + ' m&sup2;'});
+        }
+        // Area of Sand habitat in m²
+        if ('SandArea_m' in data) {
+            attrs.push({'display': 'Sand Area', 'data': data['SandArea_m'].toLocaleString() + ' m&sup2;'});
+        }
+        // The distance to the nearest shore in  kilometers
+        if ('ShoreDisKM' in data) {
+            attrs.push({'display': 'Distance to Shore', 'data': data['ShoreDisKM'].toFixed(1) + ' km'});
+        }
+        // A number assigned to each cell that is unique to the dataset. (no duplicates)
+        if ('UniqueID' in data) {
+            attrs.push({'display': 'UniqueID (for testing)', 'data': data['UniqueID']});
+        }
+
         return attrs;
     };
 
