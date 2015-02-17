@@ -719,100 +719,6 @@ app.addGridSummaryLayerToMap = function(layer) {
     return app.grid.grid_b_layer;
 };
 
-app.getSurveyStylingRules = function(property) {
-    var first = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 1,
-            upperBoundary: 3
-        }),
-        symbolizer: {
-            fillColor: "#F8FAB9",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var second = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 4,
-            upperBoundary: 6
-        }),
-        symbolizer: {
-            fillColor: "#F6DB87",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var third = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 7,
-            upperBoundary: 9
-        }),
-        symbolizer: {
-            fillColor: "#F5BC64",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var fourth = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 10,
-            upperBoundary: 12
-        }),
-        symbolizer: {
-            fillColor: "#F49E5A",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var fifth = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 13,
-            upperBoundary: 15
-        }),
-        symbolizer: {
-            fillColor: "#F16B4B",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var sixth = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.BETWEEN,
-            property: property,
-            lowerBoundary: 16,
-            upperBoundary: 18
-        }),
-        symbolizer: {
-            fillColor: "#DC4041",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    var seventh = new OpenLayers.Rule({
-        filter: new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-            property: property,
-            value: 19
-        }),
-        symbolizer: {
-            fillColor: "#B52B4B",
-            fillOpacity: .5,
-            strokeWidth: 0
-        }
-    });
-    return [first, second, third, fourth, fifth, sixth, seventh];
-};
-
 app.addVectorLayerToMap = function(layer) {
 
     if (layer.type === 'Vector' && layer.summarize_to_grid) {
@@ -842,11 +748,8 @@ app.addVectorLayerToMap = function(layer) {
         url = '/proxy/layer/' + layer.id;
     }
 
-    if (layer.name === 'All Activities') { // is Survey Results layer
-        var surveyStylingRules = app.getSurveyStylingRules('Total Activity Days');
-        styleMap.styles['default'].addRules(surveyStylingRules);
-    } else if (layer.name === 'Boating' || layer.name === 'Commercial fishing' || layer.name === 'Watersports') { // is Survey Results layer
-        var surveyStylingRules = app.getSurveyStylingRules(layer.name);
+    if (app.surveyResults.surveyLayerNames.indexOf(layer.name) !== -1) { // is Survey Results layer
+        var surveyStylingRules = app.surveyResults.getSurveyStylingRules(layer.name);
         styleMap.styles['default'].addRules(surveyStylingRules);
     } else if (layer.lookupField) {
         var mylookup = {};

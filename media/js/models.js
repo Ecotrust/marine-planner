@@ -40,16 +40,9 @@ function layerModel(options, parent) {
         self.featureAttributionName = 'Party & Charter Boat Trips';
     }
 
-    if (self.name === 'All Activities' || self.name === 'Boating' || self.name === 'Commercial fishing' || self.name === 'Watersports') {
+    if (app.surveyResults.surveyLayerNames.indexOf(self.name) !== -1) { // is Survey Results layer
         if (!self.legend) {
-            self.legend = {'colors': []};
-            self.legend.colors.push({'color': '#F8FAB9', 'label': '1 - 3'});
-            self.legend.colors.push({'color': '#F6DB87', 'label': '4 - 6'});
-            self.legend.colors.push({'color': '#F5BC64', 'label': '7 - 9'});
-            self.legend.colors.push({'color': '#F49E5A', 'label': '10 - 12'});
-            self.legend.colors.push({'color': '#F16B4B', 'label': '13 - 15'});
-            self.legend.colors.push({'color': '#DC4041', 'label': '16 - 18'});
-            self.legend.colors.push({'color': '#B52B4B', 'label': '19 - 21'});
+            self.legend = app.surveyResults.legendColors;
         }
     }
 
