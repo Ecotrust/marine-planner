@@ -58,18 +58,18 @@ class ScenarioForm(FeatureForm):
     # - Label is used as the icon label 
     depth = forms.BooleanField(label="Average Depth", required=False, help_text="Ocean depth in feet", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     # depth_min = forms.FloatField(required=False, initial=10, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters', 'post_text': 'meters'}, min=1, max=220, step=1))
-    depth_min = forms.FloatField(required=False, initial=10, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Depth in feet'}))
+    depth_min = forms.FloatField(required=False, initial=10, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Depth (in feet)'}))
     depth_max = forms.FloatField(required=False, initial=50, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'to'}))
     depth_input = forms.FloatField(widget=DualSliderWidget('depth_min', 'depth_max', min=1, max=220, step=1))
 
     shore_distance = forms.BooleanField(label="Distance to Shore", required=False, help_text="Cistance to nearest shore in kilometers", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    shore_distance_min = forms.FloatField(required=False, initial=3, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters'}))
+    shore_distance_min = forms.FloatField(required=False, initial=3, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance (in km)'}))
     shore_distance_max = forms.FloatField(required=False, initial=10, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'to'}))
     # shore_distance_max = forms.FloatField(required=False, initial=10000, widget=TextInputWithUnit(attrs={'class':'slidervalue'}, unit='meters'))
     shore_distance_input = forms.FloatField(widget=DualSliderWidget('shore_distance_min', 'shore_distance_max', min=0, max=13, step=.5))
 
     pier_distance = forms.BooleanField(label="Distance to Pier", required=False, help_text="Cistance to nearest pier in kilometers", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 326, 'layer_title': 'Show Pier Locations'}))
-    pier_distance_min = forms.FloatField(required=False, initial=5, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance in meters'}))
+    pier_distance_min = forms.FloatField(required=False, initial=5, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'Distance (in km)'}))
     pier_distance_max = forms.FloatField(required=False, initial=20, widget=forms.TextInput(attrs={'class':'slidervalue', 'pre_text': 'to'}))
     pier_distance_input = forms.FloatField(widget=DualSliderWidget('pier_distance_min', 'pier_distance_max', min=0, max=35, step=.5))
 
@@ -106,16 +106,16 @@ class ScenarioForm(FeatureForm):
     # Giving up on RadioSelect, it refused to return anything other than the last choice as the selection to the server...Select widget seems to work fine through...
 
 
-    prcnt_sg = forms.BooleanField(label="Minimum Seagrass Percentage", required=False, help_text="Percent Seagrass in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 318, 'layer_title': 'Show Seagrass Habitats'}))
+    prcnt_sg = forms.BooleanField(label="Seagrass", required=False, help_text="Percent Seagrass in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 318, 'layer_title': 'Show Seagrass Habitats'}))
     prcnt_sg_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_reef = forms.BooleanField(label="Minimum Reef Percentage", required=False, help_text="Percent Reef in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_reef = forms.BooleanField(label="Reef", required=False, help_text="Percent Reef in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     prcnt_reef_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_sand = forms.BooleanField(label="Minimum Sand Percentage", required=False, help_text="Percent Sand in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_sand = forms.BooleanField(label="Sand", required=False, help_text="Percent Sand in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     prcnt_sand_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_art = forms.BooleanField(label="Minimum Artificial Substrate Percentage", required=False, help_text="Percent Artificial substrate (including dump sites, sand borrow areas, outfall pipes and designated artificial reefs) in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_art = forms.BooleanField(label="Artificial Substrate", required=False, help_text="Percent Artificial substrate (including dump sites, sand borrow areas, outfall pipes and designated artificial reefs) in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     prcnt_art_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
 

@@ -20,6 +20,10 @@ from django.forms.models import model_to_dict
 @register
 class Scenario(Analysis):
 
+    depth = models.BooleanField()
+    depth_min = models.FloatField(null=True, blank=True)
+    depth_max = models.FloatField(null=True, blank=True)
+
     shore_distance = models.BooleanField()
     shore_distance_min = models.FloatField(null=True, blank=True)
     shore_distance_max = models.FloatField(null=True, blank=True)
@@ -35,10 +39,6 @@ class Scenario(Analysis):
     outfall_distance = models.BooleanField()
     outfall_distance_min = models.FloatField(null=True, blank=True)
     outfall_distance_max = models.FloatField(null=True, blank=True)
-
-    depth = models.BooleanField()
-    depth_min = models.FloatField(null=True, blank=True)
-    depth_max = models.FloatField(null=True, blank=True)
 
     injury_site = models.BooleanField()
     injury_site_input = models.TextField(null=True, blank=True)
@@ -109,57 +109,105 @@ class Scenario(Analysis):
         from general.utils import format
         attributes = []
 
+        # Step 1
         if self.depth:
             attributes.append({ 'title': 'Depth Range',
-                                'data':  str(int(self.depth_min)) + ' to ' + str(int(self.depth_max)) + ' m'})
-
+                                'data':  str(int(self.depth_min)) + ' to ' + str(int(self.depth_max)) + ' meters'})
         if self.shore_distance:
         	attributes.append({ 'title': 'Distance to Shore',
-        						'data':  str(int(self.shore_distance_min)/1000) + ' to ' + str(int(self.shore_distance_max)/1000) + ' km'})
-
+        						'data':  str(self.shore_distance_min) + ' to ' + str(self.shore_distance_max) + ' km'})
         if self.pier_distance:
             attributes.append({ 'title': 'Distance to Pier',
-                                'data':  str(int(self.pier_distance_min)/1000) + ' to ' + str(int(self.pier_distance_max)/1000) + ' km'})
-
+                                'data':  str(self.pier_distance_min) + ' to ' + str(self.pier_distance_max) + ' km'})
         if self.inlet_distance:
             attributes.append({ 'title': 'Minimum Distance to Coastal Inlet',
-                                'data':  str(int(self.inlet_distance_min)/1000) + ' km'})
-
+                                'data':  str(self.inlet_distance_min) + ' km'})
         if self.outfall_distance:
             attributes.append({ 'title': 'Minimum Distance to Outfall',
-                                'data':  str(int(self.outfall_distance_min)/1000) + ' km'})
+                                'data':  str(self.outfall_distance_min) + ' km'})
 
-        # if self.acropora_pa:
-        #     if self.acropora_pa_input == 'P':
-        #         choice = 'Presence'
-        #     else:
-        #         choice = 'Absence'
-        #     attributes.append({ 'title': 'Acropora',
-        #                         'data':  'Filtering on ' + choice})
+        # Step 2
+        if self.injury_site:
+            if self.injury_site_input == 'Y':
+                title = 'Contains at least one recorded grounding or anchoring event in the DEP database'
+            else:
+                title = 'Does not contain any recorded grounding or anchoring events'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.large_live_coral:
+            if self.large_live_coral_input == 'Y':
+                title = 'Contains at least one known live coral greater than 2 meters in width'
+            else:
+                title = 'Does not contain any known live coral greater than 2 meters in width'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.pillar_presence:
+            if self.acropora_pa_input == 'P':
+                title = 'Contains at least one recorded Pillar Coral'
+            else:
+                title = 'Does not contain any recorded Pillar Corals'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.anchorage:
+            if self.acropora_pa_input == 'Y':
+                title = 'Intersects with a designated anchorage'
+            else:
+                title = 'Does not intersect with any designated anchorages'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.mooring_buoy:
+            if self.acropora_pa_input == 'Y':
+                title = 'Contains at least one Mooring buoy'
+            else:
+                title = 'Does not contain any Mooring buoys'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.impacted:
+            if self.acropora_pa_input == 'Y':
+                title = 'Intersects with a mapped impact source (artificial reefs, dredged areas, cables, reef injuries, anchorages, burials, etc.)'
+            else:
+                title = 'Does not intersect with any mapped impact sources (artificial reefs, dredged areas, cables, reef injuries, anchorages, burials, etc.)'
+            attributes.append({ 'title': title,
+                                'data':  ''})
+        if self.acropora_pa:
+            if self.acropora_pa_input == 'Y':
+                title = 'Intersects with at least one known dense Acropora patch'
+            else:
+                title = 'Does not intersect with any known dense Acropora patches'
+            attributes.append({ 'title': title,
+                                    'data':  ''})
 
+        # Step 3
+        if self.prcnt_sg:
+            attributes.append({ 'title': 'Percent Seagrass',
+                                'data':  str(int(self.prcnt_sg_min)) + ' to ' + str(int(self.prcnt_sg_max)) + '%'})        
+        if self.prcnt_reef:
+            attributes.append({ 'title': 'Percent Reef',
+                                'data':  str(int(self.prcnt_reef_min)) + ' to ' + str(int(self.prcnt_reef_max)) + '%'})       
+        if self.prcnt_sand:
+            attributes.append({ 'title': 'Percent Sand',
+                                'data':  str(int(self.prcnt_sand_min)) + ' to ' + str(int(self.prcnt_sand_max)) + '%'})       
+        if self.prcnt_art:
+            attributes.append({ 'title': 'Percent Artificial Substrate',
+                                'data':  str(int(self.prcnt_art_min)) + ' to ' + str(int(self.prcnt_art_max)) + '%'})
+
+        # Step 4
         if self.fish_richness: 
-        	attributes.append({ 'title': 'Maximum Fish Richness',
+        	attributes.append({ 'title': 'Estimated # of fish species per survey area',
         						'data':  str(int(self.fish_richness_max)) + ' units'})
 
         if self.coral_density: 
-        	attributes.append({ 'title': 'Maximum Coral Density',
+        	attributes.append({ 'title': 'Estimated # of coral organisms per sq meter',
         						'data':  str(int(self.coral_density_max)) + ' units'})
 
         if self.coral_richness: 
-        	attributes.append({ 'title': 'Maximum Coral Richness',
+        	attributes.append({ 'title': 'Estimated # of coral species per survey area',
         						'data':  str(int(self.coral_richness_max)) + ' units'})
 
         if self.coral_size: 
         	attributes.append({ 'title': 'Maximum Coral Size',
         						'data':  str(int(self.coral_size_max)) + ' units'})
 
-        if self.large_live_coral: 
-            attributes.append({ 'title': 'Contains at least one known live large coral',
-                                'data':  ''})
-
-        if self.injury_site: 
-            attributes.append({ 'title': 'Contains at least one recorded grounding or anchoring event',
-                                'data':  ''})
 
         # if self.coral_p or self.subveg_p or self.protarea_p:
         #     exclusions = ''
