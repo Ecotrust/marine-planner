@@ -59,17 +59,23 @@ def summarizeActivities(geojson):
                 activity_count = properties[key]
                 category = getCategory(key)
                 # create category with count or add to category count
-                if category in properties.keys():
-                    properties[category] += activity_count
-                else:
-                    properties[category] = activity_count
-                # remove activity from properties
+                if category != 'Other':
+                    if category in properties.keys():
+                        properties[category] += activity_count
+                    else:
+                        properties[category] = activity_count
+                    # remove activity from properties
+                    del(properties[key])
             else:
                 properties['Total Activity Days'] = properties[key]
-            del(properties[key])
+                # remove activity from properties
+                del(properties[key])            
+            # add UniqueID
+            properties['UniqueID'] = feature['UniqueID']
         feature['properties'] = properties
 
 def getCategory(activity):
+    activity = activity.strip()
     if activity in ['Motor', 'Sail', 'Kayak', 'Personal Watercraft', 'Research (boating)']:
         return 'Boating'
     elif activity in ['Shore/pier (recreational fishing)', 'Private vessel (recreational fishing)', 'Charter vessel (recreational fishing)', 'Research (recreational fishing)']:

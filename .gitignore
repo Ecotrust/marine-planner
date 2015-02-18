@@ -89,3 +89,11 @@ mp/scenarios/fixtures/grid_cells.json.zip
 mp/scenarios/fixtures/grid_cells.json
 
 media/data_manager/geojson/survey_results_4326.json
+
+mp/scenarios/fixtures/archive/*
+mp/scenarios/fixtures/grid_cells.zip
+mp/scenarios/fixtures/grid_cells_1b.json
+mp/scenarios/fixtures/grid_cells_2.json
+mp/scenarios/fixtures/grid_cells_2b.json
+
+mp/scenarios/fixtures/archive/grid_cells.json.zip

@@ -49,7 +49,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[0].color,
-	            fillOpacity: .5,
+	            fillOpacity: .7,
 	            strokeWidth: 0
 	        }
 	    });
@@ -62,7 +62,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[1].color,
-	            fillOpacity: .5,
+	            fillOpacity: .7,
 	            strokeWidth: 0
 	        }
 	    });
@@ -75,7 +75,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[2].color,
-	            fillOpacity: .5,
+	            fillOpacity: .7,
 	            strokeWidth: 0
 	        }
 	    });
@@ -84,11 +84,11 @@ app.surveyResults = (function() {
 	            type: OpenLayers.Filter.Comparison.BETWEEN,
 	            property: property,
 	            lowerBoundary: bins[3].lower,
-	            upperBoundary: bins[3].lower
+	            upperBoundary: bins[3].upper
 	        }),
 	        symbolizer: {
 	            fillColor: bins[3].color,
-	            fillOpacity: .5,
+	            fillOpacity: .7,
 	            strokeWidth: 0
 	        }
 	    });
