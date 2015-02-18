@@ -106,30 +106,30 @@ class ScenarioForm(FeatureForm):
     # Giving up on RadioSelect, it refused to return anything other than the last choice as the selection to the server...Select widget seems to work fine through...
 
 
-    prcnt_sg = forms.BooleanField(label="Seagrass", required=False, help_text="Percent Seagrass in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 318, 'layer_title': 'Show Seagrass Habitats'}))
-    prcnt_sg_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
+    prcnt_sg = forms.BooleanField(label="Seagrass", required=False, help_text="Minimum percentage of Seagrass in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox', 'layer_id': 318, 'layer_title': 'Show Seagrass Habitats'}))
+    prcnt_sg_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_reef = forms.BooleanField(label="Reef", required=False, help_text="Percent Reef in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    prcnt_reef_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
+    prcnt_reef = forms.BooleanField(label="Reef", required=False, help_text="Minimum percentage of Reef in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_reef_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_sand = forms.BooleanField(label="Sand", required=False, help_text="Percent Sand in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    prcnt_sand_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
+    prcnt_sand = forms.BooleanField(label="Sand", required=False, help_text="Minimum percentage of Sand in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_sand_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
-    prcnt_art = forms.BooleanField(label="Artificial Substrate", required=False, help_text="Percent Artificial substrate (including dump sites, sand borrow areas, outfall pipes and designated artificial reefs) in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    prcnt_art_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
+    prcnt_art = forms.BooleanField(label="Artificial Substrate", required=False, help_text="Minimum percentage of Artificial substrate (including dump sites, sand borrow areas, outfall pipes and designated artificial reefs) in each planning unit", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    prcnt_art_min = forms.FloatField(required=False, initial=30, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max', 'pre_text': 'Percent Overlap', 'post_text': 'meters'}, min=0, max=100, step=10))
 
 
-    fish_richness = forms.BooleanField(label="Fish Richness", required=False, help_text="Estimated # of species per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    fish_richness_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=40, step=5))
+    fish_richness = forms.BooleanField(label="Fish Richness", required=False, help_text="Minimum estimated species count per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    fish_richness_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max'}, min=0, max=40, step=5))
 
-    coral_richness = forms.BooleanField(label="Coral Richness", required=False, help_text="Estimated # of species per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    coral_richness_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=40, step=5))
+    coral_richness = forms.BooleanField(label="Coral Richness", required=False, help_text="Minimum estimated species count per survey area", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    coral_richness_max = forms.FloatField(required=False, initial=15, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max'}, min=0, max=40, step=5))
 
-    coral_density = forms.BooleanField(label="Coral Density", required=False, help_text="Estimated # of organisms per sq meter", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    coral_density_max = forms.FloatField(required=False, initial=2, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=5, step=1))
+    coral_density = forms.BooleanField(label="Coral Density", required=False, help_text="Minimum estimated organisms per sq meter", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    coral_density_max = forms.FloatField(required=False, initial=2, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max'}, min=0, max=5, step=1))
 
-    coral_size = forms.BooleanField(label="Coral Size", required=False, help_text="Coral Size", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
-    coral_size_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue'}, min=0, max=500, step=10))
+    coral_size = forms.BooleanField(label="Coral Size", required=False, help_text="Minimum Coral Size", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
+    coral_size_max = forms.FloatField(required=False, initial=50, widget=SliderWidget(attrs={'class':'slidervalue', 'range': 'max'}, min=0, max=500, step=10))
     
     # coral_p = forms.BooleanField(label="Corals", required=False, help_text="Coral cover", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))
     # mangrove_p = forms.BooleanField(label="Mangroves", required=False, help_text="Mangrove cover", widget=CheckboxInput(attrs={'class': 'parameters hidden_checkbox'}))

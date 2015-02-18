@@ -179,33 +179,33 @@ class Scenario(Analysis):
 
         # Step 3
         if self.prcnt_sg:
-            attributes.append({ 'title': 'Percent Seagrass',
-                                'data':  str(int(self.prcnt_sg_min)) + ' to ' + str(int(self.prcnt_sg_max)) + '%'})        
+            attributes.append({ 'title': 'Minimum amount of Seagrass',
+                                'data':  str(int(self.prcnt_sg_min)) + '%'})        
         if self.prcnt_reef:
-            attributes.append({ 'title': 'Percent Reef',
-                                'data':  str(int(self.prcnt_reef_min)) + ' to ' + str(int(self.prcnt_reef_max)) + '%'})       
+            attributes.append({ 'title': 'Minimum amount of Reef',
+                                'data':  str(int(self.prcnt_reef_min)) + '%'})       
         if self.prcnt_sand:
-            attributes.append({ 'title': 'Percent Sand',
-                                'data':  str(int(self.prcnt_sand_min)) + ' to ' + str(int(self.prcnt_sand_max)) + '%'})       
+            attributes.append({ 'title': 'Minimum amount of Sand',
+                                'data':  str(int(self.prcnt_sand_min)) + '%'})       
         if self.prcnt_art:
-            attributes.append({ 'title': 'Percent Artificial Substrate',
-                                'data':  str(int(self.prcnt_art_min)) + ' to ' + str(int(self.prcnt_art_max)) + '%'})
+            attributes.append({ 'title': 'Minimum amount of Artificial Substrate',
+                                'data':  str(int(self.prcnt_art_min)) + '%'})
 
         # Step 4
         if self.fish_richness: 
-        	attributes.append({ 'title': 'Estimated # of fish species per survey area',
-        						'data':  str(int(self.fish_richness_max)) + ' units'})
+        	attributes.append({ 'title': 'Minimum estimated fish species per survey area',
+        						'data':  str(int(self.fish_richness_max))})
 
         if self.coral_density: 
-        	attributes.append({ 'title': 'Estimated # of coral organisms per sq meter',
-        						'data':  str(int(self.coral_density_max)) + ' units'})
+        	attributes.append({ 'title': 'Minimum estimated coral organisms per sq meter',
+        						'data':  str(int(self.coral_density_max))})
 
         if self.coral_richness: 
-        	attributes.append({ 'title': 'Estimated # of coral species per survey area',
-        						'data':  str(int(self.coral_richness_max)) + ' units'})
+        	attributes.append({ 'title': 'Minimum estimated coral species per survey area',
+        						'data':  str(int(self.coral_richness_max))})
 
         if self.coral_size: 
-        	attributes.append({ 'title': 'Maximum Coral Size',
+        	attributes.append({ 'title': 'Minimum Coral Size',
         						'data':  str(int(self.coral_size_max)) + ' units'})
 
 
