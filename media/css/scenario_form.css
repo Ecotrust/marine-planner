@@ -229,6 +229,9 @@ li label {
 .parameters select {
     margin-bottom: 0px;
 }
+.parameters .accordion {
+    margin-bottom: 0px;
+}
 form ul.parameters {
     list-style-type: none;
     margin-top: 5px;
