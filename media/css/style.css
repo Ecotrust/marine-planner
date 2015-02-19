@@ -117,7 +117,7 @@
 
 #aggregated-attribute-overlay dl {
   margin-top: 0px !important;
-  margin-left: 5px;
+  /*margin-left: 5px;*/
   margin-bottom: 0px;
 }
 
@@ -226,7 +226,7 @@ i.check {
 
 /* the following overrides a 20px margin that was behaving intermittently in conjunction with the hovering of icon-check-empty */
 .accordion {
-  margin-bottom: 0px !important;
+  /*margin-bottom: 20px !important;*/
 }
 
 .btn-layer.not-active:hover i.icon-check-empty {

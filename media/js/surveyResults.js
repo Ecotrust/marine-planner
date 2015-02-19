@@ -3,7 +3,7 @@ var app = app || {};
 
 app.surveyResults = (function() {
 
-	var surveyLayerNames = ['All Activities', 'Boating', 'Commercial fishing', 'Watersports'];
+	var surveyLayerNames = ['All Activities', 'Boating', 'Recreational fishing', 'Commercial fishing', 'SCUBA diving by boat', 'SCUBA diving from shore (includes kayak)', 'Snorkel\/freediving from shore (includes kayak)', 'Snorkel\/freediving from vessel', 'Watersports'];
 
 	var bins = [{
 		'color': '#F8FAB9',

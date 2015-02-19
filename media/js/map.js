@@ -284,7 +284,8 @@ app.init = function() {
                         'data': attrs[i].data
                     });
                 }
-            } else if (layer.id === 374 || layer.id === 375 || layer.id === 377 || layer.id === 378) { // special case for Survey Results 
+            // } else if (layer.id === 374 || layer.id === 375 || layer.id === 377 || layer.id === 378) { // special case for Survey Results 
+            } else if (app.surveyResults.surveyLayerNames.indexOf(layer.name) !== -1) { // is Survey Results layer
                 text = app.clickAttributes.getSurveyAttributes(e.feature.data, layer.name);
             } else if (layer.attributes.length) {
                 attrs = layer.attributes;
