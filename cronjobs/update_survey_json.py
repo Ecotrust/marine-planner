@@ -8,6 +8,7 @@ REMOTE_JSON = 'http://ofr-coastal-use.point97.io/reports/geojson/ofr-mapping-wit
 # localFile = '/Users/sfletcher/dev/ofr-mp/cronjobs/test.json'
 LOCAL_4326 = '../media/data_manager/geojson/survey_results_4326.json'
 LOCAL_3857 = '../media/data_manager/geojson/survey_results_3857.json'
+LOCAL_DATA = 'survey_results_unsummarized.json'
 
 # Aquired the following categorizations from the OFRSurvey_Use_data_Categories document found here: https://drive.google.com/#folders/0By3VwnCJtq0rMkxpdjBEcEQ4Slk
 
@@ -108,20 +109,36 @@ def wget():
         import traceback
         logging.exception('Exception thrown in update_survey_json: ' + traceback.format_exc())
     else:
+        # grab geojson from endpoint data
         geojson = getGeoJSON(data)
+
+        # create non-summarized data file
+        try:
+            os.remove(LOCAL_DATA)
+        except OSError:
+            pass
+        moveUniqueID(geojson)
+        output_data = open(LOCAL_DATA,'wb')
+        output_data.write(json.dumps(geojson, indent=4))
+        output_data.close()
+
+        # summarize into categories
         summarizeActivities(geojson)
-        # remove existing files (GeoJSON driver does not overwrite existing files)
+
+        # create local 4326 geojson
         try:
             os.remove(LOCAL_4326)
         except OSError:
             pass
+        output_4326 = open(LOCAL_4326,'wb')
+        output_4326.write(json.dumps(geojson, indent=4))
+        output_4326.close()
+
+        # create local 3857 geojson
         try:
             os.remove(LOCAL_3857)
         except OSError:
             pass
-        output = open(LOCAL_4326,'wb')
-        output.write(json.dumps(geojson, indent=4))
-        output.close()
         transformGeometry(geojson, '4326', '3857')
 
 def getGeoJSON(data):
@@ -133,6 +150,11 @@ def transformGeometry(geojson, s_srs, t_srs):
     import os
     command = "ogr2ogr -f \"GeoJSON\" " + LOCAL_3857 + " -t_srs \"EPSG:" + t_srs + "\" " + LOCAL_4326
     os.system(command)
+
+def moveUniqueID(geojson): 
+    features = geojson['features']
+    for feature in features:
+        feature['properties']['UniqueID'] = feature['UniqueID']
 
 def summarizeActivities(geojson):
     features = geojson['features']
