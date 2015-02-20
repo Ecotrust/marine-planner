@@ -3,7 +3,8 @@ var app = app || {};
 
 app.surveyResults = (function() {
 
-	var surveyLayerNames = ['All Activities', 'Boating', 'Recreational fishing', 'Commercial fishing', 'SCUBA diving by boat', 'SCUBA diving from shore (includes kayak)', 'Snorkel\/freediving from shore (includes kayak)', 'Snorkel\/freediving from vessel', 'Watersports'];
+	// var surveyLayerNames = ['All Activities', 'Boating', 'Recreational fishing', 'Commercial fishing', 'SCUBA diving by boat', 'SCUBA diving from shore (includes kayak)', 'Snorkel\/freediving from shore (includes kayak)', 'Snorkel\/freediving from vessel', 'Watersports'];
+	var surveyLayerNames = ['All Activities', 'Boater Use', 'Commercial Fishing Use', 'Extractive Diving Use', 'Recreational Fishing Use', 'Research Use', 'SCUBA Diving Use', 'Spearfishing Use', 'Water Sports']
 
 	var bins = [{
 		'color': '#F8FAB9',
