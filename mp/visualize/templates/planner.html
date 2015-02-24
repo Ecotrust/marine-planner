@@ -600,8 +600,8 @@
                                         <ul class="unstyled list" style="margin: 0px 5px 20px;" data-bind="sortable: { data: activeLayers, options: {  } }">
                                             <li>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-info-sign" data-bind="click: toggleDescription, css: { 'active': infoActive()}"><i class="icon-info-sign icon-large"></i></button>
-                                                    <a class="btn btn-layer" data-bind="css: { 'active': visible() }, click: toggleVisible">
+                                                    <button class="btn btn-info-sign" data-bind="click: toggleDescription, css: { 'active': infoActive()}, visible: isLayerModel()"><i class="icon-info-sign icon-large"></i></button>
+                                                    <a class="btn btn-layer" data-bind="css: { 'active': visible(), 'design-layer': !isLayerModel() }, click: toggleVisible">
                                                         <div data-bind="text: name"></div>
                                                         <span rel="tooltip" data-bind="attr: {title: sharedBy}">
                                                             <i class="icon-group" data-bind="visible: shared" style="padding-left: 10px"></i>

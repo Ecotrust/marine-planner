@@ -34,6 +34,8 @@ function layerModel(options, parent) {
     self.sharedBy = ko.observable(false);
     self.shared = ko.observable(false);
 
+    self.isLayerModel = ko.observable(true);
+
     if (self.featureAttributionName === 'OCS Lease Blocks') {
         self.featureAttributionName = 'OCS Lease Blocks -- DRAFT Report';
     } else if (self.featureAttributionName === 'Party & Charter Boat') {

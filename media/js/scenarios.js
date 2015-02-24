@@ -455,6 +455,8 @@ function scenarioModel(options) {
         self.updateSharedWith();
     });
     self.temporarilySelectedGroups = ko.observableArray();
+
+    self.isLayerModel = ko.observable(false);
     
     self.attributes = [];
     self.scenarioAttributes = options.attributes ? options.attributes.attributes : [];

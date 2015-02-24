@@ -108,6 +108,18 @@
 	color: #00446D; /* 0, 68, 109 */
 }
 
+.ofr #active .btn-group .btn-layer {
+	width: 220px;
+}
+
+.ofr #active .btn-group .btn-layer.design-layer {
+	text-align: left;
+	width: 250px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	margin-left: 1px;
+}
+
 .ofr .dropdown-menu > li > a {
 	color: #00446D;
 }
