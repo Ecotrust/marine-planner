@@ -74,12 +74,13 @@ media/data_manager/geojson/ofr_planning_grid.json
 ofr_planning_grid.sql
 
 cronjobs/test.json
+cronjobs/survey_results_3857.json
+cronjobs/for_Brian/*
 
 media/data_manager/geojson/survey_results_3857.json
 
 media/data_manager/geojson/survey_results.json
 
-cronjobs/survey_results_3857.json
 
 media/data_manager/geojson/ofr_planning_grid_orig.json
 
