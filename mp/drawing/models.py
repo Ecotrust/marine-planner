@@ -4,7 +4,8 @@ from madrona.features import register
 from madrona.features.models import PolygonFeature
 from madrona.common.utils import LargestPolyFromMulti
 from general.utils import sq_meters_to_sq_miles
-from ofr_manipulators import clip_to_grid
+from ofr_manipulators import clip_to_grid, intersecting_cells
+from reports import get_summary_reports
 
 @register
 class AOI(PolygonFeature):
@@ -17,6 +18,12 @@ class AOI(PolygonFeature):
     @property
     def area_in_sq_miles(self):
         return sq_meters_to_sq_miles(self.geometry_final.area)
+
+    def summary_reports(self, attributes):
+        # Call get_summary_reports with intersecting Grid Cells 
+        grid_cells = intersecting_cells(self.geometry_orig)
+        get_summary_reports(grid_cells, attributes)
+        
         
     @property
     def serialize_attributes(self):
@@ -24,7 +31,8 @@ class AOI(PolygonFeature):
         attributes = []
         if self.description: 
             attributes.append({'title': 'Description', 'data': self.description})
-        attributes.append({'title': 'Area', 'data': '%s sq miles' %format(self.area_in_sq_miles, 2)})
+        # attributes.append({'title': 'Area', 'data': '%s sq miles' %format(self.area_in_sq_miles, 2)})
+        self.summary_reports(attributes)
         return { 'event': 'click', 'attributes': attributes }
     
     @classmethod
