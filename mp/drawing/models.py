@@ -46,7 +46,10 @@ class AOI(PolygonFeature):
     def clip_to_grid(self): 
         geom = self.geometry_orig
         clipped_shape = clip_to_grid(geom)
-        return LargestPolyFromMulti(clipped_shape)
+        if clipped_shape:
+            return LargestPolyFromMulti(clipped_shape)
+        else:
+            return clipped_shape
 
     def save(self, *args, **kwargs):
         self.geometry_final = self.clip_to_grid()
