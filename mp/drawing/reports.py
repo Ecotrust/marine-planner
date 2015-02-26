@@ -41,6 +41,9 @@ def get_average(grid_cells, field):
     return sum / cell_count
 
 def get_summary_reports(grid_cells, attributes):
+
+    if grid_cells.count() == 0:
+        return
     
     # Number of Grid Cells        
     cell_count = grid_cells.count()
