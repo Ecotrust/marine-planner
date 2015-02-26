@@ -3,7 +3,7 @@ from django.utils.html import escape
 from madrona.features import register
 from madrona.features.models import PolygonFeature
 from madrona.common.utils import LargestPolyFromMulti
-from general.utils import sq_meters_to_sq_miles
+from general.utils import sq_meters_to_sq_miles, format_precision
 from ofr_manipulators import clip_to_grid, intersecting_cells
 from reports import get_summary_reports
 
@@ -27,11 +27,10 @@ class AOI(PolygonFeature):
         
     @property
     def serialize_attributes(self):
-        from general.utils import format
         attributes = []
         if self.description: 
             attributes.append({'title': 'Description', 'data': self.description})
-        # attributes.append({'title': 'Area', 'data': '%s sq miles' %format(self.area_in_sq_miles, 2)})
+        # attributes.append({'title': 'Area', 'data': '%s sq miles' %format_precision(self.area_in_sq_miles, 2)})
         self.summary_reports(attributes)
         return { 'event': 'click', 'attributes': attributes }
     

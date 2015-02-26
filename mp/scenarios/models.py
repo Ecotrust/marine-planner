@@ -11,7 +11,7 @@ from madrona.common.utils import asKml
 from madrona.common.jsonutils import get_properties_json, get_feature_json
 from madrona.features import register
 from madrona.analysistools.models import Analysis
-from general.utils import miles_to_meters, feet_to_meters, meters_to_feet, mph_to_mps, mps_to_mph, format
+from general.utils import miles_to_meters, feet_to_meters, meters_to_feet, mph_to_mps, mps_to_mph, format_precision
 from django.contrib.gis.geos import MultiPolygon
 from django.contrib.gis.db.models.aggregates import Union
 from django.forms.models import model_to_dict
@@ -106,7 +106,6 @@ class Scenario(Analysis):
         """
         Return attributes in text format. Used to display information on click in the planner. 
         """
-        from general.utils import format
         attributes = []
 
         # Step 1
