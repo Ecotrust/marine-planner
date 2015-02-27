@@ -31,14 +31,26 @@ def get_value_count(grid_cells, field, value):
 			count += 1
 	return count
 
-def get_average(grid_cells, field):
+def get_sum(grid_cells, field):
     sum = 0
+    for gc in grid_cells:
+        sum += getattr(gc, field)
+    return sum 
+
+def get_average(grid_cells, field):
     cell_count = grid_cells.count()
     if cell_count == 0:
         return 0
-    for gc in grid_cells:
-        sum += getattr(gc, field)
+    sum = get_sum(grid_cells, field)
     return sum / cell_count
+
+def get_unique_values(grid_cells, field):
+    values = []
+    for gc in grid_cells:
+        value = getattr(gc, field)
+        if value not in values:
+            values.append(value)
+    return values
 
 def get_summary_reports(grid_cells, attributes):
 
@@ -48,6 +60,24 @@ def get_summary_reports(grid_cells, attributes):
     # Number of Grid Cells        
     cell_count = grid_cells.count()
     attributes.append({'title': 'Number of Grid Cells', 'data': format(cell_count, ',d')})
+
+    # Total Area
+    total_area = sum([gc.geometry.area for gc in grid_cells])
+    attributes.append({'title': 'Total Area', 'data': str(format_precision(total_area / 1000000, 2)) + ' sq km'})    
+
+    # Region
+    regions = get_unique_values(grid_cells, 'region')
+    if len(regions) == 1:
+        attributes.append({'title': 'Region', 'data': regions[0]})
+    elif len(regions) > 1:
+        attributes.append({'title': 'Regions', 'data': ", ".join(regions)})
+
+    # County
+    counties = get_unique_values(grid_cells, 'county')
+    if len(counties) == 1:
+        attributes.append({'title': 'County', 'data': counties[0]})
+    elif len(counties) > 1:
+        attributes.append({'title': 'Counties', 'data': ", ".join(counties)})
 
     # Depth Range
     min_depth = get_min(grid_cells, 'depth_min')
@@ -147,34 +177,100 @@ def get_summary_reports(grid_cells, attributes):
 
     # Seagrass
     title = 'Seagrass Coverage'
-    data = 'No Seagrass Present'
     percent_seagrass = get_average(grid_cells, 'prcnt_sg')
-    if percent_seagrass > 0:
-        data = str(format_precision(percent_seagrass, 0)) + '%'
+    data = str(format_precision(percent_seagrass, 0)) + '%'
     attributes.append({'title': title, 'data': data})
 
     # Reef
     title = 'Reef Coverage'
-    data = 'No Reef Present'
     percent_reef = get_average(grid_cells, 'prcnt_reef')
-    if percent_reef > 0:
-        data = str(format_precision(percent_reef, 0)) + '%'
+    data = str(format_precision(percent_reef, 0)) + '%'
     attributes.append({'title': title, 'data': data})
 
     # Sand
     title = 'Sand Coverage'
-    data = 'No Sand Present'
     percent_sand = get_average(grid_cells, 'prcnt_sand')
-    if percent_sand > 0:
-        data = str(format_precision(percent_sand, 0)) + '%'
+    data = str(format_precision(percent_sand, 0)) + '%'
     attributes.append({'title': title, 'data': data})
 
     # Artificial Substrate
     title = 'Artificial Substrate Coverage'
-    data = 'No Artificial Substrate'
     percent_art = get_average(grid_cells, 'prcnt_art')
-    if percent_art > 0:
-        data = str(format_precision(percent_art, 0)) + '%'
+    data = str(format_precision(percent_art, 0)) + '%'
+    attributes.append({'title': title, 'data': data})
+
+    # Dense Acropora cervicornis patches (Area)
+    title = 'Dense Acropora'
+    acerv_area = get_sum(grid_cells, 'acerv_area')
+    data = str(format_precision(acerv_area / 1000000.0, 2)) + ' sq km'
+    attributes.append({'title': title, 'data': data})
+
+    # Reef Area
+    title = 'Reefs'
+    reef_area = get_sum(grid_cells, 'reef_area')
+    # if reef_area > 100000:
+    #     data = str(format_precision(reef_area / 1000000.0, 1)) + ' sq km'
+    # elif reef_area > 0:        
+    #     data = str(format(format_precision(reef_area, 0), ',d')) + ' sq meters'
+    data = str(format_precision(reef_area / 1000000.0, 2)) + ' sq km'
+    attributes.append({'title': title, 'data': data})
+
+    # Seagrass Area
+    title = 'Seagrass'
+    sg_area = get_sum(grid_cells, 'sg_area')
+    data = str(format_precision(sg_area / 1000000.0, 2)) + ' sq km'
+    attributes.append({'title': title, 'data': data})
+
+    # Sand Area
+    title = 'Sand'
+    sand_area = get_sum(grid_cells, 'sand_area')
+    data = str(format_precision(sand_area / 1000000.0, 2)) + ' sq km'
+    attributes.append({'title': title, 'data': data})
+
+    # Artifical Reef Area
+    title = 'Artifical Reefs'
+    art_area = get_sum(grid_cells, 'art_area')
+    data = str(format_precision(art_area / 1000000.0, 2)) + ' sq km'
+    attributes.append({'title': title, 'data': data})
+
+    # Fish Density
+    title = 'Estimated # of Fish Organisms per sq meter'
+    data = 'None'
+    fish_density = get_average(grid_cells, 'fish_density')
+    if fish_density > 0:
+        data = str(format_precision(fish_density, 0))
+    attributes.append({'title': title, 'data': data})
+
+    # Fish Richness
+    title = 'Estimated # of Fish Species per survey area'
+    data = 'None'
+    fish_richness = get_average(grid_cells, 'fish_richness')
+    if fish_richness > 0:
+        data = str(format_precision(fish_richness, 0))
+    attributes.append({'title': title, 'data': data})
+
+    # Coral Cover
+    title = 'Average Coral Cover'
+    coral_cover = get_average(grid_cells, 'coral_cover')
+    data = str(format_precision(coral_cover, 0)) + ' units'
+    attributes.append({'title': title, 'data': data})
+
+    # Coral Density
+    title = 'Estimated # of Coral Organisms per sq meter'
+    coral_density = get_average(grid_cells, 'coral_density')
+    data = str(format_precision(coral_density, 0))
+    attributes.append({'title': title, 'data': data})
+
+    # Coral Richness
+    title = 'Estimated # of Coral Species per survey area'
+    coral_richness = get_average(grid_cells, 'coral_richness')
+    data = str(format_precision(coral_richness, 0))
+    attributes.append({'title': title, 'data': data})
+
+    # Coral Size
+    title = 'Average Coral Size'
+    coral_size = get_average(grid_cells, 'coral_size')
+    data = str(format_precision(coral_size, 0)) + ' units'
     attributes.append({'title': title, 'data': data})
 
 
