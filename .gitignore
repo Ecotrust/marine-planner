@@ -98,3 +98,5 @@ mp/scenarios/fixtures/grid_cells_2.json
 mp/scenarios/fixtures/grid_cells_2b.json
 
 mp/scenarios/fixtures/archive/grid_cells.json.zip
+
+cronjobs/survey_results_unsummarized.json
