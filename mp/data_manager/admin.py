@@ -20,7 +20,7 @@ class LayerAdmin(admin.ModelAdmin):
     list_display = ('name', 'layer_type', 'url')
     search_fields = ['name', 'layer_type', 'url']
     ordering = ('name',)
-    exclude = ('slug_name','themes','summarize_to_grid','filterable','proj','data_overview','compress_display','attribute_event','bookmark','map_tiles','kml')
+    exclude = ('slug_name','wms_slug','themes','summarize_to_grid','filterable','proj','data_overview','compress_display','attribute_event','bookmark','map_tiles','kml')
     
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "sublayers":
