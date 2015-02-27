@@ -50,7 +50,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[0].color,
-	            fillOpacity: .7,
+	            fillOpacity: .8,
 	            strokeWidth: 0
 	        }
 	    });
@@ -63,7 +63,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[1].color,
-	            fillOpacity: .7,
+	            fillOpacity: .8,
 	            strokeWidth: 0
 	        }
 	    });
@@ -76,7 +76,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[2].color,
-	            fillOpacity: .7,
+	            fillOpacity: .8,
 	            strokeWidth: 0
 	        }
 	    });
@@ -89,7 +89,7 @@ app.surveyResults = (function() {
 	        }),
 	        symbolizer: {
 	            fillColor: bins[3].color,
-	            fillOpacity: .7,
+	            fillOpacity: .8,
 	            strokeWidth: 0
 	        }
 	    });
