@@ -302,7 +302,9 @@ app.init = function() {
 
             // the following delay prevents the #map click-event-attributes-clearing from taking place after this has occurred
             setTimeout(function() {
-                app.map.clickOutput.attributes[title] = text;
+                if (!app.map.clickOutput.attributes[title]) {
+                    app.map.clickOutput.attributes[title] = text;
+                }
                 app.viewModel.aggregatedAttributes(app.map.clickOutput.attributes);
                 app.viewModel.updateMarker(app.map.getLonLatFromViewPortPx(e.event.xy));
                 //if (app.marker) {

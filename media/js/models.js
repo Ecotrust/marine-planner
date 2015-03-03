@@ -897,7 +897,9 @@ function viewModel() {
         // }
 
         $.each(self.visibleLayers(), function(index, layer) {
-            attributeLayersList.push(layer);
+            if (_.pluck(attributeLayersList, 'name').indexOf(layer.name) == -1) {
+                attributeLayersList.push(layer);
+            } 
         });
         self.attributeLayers(attributeLayersList);
     };
