@@ -8,14 +8,14 @@ def send_feedback(request):
     feedback_address = settings.FEEDBACK_RECIPIENT
     name = request.POST.get('name', '')
     from_email = "%s <%s>" % (name, request.POST.get('email', ''),)
-    reply_email = "Marine Planner Project Team <%s>" % settings.FEEDBACK_RECIPIENT[0]
+    reply_email = "OFR Marine Planner Team <%s>" % settings.FEEDBACK_RECIPIENT[0]
     url = request.POST.get('url', '')
     ua = request.META['HTTP_USER_AGENT']
     feedback_message = "From: %s\nURL: %s\nBrowser: %s\n\n\n%s" % (from_email, url, ua, request.POST.get('comment', ''),)
-    thankyou_message = "\nWe appreciate and value your feedback on Marine Planner."
+    thankyou_message = "\nWe appreciate and value your feedback on OFR Marine Planner."
     thankyou_message += "\nYour comments have been sent to the appropriate staff for review and they will be in touch at their earliest convenience."
     thankyou_message += "\n\nRegards,"
-    thankyou_message += "\n\nMarine Planner Project Team"
+    thankyou_message += "\n\nOFR Marine Planner Team"
     thankyou_message_recipient = [request.POST.get('email', '')]
     
     if name and feedback_message and from_email:

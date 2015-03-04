@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-FEEDBACK_RECIPIENT = ["scott@pointnineseven.com", "dan@pointnineseven.com", "walkerb@nova.edu", "lauren.waters@dep.state.fl.us", "ac1724@nova.edu"]
+FEEDBACK_RECIPIENT = ["help@pointnineseven.com"] # default value, actual emails are assigned in settings_local.py
 FEEDBACK_SUBJECT = "Our Florida Reefs Marine Planner Feedback"
 
 
