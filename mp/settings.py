@@ -14,8 +14,8 @@ DATABASES = {
     }
 }
 
-FEEDBACK_RECIPIENT = ["scott@pointnineseven.com", "jenny@pointnineseven.com"]
-FEEDBACK_SUBJECT = "Our Florida Reefs/Marine Planner Feedback"
+FEEDBACK_RECIPIENT = ["scott@pointnineseven.com", "dan@pointnineseven.com", "walkerb@nova.edu", "lauren.waters@dep.state.fl.us", "ac1724@nova.edu"]
+FEEDBACK_SUBJECT = "Our Florida Reefs Marine Planner Feedback"
 
 
 LOG_FILE = os.path.realpath(os.path.join(os.path.dirname(__file__),
@@ -43,15 +43,16 @@ GEOMETRY_DB_SRID = 3857
 GEOMETRY_CLIENT_SRID = 3857  # for latlon
 GEOJSON_SRID = 3857
 
-APP_NAME = "Marine Planner Data Portal"
-SERVER_ADMIN = 'edwin@pointnineseven.com'
-DEFAULT_FROM_EMAIL = 'USVI <developers@pointnineseven.com>'
+APP_NAME = "OFR Marine Planner"
+SERVER_ADMIN = 'seth@pointnineseven.com'
+DEFAULT_FROM_EMAIL = 'OFR Marine Planner <developers@pointnineseven.com>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 MANAGERS = ADMINS
-EMAIL_SUBJECT_PREFIX = 'Marine Planner'
+EMAIL_SUBJECT_PREFIX = 'OFR Marine Planner'
 ADMINS = (
-    ('Edwin Knuth', 'edwin@pointnineseven.com'),
+    ('Dan Crowther', 'dan@pointnineseven.com'),
     ('Scott Fletcher', 'scott@pointnineseven.com'),
+    ('Seth Hill', 'seth@pointnineseven.com'),
 )
 
 
