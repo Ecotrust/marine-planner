@@ -44,7 +44,7 @@ app.clickAttributes = (function() {
 		return attrs;
 	};
 	
-	// Placeholder in case we want to cusomize the Planning Grid feature attributes
+    // Called from utfGridClickHandling in map.js (for Planning Grid click handling)
     var getGridAttributes = function (data) {
         attrs = [];
                 
