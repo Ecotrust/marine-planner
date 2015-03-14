@@ -231,7 +231,8 @@ madrona.onShow(function(){
                                     <script type="text/javascript">
                                         {% if field_min and not field_max %}
                                             $('#slider-{{ field_min.html_name }}').bind( "slidestop", function(event, ui) {
-                                                if (app.viewModel.scenarios.scenarioFormModel) {
+                                                $(this).slider('value', ui.value); // this line prevents the slider value from being 1 tick off (value update is normally lagging this event trigger)
+                                                if (app.viewModel.scenarios.scenarioFormModel) {                                                    
                                                     app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                                 }
                                             });  
@@ -242,6 +243,7 @@ madrona.onShow(function(){
                                             });  
                                         {% elif field_max and not field_min %}
                                             $('#slider-{{ field_max.html_name }}').bind( "slidestop", function(event, ui) {
+                                                $(this).slider('value', ui.value); // this line prevents the slider value from being 1 tick off (value update is normally lagging this event trigger)
                                                 if (app.viewModel.scenarios.scenarioFormModel) {
                                                     app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                                 }
@@ -253,6 +255,7 @@ madrona.onShow(function(){
                                             });  
                                         {% elif field_min and field_max %}
                                             $('#slider-{{ field_input.html_name }}').bind( "slidestop", function(event, ui) {
+                                                $(this).slider('value', ui.value); // this line prevents the slider value from being 1 tick off (value update is normally lagging this event trigger)
                                                 if (app.viewModel.scenarios.scenarioFormModel) {
                                                     app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                                 }
@@ -264,6 +267,7 @@ madrona.onShow(function(){
                                             });  
                                         {% else %}
                                             $('#id_{{ field_input.html_name }}').change( function() {
+                                                $(this).slider('value', ui.value); // this line prevents the slider value from being 1 tick off (value update is normally lagging this event trigger)
                                                 if (app.viewModel.scenarios.scenarioFormModel) {
                                                     app.viewModel.scenarios.scenarioFormModel.updateFiltersAndCount('{{ field.html_name }}');
                                                 }
