@@ -14,7 +14,8 @@ def validate(layer, field_map):
 
     if len(additional) > 0:
         raise Exception(
-            "{}\nfields in shp not recognized in field_map\n maybe need to add to models.py".format(additional))
+            "{}\nThese new fields in shapefile are not recognized in field_map\n"
+            "Suggested action:\n    - add to field_map.json and models.py".format(additional))
 
     # is shp missing any expected field names?
     missing = []
@@ -24,7 +25,8 @@ def validate(layer, field_map):
 
     if len(missing) > 0:
         raise Exception(
-            "{}\nfields expected but missing from shp".format(missing))
+            "{}\nThese fields are expected but missing from shapefile \n"
+            "Suggested action:\n    - remove from field_map.json and models.py".format(missing))
 
 if __name__ == '__main__':
     shp_path = sys.argv[1]

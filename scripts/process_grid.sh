@@ -3,22 +3,25 @@
 # Input: shapefile (epsg 3857) with planning grids
 # Output: postgres sql file 
 
+thisdir=`dirname $BASH_SOURCE`
+
 # Variables that change frequently/on every import
-SHP="_ofr_data/shp/OFR_OffshorePlanningGrid_200m_DSTbuild4_EPSG3857_9Feb2015.shp"
-#SHP="_ofr_data/shp/OFR_OffshorePlanningGrid_200m_DSTbuild8_EPSG3857_13Mar2015.shp"
-FINAL="_ofr_data/ofr_planning_grid_9Feb2015.sql"
+#SHP="_ofr_data/shp/OFR_OffshorePlanningGrid_200m_DSTbuild4_EPSG3857_9Feb2015.shp"
+#FINAL="_ofr_data/ofr_planning_grid_9Feb2015.sql"
+SHP="_ofr_data/shp/OFR_OffshorePlanningGrid_200m_DSTbuild8_EPSG3857_13Mar2015.shp"
+FINAL="_ofr_data/ofr_planning_grid_13Mar2015.sql"
 
 ################################################################################
 # Probably no need to touch anything below here
 ################################################################################
 
 # Path will not change by json file may need to be updated
-FIELDMAP="scripts/field_map.json"
+FIELDMAP="$thisdir/field_map.json"
 
 # Probably won't need to touch these if running from root project dir
 TMP="/tmp/ofr_planning_grid.sql"
-TRANSLATE="python scripts/translate.py"
-VALIDATE="python scripts/validate_fields.py"
+TRANSLATE="python $thisdir/translate.py"
+VALIDATE="python $thisdir/validate_fields.py"
 
 # Do some sanity checks on the fieldnames
 $VALIDATE $SHP $FIELDMAP
