@@ -1,9 +1,8 @@
-# pip requirements file for MARCO
-django==1.4
-madrona
-simplejson
-django-redis
-querystring-parser
-httplib2
-requests
-gunicorn
+Django==1.4.9
+django-flatblocks==0.8
+gunicorn==0.17.4
+madrona==4.0
+querystring-parser==1.1
+requests==1.2.3
+simplejson==3.3.0
+httplib2==0.8
